@@ -1,0 +1,10 @@
+rootProject.name = 'ndshop'
+
+include ':demo-orm'
+include ':user:user-default'
+include ':user:user-login'
+include ':order:order-default'
+include ':goods:goods-default'
+
+
+
