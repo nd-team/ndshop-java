@@ -1,0 +1,8 @@
+apply from: '../../../config.gradle'
+
+dependencies {
+    compile("com.bjike.ndshop:user-login-api:1.0")
+    compile group: 'com.dounine', name: 'jpa', version: "$jpa_version"
+    compile group: 'com.dounine', name: 'common', version: "$common_version"
+
+}
