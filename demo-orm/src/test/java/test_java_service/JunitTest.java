@@ -8,8 +8,6 @@ import com.dounine.corgi.jpa.exception.SerException;
 import test_java_service.code.ApplicationConfiguration;
 import test_java_service.code.dto.UserDto;
 import test_java_service.code.entity.User;
-import test_java_service.code.entity.UserInterest;
-import test_java_service.code.service.IUserInterestSer;
 import test_java_service.code.service.IUserSer;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,6 +45,7 @@ public class JunitTest {
             user.setAge(55);
             user.setHeight(1.2f);
             user.setNickname("xiaoming");
+            user.setSuperMan(true);
             userSer.save(user);
         }
     }
@@ -82,13 +81,8 @@ public class JunitTest {
     @Test
     public void findByCis() throws SerException {
         UserDto dto = new UserDto();
-        Condition condition = new Condition();
-        String[] between =
-                new String[]{"1", "99"};
-        condition.setField("age");
-        condition.setValues(between);
-        condition.setFieldType(DataType.INT);
-        condition.setRestrict(RestrictionType.BETWEEN);
+        Condition condition = new Condition("superMan",DataType.BOOLEAN,false);
+        condition.setRestrict(RestrictionType.EQ);
         dto.getConditions().add(condition);
         List<User> users = userSer.findByCis(dto, true); //按条件查询并分页
         System.out.println(JSON.toJSONString(users));

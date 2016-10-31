@@ -27,8 +27,10 @@ public class User extends BaseEntity {
     private String nickname;
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private LocalDateTime accessTime = LocalDateTime.now();
+    private Boolean superMan;
 
-    //optional 属性 是定义该关联类是否必须存在,值为false 时，关联类双方都必须存在(inner join) true是为left join
+
+//optional 属性 是定义该关联类是否必须存在,值为false 时，关联类双方都必须存在(inner join) true是为left join
 
     //CascadeType.PERSIST（级联新建）、CascadeType.REMOVE（级联删除）、CascadeType.REFRESH（级联刷新）、CascadeType.MERGE（级联更新）中选择一个或多个。还有一个选择是使用CascadeType.ALL，表示选择全部四项。    @ManyToOne(cascade = {CascadeType.ALL})
 
@@ -147,5 +149,12 @@ public class User extends BaseEntity {
 
     public void setUserInfo(UserInfo userInfo) {
         this.userInfo = userInfo;
+    }
+    public Boolean getSuperMan() {
+        return superMan;
+    }
+
+    public void setSuperMan(Boolean superMan) {
+        this.superMan = superMan;
     }
 }

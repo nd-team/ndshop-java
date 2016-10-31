@@ -1,7 +1,0 @@
-apply from: '../../config.gradle'
-
-dependencies {
-    compile group: 'com.dounine', name: 'jpa', version: "$jpa_version"
-    compile group: 'com.dounine', name: 'common', version: "$common_version"
-
-}

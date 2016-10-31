@@ -1,7 +1,7 @@
 allprojects {
     apply plugin: 'java'
     apply plugin: 'maven'
-    group 'com.dounine'
+    group 'com.bjike.ndshop'
     version '1.0'
 
     compileJava {
@@ -24,7 +24,7 @@ allprojects {
 
     configure(install.repositories.mavenInstaller) {
         pom.project {
-            groupId 'com.dounine'
+            groupId 'com.bjike.ndshop'
             artifactId project.name
             packaging 'jar'
         }
@@ -33,6 +33,8 @@ allprojects {
     ext {
         jpa_version='1.0'
         common_version='1.0'
+        rpc_version='1.0'
+        spring_boot_gradle_plugin_version='1.4.1.RELEASE'
     }
 }
 

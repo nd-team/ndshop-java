@@ -1,13 +1,9 @@
-package test_java_service.code;
+package com.bjike.ndshop.user.common;
 
 import com.dounine.corgi.jpa.boot.initializer.Components;
 import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
-import org.springframework.cache.support.SimpleCacheManager;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +16,7 @@ public class MyComponents extends Components {
 
     @Override
     public String[] scanPackages() {
-        return new String[]{"test_java_service.code"};
+        return new String[]{"com.bjike.ndshop.user.entity"};
     }
 
     @Override
