@@ -1,9 +1,9 @@
 package src;
 
-import com.bjike.ndshop.user.common.api.entity.User;
-import com.bjike.ndshop.user.common.api.entity.UserDetail;
-import com.bjike.ndshop.user.common.api.enums.MemberType;
-import com.bjike.ndshop.user.common.api.service.IUserSer;
+import com.bjike.ndshop.user.common.entity.User;
+import com.bjike.ndshop.user.common.entity.UserDetail;
+import com.bjike.ndshop.user.common.enums.MemberType;
+import com.bjike.ndshop.user.common.service.IUserSer;
 import com.dounine.corgi.jpa.enums.Status;
 import com.dounine.corgi.jpa.exception.SerException;
 import org.junit.Before;

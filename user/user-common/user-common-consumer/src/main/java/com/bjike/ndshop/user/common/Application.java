@@ -1,6 +1,6 @@
-package com.bjike.ndshop.user.commom;
+package com.bjike.ndshop.user.common;
 
-import com.bjike.ndshop.user.commom.config.exception.MyHanException;
+import com.bjike.ndshop.user.common.config.exception.MyHanException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;

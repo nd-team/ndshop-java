@@ -1,7 +1,7 @@
-package com.bjike.ndshop.user.register.api;
+package com.bjike.ndshop.user.register;
 
-import com.bjike.ndshop.user.common.api.dto.UserDto;
-import com.bjike.ndshop.user.common.api.entity.User;
+import com.bjike.ndshop.user.common.dto.UserDto;
+import com.bjike.ndshop.user.common.entity.User;
 import com.dounine.corgi.jpa.exception.SerException;
 import com.dounine.corgi.jpa.service.IService;
 

@@ -1,4 +1,4 @@
-package com.bjike.ndshop.user.commom.config;
+package com.bjike.ndshop.user.common.config;
 
 import com.dounine.corgi.validation.aop.GlobalValidation;
 import org.aspectj.lang.annotation.Aspect;

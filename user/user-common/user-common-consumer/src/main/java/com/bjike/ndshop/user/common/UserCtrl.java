@@ -1,4 +1,4 @@
-package com.bjike.ndshop.user.commom;
+package com.bjike.ndshop.user.common;
 
 import com.dounine.corgi.commons.ResponseText;
 import com.dounine.corgi.rpc.spring.annotation.Reference;

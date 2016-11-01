@@ -1,9 +1,9 @@
 package com.bjike.ndshop.user.common.service;
 
-import com.bjike.ndshop.user.common.api.dto.ShippingAddressDto;
-import com.bjike.ndshop.user.common.api.entity.ShippingAddress;
-import com.bjike.ndshop.user.common.api.entity.User;
-import com.bjike.ndshop.user.common.api.service.IShippingAddressSer;
+import com.bjike.ndshop.user.common.dto.ShippingAddressDto;
+import com.bjike.ndshop.user.common.entity.ShippingAddress;
+import com.bjike.ndshop.user.common.entity.User;
+import com.bjike.ndshop.user.common.service.IShippingAddressSer;
 import com.dounine.corgi.jpa.dto.Condition;
 import com.dounine.corgi.jpa.enums.DataType;
 import com.dounine.corgi.jpa.enums.RestrictionType;

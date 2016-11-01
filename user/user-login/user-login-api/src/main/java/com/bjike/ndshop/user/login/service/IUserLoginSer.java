@@ -1,7 +1,7 @@
 package com.bjike.ndshop.user.login.service;
 
-import com.bjike.ndshop.user.common.api.dto.UserDto;
-import com.bjike.ndshop.user.common.api.entity.User;
+import com.bjike.ndshop.user.common.dto.UserDto;
+import com.bjike.ndshop.user.common.entity.User;
 import com.dounine.corgi.jpa.service.IService;
 /**
  * Created by lgq on 16-10-31.

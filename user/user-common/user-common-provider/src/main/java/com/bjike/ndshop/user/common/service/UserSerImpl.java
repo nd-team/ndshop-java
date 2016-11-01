@@ -1,9 +1,9 @@
 package com.bjike.ndshop.user.common.service;
 
-import com.bjike.ndshop.user.common.api.dao.IUserRep;
-import com.bjike.ndshop.user.common.api.dto.UserDto;
-import com.bjike.ndshop.user.common.api.entity.User;
-import com.bjike.ndshop.user.common.api.service.IUserSer;
+import com.bjike.ndshop.user.common.dao.IUserRep;
+import com.bjike.ndshop.user.common.dto.UserDto;
+import com.bjike.ndshop.user.common.entity.User;
+import com.bjike.ndshop.user.common.service.IUserSer;
 import com.dounine.corgi.jpa.exception.SerException;
 import com.dounine.corgi.jpa.service.ServiceImpl;
 import com.dounine.corgi.security.PasswordHash;

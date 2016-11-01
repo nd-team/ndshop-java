@@ -1,4 +1,4 @@
-package com.bjike.ndshop.user.common.api.enums;
+package com.bjike.ndshop.user.common.enums;
 
 /**
  * Created by lgq on 16-10-26.
