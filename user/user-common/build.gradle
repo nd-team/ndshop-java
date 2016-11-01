@@ -1,4 +1,0 @@
-apply from: '../../config.gradle'
-
-dependencies {
-}

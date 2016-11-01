@@ -1,0 +1,6 @@
+apply from: '../../../config.gradle'
+
+dependencies {
+    compile("com.bjike.ndshop:user-login-api:1.0")
+    compile("com.bjike.ndshop:user-register-api:1.0")
+}
