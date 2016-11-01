@@ -1,0 +1,6 @@
+apply from: '../../../config.gradle'
+
+dependencies {
+    compile group: 'com.dounine.corgi', name: 'rpc', version: "$rpc_version"
+    compile("com.bjike.ndshop:user-common-api:1.0")
+}
