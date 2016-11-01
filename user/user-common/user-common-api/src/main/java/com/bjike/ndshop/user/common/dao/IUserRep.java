@@ -1,8 +1,8 @@
-package com.bjike.ndshop.user.common.api.dao;
+package com.bjike.ndshop.user.common.dao;
 
-import com.bjike.ndshop.user.common.api.dto.UserDto;
+import com.bjike.ndshop.user.common.dto.UserDto;
 import com.dounine.corgi.jpa.dao.MyRep;
-import com.bjike.ndshop.user.common.api.entity.User;
+import com.bjike.ndshop.user.common.entity.User;
 
 /**
  * Created by lgq on 16-10-28.

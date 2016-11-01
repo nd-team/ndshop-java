@@ -1,6 +1,6 @@
-package com.bjike.ndshop.user.common.api.entity;
+package com.bjike.ndshop.user.common.entity;
 
-import com.bjike.ndshop.user.common.api.enums.MemberType;
+import com.bjike.ndshop.user.common.enums.MemberType;
 import com.dounine.corgi.jpa.entity.BaseEntity;
 import com.dounine.corgi.jpa.enums.Status;
 import org.hibernate.validator.constraints.Email;

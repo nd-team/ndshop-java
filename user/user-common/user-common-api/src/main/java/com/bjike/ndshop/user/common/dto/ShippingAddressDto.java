@@ -1,4 +1,4 @@
-package com.bjike.ndshop.user.common.api.dto;
+package com.bjike.ndshop.user.common.dto;
 
 import com.dounine.corgi.jpa.dto.BaseDto;
 

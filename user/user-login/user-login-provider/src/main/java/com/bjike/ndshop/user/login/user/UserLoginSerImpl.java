@@ -1,7 +1,7 @@
 package com.bjike.ndshop.user.login.user;
 
 
-import com.bjike.ndshop.user.common.api.entity.User;
+import com.bjike.ndshop.user.common.entity.User;
 import com.bjike.ndshop.user.login.service.IUserLoginSer;
 import com.dounine.corgi.rpc.spring.annotation.Service;
 

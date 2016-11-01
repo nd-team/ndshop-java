@@ -1,9 +1,9 @@
-package com.bjike.ndshop.user.common.api.service;
+package com.bjike.ndshop.user.common.service;
 
 import com.dounine.corgi.jpa.exception.SerException;
 import com.dounine.corgi.jpa.service.IService;
-import com.bjike.ndshop.user.common.api.dto.ShippingAddressDto;
-import com.bjike.ndshop.user.common.api.entity.ShippingAddress;
+import com.bjike.ndshop.user.common.dto.ShippingAddressDto;
+import com.bjike.ndshop.user.common.entity.ShippingAddress;
 
 import java.util.List;
 

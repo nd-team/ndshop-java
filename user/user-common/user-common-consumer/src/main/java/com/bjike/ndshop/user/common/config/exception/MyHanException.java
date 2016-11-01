@@ -1,4 +1,4 @@
-package com.bjike.ndshop.user.commom.config.exception;
+package com.bjike.ndshop.user.common.config.exception;
 
 import com.dounine.corgi.exception.ExceptionHandler;
 

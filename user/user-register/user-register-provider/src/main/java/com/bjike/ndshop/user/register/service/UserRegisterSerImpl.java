@@ -1,7 +1,7 @@
 package com.bjike.ndshop.user.register.service;
 
-import com.bjike.ndshop.user.common.api.entity.User;
-import com.bjike.ndshop.user.register.api.IUserRegisterSer;
+import com.bjike.ndshop.user.common.entity.User;
+import com.bjike.ndshop.user.register.IUserRegisterSer;
 import com.dounine.corgi.jpa.exception.SerException;
 import com.dounine.corgi.security.PasswordHash;
 import org.springframework.beans.factory.annotation.Autowired;

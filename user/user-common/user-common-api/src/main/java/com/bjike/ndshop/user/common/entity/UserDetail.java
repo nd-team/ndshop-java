@@ -1,4 +1,4 @@
-package com.bjike.ndshop.user.common.api.entity;
+package com.bjike.ndshop.user.common.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.dounine.corgi.jpa.entity.BaseEntity;

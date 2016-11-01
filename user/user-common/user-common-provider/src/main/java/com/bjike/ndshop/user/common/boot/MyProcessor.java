@@ -1,4 +1,4 @@
-package com.bjike.ndshop.user.commom.boot;
+package com.bjike.ndshop.user.common.boot;
 
 import com.dounine.corgi.rpc.spring.SpringProcessor;
 import org.springframework.stereotype.Component;
