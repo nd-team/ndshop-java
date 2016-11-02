@@ -1,0 +1,25 @@
+package test_java_entity.code;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+/**
+ * Created by huanghuanlai on 16/9/27.
+ */
+
+@Configuration
+@EnableJpaRepositories
+@EnableTransactionManagement(proxyTargetClass = true)
+@PropertySource("classpath:config.properties")
+@ComponentScan(basePackages = {"test_java_entity.code"},
+        excludeFilters = {@ComponentScan.Filter(
+                type = FilterType.ANNOTATION,
+                value = {Configuration.class})})
+public class ApplicationConfiguration {
+
+
+}

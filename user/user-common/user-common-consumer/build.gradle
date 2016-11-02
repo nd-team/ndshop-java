@@ -1,0 +1,21 @@
+apply plugin: 'spring-boot'
+apply plugin: 'java'
+
+dependencies {
+//    compile("com.bjike.ndshop:user-login-api:1.0")
+//    compile project(":user:user-common:user-common-api")
+    compile group: 'com.dounine.corgi', name: 'rpc', version: "$rpc_version"
+    compile("org.springframework.boot:spring-boot-starter-web:1.4.1.RELEASE")
+
+}
+
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.1.RELEASE")
+    }
+}
