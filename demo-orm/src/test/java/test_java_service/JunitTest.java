@@ -97,7 +97,6 @@ public class JunitTest {
 
         User user = userSer.findByUsername("liguiqin");
         user.setPassword("666 this is a pass");
-        userSer.update(user);
         System.out.println(JSON.toJSONString(user));
     }
 

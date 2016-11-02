@@ -21,4 +21,10 @@ public interface IUserSer extends IService<User, UserDto> {
     default User findByNickname(String nickname){
         return null;
     }
+
+    default User findByPhone(String phone){
+        return null;
+    }
+
+
 }

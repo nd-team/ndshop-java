@@ -16,7 +16,7 @@ public class MyComponents extends Components {
 
     @Override
     public String[] scanPackages() {
-        return new String[]{"com.bjike.ndshop.user.common.entity"};
+        return new String[]{"com.bjike.ndshop.user.common"};
     }
 
     @Override

@@ -33,4 +33,9 @@ public class UserSerImpl extends ServiceImpl<User, UserDto> implements IUserSer 
     public User findByNickname(String nickname) {
         return userRep.findByUsername(nickname);
     }
+
+    @Override
+    public User findByPhone(String phone) {
+         return userRep.findByUsername(phone);
+    }
 }
