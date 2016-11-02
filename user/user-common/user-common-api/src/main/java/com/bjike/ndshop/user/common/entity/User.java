@@ -18,23 +18,34 @@ public class User extends BaseEntity {
 
     @Column(unique = true, length = 16, nullable = false)
     private String username; //登录用户名
+
     @Column(unique = true, length = 11, nullable = false)
     private String phone;//登录手机(注册验证手机)
+
     @Email
     private String email;//登录邮箱
+
     @Column(nullable = false)
     private String password; //登陆密码
+
     private String headSculpture;//头像
+
     @Column(unique = true)
     private String nickname; //昵称
-    @Column(nullable = false, length = 1)
+
+    @Column(length = 1)
     private char sex;//性别
-    @Range(min = 0,max = 120)
+
+    @Range(min = 0, max = 120)
     private Integer age;//年龄
+
     private MemberType memberType; //会员类型
+
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime accessTime = LocalDateTime.now(); //链接时间
+
     private LocalDateTime createTime = LocalDateTime.now();//创建时间
+
     private Status status = Status.THAW;//用户状态
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")

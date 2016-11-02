@@ -19,4 +19,6 @@ public interface IUserRep extends MyRep<User, UserDto> {
     User findByUsername(String username);
     
     User findByNickname(String nickname);
+
+    User findByPhone(String phone);
 }

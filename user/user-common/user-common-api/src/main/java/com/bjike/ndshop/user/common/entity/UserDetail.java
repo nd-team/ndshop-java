@@ -18,13 +18,18 @@ public class UserDetail extends BaseEntity {
     @JSONField(serialize = false)
     private User user;
 
-
     private String address;//地址
     private String realName;//真实姓名
     private String birthday;//出生年月
     private String domicile;//居住地
     private String hometown;//家乡
     private Double growthValue; //成长值
+    private String identityCard;//身份证
+    private String educationLevel;//教育程度
+    private String job ; //职业
+
+    @Column(columnDefinition = "TINYINT(1)")
+    private Boolean maritalStatus;//婚姻状态
 
     public User getUser() {
         return user;
@@ -80,5 +85,37 @@ public class UserDetail extends BaseEntity {
 
     public void setGrowthValue(Double growthValue) {
         this.growthValue = growthValue;
+    }
+
+    public String getIdentityCard() {
+        return identityCard;
+    }
+
+    public void setIdentityCard(String identityCard) {
+        this.identityCard = identityCard;
+    }
+
+    public String getEducationLevel() {
+        return educationLevel;
+    }
+
+    public void setEducationLevel(String educationLevel) {
+        this.educationLevel = educationLevel;
+    }
+
+    public String getJob() {
+        return job;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
+    }
+
+    public Boolean getMaritalStatus() {
+        return maritalStatus;
+    }
+
+    public void setMaritalStatus(Boolean maritalStatus) {
+        this.maritalStatus = maritalStatus;
     }
 }
