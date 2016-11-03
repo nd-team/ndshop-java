@@ -1,7 +1,7 @@
 package com.bjike.ndshop.user.common.entity;
 
-import com.dounine.corgi.jpa.entity.BaseEntity;
-import com.dounine.corgi.jpa.enums.Status;
+import com.bjike.ndshop.dbs.jpa.entity.BaseEntity;
+import com.bjike.ndshop.dbs.jpa.enums.Status;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Range;
 
@@ -13,7 +13,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "nd_shipping_address")
-public class ShippingAddress extends BaseEntity{
+public class ShippingAddress extends BaseEntity {
     @ManyToOne(cascade = {CascadeType.ALL},optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;//所属用户

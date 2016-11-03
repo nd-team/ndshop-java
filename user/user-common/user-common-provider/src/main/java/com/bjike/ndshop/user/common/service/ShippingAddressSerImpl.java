@@ -1,14 +1,13 @@
 package com.bjike.ndshop.user.common.service;
 
+import com.bjike.ndshop.dbs.jpa.dto.Condition;
+import com.bjike.ndshop.dbs.jpa.enums.DataType;
+import com.bjike.ndshop.dbs.jpa.enums.RestrictionType;
+import com.bjike.ndshop.dbs.jpa.exception.SerException;
+import com.bjike.ndshop.dbs.jpa.service.ServiceImpl;
 import com.bjike.ndshop.user.common.dto.ShippingAddressDto;
 import com.bjike.ndshop.user.common.entity.ShippingAddress;
 import com.bjike.ndshop.user.common.entity.User;
-import com.bjike.ndshop.user.common.service.IShippingAddressSer;
-import com.dounine.corgi.jpa.dto.Condition;
-import com.dounine.corgi.jpa.enums.DataType;
-import com.dounine.corgi.jpa.enums.RestrictionType;
-import com.dounine.corgi.jpa.exception.SerException;
-import com.dounine.corgi.jpa.service.ServiceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +25,7 @@ public class ShippingAddressSerImpl extends ServiceImpl<ShippingAddress, Shippin
         //获取当前用户
         User currentUser = new User();
         ShippingAddressDto dto = new ShippingAddressDto();
-        Condition condition = new Condition("user.id",DataType.STRING,currentUser.getId());
+        Condition condition = new Condition("user.id", DataType.STRING,currentUser.getId());
         condition.setRestrict(RestrictionType.EQ);
         dto.getConditions().add(condition);
         return  findByCis(dto);

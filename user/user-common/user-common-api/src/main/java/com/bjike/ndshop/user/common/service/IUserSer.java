@@ -1,8 +1,7 @@
 package com.bjike.ndshop.user.common.service;
 
+import com.bjike.ndshop.dbs.jpa.service.IService;
 import com.bjike.ndshop.user.common.dto.UserDto;
-import com.dounine.corgi.jpa.exception.SerException;
-import com.dounine.corgi.jpa.service.IService;
 import com.bjike.ndshop.user.common.entity.User;
 
 /**

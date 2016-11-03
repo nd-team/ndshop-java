@@ -1,15 +1,15 @@
 package com.bjike.ndshop.user.register.service;
 
+import com.bjike.ndshop.dbs.jpa.exception.SerException;
+import com.bjike.ndshop.dbs.jpa.service.IService;
 import com.bjike.ndshop.user.common.dto.UserDto;
 import com.bjike.ndshop.user.common.entity.User;
 import com.bjike.ndshop.user.register.dto.UserRegisterDto;
-import com.dounine.corgi.jpa.exception.SerException;
-import com.dounine.corgi.jpa.service.IService;
 
 /**
  * Created by lgq on 16-10-31.
  */
-public interface IUserRegisterSer extends IService<User,UserDto>  {
+public interface IUserRegisterSer extends IService<User,UserDto> {
     /**
      * 用户名是否已经注册
      * @param username

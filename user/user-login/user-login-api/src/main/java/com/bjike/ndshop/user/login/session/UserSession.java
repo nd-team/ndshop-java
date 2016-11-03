@@ -1,8 +1,8 @@
 package com.bjike.ndshop.user.login.session;
 
+import com.bjike.ndshop.dbs.jpa.exception.SerException;
 import com.bjike.ndshop.user.common.entity.User;
 
-import com.dounine.corgi.jpa.exception.SerException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
