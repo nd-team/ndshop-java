@@ -1,20 +1,24 @@
 rootProject.name = 'ndshop'
 
-include ':demo-orm'
-
-
+//#dbs
+include ':dbs:jpa'
+include ':dbs:mongo'
+//#user
+//common
 include ':user:user-common:user-common-api'
 include ':user:user-common:user-common-consumer'
 include ':user:user-common:user-common-provider'
+//user login
 include ':user:user-login:user-login-api'
 include ':user:user-login:user-login-consumer'
 include ':user:user-login:user-login-provider'
+//user register
 include ':user:user-register:user-register-api'
 include ':user:user-register:user-register-consumer'
 include ':user:user-register:user-register-provider'
-
-
+//#order
 include ':order:order-default'
+//#goods
 include ':goods:goods-default'
 
 

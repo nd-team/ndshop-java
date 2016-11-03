@@ -1,1 +1,5 @@
 rootProject.name = 'goods-default'
+
+
+include ':dbs:jpa'
+project('dbs:jpa').projectDir = new File(settingsDir, '../../jpa')

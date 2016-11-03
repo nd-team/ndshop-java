@@ -1,9 +1,9 @@
 package com.bjike.ndshop.user.register.service;
 
+import com.bjike.ndshop.dbs.jpa.exception.SerException;
 import com.bjike.ndshop.user.common.entity.User;
 import com.bjike.ndshop.user.common.service.IUserSer;
 import com.bjike.ndshop.user.register.dto.UserRegisterDto;
-import com.dounine.corgi.jpa.exception.SerException;
 import com.dounine.corgi.security.PasswordHash;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

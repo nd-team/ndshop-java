@@ -1,7 +1,7 @@
 package com.bjike.ndshop.user.common.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.dounine.corgi.jpa.entity.BaseEntity;
+import com.bjike.ndshop.dbs.jpa.entity.BaseEntity;
 
 import javax.persistence.*;
 

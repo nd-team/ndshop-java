@@ -1,13 +1,12 @@
 package com.bjike.ndshop.user.login.user;
 
 
+import com.bjike.ndshop.dbs.jpa.exception.SerException;
 import com.bjike.ndshop.user.common.entity.User;
 import com.bjike.ndshop.user.common.service.IUserSer;
 import com.bjike.ndshop.user.login.service.IUserLoginSer;
 import com.bjike.ndshop.user.login.session.TokenUtils;
 import com.bjike.ndshop.user.login.session.UserSession;
-import com.dounine.corgi.jpa.dto.PageDto;
-import com.dounine.corgi.jpa.exception.SerException;
 import com.dounine.corgi.rpc.spring.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -1,6 +1,7 @@
 package com.bjike.ndshop.user.register.dto;
 
-import com.dounine.corgi.jpa.dto.BaseDto;
+
+import com.bjike.ndshop.dbs.jpa.dto.BaseDto;
 
 /**
  * Created by lgq on 16-11-2.
