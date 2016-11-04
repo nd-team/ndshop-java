@@ -7,12 +7,18 @@ import com.bjike.ndshop.user.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+
 
 /**
  * Created by lgq on 16-10-28.
  */
 @Service
 public class UserSerImpl extends ServiceImpl<User, UserDto> implements IUserSer {
+    @PostConstruct
+    public  void init(){
+        System.out.println();
+    }
     @Autowired
     private IUserRep userRep;
 
