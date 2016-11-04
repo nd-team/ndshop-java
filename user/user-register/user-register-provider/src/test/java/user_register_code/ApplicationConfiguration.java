@@ -9,8 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@EnableJpaRepositories(basePackages = {"com.bjike.ndshop.user.common.dao"
-        ,"com.bjike.ndshop.user.register.dao"})
+@EnableJpaRepositories(basePackages = {"com.bjike.ndshop.user.common.dao"})
 @EnableTransactionManagement(proxyTargetClass = true)
 @EnableCaching
 @PropertySource({"classpath:config.properties","classpath:corgi.properties"})

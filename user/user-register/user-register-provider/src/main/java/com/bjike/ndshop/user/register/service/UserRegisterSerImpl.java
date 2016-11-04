@@ -32,7 +32,7 @@ public class UserRegisterSerImpl  implements IUserRegisterSer {
     @Override
     public Boolean existPhone(String phone) throws SerException {
          User user = userSer.findByPhone(phone);
-        return null == user;
+        return null != user;
 
     }
 

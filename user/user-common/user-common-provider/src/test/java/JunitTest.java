@@ -19,7 +19,6 @@ import java.util.List;
 @ContextConfiguration(classes = ApplicationConfiguration.class)
 public class JunitTest {
 
-
     @Before
     public void init() throws SerException {
         if (null == userSer.findByUsername("liguiqin")) {
@@ -35,14 +34,12 @@ public class JunitTest {
         }
     }
 
-
     /**
      * 基础增删改查，批量操作等
      */
 
     @Autowired
     private IUserSer userSer;
-
 
 
     /**
