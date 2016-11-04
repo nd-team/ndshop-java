@@ -13,8 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         ,"com.bjike.ndshop.user.register.dao"})
 @EnableTransactionManagement(proxyTargetClass = true)
 @EnableCaching
-@PropertySource("classpath:config.properties")
-
+@PropertySource({"classpath:config.properties","classpath:corgi.properties"})
 @ComponentScan(basePackages = {"user_register_code","com.bjike.ndshop.user.common","com.bjike.ndshop.user.register"},
         excludeFilters = {@ComponentScan.Filter(
                 type = FilterType.ANNOTATION,

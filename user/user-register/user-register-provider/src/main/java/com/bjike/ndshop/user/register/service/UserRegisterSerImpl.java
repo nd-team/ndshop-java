@@ -1,16 +1,12 @@
 package com.bjike.ndshop.user.register.service;
 
 import com.bjike.ndshop.dbs.jpa.exception.SerException;
-import com.bjike.ndshop.dbs.jpa.service.ServiceImpl;
-import com.bjike.ndshop.user.common.dto.UserDto;
 import com.bjike.ndshop.user.common.entity.User;
 import com.bjike.ndshop.user.common.service.IUserSer;
 import com.bjike.ndshop.user.register.dto.UserRegisterDto;
+import com.dounine.corgi.rpc.spring.annotation.Autowired;
+import com.dounine.corgi.rpc.spring.annotation.Service;
 import com.dounine.corgi.security.PasswordHash;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.ui.context.Theme;
 
 import java.util.regex.Pattern;
 
@@ -25,10 +21,11 @@ public class UserRegisterSerImpl  implements IUserRegisterSer {
 
     @Autowired
     private IUserSer userSer;
+
     @Override
     public Boolean existUsername(String username) throws SerException {
         User user = userSer.findByUsername(username);
-        return null == user;
+        return null != user;
 
     }
 
@@ -82,7 +79,7 @@ public class UserRegisterSerImpl  implements IUserRegisterSer {
             user.setUsername(dto.getUsername());
             user.setPassword(PasswordHash.createHash(dto.getPassword()));
             user.setPhone(dto.getPhone());
-            this.save(user);
+            userSer.save(user);
         } catch (Exception e) {
             throw new SerException("密码加密错误");
         }

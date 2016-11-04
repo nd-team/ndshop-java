@@ -20,7 +20,6 @@ import java.util.List;
 public class JunitTest {
 
 
-
     @Before
     public void init() throws SerException {
         if (null == userSer.findByUsername("liguiqin")) {
@@ -30,7 +29,7 @@ public class JunitTest {
             user.setAge(55);
             user.setNickname("xiaoming");
             user.setEmail("xinaml@qq.com");
-            user.setSex('男');
+            user.setSex('w');
             user.setPhone("13457910241");
             userSer.save(user);
         }

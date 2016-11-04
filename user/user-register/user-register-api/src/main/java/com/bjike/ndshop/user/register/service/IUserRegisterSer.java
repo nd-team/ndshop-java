@@ -1,16 +1,12 @@
 package com.bjike.ndshop.user.register.service;
 
 import com.bjike.ndshop.dbs.jpa.exception.SerException;
-import com.bjike.ndshop.dbs.jpa.service.IService;
-import com.bjike.ndshop.user.common.dto.UserDto;
-import com.bjike.ndshop.user.common.entity.User;
-import com.bjike.ndshop.user.common.service.IUserSer;
 import com.bjike.ndshop.user.register.dto.UserRegisterDto;
 
 /**
  * Created by lgq on 16-10-31.
  */
-public interface IUserRegisterSer extends IUserSer {
+public interface IUserRegisterSer{
     /**
      * 用户名是否已经注册
      * @param username

@@ -4,10 +4,8 @@ import com.bjike.ndshop.dbs.jpa.service.ServiceImpl;
 import com.bjike.ndshop.user.common.dao.IUserRep;
 import com.bjike.ndshop.user.common.dto.UserDto;
 import com.bjike.ndshop.user.common.entity.User;
+import com.dounine.corgi.rpc.spring.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
 
 
 /**
@@ -15,10 +13,6 @@ import javax.annotation.PostConstruct;
  */
 @Service
 public class UserSerImpl extends ServiceImpl<User, UserDto> implements IUserSer {
-    @PostConstruct
-    public  void init(){
-        System.out.println();
-    }
     @Autowired
     private IUserRep userRep;
 

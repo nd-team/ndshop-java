@@ -1,4 +1,4 @@
-package user_common_code;
+package com.bjike.ndshop.user.common.boot;
 
 import com.bjike.ndshop.dbs.jpa.boot.initializer.Components;
 import org.springframework.cache.Cache;

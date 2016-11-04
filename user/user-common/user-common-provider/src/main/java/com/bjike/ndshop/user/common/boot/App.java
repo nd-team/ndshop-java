@@ -1,5 +1,6 @@
 package com.bjike.ndshop.user.common.boot;
 
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
@@ -9,9 +10,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 @Configuration
-@PropertySource("classpath:config.properties")
-@EnableJpaRepositories(basePackages = {"com.bjike.ndshop.user.common"})
+@EnableJpaRepositories(basePackages = {"com.bjike.ndshop.user.common.dao"})
 @EnableTransactionManagement(proxyTargetClass = true)
+@EnableCaching
+@PropertySource({"classpath:config.properties","classpath:corgi.properties"})
+@ComponentScan(basePackages = {"com.bjike.ndshop.user.common"},
+        excludeFilters = {@ComponentScan.Filter(
+                type = FilterType.ANNOTATION,
+                value = {Configuration.class})})
 public class App {
 
 
