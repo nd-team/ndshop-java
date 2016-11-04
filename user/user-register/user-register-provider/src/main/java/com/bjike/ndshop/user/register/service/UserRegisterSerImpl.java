@@ -1,12 +1,15 @@
 package com.bjike.ndshop.user.register.service;
 
 import com.bjike.ndshop.dbs.jpa.exception.SerException;
+import com.bjike.ndshop.dbs.jpa.service.ServiceImpl;
+import com.bjike.ndshop.user.common.dto.UserDto;
 import com.bjike.ndshop.user.common.entity.User;
 import com.bjike.ndshop.user.common.service.IUserSer;
 import com.bjike.ndshop.user.register.dto.UserRegisterDto;
 import com.dounine.corgi.security.PasswordHash;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.context.Theme;
 
 import java.util.regex.Pattern;
@@ -14,13 +17,14 @@ import java.util.regex.Pattern;
 /**
  * Created by lgq on 16-10-31.
  */
-public class UserRegisterSerImpl implements IUserRegisterSer {
+@Service
+public class UserRegisterSerImpl  implements IUserRegisterSer {
     public static final String REGEX_MOBILE = "^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
     public static final String REGEX_PASSWORD = "^(?!\\d+$)(?![a-zA-Z]+$)[a-zA-Z\\d]+$";
 
+
     @Autowired
     private IUserSer userSer;
-
     @Override
     public Boolean existUsername(String username) throws SerException {
         User user = userSer.findByUsername(username);
@@ -30,7 +34,7 @@ public class UserRegisterSerImpl implements IUserRegisterSer {
 
     @Override
     public Boolean existPhone(String phone) throws SerException {
-        User user = userSer.findByPhone(phone);
+         User user = userSer.findByPhone(phone);
         return null == user;
 
     }

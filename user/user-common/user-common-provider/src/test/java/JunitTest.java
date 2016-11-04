@@ -1,21 +1,16 @@
-import code.ApplicationConfiguration;
-import com.alibaba.fastjson.JSON;
+import org.junit.Before;
+import user_common_code.ApplicationConfiguration;
 import com.bjike.ndshop.dbs.jpa.exception.SerException;
 import com.bjike.ndshop.user.common.entity.User;
 import com.bjike.ndshop.user.common.service.IUserSer;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by huanghuanlai on 2016/10/13.
@@ -23,6 +18,24 @@ import java.util.Random;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
 public class JunitTest {
+
+
+
+    @Before
+    public void init() throws SerException {
+        if (null == userSer.findByUsername("liguiqin")) {
+            User user = new User();
+            user.setUsername("liguiqin");
+            user.setPassword("123456");
+            user.setAge(55);
+            user.setNickname("xiaoming");
+            user.setEmail("xinaml@qq.com");
+            user.setSex('男');
+            user.setPhone("13457910241");
+            userSer.save(user);
+        }
+    }
+
 
     /**
      * 基础增删改查，批量操作等
