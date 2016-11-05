@@ -25,7 +25,7 @@ public interface IUserRegisterSer{
     /**
      * 发送验证码到手机
      */
-    void verifyCodeToPhone(UserRegisterDto dto)throws SerException;
+    void sendCodeToPhone(UserRegisterDto dto)throws SerException;
 
     /**
      * 验证并注册

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -40,7 +41,7 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
     public Predicate toPredicate(Root<BE> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
         List<Predicate> preList = null;
         try {
-            preList = initPredicates(dto, root, cb,query);
+            preList = initPredicates(dto, root, cb, query);
         } catch (RepException e) {
             throw e;
         }
@@ -51,12 +52,12 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
     }
 
 
-    private List<Predicate> initPredicates(BD dto, Root<BE> root, CriteriaBuilder cb,CriteriaQuery<?> query) throws RepException {
+    private List<Predicate> initPredicates(BD dto, Root<BE> root, CriteriaBuilder cb, CriteriaQuery<?> query) throws RepException {
 
         List<Predicate> preList = new ArrayList<>(0); //条件列表
         List<Condition> conditions = dto.getConditions() != null ? dto.getConditions() : new ArrayList<>(0);//避免条件列表为空
-        Stream<Condition> stream = conditions.stream();
-        stream.forEach(model -> {
+        Boolean or_predicate = false; //标志处理 or 条件
+        for (Condition model : conditions) {
             Predicate predicate = null;
             Class clazz = PrimitiveUtil.switchType(model.getFieldType()); //得到数据类型
             String field = model.getField(); //字段
@@ -83,6 +84,23 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
                     case ISNOTNULL:
                         predicate = cb.isNotNull(root.get(field).as(clazz));
                         break;
+                    case OR:
+                        //仅做一次处理，一次处理完所有or
+                        if (!or_predicate) {
+                            List<Predicate> _predicates = new ArrayList<>();
+                            for (Condition cdis : conditions) {
+                                if (cdis.getRestrict().equals(RestrictionType.OR)) {
+                                    predicate = cb.equal(root.get(cdis.getField()).as(clazz), cdis.getValues()[0]);
+                                    _predicates.add(predicate);
+                                }
+                            }
+                            Predicate[] arr_pre = new Predicate[_predicates.size()];
+                            _predicates.toArray(arr_pre);
+                            predicate = cb.or(arr_pre);
+                            or_predicate = true;
+                        }
+
+                        break;
                     default:
                         Object[] values = PrimitiveUtil.convertValuesByType(model.getValues(), model.getFieldType());
                         if (type == RestrictionType.IN) {
@@ -102,7 +120,7 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
             if (null != predicate) {
                 preList.add(predicate);
             }
-        });
+        }
 
         return preList;
     }

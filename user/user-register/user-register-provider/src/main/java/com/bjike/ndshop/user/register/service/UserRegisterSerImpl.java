@@ -3,11 +3,13 @@ package com.bjike.ndshop.user.register.service;
 import com.bjike.ndshop.dbs.jpa.exception.SerException;
 import com.bjike.ndshop.user.common.entity.User;
 import com.bjike.ndshop.user.common.service.IUserSer;
+import com.bjike.ndshop.user.common.utils.Validator;
 import com.bjike.ndshop.user.register.dto.UserRegisterDto;
 import com.dounine.corgi.rpc.spring.annotation.Autowired;
 import com.dounine.corgi.rpc.spring.annotation.Service;
 import com.dounine.corgi.security.PasswordHash;
 
+import java.time.LocalDateTime;
 import java.util.regex.Pattern;
 
 /**
@@ -15,9 +17,6 @@ import java.util.regex.Pattern;
  */
 @Service
 public class UserRegisterSerImpl  implements IUserRegisterSer {
-    public static final String REGEX_MOBILE = "^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";
-    public static final String REGEX_PASSWORD = "^(?!\\d+$)(?![a-zA-Z]+$)[a-zA-Z\\d]+$";
-
 
     @Autowired
     private IUserSer userSer;
@@ -31,45 +30,50 @@ public class UserRegisterSerImpl  implements IUserRegisterSer {
 
     @Override
     public Boolean existPhone(String phone) throws SerException {
-         User user = userSer.findByPhone(phone);
+        boolean reg = Validator.isPhone(phone);
+        User user = null;
+        if (reg) {
+          user = userSer.findByPhone(phone);
+        }else {
+            throw new SerException("手机格式不正确");
+        }
         return null != user;
 
     }
 
     @Override
-    public void verifyCodeToPhone(UserRegisterDto dto) throws SerException {
+    public void sendCodeToPhone(UserRegisterDto dto) throws SerException {
         String phone = dto.getPhone();
-        boolean reg = Pattern.matches(REGEX_MOBILE, phone);
-        if (reg) {
+
             if (null == userSer.findByPhone(phone)) {
                 //generateCode()
                 //sendToPhone（）
-
             } else {
                 throw new SerException("该手机号码已注册！");
 
             }
-        } else {
-            throw new SerException("手机格式不正确");
-        }
     }
 
     @Override
     public void verifyCodeAndReg(UserRegisterDto dto) throws SerException {
-        if (!dto.getPhone_code().equals("123")) {
-            throw new SerException("验证码不正确");
-        }
-        if ("code".equals("timeout")) {
-            throw new SerException("验证码已过期");
-        }
 
         if (dto.getPassword().equals(dto.getRePassword())) {
-            if (!Pattern.matches(dto.getPassword(), REGEX_PASSWORD)) {
+            if (!Validator.isPassword(dto.getPassword())) {
                 throw new SerException("密码过于简单");
             }
         } else {
             throw new SerException("输入密码不一致");
         }
+
+        if (dto.getPhone_code().equals("123")) {
+            LocalDateTime databaseTime = LocalDateTime.now(); //session或者数据库保存的验证码时间
+            if (!LocalDateTime.now().isBefore(databaseTime.plusMinutes(15))) {
+                throw new SerException("验证码已过期");
+            }
+        }else{
+            throw new SerException("验证码不正确");
+        }
+
         saveUserByDto(dto);
     }
 
@@ -81,7 +85,7 @@ public class UserRegisterSerImpl  implements IUserRegisterSer {
             user.setPhone(dto.getPhone());
             userSer.save(user);
         } catch (Exception e) {
-            throw new SerException("密码加密错误");
+            throw new SerException(e.getMessage());
         }
     }
 
