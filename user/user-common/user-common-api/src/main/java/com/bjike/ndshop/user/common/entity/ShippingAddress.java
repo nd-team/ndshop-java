@@ -1,5 +1,6 @@
 package com.bjike.ndshop.user.common.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.bjike.ndshop.dbs.jpa.entity.BaseEntity;
 import com.bjike.ndshop.dbs.jpa.enums.Status;
 import org.hibernate.validator.constraints.Email;
@@ -14,8 +15,9 @@ import javax.persistence.*;
 @Entity
 @Table(name = "nd_shipping_address")
 public class ShippingAddress extends BaseEntity {
-    @ManyToOne(cascade = {CascadeType.ALL},optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
+
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "user_id",nullable = false)
     private User user;//所属用户
 
     @Column(nullable = false)
@@ -29,6 +31,7 @@ public class ShippingAddress extends BaseEntity {
     private String receiverName;//收货人姓名
     private String phone ; // 手机号码（手机号码电话号码二选一必填）
     private String telPhone;//电话号码
+    @Column(columnDefinition = "TINYINT(1)")
     private Boolean defaultAddress; //是否默认地址
     @Range(min = 0,max = 20)
     private Integer seq;// 序列 0-20

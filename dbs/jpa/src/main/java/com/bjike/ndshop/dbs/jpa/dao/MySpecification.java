@@ -17,6 +17,7 @@ import javax.persistence.criteria.*;
 import java.lang.reflect.Method;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -56,6 +57,7 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
 
         List<Predicate> preList = new ArrayList<>(0); //条件列表
         List<Condition> conditions = dto.getConditions() != null ? dto.getConditions() : new ArrayList<>(0);//避免条件列表为空
+
         Boolean or_predicate = false; //标志处理 or 条件
         for (Condition model : conditions) {
             Predicate predicate = null;

@@ -58,7 +58,6 @@ public class UserSerImpl extends ServiceImpl<User, UserDto> implements IUserSer 
         coin = new Condition("email", DataType.STRING, accountNumber);
         coin.setRestrict(RestrictionType.OR);
         conditions.add(coin);
-
         return findOne(dto) != null;
     }
 }

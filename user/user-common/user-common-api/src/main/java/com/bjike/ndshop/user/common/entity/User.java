@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 /**
  * Created by lgq on 16-10-26.
@@ -34,7 +35,7 @@ public class User extends BaseEntity {
     @Column(unique = true)
     private String nickname; //昵称
 
-    @Column(columnDefinition = "TINYINT(1)")//指定数据库类型
+    @Column(columnDefinition = "INT(1)")//指定数据库类型
     private SexType sex=SexType.NONE;//性别
 
     @Range(min = 0, max = 120)
@@ -155,4 +156,5 @@ public class User extends BaseEntity {
     public void setDetail(UserDetail detail) {
         this.detail = detail;
     }
+
 }
