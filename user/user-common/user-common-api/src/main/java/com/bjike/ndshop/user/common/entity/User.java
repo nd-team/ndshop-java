@@ -3,6 +3,7 @@ package com.bjike.ndshop.user.common.entity;
 import com.bjike.ndshop.dbs.jpa.entity.BaseEntity;
 import com.bjike.ndshop.dbs.jpa.enums.Status;
 import com.bjike.ndshop.user.common.enums.MemberType;
+import com.bjike.ndshop.user.common.enums.SexType;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Range;
 
@@ -33,8 +34,8 @@ public class User extends BaseEntity {
     @Column(unique = true)
     private String nickname; //昵称
 
-    @Column(length = 1)
-    private char sex;//性别
+    @Column(columnDefinition = "TINYINT(1)")//指定数据库类型
+    private SexType sex=SexType.NONE;//性别
 
     @Range(min = 0, max = 120)
     private Integer age;//年龄
@@ -99,11 +100,11 @@ public class User extends BaseEntity {
         this.nickname = nickname;
     }
 
-    public char getSex() {
+    public SexType getSex() {
         return sex;
     }
 
-    public void setSex(char sex) {
+    public void setSex(SexType sex) {
         this.sex = sex;
     }
 

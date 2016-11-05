@@ -1,4 +1,5 @@
 import com.bjike.ndshop.dbs.jpa.exception.SerException;
+import com.bjike.ndshop.user.register.dto.UserRegisterDto;
 import com.bjike.ndshop.user.register.service.IUserRegisterSer;
 import com.dounine.corgi.spring.ApplicationContext;
 import org.junit.Before;
@@ -39,8 +40,25 @@ public class JunitTest extends AbstractJUnit4SpringContextTests {
 
     @Test
     public void existPhone() throws SerException {
-        boolean users = userRegisterSer.existUsername("1345710241");
+        boolean users = userRegisterSer.existPhone("13457910241");
         System.out.println(users);
     }
+
+    @Test
+    public void sendCodeToPhone() throws SerException {
+        UserRegisterDto dto = new UserRegisterDto();
+        dto.setPhone("123456");
+       userRegisterSer.sendCodeToPhone(dto);
+    }
+
+    @Test
+    public void verifyCodeAndReg() throws SerException {
+        UserRegisterDto dto = new UserRegisterDto();
+        dto.setPhone_code("123");
+        userRegisterSer.verifyCodeAndReg(dto);
+    }
+
+
+
 
 }

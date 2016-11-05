@@ -1,3 +1,4 @@
+import com.bjike.ndshop.user.common.enums.SexType;
 import org.junit.Before;
 import user_common_code.ApplicationConfiguration;
 import com.bjike.ndshop.dbs.jpa.exception.SerException;
@@ -28,7 +29,7 @@ public class JunitTest {
             user.setAge(55);
             user.setNickname("xiaoming");
             user.setEmail("xinaml@qq.com");
-            user.setSex('w');
+            user.setSex(SexType.MAN);
             user.setPhone("13457910241");
             userSer.save(user);
         }
@@ -52,5 +53,12 @@ public class JunitTest {
             System.out.println(u.getUsername());
         }
     }
+    @Test
+    public void verifyByAccountNumber() throws SerException {
+        System.out.println(userSer.verifyByAccountNumber("liguiqin"));
+    }
+
+
+
 
 }
