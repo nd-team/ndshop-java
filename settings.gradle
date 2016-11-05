@@ -17,9 +17,13 @@ include ':user:user-register:user-register-api'
 include ':user:user-register:user-register-consumer'
 include ':user:user-register:user-register-provider'
 //#order
-include ':order:order-default'
+//include 'order:order-api'
+//include ':order:order-consumer'
+//include 'order:order-provider'
 //#goods
 include ':goods:goods-default'
-
+include ':goods:goods-api'
+include ':goods:goods-consumer'
+include ':goods:goods-provider'
 
 

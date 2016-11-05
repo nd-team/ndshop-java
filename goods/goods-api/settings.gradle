@@ -1,4 +1,4 @@
-rootProject.name = 'goods-default'
+rootProject.name = 'goods-api'
 
 
 include ':dbs:jpa'
