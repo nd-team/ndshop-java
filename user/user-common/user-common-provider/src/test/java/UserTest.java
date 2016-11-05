@@ -18,7 +18,7 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
-public class JunitTest {
+public class UserTest {
 
     @Before
     public void init() throws SerException {
@@ -35,10 +35,6 @@ public class JunitTest {
         }
     }
 
-    /**
-     * 基础增删改查，批量操作等
-     */
-
     @Autowired
     private IUserSer userSer;
 
@@ -53,12 +49,11 @@ public class JunitTest {
             System.out.println(u.getUsername());
         }
     }
+
     @Test
     public void verifyByAccountNumber() throws SerException {
         System.out.println(userSer.verifyByAccountNumber("liguiqin"));
     }
-
-
 
 
 }

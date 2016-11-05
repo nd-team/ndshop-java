@@ -21,9 +21,11 @@ import java.util.List;
 public class ShippingAddressSerImpl extends ServiceImpl<ShippingAddress, ShippingAddressDto> implements IShippingAddressSer {
 
     @Override
-    public List<ShippingAddress> findAllAddress() throws SerException {
+    public List<ShippingAddress> findAddressByCurrentUser() throws SerException {
         //获取当前用户
         User currentUser = new User();
+        //temp
+        currentUser.setId("ae57f645-8e1d-4e46-9713-5c78299fa28a");
         ShippingAddressDto dto = new ShippingAddressDto();
         Condition condition = new Condition("user.id", DataType.STRING,currentUser.getId());
         condition.setRestrict(RestrictionType.EQ);
@@ -37,7 +39,7 @@ public class ShippingAddressSerImpl extends ServiceImpl<ShippingAddress, Shippin
         ShippingAddressDto dto = new ShippingAddressDto();
         if(21>count(dto)){
             String seq = findByMaxField("seq",ShippingAddress.class);
-            address.setSeq(Integer.parseInt(seq+1));
+            address.setSeq(Integer.parseInt(seq)+1);
             return super.save(address);
         }else {
             throw new SerException("收货地址不能超过20个，请先删除再添加");

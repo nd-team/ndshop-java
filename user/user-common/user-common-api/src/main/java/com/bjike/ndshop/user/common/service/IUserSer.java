@@ -27,6 +27,7 @@ public interface IUserSer extends IService<User, UserDto> {
     }
 
     /**
+     * 验证账号（邮箱/电话号码/用户名）
      * cause by findpassword
      * @param accountNumber
      * @return

@@ -18,7 +18,7 @@ public interface IShippingAddressSer extends IService<ShippingAddress, ShippingA
      * @return
      * @throws SerException
      */
-    List<ShippingAddress> findAllAddress() throws SerException;
+    List<ShippingAddress> findAddressByCurrentUser() throws SerException;
 
     /**
      * 添加收货地址

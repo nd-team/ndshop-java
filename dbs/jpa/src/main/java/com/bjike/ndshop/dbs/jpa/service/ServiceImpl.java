@@ -160,7 +160,8 @@ public class ServiceImpl<BE extends BaseEntity, BD extends BaseDto> extends Fina
         jpql.append(field);
         jpql.append(") FROM ");
         jpql.append(clazz.getSimpleName());
-        return entityManager.createQuery(jpql.toString()).getSingleResult().toString();
+        Object obj = entityManager.createQuery(jpql.toString()).getSingleResult();
+        return obj!=null?obj.toString():"0";
     }
 
     @Override
