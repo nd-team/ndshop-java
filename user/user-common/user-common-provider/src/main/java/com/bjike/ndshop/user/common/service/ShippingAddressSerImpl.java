@@ -26,10 +26,10 @@ public class ShippingAddressSerImpl extends ServiceImpl<ShippingAddress, Shippin
         //获取当前用户
         User currentUser = new User();
         //temp
-        currentUser.setId("ae57f645-8e1d-4e46-9713-5c78299fa28a");
+        currentUser.setId("21");
         ShippingAddressDto dto = new ShippingAddressDto();
 
-        Condition condition = new Condition(User.class.getName()+"#id", DataType.STRING,currentUser.getId());
+        Condition condition = new Condition("area", DataType.STRING,currentUser.getId());
         condition.setRestrict(RestrictionType.LIKE);
         dto.getConditions().add(condition);
         System.out.println(this.countByCis(dto));
