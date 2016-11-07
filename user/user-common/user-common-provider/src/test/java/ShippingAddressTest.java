@@ -42,7 +42,7 @@ public class ShippingAddressTest {
 
 
     @Test
-    public void addShippingAddress()throws  SerException{
+    public void addShippingAddress() throws SerException {
         ShippingAddress address = new ShippingAddress();
         address.setPhone("13457910241");
         address.setEmail("aml@qq.com");
@@ -54,12 +54,27 @@ public class ShippingAddressTest {
     }
 
     @Test
-    public void setDefaultAddress()throws  SerException{
+    public void setDefaultAddress() throws SerException {
         List<ShippingAddress> address = addressSer.findAddressByCurrentUser();
-        ShippingAddress address1 =  address.get(0);
-        addressSer.setDefaultAddress(address1);
+        if (address != null && address.size() > 0) {
+            ShippingAddress address1 = address.get(0);
+            addressSer.setDefaultAddress(address1);
+        }
     }
 
+    @Test
+    public void finAll() throws SerException {
+        List<ShippingAddress> address = addressSer.findAll();
+        ShippingAddress address1 = address.get(0);
+        System.out.println(address1);
+    }
+
+    public static void main(String[] args) {
+        String str = "User";
+        String first = String.valueOf(str.charAt(0));
+        System.out.println(str.replaceFirst(first , first.toLowerCase()));
+
+    }
 
 
 }

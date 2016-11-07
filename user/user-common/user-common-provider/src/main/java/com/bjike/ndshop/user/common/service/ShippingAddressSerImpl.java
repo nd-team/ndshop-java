@@ -8,6 +8,7 @@ import com.bjike.ndshop.dbs.jpa.service.ServiceImpl;
 import com.bjike.ndshop.user.common.dto.ShippingAddressDto;
 import com.bjike.ndshop.user.common.entity.ShippingAddress;
 import com.bjike.ndshop.user.common.entity.User;
+import com.bjike.ndshop.user.common.entity.UserDetail;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,10 +28,12 @@ public class ShippingAddressSerImpl extends ServiceImpl<ShippingAddress, Shippin
         //temp
         currentUser.setId("ae57f645-8e1d-4e46-9713-5c78299fa28a");
         ShippingAddressDto dto = new ShippingAddressDto();
-        Condition condition = new Condition("user.id", DataType.STRING,currentUser.getId());
-        condition.setRestrict(RestrictionType.EQ);
+
+        Condition condition = new Condition(User.class.getName()+"#id", DataType.STRING,currentUser.getId());
+        condition.setRestrict(RestrictionType.LIKE);
         dto.getConditions().add(condition);
-        return  findByCis(dto);
+        System.out.println(this.countByCis(dto));
+        return  this.findByCis(dto);
     }
 
     @Transactional

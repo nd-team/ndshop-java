@@ -1,5 +1,6 @@
 package com.bjike.ndshop.dbs.jpa.dao;
 
+import com.bjike.ndshop.dbs.jpa.boot.Constant;
 import com.bjike.ndshop.dbs.jpa.dto.BaseDto;
 import com.bjike.ndshop.dbs.jpa.dto.Condition;
 import com.bjike.ndshop.dbs.jpa.entity.BaseEntity;
@@ -9,6 +10,7 @@ import com.bjike.ndshop.dbs.jpa.exception.RepException;
 import com.bjike.ndshop.dbs.jpa.utils.PrimitiveUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.Criteria;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -57,6 +59,41 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
 
         List<Predicate> preList = new ArrayList<>(0); //条件列表
         List<Condition> conditions = dto.getConditions() != null ? dto.getConditions() : new ArrayList<>(0);//避免条件列表为空
+
+        try {
+            for (Condition c : conditions) {
+                String[] fields = c.getField().split("#");
+                int fields_length = fields.length;
+                if (fields_length > 1) {
+                    Class clazz = Class.forName(fields[0]);//"com.bjike.ndshop.user.common.entity.User"
+                    String[] _tempField = fields[0].split("\\.");
+                    String str = _tempField[_tempField.length - 1];
+                    String firstLetter = String.valueOf(str.charAt(0));
+                    String entityName = str.replaceFirst(firstLetter, firstLetter.toLowerCase());
+                    Join<BE, Object> join = root.join(entityName, JoinType.LEFT);
+                    if (fields_length > 2) {
+                        for (int i = 0; i < fields_length; i++) {
+                            if (i > 1 && i < fields_length) {
+                                clazz = Class.forName(fields[i - 1]);
+                                _tempField = fields[i - 1].split("\\.");
+                                str = _tempField[_tempField.length - 1];
+                                firstLetter = String.valueOf(str.charAt(0));
+                                entityName = str.replaceFirst(firstLetter, firstLetter.toLowerCase());
+                                join = join.join(entityName, JoinType.LEFT);
+                            }
+                        }
+                    }
+                    Predicate p = cb.equal(join.get(fields[fields_length - 1]).as(clazz), c.getValues()[0]);
+
+                    if (p != null) {
+                        return Arrays.asList(p);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         Boolean or_predicate = false; //标志处理 or 条件
         for (Condition model : conditions) {
