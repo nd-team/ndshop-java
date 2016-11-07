@@ -67,9 +67,8 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
 
         List<Predicate> preList = new ArrayList<>(0); //条件列表
         List<Condition> conditions = dto.getConditions() != null ? dto.getConditions() : new ArrayList<>(0);//避免条件列表为空
-
-
         Boolean or_predicate = false; //标志处理 or 条件
+
         try {
             for (Condition model : conditions) {
                 Predicate predicate = null;
@@ -114,9 +113,10 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
                             for (Condition cdis : conditions) {
                                 if (cdis.getRestrict().equals(RestrictionType.OR)) {
                                     if (existJoin) {
-                                        predicate = cb.equal(leftJoin.get(cdis.getField()).as(clazz), cdis.getValues()[0]);
+                                        fields = cdis.getField().split("#");
+                                        predicate = cb.equal(leftJoin.get(fields[fields.length]).as(clazz), cdis.getValues()[0]);
                                     } else {
-                                        predicate = cb.isNotNull(root.get(field).as(clazz));
+                                        predicate = cb.equal(root.get(cdis.getField()).as(clazz), cdis.getValues()[0]);
                                     }
                                     _predicates.add(predicate);
                                 }
@@ -152,7 +152,6 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
             exceptionHandler(e);
 
         }
-
         return preList;
     }
 

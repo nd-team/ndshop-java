@@ -22,10 +22,6 @@ public class UserSerImpl extends ServiceImpl<User, UserDto> implements IUserSer 
     @Autowired
     private IUserRep userRep;
 
-    @Override
-    public User findByUsernameAndPassword(String username, String password) {
-        return userRep.findByUsernameAndPassword(username, password);
-    }
 
     @Override
     public User findByUsername(String username) {
@@ -43,7 +39,7 @@ public class UserSerImpl extends ServiceImpl<User, UserDto> implements IUserSer 
     }
 
     @Override
-    public Boolean verifyByAccountNumber(String accountNumber) throws SerException {
+    public User findByAccountNumber(String accountNumber) throws SerException {
         UserDto dto = new UserDto();
         List<Condition> conditions = dto.getConditions();
 
@@ -58,6 +54,6 @@ public class UserSerImpl extends ServiceImpl<User, UserDto> implements IUserSer 
         coin = new Condition("email", DataType.STRING, accountNumber);
         coin.setRestrict(RestrictionType.OR);
         conditions.add(coin);
-        return findOne(dto) != null;
+        return findOne(dto);
     }
 }
