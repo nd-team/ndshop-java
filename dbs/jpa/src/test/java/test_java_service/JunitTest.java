@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import test_java_service.code.ApplicationConfiguration;
 import test_java_service.code.dto.UserDto;
 import test_java_service.code.entity.User;
+import test_java_service.code.entity.UserInfo;
 import test_java_service.code.service.IUserSer;
 
 import java.util.ArrayList;
@@ -89,6 +90,24 @@ public class JunitTest {
         List<User> users = userSer.findByCis(dto, true); //按条件查询并分页
         System.out.println(JSON.toJSONString(users));
     }
+
+    /**
+     * 连表查询属性查询
+     *   //通过用户邮箱查询用户
+     * @return
+     * @throws SerException
+     */
+    @Test
+    public void findByJoin() throws SerException {
+
+        UserDto dto = new UserDto();
+        Condition condition = new Condition("email", DataType.STRING,"xinaml@qq.com");
+        condition.setRestrict(RestrictionType.EQ);
+        condition.fieldToModels(UserInfo.class);
+        dto.getConditions().add(condition);
+        userSer.findByCis(dto);
+    }
+
 
 
     /**
