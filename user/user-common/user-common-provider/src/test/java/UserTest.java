@@ -52,7 +52,7 @@ public class UserTest {
 
     @Test
     public void verifyByAccountNumber() throws SerException {
-        System.out.println(userSer.verifyByAccountNumber("liguiqin"));
+        System.out.println(null!=userSer.findByAccountNumber("1"));
     }
 
 

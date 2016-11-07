@@ -1,23 +1,22 @@
 package com.bjike.ndshop.user.common.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.bjike.ndshop.dbs.jpa.entity.BaseEntity;
 import com.bjike.ndshop.user.common.enums.LoginType;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
  * Created by lgq on 16-11-5.
+ * 用户登陆日志
  */
 @Entity
 @Table(name = "nd_user_login_log")
 public class UserLoginLog extends BaseEntity {
-//    登录时间	登录地点	ip地址	登录方式
-    private LocalDateTime loginTime;
-    private String loginAddress;
-    private String loginIp;
-    private LoginType loginType;
+
+    private LocalDateTime loginTime;//    登录时间
+    private String loginAddress;// 登录地点
+    private String loginIp;// ip地址
+    private LoginType loginType;// 登录方式
 
 
     @ManyToOne(cascade = {CascadeType.ALL},optional = false)

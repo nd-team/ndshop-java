@@ -12,4 +12,5 @@ public interface IUserLoginSer extends IService<User,UserDto> {
     boolean verify(String token) throws SerException;
 
     String login(User user) throws SerException;
+
 }

@@ -6,13 +6,12 @@ import com.bjike.ndshop.user.common.enums.MemberType;
 import com.bjike.ndshop.user.common.enums.SexType;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Range;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 /**
  * Created by lgq on 16-10-26.
+ * 用户
  */
 @Entity
 @Table(name = "nd_user")
