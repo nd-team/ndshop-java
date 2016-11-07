@@ -21,7 +21,6 @@ include ':user:user-register:user-register-provider'
 //include ':order:order-consumer'
 //include 'order:order-provider'
 //#goods
-include ':goods:goods-default'
 include ':goods:goods-api'
 include ':goods:goods-consumer'
 include ':goods:goods-provider'
