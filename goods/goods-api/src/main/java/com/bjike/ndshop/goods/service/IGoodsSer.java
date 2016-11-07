@@ -1,8 +1,12 @@
 package com.bjike.ndshop.goods.service;
 
+import com.bjike.ndshop.dbs.jpa.exception.SerException;
 import com.bjike.ndshop.dbs.jpa.service.IService;
 import com.bjike.ndshop.goods.dto.GoodsDto;
 import com.bjike.ndshop.goods.entity.Goods;
+import com.bjike.ndshop.goods.entity.GoodsDes;
+
+import java.util.List;
 
 
 /**
@@ -12,4 +16,7 @@ public interface IGoodsSer extends IService<Goods, GoodsDto> {
     default Goods findByGoodName(String goodsName){
         return null;
     }
+
+//    void addGoodsDes(GoodsDes );
+    List<Goods> findByCategory(String firstCategory ,String secondCategory )throws SerException;
 }
