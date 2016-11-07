@@ -51,7 +51,7 @@ public class User extends BaseEntity {
     private Status status = Status.THAW;//用户状态
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
-    private UserDetail detail; //用户详情
+    private UserDetail userDetail; //用户详情
 
     public String getUsername() {
         return username;
@@ -149,12 +149,12 @@ public class User extends BaseEntity {
         this.status = status;
     }
 
-    public UserDetail getDetail() {
-        return detail;
+    public UserDetail getUserDetail() {
+        return userDetail;
     }
 
-    public void setDetail(UserDetail detail) {
-        this.detail = detail;
+    public void setUserDetail(UserDetail userDetail) {
+        this.userDetail = userDetail;
     }
 
 }

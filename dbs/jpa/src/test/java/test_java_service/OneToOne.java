@@ -1,6 +1,9 @@
 package test_java_service;
 
 import com.alibaba.fastjson.JSON;
+import com.bjike.ndshop.dbs.jpa.dto.Condition;
+import com.bjike.ndshop.dbs.jpa.enums.DataType;
+import com.bjike.ndshop.dbs.jpa.enums.RestrictionType;
 import com.bjike.ndshop.dbs.jpa.exception.SerException;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import test_java_service.code.ApplicationConfiguration;
+import test_java_service.code.dto.UserDto;
 import test_java_service.code.entity.User;
 import test_java_service.code.entity.UserInfo;
 import test_java_service.code.service.IUserSer;
@@ -27,6 +31,7 @@ public class OneToOne {
 
     @Autowired
     private IUserSer userSer;
+
 
     @Before
     public void init() throws SerException {
@@ -54,6 +59,17 @@ public class OneToOne {
         userSer.update(user);
         System.out.println(JSON.toJSONString(user));
     }
+
+    @Test
+    public void findByEmail() throws SerException {
+        UserDto dto = new UserDto();
+        Condition condition = new Condition(UserInfo.class.getName()+"#email", DataType.STRING,"xinaml@qq.com");
+        condition.setRestrict(RestrictionType.EQ);
+        dto.getConditions().add(condition);
+        System.out.println(userSer.findOne(dto));
+
+    }
+
 
 
 }
