@@ -1,9 +1,7 @@
 package com.bjike.ndshop.user.login.user;
 
 
-import com.bjike.ndshop.dbs.jpa.dto.Condition;
-import com.bjike.ndshop.dbs.jpa.enums.DataType;
-import com.bjike.ndshop.dbs.jpa.enums.RestrictionType;
+
 import com.bjike.ndshop.dbs.jpa.exception.SerException;
 import com.bjike.ndshop.user.common.dto.UserDto;
 import com.bjike.ndshop.user.common.entity.User;
@@ -11,8 +9,9 @@ import com.bjike.ndshop.user.common.service.IUserSer;
 import com.bjike.ndshop.user.login.service.IUserLoginSer;
 import com.bjike.ndshop.user.login.session.TokenUtils;
 import com.bjike.ndshop.user.login.session.UserSession;
-import com.dounine.corgi.rpc.spring.annotation.Service;
 import com.dounine.corgi.security.PasswordHash;
+import com.dounine.corgi.spring.rpc.Reference;
+import com.dounine.corgi.spring.rpc.Service;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,10 +20,10 @@ import java.util.List;
 /**
  * Created by huanghuanlai on 16/5/24.
  */
-@Service(version = "1.0.0")
+@Service
 public class UserLoginSerImpl implements IUserLoginSer {
 
-    @Autowired
+    @Reference
     private IUserSer userSer;
 
     @Override
