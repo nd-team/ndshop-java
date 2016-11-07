@@ -8,7 +8,7 @@ import com.bjike.ndshop.user.common.dao.IUserRep;
 import com.bjike.ndshop.user.common.dto.UserDto;
 import com.bjike.ndshop.user.common.entity.User;
 import com.bjike.ndshop.dbs.jpa.exception.SerException;
-import com.dounine.corgi.rpc.spring.annotation.Service;
+import com.dounine.corgi.spring.rpc.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
