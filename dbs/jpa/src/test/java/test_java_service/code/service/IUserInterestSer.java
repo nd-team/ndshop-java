@@ -1,6 +1,6 @@
 package test_java_service.code.service;
 
-import com.bjike.ndshop.dbs.jpa.service.IService;
+import org.ndshop.dbs.jpa.service.IService;
 import test_java_service.code.dto.UserInterestDto;
 import test_java_service.code.entity.UserInterest;
 

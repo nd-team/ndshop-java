@@ -1,20 +1,15 @@
 package mongo.test_java_service.code.service;
 
-import com.bjike.ndshop.dbs.mongo.dto.Condition;
-import com.bjike.ndshop.dbs.mongo.enums.DataType;
-import com.bjike.ndshop.dbs.mongo.enums.RestrictionType;
-import com.bjike.ndshop.dbs.mongo.service.ServiceImpl;
+import org.ndshop.dbs.mongo.dto.Condition;
+import org.ndshop.dbs.mongo.enums.DataType;
+import org.ndshop.dbs.mongo.enums.RestrictionType;
+import org.ndshop.dbs.mongo.service.ServiceImpl;
 import com.dounine.corgi.exception.SerException;
 import mongo.test_java_service.code.dao.IUserRep;
 import mongo.test_java_service.code.dto.UserDto;
 import mongo.test_java_service.code.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by lgq on 16-10-17.

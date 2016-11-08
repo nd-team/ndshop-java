@@ -1,8 +1,8 @@
 package test_java_entity.code.entity;
 
 
-import com.bjike.ndshop.dbs.jpa.entity.BaseEntity;
-import com.bjike.ndshop.dbs.jpa.enums.Status;
+import org.ndshop.dbs.jpa.entity.BaseEntity;
+import org.ndshop.dbs.jpa.enums.Status;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

@@ -1,7 +1,7 @@
 package test_java_service;
 
 import com.alibaba.fastjson.JSON;
-import com.bjike.ndshop.dbs.jpa.exception.SerException;
+import org.ndshop.dbs.jpa.exception.SerException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

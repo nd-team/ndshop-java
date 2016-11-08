@@ -1,6 +1,6 @@
-import com.bjike.ndshop.dbs.jpa.exception.SerException;
-import com.bjike.ndshop.user.register.dto.UserRegisterDto;
-import com.bjike.ndshop.user.register.service.IUserRegisterSer;
+import org.ndshop.dbs.jpa.exception.SerException;
+import org.ndshop.user.register.dto.UserRegisterDto;
+import org.ndshop.user.register.service.IUserRegisterSer;
 import com.dounine.corgi.spring.ApplicationContext;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +27,7 @@ public class JunitTest extends AbstractJUnit4SpringContextTests {
 
 
     @Before
-    public void initContext(){
+    public void initContext() {
         ApplicationContext.setApplicationContext(super.applicationContext);
     }
 
@@ -48,7 +48,7 @@ public class JunitTest extends AbstractJUnit4SpringContextTests {
     public void sendCodeToPhone() throws SerException {
         UserRegisterDto dto = new UserRegisterDto();
         dto.setPhone("123456");
-       userRegisterSer.sendCodeToPhone(dto);
+        userRegisterSer.sendCodeToPhone(dto);
     }
 
     @Test

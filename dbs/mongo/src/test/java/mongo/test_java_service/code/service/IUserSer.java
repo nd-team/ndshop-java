@@ -1,6 +1,6 @@
 package mongo.test_java_service.code.service;
 
-import com.bjike.ndshop.dbs.mongo.service.IService;
+import org.ndshop.dbs.mongo.service.IService;
 import com.dounine.corgi.exception.SerException;
 import mongo.test_java_service.code.dto.UserDto;
 import mongo.test_java_service.code.entity.User;
