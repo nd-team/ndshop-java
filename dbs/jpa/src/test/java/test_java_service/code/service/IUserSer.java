@@ -2,8 +2,8 @@ package test_java_service.code.service;
 
 
 
-import com.bjike.ndshop.dbs.jpa.exception.SerException;
-import com.bjike.ndshop.dbs.jpa.service.IService;
+import org.ndshop.dbs.jpa.exception.SerException;
+import org.ndshop.dbs.jpa.service.IService;
 import org.springframework.cache.annotation.Cacheable;
 import test_java_service.code.dto.UserDto;
 import test_java_service.code.entity.User;

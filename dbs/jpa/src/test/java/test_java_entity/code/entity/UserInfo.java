@@ -1,7 +1,7 @@
 package test_java_entity.code.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.bjike.ndshop.dbs.jpa.entity.BaseEntity;
+import org.ndshop.dbs.jpa.entity.BaseEntity;
 
 import javax.persistence.*;
 

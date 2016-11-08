@@ -1,9 +1,9 @@
 package mongo.test_java_service;
 
 import com.alibaba.fastjson.JSON;
-import com.bjike.ndshop.dbs.mongo.dto.Condition;
-import com.bjike.ndshop.dbs.mongo.enums.DataType;
-import com.bjike.ndshop.dbs.mongo.enums.RestrictionType;
+import org.ndshop.dbs.mongo.dto.Condition;
+import org.ndshop.dbs.mongo.enums.DataType;
+import org.ndshop.dbs.mongo.enums.RestrictionType;
 import com.dounine.corgi.exception.SerException;
 import mongo.test_java_service.code.ApplicationConfiguration;
 import mongo.test_java_service.code.dto.UserDto;

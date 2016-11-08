@@ -1,6 +1,6 @@
 package test_java_service.code.service;
 
-import com.bjike.ndshop.dbs.jpa.service.ServiceImpl;
+import org.ndshop.dbs.jpa.service.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import test_java_service.code.dao.IUserGroupRep;

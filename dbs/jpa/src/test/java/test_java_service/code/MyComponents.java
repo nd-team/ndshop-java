@@ -1,6 +1,6 @@
 package test_java_service.code;
 
-import com.bjike.ndshop.dbs.jpa.boot.initializer.Components;
+import org.ndshop.dbs.jpa.boot.initializer.Components;
 import org.springframework.cache.Cache;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.stereotype.Component;

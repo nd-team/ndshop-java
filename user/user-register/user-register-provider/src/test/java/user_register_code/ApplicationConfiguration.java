@@ -9,11 +9,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@EnableJpaRepositories(basePackages = {"com.bjike.ndshop.user.common.dao"})
+@EnableJpaRepositories(basePackages = {"org.ndshop.user.common.dao"})
 @EnableTransactionManagement(proxyTargetClass = true)
 @EnableCaching
 @PropertySource({"classpath:config.properties","classpath:corgi.properties"})
-@ComponentScan(basePackages = {"user_register_code","com.bjike.ndshop.user.common","com.bjike.ndshop.user.register"},
+@ComponentScan(basePackages = {"user_register_code","org.ndshop.user.common","org.ndshop.user.register"},
         excludeFilters = {@ComponentScan.Filter(
                 type = FilterType.ANNOTATION,
                 value = {Configuration.class})})

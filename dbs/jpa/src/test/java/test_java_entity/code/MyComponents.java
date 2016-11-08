@@ -1,6 +1,6 @@
 package test_java_entity.code;
 
-import com.bjike.ndshop.dbs.jpa.boot.initializer.Components;
+import org.ndshop.dbs.jpa.boot.initializer.Components;
 import org.springframework.stereotype.Component;
 
 /**

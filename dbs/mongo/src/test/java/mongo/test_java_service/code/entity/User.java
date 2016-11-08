@@ -1,9 +1,8 @@
 package mongo.test_java_service.code.entity;
 
-import com.bjike.ndshop.dbs.mongo.entity.BaseEntity;
+import org.ndshop.dbs.mongo.entity.BaseEntity;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
