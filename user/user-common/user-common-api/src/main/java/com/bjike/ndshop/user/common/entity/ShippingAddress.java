@@ -1,6 +1,5 @@
 package com.bjike.ndshop.user.common.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.bjike.ndshop.dbs.jpa.entity.BaseEntity;
 import com.bjike.ndshop.dbs.jpa.enums.Status;
 import org.hibernate.validator.constraints.Email;
@@ -20,6 +19,7 @@ public class ShippingAddress extends BaseEntity {
     @JoinColumn(name = "user_id",nullable = false)
     private User user;//所属用户
 
+    private String aliases ;  // 地址别名
     @Column(nullable = false)
     private String area; //地区
     @Column(nullable = false)
@@ -43,6 +43,14 @@ public class ShippingAddress extends BaseEntity {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getAliases() {
+        return aliases;
+    }
+
+    public void setAliases(String aliases) {
+        this.aliases = aliases;
     }
 
     public String getArea() {

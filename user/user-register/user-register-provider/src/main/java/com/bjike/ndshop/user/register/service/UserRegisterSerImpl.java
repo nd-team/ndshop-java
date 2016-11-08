@@ -5,12 +5,10 @@ import com.bjike.ndshop.user.common.entity.User;
 import com.bjike.ndshop.user.common.service.IUserSer;
 import com.bjike.ndshop.user.common.utils.Validator;
 import com.bjike.ndshop.user.register.dto.UserRegisterDto;
-import com.dounine.corgi.rpc.spring.annotation.Autowired;
-import com.dounine.corgi.rpc.spring.annotation.Service;
 import com.dounine.corgi.security.PasswordHash;
-
+import com.dounine.corgi.spring.rpc.Reference;
+import com.dounine.corgi.spring.rpc.Service;
 import java.time.LocalDateTime;
-import java.util.regex.Pattern;
 
 /**
  * Created by lgq on 16-10-31.
@@ -18,7 +16,7 @@ import java.util.regex.Pattern;
 @Service
 public class UserRegisterSerImpl  implements IUserRegisterSer {
 
-    @Autowired
+    @Reference
     private IUserSer userSer;
 
     @Override

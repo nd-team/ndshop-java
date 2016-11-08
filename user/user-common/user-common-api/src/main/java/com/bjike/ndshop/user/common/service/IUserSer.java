@@ -10,9 +10,6 @@ import com.bjike.ndshop.dbs.jpa.exception.SerException;
  */
 public interface IUserSer extends IService<User, UserDto> {
 
-    default User findByUsernameAndPassword(String username,String password)throws SerException{
-        return null;
-    }
 
     default User findByUsername(String username)throws SerException{
         return null;
@@ -33,7 +30,7 @@ public interface IUserSer extends IService<User, UserDto> {
      * @return
      * @throws SerException
      */
-    default Boolean verifyByAccountNumber(String accountNumber)throws SerException {
+    default User findByAccountNumber(String accountNumber)throws SerException {
         return null;
     }
 
