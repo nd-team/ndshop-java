@@ -1,7 +1,6 @@
 package org.ndshop.user.common;
 
 import com.dounine.corgi.commons.ResponseText;
-import com.dounine.corgi.rpc.spring.annotation.Reference;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 

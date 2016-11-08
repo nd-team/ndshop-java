@@ -1,6 +1,6 @@
 package org.ndshop.goods.dao;
 
-import com.bjike.ndshop.dbs.jpa.dao.MyRep;
+import org.ndshop.dbs.jpa.dao.MyRep;
 import org.ndshop.goods.dto.ShopsDto;
 import org.ndshop.goods.entity.Shops;
 

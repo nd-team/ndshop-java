@@ -1,6 +1,6 @@
 package org.ndshop.goods.service;
 
-import com.bjike.ndshop.dbs.jpa.service.IService;
+import org.ndshop.dbs.jpa.service.IService;
 import org.ndshop.goods.dto.ShopsDto;
 import org.ndshop.goods.entity.Shops;
 

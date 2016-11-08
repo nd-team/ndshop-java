@@ -2,8 +2,8 @@ package org.ndshop.goods.entity;
 
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.bjike.ndshop.dbs.jpa.entity.BaseEntity;
-import com.bjike.ndshop.user.common.entity.User;
+import org.ndshop.dbs.jpa.entity.BaseEntity;
+import org.ndshop.user.common.entity.User;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.time.LocalDateTime;

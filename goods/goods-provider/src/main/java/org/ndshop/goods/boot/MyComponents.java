@@ -1,7 +1,7 @@
 package org.ndshop.goods.boot;
 
-import com.bjike.ndshop.dbs.jpa.boot.initializer.Components;
-import com.bjike.ndshop.user.common.entity.User;
+import org.ndshop.dbs.jpa.boot.initializer.Components;
+import org.ndshop.user.common.entity.User;
 import org.springframework.cache.Cache;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ public class MyComponents extends Components {
 
     @Override
     public String[] scanPackages() {
-        return new String[]{"org.ndshop.goods","com.bjike.ndshop.user"};
+        return new String[]{"org.ndshop.goods","org.ndshop.user"};
     }
 
     public static void main(String[] args) {

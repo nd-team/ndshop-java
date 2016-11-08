@@ -1,6 +1,6 @@
 package org.ndshop.goods.service;
 
-import com.bjike.ndshop.dbs.jpa.service.ServiceImpl;
+import org.ndshop.dbs.jpa.service.ServiceImpl;
 import org.ndshop.goods.dto.ShopsDto;
 import org.ndshop.goods.entity.Shops;
 import org.springframework.stereotype.Service;

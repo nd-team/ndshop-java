@@ -1,6 +1,6 @@
 package org.ndshop.goods.entity;
 
-import com.bjike.ndshop.dbs.jpa.entity.BaseEntity;
+import org.ndshop.dbs.jpa.entity.BaseEntity;
 
 import javax.persistence.*;
 
