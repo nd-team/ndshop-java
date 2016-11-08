@@ -1,9 +1,13 @@
-import org.ndshop.dbs.jpa.exception.SerException;
-import org.ndshop.user.common.entity.ShippingAddress;
-import org.ndshop.user.common.entity.User;
-import org.ndshop.user.common.enums.SexType;
-import org.ndshop.user.common.service.IShippingAddressSer;
-import org.ndshop.user.common.service.IUserSer;
+import com.bjike.ndshop.dbs.jpa.dto.Condition;
+import com.bjike.ndshop.dbs.jpa.enums.DataType;
+import com.bjike.ndshop.dbs.jpa.enums.RestrictionType;
+import com.bjike.ndshop.dbs.jpa.exception.SerException;
+import com.bjike.ndshop.user.common.dto.ShippingAddressDto;
+import com.bjike.ndshop.user.common.entity.ShippingAddress;
+import com.bjike.ndshop.user.common.entity.User;
+import com.bjike.ndshop.user.common.enums.SexType;
+import com.bjike.ndshop.user.common.service.IShippingAddressSer;
+import com.bjike.ndshop.user.common.service.IUserSer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -60,6 +64,7 @@ public class ShippingAddressTest {
             ShippingAddress address1 = address.get(0);
             addressSer.setDefaultAddress(address1);
         }
+
     }
 
     @Test

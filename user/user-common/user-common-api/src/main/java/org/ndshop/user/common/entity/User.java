@@ -7,7 +7,6 @@ import org.ndshop.user.common.enums.SexType;
 import org.ndshop.user.common.enums.UserType;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Range;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
