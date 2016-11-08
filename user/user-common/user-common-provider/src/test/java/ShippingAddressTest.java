@@ -65,20 +65,6 @@ public class ShippingAddressTest {
             addressSer.setDefaultAddress(address1);
         }
 
-        /*//获取当前用户
-        User currentUser = new User();
-        //temp
-        currentUser.setId("ddf6e579-8091-46fc-910e-9cceb9aec659");
-        ShippingAddressDto dto = new ShippingAddressDto();
-
-        Condition condition = new Condition(User.class.getName()+"#id", DataType.STRING,currentUser.getId());
-        condition.setRestrict(RestrictionType.LIKE);
-        dto.getConditions().add(condition);
-        System.out.println(addressSer.countByCis(dto));
-        List<ShippingAddress> address = addressSer.findByCis(dto);
-        System.out.println( address);
-*/
-
     }
 
     @Test
