@@ -25,4 +25,9 @@ include ':goods:goods-api'
 include ':goods:goods-consumer'
 include ':goods:goods-provider'
 
+//#messages
+include ':message:message-api'
+include ':message:message-consumer'
+include ':message:message-provider'
+
 
