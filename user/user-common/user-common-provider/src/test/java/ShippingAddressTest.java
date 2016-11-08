@@ -1,9 +1,9 @@
-import com.bjike.ndshop.dbs.jpa.exception.SerException;
-import com.bjike.ndshop.user.common.entity.ShippingAddress;
-import com.bjike.ndshop.user.common.entity.User;
-import com.bjike.ndshop.user.common.enums.SexType;
-import com.bjike.ndshop.user.common.service.IShippingAddressSer;
-import com.bjike.ndshop.user.common.service.IUserSer;
+import org.ndshop.dbs.jpa.exception.SerException;
+import org.ndshop.user.common.entity.ShippingAddress;
+import org.ndshop.user.common.entity.User;
+import org.ndshop.user.common.enums.SexType;
+import org.ndshop.user.common.service.IShippingAddressSer;
+import org.ndshop.user.common.service.IUserSer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,6 +1,6 @@
 package test_java_service;
 
-import com.bjike.ndshop.dbs.jpa.exception.SerException;
+import org.ndshop.dbs.jpa.exception.SerException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

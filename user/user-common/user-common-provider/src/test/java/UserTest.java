@@ -1,9 +1,9 @@
-import com.bjike.ndshop.user.common.enums.SexType;
+import org.ndshop.user.common.enums.SexType;
 import org.junit.Before;
 import user_common_code.ApplicationConfiguration;
-import com.bjike.ndshop.dbs.jpa.exception.SerException;
-import com.bjike.ndshop.user.common.entity.User;
-import com.bjike.ndshop.user.common.service.IUserSer;
+import org.ndshop.dbs.jpa.exception.SerException;
+import org.ndshop.user.common.entity.User;
+import org.ndshop.user.common.service.IUserSer;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,10 +50,17 @@ public class UserTest {
         }
     }
 
+    /**
+     * 通过用户姓名邮件手机号查找用户
+     * @throws SerException
+     */
     @Test
     public void verifyByAccountNumber() throws SerException {
         System.out.println(null!=userSer.findByAccountNumber("1"));
+
     }
+
+
 
 
 }

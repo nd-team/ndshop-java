@@ -1,7 +1,7 @@
 package test_java_service.code.dao;
 
 
-import com.bjike.ndshop.dbs.jpa.dao.MyRep;
+import org.ndshop.dbs.jpa.dao.MyRep;
 import test_java_service.code.dto.UserInterestDto;
 import test_java_service.code.entity.UserInterest;
 
