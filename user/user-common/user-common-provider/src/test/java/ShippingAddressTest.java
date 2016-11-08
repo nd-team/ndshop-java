@@ -1,4 +1,8 @@
+import com.bjike.ndshop.dbs.jpa.dto.Condition;
+import com.bjike.ndshop.dbs.jpa.enums.DataType;
+import com.bjike.ndshop.dbs.jpa.enums.RestrictionType;
 import com.bjike.ndshop.dbs.jpa.exception.SerException;
+import com.bjike.ndshop.user.common.dto.ShippingAddressDto;
 import com.bjike.ndshop.user.common.entity.ShippingAddress;
 import com.bjike.ndshop.user.common.entity.User;
 import com.bjike.ndshop.user.common.enums.SexType;
@@ -60,6 +64,21 @@ public class ShippingAddressTest {
             ShippingAddress address1 = address.get(0);
             addressSer.setDefaultAddress(address1);
         }
+
+        /*//获取当前用户
+        User currentUser = new User();
+        //temp
+        currentUser.setId("ddf6e579-8091-46fc-910e-9cceb9aec659");
+        ShippingAddressDto dto = new ShippingAddressDto();
+
+        Condition condition = new Condition(User.class.getName()+"#id", DataType.STRING,currentUser.getId());
+        condition.setRestrict(RestrictionType.LIKE);
+        dto.getConditions().add(condition);
+        System.out.println(addressSer.countByCis(dto));
+        List<ShippingAddress> address = addressSer.findByCis(dto);
+        System.out.println( address);
+*/
+
     }
 
     @Test

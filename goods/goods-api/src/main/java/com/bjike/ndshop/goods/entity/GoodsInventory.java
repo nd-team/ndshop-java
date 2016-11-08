@@ -1,5 +1,7 @@
 package com.bjike.ndshop.goods.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.bjike.ndshop.dbs.jpa.entity.BaseEntity;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -8,18 +10,18 @@ import java.time.LocalDateTime;
 /**
  * Created by ike on 16-11-5.
  */
-public class GoodsInventory {
+@Entity
+@Table(name = "nd_goods_inventory")
+public class GoodsInventory extends BaseEntity{
     //店铺ｉｄ＇商品ｉｄ＇数量＇出售数量＇修改时间＇创建时间
 
     private Long quanty;//现存数量
     private Long hasSaleQuanty;//已卖出数量
 
-    @OneToOne(optional = true, cascade = CascadeType.ALL, mappedBy = "Goods")
-    private Goods goodsId;
-
-    @ManyToOne(cascade = {CascadeType.ALL},optional = false)
-    @JoinColumn(name = "shops_id", nullable = true)
-    private Shops shopsId;
+    @OneToOne(optional = false, cascade = CascadeType.REFRESH)
+    @JoinColumn(name="goods_id")
+    @JSONField(serialize = false)
+    private Goods goods;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
     @Column(columnDefinition="dateTime") //指定数据库类型
@@ -45,21 +47,6 @@ public class GoodsInventory {
         this.hasSaleQuanty = hasSaleQuanty;
     }
 
-    public Goods getGoodsId() {
-        return goodsId;
-    }
-
-    public void setGoodsId(Goods goodsId) {
-        this.goodsId = goodsId;
-    }
-
-    public Shops getShopsId() {
-        return shopsId;
-    }
-
-    public void setShopsId(Shops shopsId) {
-        this.shopsId = shopsId;
-    }
 
     public LocalDateTime getCreateTime() {
         return createTime;

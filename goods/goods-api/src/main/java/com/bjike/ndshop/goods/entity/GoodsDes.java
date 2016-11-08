@@ -1,5 +1,7 @@
 package com.bjike.ndshop.goods.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.bjike.ndshop.dbs.jpa.entity.BaseEntity;
 import com.bjike.ndshop.goods.enums.SaleStatus;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -9,16 +11,18 @@ import java.time.LocalDateTime;
 /**
  * Created by ike on 16-11-5.
  */
-public class GoodsDes {
-    //商品ｉｄ＇描述＇上下架＇店铺信息＇修改时间＇创建时间
-    @OneToOne(optional = true, cascade = CascadeType.ALL, mappedBy = "Goods")
-    private Goods goodsId;
+@Entity
+@Table(name = "nd_goods_description")
+public class GoodsDes extends BaseEntity {
+    //＇描述＇上下架＇店铺信息＇修改时间＇创建时间
+
     private String description;
     private SaleStatus saleStatus;
 
-    @ManyToOne(cascade = {CascadeType.ALL},optional = false)
-    @JoinColumn(name = "shops_id", nullable = true)
-    private Shops shopId;
+    @OneToOne(optional = false, cascade = CascadeType.REFRESH)
+    @JoinColumn(name="goods_id")
+    @JSONField(serialize = false)
+    private Goods goods;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
     @Column(columnDefinition="dateTime") //指定数据库类型
@@ -27,14 +31,6 @@ public class GoodsDes {
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
     @Column(columnDefinition="dateTime") //指定数据库类型
     private LocalDateTime modifyTime = LocalDateTime.now();//修改时间
-
-    public Goods getGoodsId() {
-        return goodsId;
-    }
-
-    public void setGoodsId(Goods goodsId) {
-        this.goodsId = goodsId;
-    }
 
     public String getDescription() {
         return description;
@@ -50,14 +46,6 @@ public class GoodsDes {
 
     public void setSaleStatus(SaleStatus saleStatus) {
         this.saleStatus = saleStatus;
-    }
-
-    public Shops getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(Shops shopId) {
-        this.shopId = shopId;
     }
 
     public LocalDateTime getCreateTime() {

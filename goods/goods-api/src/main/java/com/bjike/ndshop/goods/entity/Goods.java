@@ -4,10 +4,9 @@ import com.bjike.ndshop.dbs.jpa.entity.BaseEntity;
 import com.bjike.ndshop.goods.enums.GoodsCategory;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 /**
  * Created by ike on 16-11-4.
@@ -17,7 +16,7 @@ import java.time.LocalDateTime;
 public class Goods extends BaseEntity{
     @Column(nullable = true)
     private String goodsName ;//名
-    @Column(name = "money", nullable = true, precision = 12, scale = 2)//12位数字可保留两位小数，可以为空
+    @Column( nullable = true, precision = 12, scale = 2)//12位数字可保留两位小数，可以为空
     private Double price ;//价格
     private Double goodsLength;//长
     private Double goodsWidth;//宽
@@ -27,6 +26,15 @@ public class Goods extends BaseEntity{
 
     private String firstCategory; //一级分类
     private String secondCategory; //二级分类
+
+    @OneToOne(optional = true ,cascade = CascadeType.ALL, mappedBy = "goods")
+    private GoodsDes goodsDes;
+
+    @OneToOne( cascade = CascadeType.ALL, mappedBy = "goods")
+    private GoodsInventory goodsInventory;
+
+    @OneToMany(mappedBy = "goods", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    private Set<GoodsShops> GoodsShops;
     
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
     @Column(columnDefinition="dateTime") //指定数据库类型
@@ -122,5 +130,29 @@ public class Goods extends BaseEntity{
 
     public void setModifyTime(LocalDateTime modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public GoodsDes getGoodsDes() {
+        return goodsDes;
+    }
+
+    public void setGoodsDes(GoodsDes goodsDes) {
+        this.goodsDes = goodsDes;
+    }
+
+    public GoodsInventory getGoodsInventory() {
+        return goodsInventory;
+    }
+
+    public void setGoodsInventory(GoodsInventory goodsInventory) {
+        this.goodsInventory = goodsInventory;
+    }
+
+    public Set<com.bjike.ndshop.goods.entity.GoodsShops> getGoodsShops() {
+        return GoodsShops;
+    }
+
+    public void setGoodsShops(Set<com.bjike.ndshop.goods.entity.GoodsShops> goodsShops) {
+        GoodsShops = goodsShops;
     }
 }
