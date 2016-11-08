@@ -1,7 +1,7 @@
 package org.ndshop.goods.service;
 
-import com.bjike.ndshop.dbs.jpa.exception.SerException;
-import com.bjike.ndshop.dbs.jpa.service.IService;
+import org.ndshop.dbs.jpa.exception.SerException;
+import org.ndshop.dbs.jpa.service.IService;
 import org.ndshop.goods.dto.GoodsDto;
 import org.ndshop.goods.entity.Goods;
 

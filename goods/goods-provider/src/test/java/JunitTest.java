@@ -1,14 +1,14 @@
 
 import com.alibaba.fastjson.JSON;
-import com.bjike.ndshop.dbs.jpa.exception.SerException;
+import org.ndshop.dbs.jpa.exception.SerException;
 import org.junit.Before;
 import org.ndshop.goods.entity.*;
 import org.ndshop.goods.enums.GoodsCategory;
 import org.ndshop.goods.enums.GoodsElectricType;
 import org.ndshop.goods.service.IGoodsSer;
 import org.ndshop.goods.service.IShopsSer;
-import com.bjike.ndshop.user.common.entity.User;
-import com.bjike.ndshop.user.common.service.IUserSer;
+import org.ndshop.user.common.entity.User;
+import org.ndshop.user.common.service.IUserSer;
 import com.dounine.corgi.spring.rpc.Reference;
 import goods.provider.test.ApplicationConfiguration;
 import org.junit.Test;
