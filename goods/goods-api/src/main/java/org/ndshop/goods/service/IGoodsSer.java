@@ -4,6 +4,7 @@ import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.IService;
 import org.ndshop.goods.dto.GoodsDto;
 import org.ndshop.goods.entity.Goods;
+import org.ndshop.goods.entity.GoodsDes;
 
 import java.util.List;
 
@@ -16,6 +17,9 @@ public interface IGoodsSer extends IService<Goods, GoodsDto> {
         return null;
     }
 
-//    default  void addGoodsDes(GoodsDes ){}
+    default  void addGoods(Goods goods)throws SerException{}
+
     default List<Goods> findByCategory(String firstCategory ,String secondCategory )throws SerException{ return null;}
+
+
 }

@@ -1,5 +1,6 @@
 package org.ndshop.user.common.service;
 
+import com.dounine.corgi.spring.rpc.Service;
 import org.ndshop.dbs.jpa.dto.Condition;
 import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.enums.RestrictionType;
@@ -8,7 +9,6 @@ import org.ndshop.dbs.jpa.service.ServiceImpl;
 import org.ndshop.user.common.dto.ShippingAddressDto;
 import org.ndshop.user.common.entity.ShippingAddress;
 import org.ndshop.user.common.entity.User;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
