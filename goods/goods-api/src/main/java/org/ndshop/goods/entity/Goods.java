@@ -13,7 +13,7 @@ import java.util.Set;
 @Entity
 @Table(name = "nd_goods")
 public class Goods extends BaseEntity{
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String goodsName ;//名
     @Column( nullable = true, precision = 12, scale = 2)//12位数字可保留两位小数，可以为空
     private Double price ;//价格
@@ -23,7 +23,9 @@ public class Goods extends BaseEntity{
     private Double goodsWeight;//重量
     private String goodsColor;//颜色
 
+    @Column(nullable = false)
     private String firstCategory; //一级分类
+    @Column(nullable = false)
     private String secondCategory; //二级分类
 
     @OneToOne(optional = true ,cascade = CascadeType.ALL, mappedBy = "goods")

@@ -1,28 +1,25 @@
 package org.ndshop.goods.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import org.ndshop.dbs.jpa.entity.BaseEntity;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 /**
- * Created by ike on 16-11-5.
+ * Created by ike on 16-11-9.
  */
 @Entity
-@Table(name = "nd_goods_inventory")
-public class GoodsInventory extends BaseEntity{
-    //店铺ｉｄ＇商品ｉｄ＇数量＇出售数量＇修改时间＇创建时间
+@Table(name = "nd_goods_category")
+public class GoodsCategory extends BaseEntity{
+    @Column(nullable = false )
+    private String name ; //一级分类
 
-    @Column(nullable = false)
-    private Long quanty;//现存数量
-    private Long hasSaleQuanty;//已卖出数量
+    @Column(nullable = false , unique = true)
+    private String secondName ;//二级分类
 
-    @OneToOne(optional = false, cascade = CascadeType.REFRESH)
-    @JoinColumn(name="goods_id")
-    @JSONField(serialize = false)
-    private Goods goods;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
     @Column(columnDefinition="dateTime") //指定数据库类型
@@ -32,22 +29,21 @@ public class GoodsInventory extends BaseEntity{
     @Column(columnDefinition="dateTime") //指定数据库类型
     private LocalDateTime modifyTime = LocalDateTime.now();//修改时间
 
-    public Long getQuanty() {
-        return quanty;
+    public String getName() {
+        return name;
     }
 
-    public void setQuanty(Long quanty) {
-        this.quanty = quanty;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Long getHasSaleQuanty() {
-        return hasSaleQuanty;
+    public String getSecondName() {
+        return secondName;
     }
 
-    public void setHasSaleQuanty(Long hasSaleQuanty) {
-        this.hasSaleQuanty = hasSaleQuanty;
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
     }
-
 
     public LocalDateTime getCreateTime() {
         return createTime;
@@ -63,13 +59,5 @@ public class GoodsInventory extends BaseEntity{
 
     public void setModifyTime(LocalDateTime modifyTime) {
         this.modifyTime = modifyTime;
-    }
-
-    public Goods getGoods() {
-        return goods;
-    }
-
-    public void setGoods(Goods goods) {
-        this.goods = goods;
     }
 }

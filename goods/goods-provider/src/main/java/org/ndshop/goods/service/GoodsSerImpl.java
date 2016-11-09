@@ -7,12 +7,7 @@ import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.ServiceImpl;
 import org.ndshop.goods.dao.IGoodsRep;
 import org.ndshop.goods.dto.GoodsDto;
-import org.ndshop.goods.entity.Goods;
-import org.ndshop.goods.entity.GoodsDes;
-import org.ndshop.goods.entity.GoodsInventory;
-import org.ndshop.goods.entity.GoodsShops;
-import org.ndshop.goods.enums.GoodsCategory;
-import org.ndshop.goods.enums.GoodsElectricType;
+import org.ndshop.goods.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,16 +30,7 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
     }
 
     @Override
-    public void addGoods(Goods goods) throws SerException{
-        goods.setGoodsName( goods.getGoodsName() );
-        goods.setPrice(2000.0);
-        goods.setGoodsLength(3.4);
-        goods.setGoodsWidth(1.5);
-        goods.setGoodsHeight(5.6);
-        goods.setGoodsWeight(0.8);
-        goods.setFirstCategory(GoodsCategory.ELECTRC.toString() );
-        goods.setSecondCategory(GoodsElectricType.BIGELECTRIC.toString());
-
+    public void addGoods(Goods goods ,String shopId) throws SerException{
         GoodsDes goodsDes = new GoodsDes();
         goodsDes.setGoods(goods);
         goods.setGoodsDes(goodsDes);
@@ -55,6 +41,9 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
 
         GoodsShops goodsShops = new GoodsShops();
         goodsShops.setGoods(goods);
+        Shops shops = new Shops();
+        shops.setId( shopId );
+        goodsShops.setShops( shops );
         Set<GoodsShops> gs = new HashSet<>();
         gs.add(goodsShops);
         goods.setGoodsShops(gs);
