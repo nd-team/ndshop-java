@@ -3,7 +3,7 @@ package org.ndshop.goods.enums;
 /**
  * Created by ike on 16-11-5.
  */
-public enum GoodsCategory {
+public enum GoodsType {
     ELECTRC(0)//家用电器
     , CLOTHES(1)//服饰鞋包
     , BEAUTY(2)//个护美妆
@@ -14,7 +14,7 @@ public enum GoodsCategory {
 
     private int code;
 
-    GoodsCategory(int code) {
+    GoodsType(int code) {
         this.code = code;
     }
 

@@ -13,7 +13,7 @@ import java.util.Set;
 @Entity
 @Table(name = "nd_goods")
 public class Goods extends BaseEntity{
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String goodsName ;//名
     @Column( nullable = true, precision = 12, scale = 2)//12位数字可保留两位小数，可以为空
     private Double price ;//价格
@@ -23,8 +23,9 @@ public class Goods extends BaseEntity{
     private Double goodsWeight;//重量
     private String goodsColor;//颜色
 
-    private String firstCategory; //一级分类
-    private String secondCategory; //二级分类
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "goodsCategory_id")
+    private GoodsCategory goodsCategory;
 
     @OneToOne(optional = true ,cascade = CascadeType.ALL, mappedBy = "goods")
     private GoodsDes goodsDes;
@@ -99,22 +100,6 @@ public class Goods extends BaseEntity{
         this.goodsColor = goodsColor;
     }
 
-    public String getFirstCategory() {
-        return firstCategory;
-    }
-
-    public void setFirstCategory(String firstCategory) {
-        this.firstCategory = firstCategory;
-    }
-
-    public String getSecondCategory() {
-        return secondCategory;
-    }
-
-    public void setSecondCategory(String secondCategory) {
-        this.secondCategory = secondCategory;
-    }
-
     public LocalDateTime getCreateTime() {
         return createTime;
     }
@@ -129,6 +114,14 @@ public class Goods extends BaseEntity{
 
     public void setModifyTime(LocalDateTime modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public GoodsCategory getGoodsCategory() {
+        return goodsCategory;
+    }
+
+    public void setGoodsCategory(GoodsCategory goodsCategory) {
+        this.goodsCategory = goodsCategory;
     }
 
     public GoodsDes getGoodsDes() {
