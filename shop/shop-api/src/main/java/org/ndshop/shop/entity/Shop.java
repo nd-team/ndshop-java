@@ -1,0 +1,131 @@
+package org.ndshop.shop.entity;
+
+import org.ndshop.dbs.jpa.entity.BaseEntity;
+import org.ndshop.shop.enums.ShopStatus;
+import org.ndshop.user.common.entity.User;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Set;
+
+/**
+ * Created by ike on 16-11-10.
+ */
+@Entity
+@Table(name="nd_shop")
+public class Shop extends BaseEntity {
+
+    @Column(nullable = false,unique = true)
+    private String shopName;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="user_id")
+    private User owner;
+    //店铺拥有者
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
+    @Column(columnDefinition="dateTime") //指定数据库类型
+    private LocalDateTime createTime;
+    //店铺创建时间
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
+    @Column(columnDefinition="dateTime") //指定数据库类型
+    private LocalDateTime lastModiTime;
+    //最后修改时间
+
+    @Column(name="status",columnDefinition = "int")
+    private ShopStatus status;
+    //店铺状态
+
+    @Column(columnDefinition = "varchar(600)",nullable = false)
+    private String intro;
+    //店铺介绍（介绍文字）
+
+    @Column(columnDefinition = "varchar(100)",nullable = false)
+    private String shortIntro;
+    //店铺介绍摘要
+
+    private String shopImg;
+    //店铺图片
+
+    @Column(nullable = false)
+    private Set<Categroy> category;
+    //店内分类
+
+
+    public Shop() {
+    }
+
+    public String getShopName() {
+        return shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public LocalDateTime getLastModiTime() {
+        return lastModiTime;
+    }
+
+    public void setLastModiTime(LocalDateTime lastModiTime) {
+        this.lastModiTime = lastModiTime;
+    }
+
+    public ShopStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ShopStatus status) {
+        this.status = status;
+    }
+
+    public String getIntro() {
+        return intro;
+    }
+
+    public void setIntro(String intro) {
+        this.intro = intro;
+    }
+
+    public String getShortIntro() {
+        return shortIntro;
+    }
+
+    public void setShortIntro(String shortIntro) {
+        this.shortIntro = shortIntro;
+    }
+
+    public String getShopImg() {
+        return shopImg;
+    }
+
+    public void setShopImg(String shopImg) {
+        this.shopImg = shopImg;
+    }
+
+    public Set<Categroy> getCategory() {
+        return category;
+    }
+
+    public void setCategory(Set<Categroy> category) {
+        this.category = category;
+    }
+}
