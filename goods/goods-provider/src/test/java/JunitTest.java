@@ -216,6 +216,31 @@ public class JunitTest {
     }
 
 
+    @Test
+    public void deleteCategory() throws SerException{
+        String cateoryId ="0dc5aeaa-6cc1-4a01-b0c5-96cf62115653";
+        GoodsCategory goodsCategory = goodsCategorySer.findById( cateoryId );
+        if( goodsCategory != null ){
+            goodsCategorySer.remove( cateoryId );
+        }else{
+            logger.info(JSON.toJSONString(goodsCategory) );
+        }
+
+    }
+
+    @Test
+    public void findCategoryByFirstCategory () throws  SerException{
+        String name = "ELECTRC";
+        Condition condition = new Condition("name",DataType.STRING ,name);
+        GoodsCategoryDto dto = new GoodsCategoryDto();
+        dto.getConditions().add( condition );
+        dto.setLimit(2);
+        dto.setPage(1);
+        List<GoodsCategory> goodCategory = goodsCategorySer.findByCis( dto,true );
+        logger.info(JSON.toJSONString(goodCategory) );
+    }
+
+
 //    @Test
 //    public void addforShop() throws  SerException{
 //        User user = userSer.findByUsername("liguiqin");

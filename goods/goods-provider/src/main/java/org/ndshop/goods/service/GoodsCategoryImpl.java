@@ -109,4 +109,29 @@ public class GoodsCategoryImpl extends ServiceImpl<GoodsCategory , GoodsCategory
             logger.info( JSON.toJSONString( goodsCategory ) );
         }
     }
+
+    @Transactional
+    @Override
+    public void deleteCategory( GoodsCategory goodsCategory ) throws SerException{
+        String cateoryId =goodsCategory.getId();
+        goodsCategory = findById( cateoryId );
+        if( goodsCategory != null ){
+            remove( cateoryId );
+        }else{
+            logger.info(JSON.toJSONString(goodsCategory));
+        }
+
+    }
+
+    @Transactional
+    @Override
+    public void findCategoryByFirstCategory (String firstCategoryName ) throws  SerException{
+        Condition condition = new Condition("name",DataType.STRING ,firstCategoryName);
+        GoodsCategoryDto dto = new GoodsCategoryDto();
+        dto.getConditions().add( condition );
+        dto.setLimit(2);
+        dto.setPage(1);
+        List<GoodsCategory> goodCategory = findByCis( dto,true );
+        logger.info(JSON.toJSONString(goodCategory) );
+    }
 }

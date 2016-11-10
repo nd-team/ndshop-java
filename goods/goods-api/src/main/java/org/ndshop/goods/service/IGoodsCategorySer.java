@@ -20,4 +20,8 @@ public interface IGoodsCategorySer extends IService<GoodsCategory, GoodsCategory
     void addCategory ( GoodsCategory goodsCategory) throws SerException;
 
     void updateCategory( GoodsCategory goodsCategory ) throws SerException;
+
+    void deleteCategory( GoodsCategory goodsCategory ) throws SerException;
+
+    void findCategoryByFirstCategory (String firstCategoryName ) throws  SerException;
 }
