@@ -3,15 +3,18 @@ package org.ndshop.goods.service;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.logging.impl.Log4JLogger;
 import org.apache.log4j.Logger;
+import org.hibernate.annotations.Cache;
 import org.ndshop.dbs.jpa.dto.Condition;
 import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.ServiceImpl;
 import org.ndshop.goods.dto.GoodsCategoryDto;
 import org.ndshop.goods.entity.GoodsCategory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.print.attribute.standard.MediaSize;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -123,7 +126,7 @@ public class GoodsCategoryImpl extends ServiceImpl<GoodsCategory , GoodsCategory
 
     }
 
-    @Transactional
+    @Cacheable("serviceCache")
     @Override
     public void findCategoryByFirstCategory (String firstCategoryName ) throws  SerException{
         Condition condition = new Condition("name",DataType.STRING ,firstCategoryName);

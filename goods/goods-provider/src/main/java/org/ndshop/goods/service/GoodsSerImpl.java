@@ -9,7 +9,9 @@ import org.ndshop.goods.dao.IGoodsRep;
 import org.ndshop.goods.dto.GoodsDto;
 import org.ndshop.goods.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.List;
@@ -23,12 +25,14 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
    @Autowired
    private IGoodsRep goodsRep;
 
+    @Cacheable("serviceCache")
     @Override
     public Goods findByGoodName(String goodNames) {
         Goods goods = goodsRep.findByGoodsName( goodNames );
         return goods;
     }
 
+    @Transactional
     @Override
     public void addGoods(Goods goods ,String shopId) throws SerException{
         GoodsDes goodsDes = new GoodsDes();
@@ -51,6 +55,7 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
         save(goods);
     }
 
+    @Cacheable("serviceCache")
     @Override
     public List<Goods> findByCategory(String firstCategory, String secondCategory) throws SerException{
         GoodsDto dto = new GoodsDto();
