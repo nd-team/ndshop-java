@@ -23,10 +23,9 @@ public class Goods extends BaseEntity{
     private Double goodsWeight;//重量
     private String goodsColor;//颜色
 
-    @Column(nullable = false)
-    private String firstCategory; //一级分类
-    @Column(nullable = false)
-    private String secondCategory; //二级分类
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "goodsCategory_id")
+    private GoodsCategory goodsCategory;
 
     @OneToOne(optional = true ,cascade = CascadeType.ALL, mappedBy = "goods")
     private GoodsDes goodsDes;
@@ -101,22 +100,6 @@ public class Goods extends BaseEntity{
         this.goodsColor = goodsColor;
     }
 
-    public String getFirstCategory() {
-        return firstCategory;
-    }
-
-    public void setFirstCategory(String firstCategory) {
-        this.firstCategory = firstCategory;
-    }
-
-    public String getSecondCategory() {
-        return secondCategory;
-    }
-
-    public void setSecondCategory(String secondCategory) {
-        this.secondCategory = secondCategory;
-    }
-
     public LocalDateTime getCreateTime() {
         return createTime;
     }
@@ -131,6 +114,14 @@ public class Goods extends BaseEntity{
 
     public void setModifyTime(LocalDateTime modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public GoodsCategory getGoodsCategory() {
+        return goodsCategory;
+    }
+
+    public void setGoodsCategory(GoodsCategory goodsCategory) {
+        this.goodsCategory = goodsCategory;
     }
 
     public GoodsDes getGoodsDes() {
