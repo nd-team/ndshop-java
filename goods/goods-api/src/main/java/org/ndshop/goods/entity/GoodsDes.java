@@ -16,7 +16,9 @@ import java.time.LocalDateTime;
 public class GoodsDes extends BaseEntity {
     //＇描述＇上下架＇店铺信息＇修改时间＇创建时间
 
+    @Column(nullable = true)
     private String description;
+    @Column(nullable = false)
     private SaleStatus saleStatus;
 
     @OneToOne(optional = false, cascade = CascadeType.REFRESH)
