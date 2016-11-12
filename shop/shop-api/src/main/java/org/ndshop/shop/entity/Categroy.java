@@ -21,10 +21,9 @@ public class Categroy extends BaseEntity {
     @Column(columnDefinition = "varchar(30)", nullable = false)
     private String name;
     //店内分类名称
-/*
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "shop_id")
-    private Shop shop;*/
+    private Shop shop;
 
     /*@OneToMany(cascade = CascadeType.ALL, mappedBy = "goods")
     private Set<Goods> goodsSet;*/
@@ -46,14 +45,14 @@ public class Categroy extends BaseEntity {
     public void setName(String name) {
         this.name = name;
     }
-/*
+
     public Shop getShop() {
         return shop;
     }
 
     public void setShop(Shop shop) {
         this.shop = shop;
-    }*/
+    }
 
 //    public Set<Goods> getGoodsSet() {
 //        return goodsSet;

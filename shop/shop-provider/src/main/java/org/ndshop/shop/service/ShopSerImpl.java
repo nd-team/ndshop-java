@@ -21,8 +21,8 @@ public class ShopSerImpl extends ServiceImpl<Shop,ShopDto> implements IShopSer {
     private IShopRep shopRep;
 
     @Override
-    public Shop findByName(String name) {
-        return shopRep.findByName(name);
+    public Shop findByName(String shopName) {
+        return shopRep.findByName(shopName);
     }
 
 

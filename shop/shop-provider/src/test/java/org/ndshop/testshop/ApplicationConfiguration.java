@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement(proxyTargetClass = true)
 @EnableCaching
 @PropertySource({"classpath:config.properties"})
-@ComponentScan(basePackages = {"org.ndshop.testshop","org.ndshop.shop"},
+@ComponentScan(basePackages = {"org.ndshop.testshop","org.ndshop.shop","org.ndshop.user.common"},
         excludeFilters = {@ComponentScan.Filter(
                 type = FilterType.ANNOTATION,
                 value = {Configuration.class})})

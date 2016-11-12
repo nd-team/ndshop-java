@@ -50,10 +50,10 @@ public class ShippingAddressTest {
         ShippingAddress address = new ShippingAddress();
         address.setPhone("13457910241");
         address.setEmail("aml@qq.com");
-        address.setArea("兰州");
-        address.setDetailAddress("兰州兰州");
+        address.setArea("fds");
+        address.setDetailAddress("fdsf");
         address.setUser(userSer.findByUsername("liguiqin"));
-        address.setReceiverName("小白");
+        address.setReceiverName("fdsfs");
         addressSer.addShippingAddress(address);
     }
 

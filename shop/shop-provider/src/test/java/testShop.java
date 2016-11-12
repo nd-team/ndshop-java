@@ -1,4 +1,3 @@
-import com.dounine.corgi.spring.rpc.Reference;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.time.LocalDateTime;
+
 /**
  * Created by ike on 16-11-10.
  */
@@ -28,13 +29,19 @@ public class testShop {
     public void init() throws SerException {
         if(shopSer.findByName("AAA")==null){
             Shop shop = new Shop();
+            shop.setId("32423424242432424");
             shop.setStatus(ShopStatus.OFFLINE);
             shop.setName("AAA");
+            shop.setShopImg("");
+            shop.setCreateTime(LocalDateTime.now());
+            shop.setLastModiTime(LocalDateTime.now());
+            shop.setIntro("");
+            shop.setShortIntro("");
 
-            User user = new User();
+/*            User user = new User();
             user.setUsername("Sarom");
+            shop.setOwner(user);*/
 
-//            shop.setOwner(user);
 
             shopSer.save(shop);
         }

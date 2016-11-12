@@ -5,5 +5,5 @@ import org.ndshop.dbs.jpa.dto.BaseDto;
 /**
  * Created by ike on 16-11-10.
  */
-public class Category extends BaseDto {
+public class CategoryDto extends BaseDto {
 }
