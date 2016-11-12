@@ -9,6 +9,6 @@ import org.ndshop.shop.entity.Shop;
  */
 public interface IShopRep extends MyRep<Shop,ShopDto>{
 
-    Shop findByName(String name);
 
+    Shop findByName(String name);
 }

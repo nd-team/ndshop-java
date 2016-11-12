@@ -1,4 +1,4 @@
-package org.ndshop.test;
+package org.ndshop.shop.boot;
 
 import org.ndshop.dbs.jpa.boot.initializer.Components;
 import org.springframework.cache.Cache;
@@ -16,7 +16,7 @@ public class MyComponents extends Components {
 
     @Override
     public String[] scanPackages() {
-        return new String[]{"test_shop"};
+        return new String[]{"org.ndshop.testshop","org.ndshop.shop"};
     }
 
     @Override

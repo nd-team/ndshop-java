@@ -3,4 +3,5 @@ apply from: '../../config.gradle'
 dependencies {
     compile project(":dbs:jpa")
     compile project(":user:user-common:user-common-api")
+    compile project(":goods:goods-api")
 }

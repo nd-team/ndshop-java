@@ -1,4 +1,4 @@
-package org.ndshop.test;
+package org.ndshop.testshop;
 
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,14 +13,16 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 
 @Configuration
-@EnableJpaRepositories(basePackages = {"org.ndshop.shop.dao","org.ndshop.user.common.dao","org.ndshop.goods.dao"})
+@EnableJpaRepositories(basePackages = {"org.ndshop.shop.dao"})
 @EnableTransactionManagement(proxyTargetClass = true)
 @EnableCaching
-@PropertySource({"classpath:config.properties","classpath:corgi.properties"})
-@ComponentScan(basePackages = {"org.ndshop.test","org.ndshop.shop","org.ndshop.user.common","org.ndshop.goods"},
+@PropertySource({"classpath:config.properties"})
+@ComponentScan(basePackages = {"org.ndshop.testshop","org.ndshop.shop"},
         excludeFilters = {@ComponentScan.Filter(
                 type = FilterType.ANNOTATION,
                 value = {Configuration.class})})
 public class ApplicationConfiguration {
 
 }
+
+

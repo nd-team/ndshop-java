@@ -11,11 +11,9 @@ import org.springframework.cache.annotation.Cacheable;
 @Cacheable(value = "serviceCache")
 public interface IShopSer extends IService<Shop,ShopDto> {
 
-    default Shop findByName(String shopName){
-        return null;
-    }
-
     default void addShop(Shop shop){
         return;
     }
+
+    default Shop findByName(String name){return null;}
 }
