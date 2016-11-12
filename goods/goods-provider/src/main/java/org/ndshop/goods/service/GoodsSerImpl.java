@@ -5,6 +5,7 @@ import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.enums.RestrictionType;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.ServiceImpl;
+import org.ndshop.goods.dao.IGoodsCategoryRep;
 import org.ndshop.goods.dao.IGoodsRep;
 import org.ndshop.goods.dto.GoodsDto;
 import org.ndshop.goods.entity.*;
@@ -24,6 +25,8 @@ import java.util.Set;
 public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoodsSer{
    @Autowired
    private IGoodsRep goodsRep;
+   @Autowired
+   private IGoodsCategoryRep goodsCategoryRep;
 
     @Cacheable("serviceCache")
     @Override
@@ -34,7 +37,7 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
 
     @Transactional
     @Override
-    public void addGoods(Goods goods ,String shopId) throws SerException{
+    public void addGoods(Goods goods ,String shopId ,String categoryId ) throws SerException{
         GoodsDes goodsDes = new GoodsDes();
         goodsDes.setGoods(goods);
         goods.setGoodsDes(goodsDes);
@@ -42,6 +45,12 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
         GoodsInventory goodsInventory = new GoodsInventory();
         goodsInventory.setGoods(goods);
         goods.setGoodsInventory(goodsInventory);
+
+        save(goods);
+
+        GoodsCategory gd = goodsCategoryRep.findById( categoryId );
+        goods.setGoodsCategory( gd );
+        update( goods );
 
         GoodsShops goodsShops = new GoodsShops();
         goodsShops.setGoods(goods);
@@ -52,7 +61,7 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
         gs.add(goodsShops);
         goods.setGoodsShops(gs);
 
-        save(goods);
+
     }
 
 //    @Cacheable("serviceCache")

@@ -49,8 +49,8 @@ public class JunitTest {
 
     @Test
     public  void init () throws SerException {
-        String categoryId = "2faf078a-a1cf-4b30-ab17-f5241814144f";
-//        if(null == goodsSer.findByGoodName("3D电视机")  ){
+        String categoryId = "7b971dda-fd95-4f15-853c-d454d2ae4757";
+        if(null == goodsSer.findByGoodName("3D电视机")  ){
             //temp
             Goods goods = new Goods();
             goods.setGoodsName("3D电视机");
@@ -60,17 +60,22 @@ public class JunitTest {
             goods.setGoodsHeight(10.6);
             goods.setGoodsWeight(10.8);
 
-            GoodsCategory gd = new GoodsCategory();
-            gd.setId( categoryId );
-            goods.setGoodsCategory( gd );
 
             GoodsDes goodsDes = new GoodsDes();
+            goodsDes.setSaleStatus( SaleStatus.ONSHELF );
             goodsDes.setGoods(goods);
             goods.setGoodsDes(goodsDes);
 
             GoodsInventory goodsInventory = new GoodsInventory();
+            goodsInventory.setQuanty( 110l );
             goodsInventory.setGoods(goods);
             goods.setGoodsInventory(goodsInventory);
+
+            goodsSer.save(goods);
+            GoodsCategory gd = goodsCategorySer.findById( categoryId );
+            goods.setGoodsCategory( gd );
+            goodsSer.update( goods );
+
 
             String shopId = "111111";
             GoodsShops goodsShops = new GoodsShops();
@@ -81,18 +86,16 @@ public class JunitTest {
             Set<GoodsShops> gs = new HashSet<>();
             gs.add(goodsShops);
             goods.setGoodsShops(gs);
-
-            goodsSer.save(goods);
-
+            goodsSer.update( goods );
 
 
-//        }
+        }
 
     }
 
     @Test
     public void updateGoodsDes() throws SerException{
-        String goodId = "2cefbead-ed29-4b01-a748-4f4e3443de48";
+        String goodId = "805968df-78cf-416b-b0ff-030638599584";
         Goods goods = goodsSer.findById( goodId );
 
         GoodsDes goodsDes = new GoodsDes();
@@ -115,7 +118,7 @@ public class JunitTest {
 
     @Test
     public void updateGoodsInventorys() throws SerException {
-        String goodId = "d0ce7082-3338-4cd3-844f-ca8e4cb18896";
+        String goodId = "805968df-78cf-416b-b0ff-030638599584";
         Goods goods = goodsSer.findById( goodId );
 
         GoodsInventory goodsInventory =  new GoodsInventory();

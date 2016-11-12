@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  * Created by ike on 16-11-5.
  */
 @Entity
-@Table(name = "nd_goods_inventory")
+@Table(name = "goodsInventory")
 public class GoodsInventory extends BaseEntity{
     //店铺ｉｄ＇商品ｉｄ＇数量＇出售数量＇修改时间＇创建时间
 

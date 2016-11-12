@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  * Created by ike on 16-11-5.
  */
 @Entity
-@Table(name = "nd_goods_description")
+@Table(name = "goodsDescription")
 public class GoodsDes extends BaseEntity {
     //＇描述＇上下架＇店铺信息＇修改时间＇创建时间
 

@@ -11,7 +11,7 @@ import java.util.Set;
  * Created by ike on 16-11-4.
  */
 @Entity
-@Table(name = "nd_goods")
+@Table(name = "goods")
 public class Goods extends BaseEntity{
     @Column(nullable = false)
     private String goodsName ;//名
@@ -23,7 +23,7 @@ public class Goods extends BaseEntity{
     private Double goodsWeight;//重量
     private String goodsColor;//颜色
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinColumn(name = "goodsCategory_id")
     private GoodsCategory goodsCategory;
 
