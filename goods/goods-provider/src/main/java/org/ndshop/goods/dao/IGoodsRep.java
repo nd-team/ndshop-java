@@ -12,8 +12,8 @@ import java.util.List;
  */
 public interface IGoodsRep extends MyRep<Goods,GoodsDto> {
     @Cacheable("daoCache")
-    Goods findByGoodsName(String gName);
+    Goods findByGoodsName(String goodsName);
 
-    @Cacheable("daoCache")
-    List<Goods> findByFirstCategoryAndSecondCategory (String firstCategory , String secondCategory);
+//    @Cacheable("daoCache")
+//    List<Goods> findByFirstCategoryAndSecondCategory (String firstCategory , String secondCategory);
 }

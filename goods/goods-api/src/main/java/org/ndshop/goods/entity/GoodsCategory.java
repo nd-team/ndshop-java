@@ -3,10 +3,9 @@ package org.ndshop.goods.entity;
 import org.ndshop.dbs.jpa.entity.BaseEntity;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 /**
  * Created by ike on 16-11-9.
@@ -19,7 +18,6 @@ public class GoodsCategory extends BaseEntity{
 
     @Column(nullable = false , unique = true)
     private String secondName ;//二级分类
-
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
     @Column(columnDefinition="dateTime") //指定数据库类型

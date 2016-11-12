@@ -27,8 +27,8 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
 
     @Cacheable("serviceCache")
     @Override
-    public Goods findByGoodName(String goodNames) {
-        Goods goods = goodsRep.findByGoodsName( goodNames );
+    public Goods findByGoodName(String goodsName) {
+        Goods goods = goodsRep.findByGoodsName( goodsName );
         return goods;
     }
 
@@ -55,21 +55,21 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
         save(goods);
     }
 
-    @Cacheable("serviceCache")
-    @Override
-    public List<Goods> findByCategory(String firstCategory, String secondCategory) throws SerException{
-        GoodsDto dto = new GoodsDto();
-        List<Condition> conditions = dto.getConditions();
-        Condition condition = new Condition("goods.firstCategory", DataType.STRING,firstCategory);
-        condition.setRestrict(RestrictionType.EQ);
-        conditions.add(condition);
-
-        Condition condition1 = new Condition("goods.secondCategory", DataType.STRING,secondCategory);
-        condition1.setRestrict(RestrictionType.EQ);
-        conditions.add(condition1);
-
-        List<Goods> list = findByCis(dto , true);
-
-        return list;
-    }
+//    @Cacheable("serviceCache")
+//    @Override
+//    public List<Goods> findByCategory(String firstCategory, String secondCategory) throws SerException{
+//        GoodsDto dto = new GoodsDto();
+//        List<Condition> conditions = dto.getConditions();
+//        Condition condition = new Condition("goods.firstCategory", DataType.STRING,firstCategory);
+//        condition.setRestrict(RestrictionType.EQ);
+//        conditions.add(condition);
+//
+//        Condition condition1 = new Condition("goods.secondCategory", DataType.STRING,secondCategory);
+//        condition1.setRestrict(RestrictionType.EQ);
+//        conditions.add(condition1);
+//
+//        List<Goods> list = findByCis(dto , true);
+//
+//        return list;
+//    }
 }

@@ -19,7 +19,7 @@ public interface IGoodsSer extends IService<Goods, GoodsDto> {
 
     default  void addGoods(Goods goods ,String shopId)throws SerException{}
 
-    default List<Goods> findByCategory(String firstCategory ,String secondCategory )throws SerException{ return null;}
+//    default List<Goods> findByCategory(String firstCategory ,String secondCategory )throws SerException{ return null;}
 
 
 }
