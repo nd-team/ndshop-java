@@ -47,9 +47,10 @@ public class JunitTest {
     @Reference
     private IUserSer userSer;
 
-    @Before
+    @Test
     public  void init () throws SerException {
-        if(null == goodsSer.findByGoodName("3D电视机")  ){
+        String categoryId = "2faf078a-a1cf-4b30-ab17-f5241814144f";
+//        if(null == goodsSer.findByGoodName("3D电视机")  ){
             //temp
             Goods goods = new Goods();
             goods.setGoodsName("3D电视机");
@@ -58,8 +59,10 @@ public class JunitTest {
             goods.setGoodsWidth(2.5);
             goods.setGoodsHeight(10.6);
             goods.setGoodsWeight(10.8);
-            goods.setFirstCategory(GoodsType.ELECTRC.toString() );
-            goods.setSecondCategory(GoodsElectricType.AUDIOELECTRIC.toString());
+
+            GoodsCategory gd = new GoodsCategory();
+            gd.setId( categoryId );
+            goods.setGoodsCategory( gd );
 
             GoodsDes goodsDes = new GoodsDes();
             goodsDes.setGoods(goods);
@@ -83,7 +86,7 @@ public class JunitTest {
 
 
 
-        }
+//        }
 
     }
 
