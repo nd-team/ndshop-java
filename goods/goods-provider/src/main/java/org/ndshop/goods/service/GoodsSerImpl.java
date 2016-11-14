@@ -23,10 +23,12 @@ import java.util.Set;
  */
 @Service
 public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoodsSer{
-   @Autowired
-   private IGoodsRep goodsRep;
-   @Autowired
-   private IGoodsCategoryRep goodsCategoryRep;
+    @Autowired
+    private IGoodsRep goodsRep;
+    @Autowired
+    private IGoodsCategoryRep goodsCategoryRep;
+    @Autowired
+    private IGoodsBrandSer goodsBrandSer;
 
     @Cacheable("serviceCache")
     @Override
@@ -37,7 +39,7 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
 
     @Transactional
     @Override
-    public void addGoods(Goods goods ,String shopId ,String categoryId ) throws SerException{
+    public void addGoods(Goods goods ,String shopId ,String categoryId ,String goodsBrandId ) throws SerException{
         GoodsDes goodsDes = new GoodsDes();
         goodsDes.setGoods(goods);
         goods.setGoodsDes(goodsDes);
@@ -51,6 +53,12 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
         GoodsCategory gd = goodsCategoryRep.findById( categoryId );
         goods.setGoodsCategory( gd );
         update( goods );
+
+        if( goodsBrandId != null ){
+            GoodsBrand goodsBrand = goodsBrandSer.findById( goodsBrandId );
+            goods.setGoodsBrand( goodsBrand );
+            update( goods );
+        }
 
         GoodsShops goodsShops = new GoodsShops();
         goodsShops.setGoods(goods);

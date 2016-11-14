@@ -27,6 +27,10 @@ public class Goods extends BaseEntity{
     @JoinColumn(name = "goodsCategory_id")
     private GoodsCategory goodsCategory;
 
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
+    @JoinColumn(name = "goodsBrand_id")
+    private GoodsBrand goodsBrand;
+
     @OneToOne(optional = true ,cascade = CascadeType.ALL, mappedBy = "goods")
     private GoodsDes goodsDes;
 
@@ -125,6 +129,14 @@ public class Goods extends BaseEntity{
 
     public void setGoodsCategory(GoodsCategory goodsCategory) {
         this.goodsCategory = goodsCategory;
+    }
+
+    public GoodsBrand getGoodsBrand() {
+        return goodsBrand;
+    }
+
+    public void setGoodsBrand(GoodsBrand goodsBrand) {
+        this.goodsBrand = goodsBrand;
     }
 
     public GoodsDes getGoodsDes() {

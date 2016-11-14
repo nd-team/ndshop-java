@@ -8,11 +8,9 @@ import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.goods.dto.GoodsCategoryDto;
 import org.ndshop.goods.dto.GoodsPicDto;
 import org.ndshop.goods.entity.*;
+import org.ndshop.goods.enums.BrandStatus;
 import org.ndshop.goods.enums.SaleStatus;
-import org.ndshop.goods.service.IGoodsCategorySer;
-import org.ndshop.goods.service.IGoodsPicSer;
-import org.ndshop.goods.service.IGoodsSer;
-import org.ndshop.goods.service.IShopsSer;
+import org.ndshop.goods.service.*;
 import org.ndshop.user.common.service.IUserSer;
 import com.dounine.corgi.spring.rpc.Reference;
 import goods.provider.test.ApplicationConfiguration;
@@ -44,6 +42,8 @@ public class JunitTest {
     @Autowired
     private IGoodsPicSer goodsPicSer;
     @Autowired
+    private IGoodsBrandSer goodsBrandSer;
+    @Autowired
     private IShopsSer shopsSer;
     @Reference
     private IUserSer userSer;
@@ -51,10 +51,10 @@ public class JunitTest {
     @Test
     public  void init () throws SerException {
         String categoryId = "7b971dda-fd95-4f15-853c-d454d2ae4757";
-        if(null == goodsSer.findByGoodName("小苹果手机")  ){
+        if(null == goodsSer.findByGoodName("洗衣机")  ){
             //temp
             Goods goods = new Goods();
-            goods.setGoodsName("小苹果手机");
+            goods.setGoodsName("洗衣机");
             goods.setPrice(5000.0);
             goods.setGoodsLength(13.4);
             goods.setGoodsWidth(2.5);
@@ -73,9 +73,17 @@ public class JunitTest {
             goods.setGoodsInventory(goodsInventory);
 
             goodsSer.save(goods);
+
             GoodsCategory gd = goodsCategorySer.findById( categoryId );
             goods.setGoodsCategory( gd );
             goodsSer.update( goods );
+
+            String goodBrandId = "54731781-0a9d-4c30-98f9-69f1f9b6d7cf";
+            if( goodBrandId != null ){
+                GoodsBrand goodsBrand = goodsBrandSer.findById( goodBrandId );
+                goods.setGoodsBrand( goodsBrand );
+                goodsSer.update( goods );
+            }
 
 
             String shopId = "111111";
@@ -292,6 +300,55 @@ public class JunitTest {
         List<GoodsPic> gp = goodsPicSer.findByCis( goodsPicDto );
         logger.info( JSON.toJSONString( gp ));
     }
+
+    /**
+     * 添加商品 品牌
+     */
+    @Test
+    public void addBrand() throws SerException{
+        String brandName = "喜羊羊";
+        GoodsBrand goodsBrand = new GoodsBrand();
+        goodsBrand.setBrandName(  brandName );
+        goodsBrand.setBrandStatus(BrandStatus.FROZEN.getName() );
+        goodsBrand.setCreateTime(  LocalDateTime.now() );
+        goodsBrand.setModifyTime(  LocalDateTime.now() );
+        goodsBrandSer.save( goodsBrand );
+    }
+
+    @Test
+    public void updateBrand ()throws SerException{
+        String name = "美羊羊";
+        String bid = "4069cb12-bbd0-4641-aa93-de4c811fe2b0";
+        GoodsBrand goodsBrand = goodsBrandSer.findById( bid );
+        if (goodsBrand != null ){
+            goodsBrand.setBrandName( name );
+            goodsBrand.setModifyTime( LocalDateTime.now() );
+            goodsBrandSer.update( goodsBrand );
+        }
+        logger.info ( JSON.toJSONString( goodsBrand ) );
+    }
+
+    @Test
+    public void updateBrandstatus ()throws SerException{
+        String status = BrandStatus.ACTIVE.getName();
+        String bid = "4069cb12-bbd0-4641-aa93-de4c811fe2b0";
+        GoodsBrand goodsBrand = goodsBrandSer.findById( bid );
+        if (goodsBrand != null ){
+            goodsBrand.setBrandStatus( status );
+            goodsBrand.setModifyTime( LocalDateTime.now() );
+            goodsBrandSer.update( goodsBrand );
+        }
+        logger.info( JSON.toJSONString ( goodsBrand ) );
+    }
+
+    @Test
+    public void findBrand() throws SerException{
+        List<GoodsBrand> goodsBrands = goodsBrandSer.findAll();
+        logger.info( JSON.toJSONString( goodsBrands));
+    }
+
+
+
 
 
 

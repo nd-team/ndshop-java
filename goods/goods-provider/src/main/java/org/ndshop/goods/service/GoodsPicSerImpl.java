@@ -11,7 +11,9 @@ import org.ndshop.goods.dto.GoodsPicDto;
 import org.ndshop.goods.entity.Goods;
 import org.ndshop.goods.entity.GoodsPic;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -27,6 +29,8 @@ public class GoodsPicSerImpl extends ServiceImpl<GoodsPic,GoodsPicDto> implement
     @Autowired
     private IGoodsSer goodsSer;
 
+    @Transactional
+    @Override
     public  void addGoodsPic ( Goods goods ,String picStrs ,String flag) throws SerException {
         goods = goodsSer.findById( goods.getId() );
         GoodsPic goodsPic = new GoodsPic();
@@ -39,6 +43,8 @@ public class GoodsPicSerImpl extends ServiceImpl<GoodsPic,GoodsPicDto> implement
 
     }
 
+    @Cacheable("serviceCache")
+    @Override
     public void findGoodsPic( String goodsId ) throws  SerException{
         Condition condition = new Condition("id", DataType.STRING , goodsId);
         condition.fieldToModels(Goods.class);
