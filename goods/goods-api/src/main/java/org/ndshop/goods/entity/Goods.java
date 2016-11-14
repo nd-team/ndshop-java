@@ -34,7 +34,10 @@ public class Goods extends BaseEntity{
     private GoodsInventory goodsInventory;
 
     @OneToMany(mappedBy = "goods", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    private Set<GoodsShops> GoodsShops;
+    private Set<GoodsShops> goodsShops;
+
+    @OneToMany(mappedBy = "goods", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    private Set<GoodsPic> goodsPic;
     
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
     @Column(columnDefinition="dateTime") //指定数据库类型
@@ -140,11 +143,19 @@ public class Goods extends BaseEntity{
         this.goodsInventory = goodsInventory;
     }
 
-    public Set<org.ndshop.goods.entity.GoodsShops> getGoodsShops() {
-        return GoodsShops;
+    public Set<GoodsShops> getGoodsShops() {
+        return goodsShops;
     }
 
-    public void setGoodsShops(Set<org.ndshop.goods.entity.GoodsShops> goodsShops) {
-        GoodsShops = goodsShops;
+    public void setGoodsShops(Set<GoodsShops> goodsShops) {
+        this.goodsShops = goodsShops;
+    }
+
+    public Set<GoodsPic> getGoodsPic() {
+        return goodsPic;
+    }
+
+    public void setGoodsPic(Set<GoodsPic> goodsPic) {
+        this.goodsPic = goodsPic;
     }
 }

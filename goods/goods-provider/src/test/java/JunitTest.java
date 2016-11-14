@@ -1,18 +1,16 @@
 
 import com.alibaba.fastjson.JSON;
-import org.apache.commons.logging.Log;
 import org.apache.log4j.Logger;
 import org.ndshop.dbs.jpa.dto.Condition;
 import org.ndshop.dbs.jpa.enums.DataType;
+import org.ndshop.dbs.jpa.enums.RestrictionType;
 import org.ndshop.dbs.jpa.exception.SerException;
-import org.junit.Before;
 import org.ndshop.goods.dto.GoodsCategoryDto;
+import org.ndshop.goods.dto.GoodsPicDto;
 import org.ndshop.goods.entity.*;
-import org.ndshop.goods.enums.GoodsType;
-import org.ndshop.goods.enums.GoodsElectricType;
 import org.ndshop.goods.enums.SaleStatus;
-import org.ndshop.goods.service.GoodsCategoryImpl;
 import org.ndshop.goods.service.IGoodsCategorySer;
+import org.ndshop.goods.service.IGoodsPicSer;
 import org.ndshop.goods.service.IGoodsSer;
 import org.ndshop.goods.service.IShopsSer;
 import org.ndshop.user.common.service.IUserSer;
@@ -25,6 +23,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -43,6 +42,8 @@ public class JunitTest {
     @Autowired
     private IGoodsCategorySer goodsCategorySer;
     @Autowired
+    private IGoodsPicSer goodsPicSer;
+    @Autowired
     private IShopsSer shopsSer;
     @Reference
     private IUserSer userSer;
@@ -50,10 +51,10 @@ public class JunitTest {
     @Test
     public  void init () throws SerException {
         String categoryId = "7b971dda-fd95-4f15-853c-d454d2ae4757";
-        if(null == goodsSer.findByGoodName("3D电视机")  ){
+        if(null == goodsSer.findByGoodName("小苹果手机")  ){
             //temp
             Goods goods = new Goods();
-            goods.setGoodsName("3D电视机");
+            goods.setGoodsName("小苹果手机");
             goods.setPrice(5000.0);
             goods.setGoodsLength(13.4);
             goods.setGoodsWidth(2.5);
@@ -245,6 +246,54 @@ public class JunitTest {
         List<GoodsCategory> goodCategory = goodsCategorySer.findByCis( dto,true );
         logger.info(JSON.toJSONString(goodCategory) );
     }
+
+
+    /**
+     * 测试商品图片
+     */
+    @Test
+    public  void addGoodsPic () throws  SerException{
+        String gid ="0ad8ccdd-6ccf-40e1-8647-f6fadb4973b8";
+        Goods goods = goodsSer.findById( gid );
+        GoodsPic goodsPic = new GoodsPic();
+        String time = goodsPic.getCreateTime().minusSeconds(0).format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+        goodsPic.setPicUrl("/home/xx/xx"+time+".jpg");
+        goodsPic.setFlag("详情图片");
+        goodsPic.setGoods( goods );
+        goodsPicSer.save(  goodsPic );
+        logger.info(time+""+ goodsPic );
+
+    }
+
+    @Test
+    public  void updateGoodsPic () throws  SerException{
+        String picId ="cc8a3190-83c1-4a52-b61b-9b22f34e08b0";
+        GoodsPic goodsPic = new GoodsPic();
+        String time = goodsPic.getCreateTime().minusSeconds(0).format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+        goodsPic.setPicUrl("/home/xx/xx"+time+".jpg");
+        goodsPic.setFlag("详情图片");
+        goodsPicSer.update(  goodsPic );
+        logger.info(time+""+ goodsPic );
+
+    }
+
+    /**
+     * 根据商品id查找商品图片
+     * @throws SerException
+     */
+    @Test
+    public void findGoodsPic() throws  SerException{
+        String gid ="805968df-78cf-416b-b0ff-030638599584";
+        Condition condition = new Condition("id", DataType.STRING , gid);
+        condition.fieldToModels(Goods.class);
+        GoodsPicDto goodsPicDto = new GoodsPicDto();
+        condition.setRestrict(RestrictionType.EQ);
+        goodsPicDto.getConditions().add( condition );
+        List<GoodsPic> gp = goodsPicSer.findByCis( goodsPicDto );
+        logger.info( JSON.toJSONString( gp ));
+    }
+
+
 
 
 //    @Test
