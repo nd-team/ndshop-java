@@ -11,13 +11,16 @@ import java.util.Set;
  * Created by ike on 16-11-9.
  */
 @Entity
-@Table(name = "nd_goods_category")
+@Table(name = "goodsCategory")
 public class GoodsCategory extends BaseEntity{
     @Column(nullable = false )
     private String name ; //一级分类
 
     @Column(nullable = false , unique = true)
     private String secondName ;//二级分类
+
+    @OneToMany(mappedBy = "goodsCategory", cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    private Set<Goods> goods;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
     @Column(columnDefinition="dateTime") //指定数据库类型
@@ -41,6 +44,14 @@ public class GoodsCategory extends BaseEntity{
 
     public void setSecondName(String secondName) {
         this.secondName = secondName;
+    }
+
+    public Set<Goods> getGoods() {
+        return goods;
+    }
+
+    public void setGoods(Set<Goods> goods) {
+        this.goods = goods;
     }
 
     public LocalDateTime getCreateTime() {
