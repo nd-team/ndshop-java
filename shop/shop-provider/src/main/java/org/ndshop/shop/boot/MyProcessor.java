@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 /**
  * Created by huanghuanlai on 2016/10/12.
  */
-@Component
+@Component("shopProcessor")
 public class MyProcessor extends SpringProcessor {
 
 }

@@ -11,12 +11,12 @@ import java.util.List;
 /**
  * Created by lgq on 16-10-13.
  */
-@Component
+@Component("shopComponents")
 public class MyComponents extends Components {
 
     @Override
     public String[] scanPackages() {
-        return new String[]{"org.ndshop.testshop","org.ndshop.shop"};
+        return new String[]{"org.ndshop.testshop","org.ndshop.shop","org.ndshop.user.common"};
     }
 
     @Override

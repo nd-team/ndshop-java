@@ -15,13 +15,13 @@ import java.util.Set;
  * Created by ike on 16-11-10.
  */
 @Entity
-@Table(name = "nd_shop_categroy")
-public class Categroy extends BaseEntity {
+@Table(name = "nd_shop_category")
+public class Category extends BaseEntity {
 
-    @Column(columnDefinition = "varchar(30)", nullable = false)
+    @Column(columnDefinition = "varchar(30)", nullable = true)
     private String name;
     //店内分类名称
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "shop_id")
     private Shop shop;
 

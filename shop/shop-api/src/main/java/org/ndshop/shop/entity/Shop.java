@@ -20,10 +20,10 @@ public class Shop extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-/*    @ManyToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name="user_id")
+    @ManyToOne(cascade = CascadeType.REFRESH,targetEntity = User.class)
+    @JoinColumn(name="user_id",nullable = false)
     private User owner;
-    //店铺拥有者*/
+    //店铺拥有者
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
     @Column(columnDefinition="dateTime") //指定数据库类型
@@ -51,9 +51,9 @@ public class Shop extends BaseEntity {
     private String shopImg;
     //店铺图片
 
-/*    @OneToMany(cascade = CascadeType.ALL,mappedBy = "category")
-    private Set<Categroy> categorySet;
-    //店内分类*/
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "shop")
+    private Set<Category> categorySet;
+    //店内分类
 
     public String getName() {
         return name;
@@ -64,13 +64,13 @@ public class Shop extends BaseEntity {
     }
 
 
-/*    public User getOwner() {
+    public User getOwner() {
         return owner;
     }
 
     public void setOwner(User owner) {
         this.owner = owner;
-    }*/
+    }
 
     public LocalDateTime getCreateTime() {
         return createTime;
@@ -120,11 +120,11 @@ public class Shop extends BaseEntity {
         this.shopImg = shopImg;
     }
 
-/*    public Set<Categroy> getCategorySet() {
+    public Set<Category> getCategorySet() {
         return categorySet;
     }
 
-    public void setCategorySet(Set<Categroy> categorySet) {
+    public void setCategorySet(Set<Category> categorySet) {
         this.categorySet = categorySet;
-    }*/
+    }
 }
