@@ -31,7 +31,7 @@ public class testShop {
 
     @Before
     public void init() throws SerException {
-        if(shopSer.findByName("AAA")==null){
+        if (shopSer.findByName("AAA") == null) {
             Shop shop = new Shop();
             shop.setStatus(ShopStatus.OFFLINE);
             shop.setName("AAA");
@@ -41,8 +41,8 @@ public class testShop {
             shop.setIntro("");
             shop.setShortIntro("");
 
-            User user=userSer.findByUsername("Sarom");
-            if(user==null){
+            User user = userSer.findByUsername("Sarom");
+            if (user == null) {
                 //创建用户
                 user = new User();
                 user.setUsername("Sarom");
@@ -63,19 +63,51 @@ public class testShop {
     }
 
     @Test
-    public void testFindShop(){
+    public void testFindShop() {
         System.out.println(shopSer.findByName("AAA"));
     }
 
     @Test
-    public void testFindShopByOwner(){
+    public void testFindShopByOwner() {
+        System.out.println(shopSer.findByOwnerName("Sarom"));
         System.out.println(shopSer.findByOwnerName("Sarom"));
     }
 
     @Test
-    public void testAddShop(){
+    public void testAddShop() throws SerException {
         //已有用户添加shop，测试
+        Shop shop = new Shop();
+        shop.setStatus(ShopStatus.OFFLINE);
+        shop.setName("tianmaochaoshi");
+        shop.setShopImg("");
+        shop.setCreateTime(LocalDateTime.now());
+        shop.setIntro("");
+        shop.setShortIntro("");
 
+        //添加到已有商铺的商家Sarom
+        shopSer.addShopByOwnerName(shop, "Sarom");
     }
 
+
+    @Test
+    public void testShopStatusChange() throws SerException {
+        //测试
+        Shop shop = shopSer.findByName("AAA");
+        if (shop!=null){
+            shopSer.shopStatusChange(shop);
+        }
+    }
+
+    @Test
+    public void testShopStatusChange1() throws SerException {
+        //调用多个现有Service
+        shopSer.shopStatusChange1("AAA");
+        shopSer.shopStatusChange2("AAA",1);
+    }
+
+    @Test
+    public void testShopStatusChange2(){
+        //使用jpql直接update
+        shopSer.shopStatusChange2("AAA",1);
+    }
 }

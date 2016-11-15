@@ -1,11 +1,12 @@
 package org.ndshop.shop.service;
 
+import com.dounine.corgi.spring.rpc.Service;
 import org.ndshop.dbs.jpa.service.ServiceImpl;
 import org.ndshop.shop.dao.ICategoryRep;
 import org.ndshop.shop.dto.CategoryDto;
 import org.ndshop.shop.entity.Category;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+
 
 /**
  * Created by ike on 16-11-12.

@@ -17,11 +17,11 @@ import java.util.Set;
 @Table(name="nd_shop")
 public class Shop extends BaseEntity {
 
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String name;
 
     @ManyToOne(cascade = CascadeType.REFRESH,targetEntity = User.class)
-    @JoinColumn(name="user_id",nullable = false)
+    @JoinColumn(name="user_id",nullable = true)
     private User owner;
     //店铺拥有者
 

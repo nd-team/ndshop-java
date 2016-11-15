@@ -8,8 +8,8 @@ import org.ndshop.user.common.dao.IUserRep;
 import org.ndshop.user.common.dto.UserDto;
 import org.ndshop.user.common.entity.User;
 import org.ndshop.dbs.jpa.exception.SerException;
-import com.dounine.corgi.spring.rpc.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
