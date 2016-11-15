@@ -1,5 +1,6 @@
 
 import com.alibaba.fastjson.JSON;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.ndshop.dbs.jpa.dto.Condition;
 import org.ndshop.dbs.jpa.enums.DataType;
@@ -160,88 +161,49 @@ public class JunitTest {
         }
     }
 
-    @Test
-    public void addBatchCategory() throws  SerException {
-        List<String> electricType = Arrays.asList("BIGELECTRIC","AUDIOELECTRIC","LIVINGELECTRIC","KITCHENELECTRIC","HEALTHELECTRIC");
-        String categoryName = "ELECTRC";
-        List<GoodsCategory> goodElectric = new ArrayList<>();
-        for(int i =0 ;i<electricType.size() ;i++){
-            GoodsCategoryDto  dto = new GoodsCategoryDto();
-            Condition condition1 = new Condition("name", DataType.STRING,categoryName);
-            Condition condition2 = new Condition("secondName", DataType.STRING,electricType.get(i) );
-            dto.getConditions().add(  condition1  );
-            dto.getConditions().add(  condition2  );
-            GoodsCategory gc = goodsCategorySer.findOne(  dto );
-            if( gc == null ){
-                GoodsCategory goodsCategory = new GoodsCategory();
-                goodsCategory.setName(  categoryName  );
-                goodsCategory.setSecondName(  electricType.get(i) );
-                goodsCategory.setCreateTime( LocalDateTime.now() );
-                goodsCategory.setModifyTime( LocalDateTime.now() );
-
-                goodElectric.add( goodsCategory );
-            }
-        }
-        if( goodElectric != null && goodElectric.size()>0){
-            goodsCategorySer.save(  goodElectric );
-            System.out.println( JSON.toJSONString( goodElectric ));
-        }
-
-
-    }
+    /**
+     * 添加分类
+     * @throws SerException
+     */
 
     @Test
-    public void upateBatchCategory() throws  SerException {
-        List<String> electricType = Arrays.asList("BIGELECTRIC","AUDIOELECTRIC","LIVINGELECTRIC","KITCHENELECTRIC","HEALTHELECTRIC");
-        String categoryName = "ELECTRC";
-        List<GoodsCategory> goodElectricUpdate = new ArrayList<>();
-        for(int i =0 ;i<electricType.size() ;i++){
-            GoodsCategoryDto  dto = new GoodsCategoryDto();
-            Condition condition1 = new Condition("name", DataType.STRING,categoryName);
-            Condition condition2 = new Condition("secondName", DataType.STRING,electricType.get(i) );
-            dto.getConditions().add(  condition1  );
-            dto.getConditions().add(  condition2  );
-            GoodsCategory gc = goodsCategorySer.findOne(  dto );
-            if( gc!= null ){
-                GoodsCategory updateCategory = new GoodsCategory();
-                updateCategory.setId( gc.getId() );
-                updateCategory.setName(  categoryName  );
-                updateCategory.setSecondName(  electricType.get(i) );
-                updateCategory.setCreateTime( gc.getCreateTime() );
-                updateCategory.setModifyTime( LocalDateTime.now() );
-                goodElectricUpdate.add( updateCategory );
-            }
-
-        }
-        if( goodElectricUpdate != null && goodElectricUpdate.size()>0 ){
-            goodsCategorySer.update(  goodElectricUpdate );
-            System.out.println( JSON.toJSONString( goodElectricUpdate ));
-        }
+    public void addCategory() throws SerException{
+        String categoryName = "BEAUTI";
+        String secondName = "FACEBEAUTI";
+        String thirdName = "HAIR CARE";
+        GoodsCategory goodsCategory = new GoodsCategory();
+        goodsCategory.setName(  categoryName );
+        goodsCategory.setSecondName( secondName );
+        goodsCategory.setThirdName( thirdName );
+        goodsCategory.setCreateTime( LocalDateTime.now() );
+        goodsCategory.setModifyTime(LocalDateTime.now() );
+        goodsCategorySer.save(  goodsCategory );
     }
+
 
     @Test
     public void updateCategory() throws SerException{
-        String cateoryId ="0dc5aeaa-6cc1-4a01-b0c5-96cf62115653";
+        String cateoryId ="88fe1f03-1e6b-44e5-a09f-ebbb880d5cce";
+        String categoryName = "BEAUTI";
+        String secondName = "FACEBEAUTI";
+        String thirdName = "HAIR CARE";
+
         GoodsCategory goodsCategory = goodsCategorySer.findById( cateoryId );
-        goodsCategory.setSecondName("HEALTHELECTRIC");
+        if ( categoryName != "" &&  categoryName != null) {
+            goodsCategory.setSecondName( categoryName );
+        }
+        if ( secondName !="" && secondName != null ) {
+            goodsCategory.setSecondName( secondName );
+        }
+        if ( thirdName != "" && thirdName != null ) {
+            goodsCategory.setThirdName( thirdName );
+        }
         goodsCategory.setModifyTime( LocalDateTime.now() );
         goodsCategory.setId( cateoryId );
         goodsCategorySer.update( goodsCategory );
         logger.info( JSON.toJSONString( goodsCategory ) );
     }
 
-
-    @Test
-    public void deleteCategory() throws SerException{
-        String cateoryId ="0dc5aeaa-6cc1-4a01-b0c5-96cf62115653";
-        GoodsCategory goodsCategory = goodsCategorySer.findById( cateoryId );
-        if( goodsCategory != null ){
-            goodsCategorySer.remove( cateoryId );
-        }else{
-            logger.info(JSON.toJSONString(goodsCategory) );
-        }
-
-    }
 
     @Test
     public void findCategoryByFirstCategory () throws  SerException{

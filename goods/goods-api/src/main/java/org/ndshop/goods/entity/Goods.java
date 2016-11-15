@@ -42,6 +42,9 @@ public class Goods extends BaseEntity{
 
     @OneToMany(mappedBy = "goods", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private Set<GoodsPic> goodsPic;
+
+//    @OneToMany(mappedBy = "goods", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+//    private Set<GoodsCollection> goodsCollections;
     
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
     @Column(columnDefinition="dateTime") //指定数据库类型
@@ -170,4 +173,12 @@ public class Goods extends BaseEntity{
     public void setGoodsPic(Set<GoodsPic> goodsPic) {
         this.goodsPic = goodsPic;
     }
+
+//    public Set<GoodsCollection> getGoodsCollections() {
+//        return goodsCollections;
+//    }
+//
+//    public void setGoodsCollections(Set<GoodsCollection> goodsCollections) {
+//        this.goodsCollections = goodsCollections;
+//    }
 }

@@ -25,75 +25,29 @@ public class GoodsCategorySerImpl extends ServiceImpl<GoodsCategory , GoodsCateg
 
     @Transactional
     @Override
-    public void addBatchCategory(List<String> goodsSecondCategory, String firstCategory) throws SerException {
-        List<GoodsCategory> goodElectric = new ArrayList<>();
-        for(int i =0 ;i<goodsSecondCategory.size() ;i++) {
-            GoodsCategoryDto dto = new GoodsCategoryDto();
-            Condition condition1 = new Condition("name", DataType.STRING, firstCategory);
-            Condition condition2 = new Condition("secondName", DataType.STRING, goodsSecondCategory.get(i));
-            dto.getConditions().add(condition1);
-            dto.getConditions().add(condition2);
-            GoodsCategory gc = findOne(dto);
-            if (gc == null) {
-                GoodsCategory goodsCategory = new GoodsCategory();
-                goodsCategory.setName(firstCategory);
-                goodsCategory.setSecondName(goodsSecondCategory.get(i));
-                goodsCategory.setCreateTime(LocalDateTime.now());
-                goodsCategory.setModifyTime(LocalDateTime.now());
-                goodElectric.add(goodsCategory);
-            }
-        }
-        if (goodElectric != null && goodElectric.size() > 0) {
-            save(goodElectric);
-            logger.info(JSON.toJSONString(goodElectric));
-        }
-
-    }
-
-    @Transactional
-    @Override
-    public void upateBatchCategory(List<String> goodsSecondCategory , String firstCategory) throws  SerException {
-        List<GoodsCategory> goodElectricUpdate = new ArrayList<>();
-        for(int i =0 ;i<goodsSecondCategory.size() ;i++){
-            GoodsCategoryDto  dto = new GoodsCategoryDto();
-            Condition condition1 = new Condition("name", DataType.STRING,firstCategory);
-            Condition condition2 = new Condition("secondName", DataType.STRING,goodsSecondCategory.get(i) );
-            dto.getConditions().add(  condition1  );
-            dto.getConditions().add(  condition2  );
-            GoodsCategory gc = findOne(  dto );
-            if( gc!= null ){
-                GoodsCategory updateCategory = new GoodsCategory();
-                updateCategory.setId( gc.getId() );
-                updateCategory.setName(  firstCategory  );
-                updateCategory.setSecondName(  goodsSecondCategory.get(i) );
-                updateCategory.setCreateTime( gc.getCreateTime() );
-                updateCategory.setModifyTime( LocalDateTime.now() );
-                goodElectricUpdate.add( updateCategory );
-            }
-
-        }
-        if( goodElectricUpdate != null && goodElectricUpdate.size()>0 ){
-            update(  goodElectricUpdate );
-            logger.info( JSON.toJSONString( goodElectricUpdate ));
-        }
-    }
-
-    @Transactional
-    @Override
     public void addCategory(GoodsCategory goodsCategory) throws SerException {
-        if( goodsCategory.getName() !=null && goodsCategory.getSecondName()!= null ){
-            GoodsCategoryDto  dto = new GoodsCategoryDto();
-            Condition condition1 = new Condition("name", DataType.STRING,goodsCategory.getName());
-            Condition condition2 = new Condition("secondName", DataType.STRING, goodsCategory.getSecondName() );
-            dto.getConditions().add(  condition1  );
-            dto.getConditions().add(  condition2  );
-            GoodsCategory gc = findOne(  dto );
+        GoodsCategoryDto dto = new GoodsCategoryDto();
+        Condition condition1 = new Condition("name", DataType.STRING, goodsCategory.getName());
+        Condition condition2 = new Condition("secondName", DataType.STRING, goodsCategory.getSecondName());
+        Condition condition3 = new Condition("thirdName", DataType.STRING, goodsCategory.getThirdName());
 
-            if( gc == null ){
-                save( goodsCategory );
-                logger.info( JSON.toJSONString( goodsCategory ));
+        dto.getConditions().add(condition2);
+        dto.getConditions().add(condition1);
+        dto.getConditions().add(condition3);
+
+        GoodsCategory gc = null;
+        String nameValue = condition1.getValues()[0];
+        String secondNameValue = condition2.getValues()[0];
+        String thirdNameValue = condition3.getValues()[0];
+        if (!nameValue.equals("") && !secondNameValue.equals("") && !thirdNameValue.equals("")) {
+            gc = findOne(dto);
+            if (gc == null) {
+                save(goodsCategory);
+                logger.info(JSON.toJSONString(goodsCategory));
             }
         }
+
+
     }
 
     @Transactional
