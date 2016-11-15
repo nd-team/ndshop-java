@@ -11,7 +11,7 @@ import java.util.Set;
  * Created by ike on 16-11-4.
  */
 @Entity
-@Table(name = "nd_goods")
+@Table(name = "goods")
 public class Goods extends BaseEntity{
     @Column(nullable = false)
     private String goodsName ;//名
@@ -23,9 +23,13 @@ public class Goods extends BaseEntity{
     private Double goodsWeight;//重量
     private String goodsColor;//颜色
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinColumn(name = "goodsCategory_id")
     private GoodsCategory goodsCategory;
+
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
+    @JoinColumn(name = "goodsBrand_id")
+    private GoodsBrand goodsBrand;
 
     @OneToOne(optional = true ,cascade = CascadeType.ALL, mappedBy = "goods")
     private GoodsDes goodsDes;
@@ -34,7 +38,10 @@ public class Goods extends BaseEntity{
     private GoodsInventory goodsInventory;
 
     @OneToMany(mappedBy = "goods", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    private Set<GoodsShops> GoodsShops;
+    private Set<GoodsShops> goodsShops;
+
+    @OneToMany(mappedBy = "goods", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    private Set<GoodsPic> goodsPic;
     
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
     @Column(columnDefinition="dateTime") //指定数据库类型
@@ -124,6 +131,14 @@ public class Goods extends BaseEntity{
         this.goodsCategory = goodsCategory;
     }
 
+    public GoodsBrand getGoodsBrand() {
+        return goodsBrand;
+    }
+
+    public void setGoodsBrand(GoodsBrand goodsBrand) {
+        this.goodsBrand = goodsBrand;
+    }
+
     public GoodsDes getGoodsDes() {
         return goodsDes;
     }
@@ -140,11 +155,19 @@ public class Goods extends BaseEntity{
         this.goodsInventory = goodsInventory;
     }
 
-    public Set<org.ndshop.goods.entity.GoodsShops> getGoodsShops() {
-        return GoodsShops;
+    public Set<GoodsShops> getGoodsShops() {
+        return goodsShops;
     }
 
-    public void setGoodsShops(Set<org.ndshop.goods.entity.GoodsShops> goodsShops) {
-        GoodsShops = goodsShops;
+    public void setGoodsShops(Set<GoodsShops> goodsShops) {
+        this.goodsShops = goodsShops;
+    }
+
+    public Set<GoodsPic> getGoodsPic() {
+        return goodsPic;
+    }
+
+    public void setGoodsPic(Set<GoodsPic> goodsPic) {
+        this.goodsPic = goodsPic;
     }
 }

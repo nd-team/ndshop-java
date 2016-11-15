@@ -1,30 +1,27 @@
 package org.ndshop.goods.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import org.ndshop.dbs.jpa.entity.BaseEntity;
-import org.ndshop.goods.enums.SaleStatus;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 /**
- * Created by ike on 16-11-5.
+ * Created by ike on 16-11-14.
  */
 @Entity
-@Table(name = "goodsDescription")
-public class GoodsDes extends BaseEntity {
-    //＇描述＇上下架＇店铺信息＇修改时间＇创建时间
+@Table(name = "goodsBrand")
+public class GoodsBrand extends BaseEntity {
 
-    @Column(nullable = true)
-    private String description;
+    @Column(nullable = false , unique = true)
+    private String brandName ;//品牌名
+
+    @OneToMany(mappedBy = "goodsBrand", cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    private Set<Goods> goods;
+
     @Column(nullable = false)
-    private SaleStatus saleStatus;
-
-    @OneToOne(optional = false, cascade = CascadeType.REFRESH)
-    @JoinColumn(name="goods_id")
-    @JSONField(serialize = false)
-    private Goods goods;
+    private String brandStatus;//品牌申请状态
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
     @Column(columnDefinition="dateTime") //指定数据库类型
@@ -34,20 +31,28 @@ public class GoodsDes extends BaseEntity {
     @Column(columnDefinition="dateTime") //指定数据库类型
     private LocalDateTime modifyTime = LocalDateTime.now();//修改时间
 
-    public String getDescription() {
-        return description;
+    public String getBrandName() {
+        return brandName;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
     }
 
-    public SaleStatus getSaleStatus() {
-        return saleStatus;
+    public Set<Goods> getGoods() {
+        return goods;
     }
 
-    public void setSaleStatus(SaleStatus saleStatus) {
-        this.saleStatus = saleStatus;
+    public void setGoods(Set<Goods> goods) {
+        this.goods = goods;
+    }
+
+    public String getBrandStatus() {
+        return brandStatus;
+    }
+
+    public void setBrandStatus(String brandStatus) {
+        this.brandStatus = brandStatus;
     }
 
     public LocalDateTime getCreateTime() {
@@ -64,13 +69,5 @@ public class GoodsDes extends BaseEntity {
 
     public void setModifyTime(LocalDateTime modifyTime) {
         this.modifyTime = modifyTime;
-    }
-
-    public Goods getGoods() {
-        return goods;
-    }
-
-    public void setGoods(Goods goods) {
-        this.goods = goods;
     }
 }

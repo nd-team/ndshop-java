@@ -13,7 +13,7 @@ import java.util.Set;
  * Created by ike on 16-11-5.
  */
 @Entity
-@Table(name = "nd_shops")
+@Table(name = "shops")
 public class Shops extends BaseEntity {
     //店铺名称＇商家用户＇店铺地址＇
     @Column(nullable = true)

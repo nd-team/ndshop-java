@@ -9,7 +9,7 @@ import javax.persistence.*;
  * Created by ike on 16-11-7.
  */
 @Entity
-@Table(name = "nd_goods_shops")
+@Table(name = "goodsShops")
 public class GoodsShops extends BaseEntity{
 
     @ManyToOne(cascade = {CascadeType.ALL})
