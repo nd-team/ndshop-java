@@ -7,11 +7,14 @@ import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.enums.RestrictionType;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.goods.dto.GoodsCategoryDto;
+import org.ndshop.goods.dto.GoodsCollectionDto;
 import org.ndshop.goods.dto.GoodsPicDto;
 import org.ndshop.goods.entity.*;
 import org.ndshop.goods.enums.BrandStatus;
+import org.ndshop.goods.enums.CollectionStatus;
 import org.ndshop.goods.enums.SaleStatus;
 import org.ndshop.goods.service.*;
+import org.ndshop.user.common.entity.User;
 import org.ndshop.user.common.service.IUserSer;
 import com.dounine.corgi.spring.rpc.Reference;
 import goods.provider.test.ApplicationConfiguration;
@@ -44,6 +47,8 @@ public class JunitTest {
     private IGoodsPicSer goodsPicSer;
     @Autowired
     private IGoodsBrandSer goodsBrandSer;
+    @Autowired
+    private IGoodsCollectionSer goodsCollectionSer;
     @Autowired
     private IShopsSer shopsSer;
     @Reference
@@ -309,7 +314,49 @@ public class JunitTest {
         logger.info( JSON.toJSONString( goodsBrands));
     }
 
+    @Test
+    public void addCollection() throws SerException{
+        String gid = "0ad8ccdd-6ccf-40e1-8647-f6fadb4973b8";
+        String userid = "drge345456reyrh";
+        GoodsCollection goodsCollection = new GoodsCollection();
+        Goods goods = goodsSer.findById(  gid );
+        goodsCollection.setGoods( goods  );
 
+        User user = userSer.findById( userid );
+        System.out.println(user);
+        goodsCollection.setUser( user );
+
+        GoodsCollectionDto dto = new GoodsCollectionDto();
+        Condition c1 = new Condition("id",DataType.STRING,gid);
+        c1.fieldToModels(Goods.class);
+        c1.setRestrict( RestrictionType.EQ );
+
+        Condition c2 = new Condition("id",DataType.STRING,gid);
+        c2.fieldToModels(Goods.class);
+        c2.setRestrict( RestrictionType.EQ );
+
+        dto.getConditions().add( c1 );
+        dto.getConditions().add( c2 );
+
+
+        List<GoodsCollection> list = goodsCollectionSer.findByCis( dto );
+        if( list !=null && list.size() > 0 ){
+            goodsCollection.setStatus( CollectionStatus.NONFOUCING.name() );
+            goodsCollection.setCreateTime( list.get(0).getCreateTime() );
+            goodsCollection.setModifyTime(  LocalDateTime.now() );
+            goodsCollection.setId(  list.get(0).getId() );
+
+            goodsCollectionSer.update( goodsCollection );
+        }else{
+            goodsCollection.setStatus( CollectionStatus.FOUCING.name() );
+            goodsCollection.setCreateTime( LocalDateTime.now() );
+            goodsCollection.setModifyTime(  LocalDateTime.now() );
+
+            goodsCollectionSer.save( goodsCollection );
+        }
+
+
+    }
 
 
 
