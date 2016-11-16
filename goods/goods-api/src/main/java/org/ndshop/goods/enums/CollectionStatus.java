@@ -5,7 +5,7 @@ package org.ndshop.goods.enums;
  */
 public enum CollectionStatus {
     FOUCING(0)   //已关注
-    ,NONFOUCING(1) //取消关注
+    ,CONCEL(1) //取消关注
     ;
     private int code;
 

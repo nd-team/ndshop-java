@@ -341,7 +341,7 @@ public class JunitTest {
 
         List<GoodsCollection> list = goodsCollectionSer.findByCis( dto );
         if( list !=null && list.size() > 0 ){
-            goodsCollection.setStatus( CollectionStatus.NONFOUCING.name() );
+            goodsCollection.setStatus( CollectionStatus.CONCEL.name() );
             goodsCollection.setCreateTime( list.get(0).getCreateTime() );
             goodsCollection.setModifyTime(  LocalDateTime.now() );
             goodsCollection.setId(  list.get(0).getId() );
