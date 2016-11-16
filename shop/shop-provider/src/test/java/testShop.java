@@ -54,8 +54,6 @@ public class testShop {
                 user.setPhone("188888888");
                 userSer.save(user);
             }
-
-
             shop.setOwner(user);
 
             shopSer.save(shop);
@@ -99,15 +97,26 @@ public class testShop {
     }
 
     @Test
-    public void testShopStatusChange1() throws SerException {
-        //调用多个现有Service
-        shopSer.shopStatusChange1("AAA");
-        shopSer.shopStatusChange2("AAA",1);
+    public void testChange1() throws SerException {
+        //测试service缓存，调用多个现有Service
+        shopSer.shopStatusChange("AAA");
+        shopSer.findByName("AAA");
+        shopSer.findByName("AAA");
     }
 
     @Test
     public void testShopStatusChange2(){
         //使用jpql直接update
-        shopSer.shopStatusChange2("AAA",1);
+        shopSer.shopStatusChange("AAA",1);
+    }
+
+    @Test
+    public void testDaoCache() throws SerException {
+        //测试dao缓存,根据AAA仍然查出BBB,则错
+        Shop shop = shopSer.findByName("AAA");
+        shop.setName("BBB");
+        shopSer.update(shop);
+        Shop shop2 = shopSer.findByName("AAA");
+        System.out.println(shop2.getName());
     }
 }

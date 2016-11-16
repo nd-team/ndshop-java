@@ -11,7 +11,10 @@ import org.ndshop.shop.entity.Shop;
 import org.ndshop.shop.enums.ShopStatus;
 import org.ndshop.user.common.dao.IUserRep;
 import org.ndshop.user.common.entity.User;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -39,6 +42,7 @@ public class ShopSerImpl extends ServiceImpl<Shop,ShopDto> implements IShopSer {
     @Autowired
     private EntityManager em;
 
+
     @Override
     public Shop findByName(String shopName) {
         return shopRep.findByName(shopName);
@@ -55,7 +59,6 @@ public class ShopSerImpl extends ServiceImpl<Shop,ShopDto> implements IShopSer {
     }
 
     @Override
-    @Transactional
     public void addShopByOwnerName(Shop shop, String ownerName) throws SerException {
         User user = userRep.findByUsername(ownerName);
         //商店数量不超过5个
@@ -77,25 +80,34 @@ public class ShopSerImpl extends ServiceImpl<Shop,ShopDto> implements IShopSer {
     }
 
     @Override
-    public void shopStatusChange1(String shopName) throws SerException {
-        Shop shop = shopRep.findByName(shopName);
+    public void shopStatusChange(String name) throws SerException {
+        Shop shop = shopRep.findByName(name);
         shop.setStatus(shop.getStatus()==ShopStatus.OFFLINE?ShopStatus.ONLINE:ShopStatus.OFFLINE);
         shopModifiedAccessTime(shop);
         update(shop);
     }
 
     @Override
-    @Transactional
-    public void shopStatusChange2(String shopName, int test) {
+    public void shopStatusChange(String name, int test) {
         String hql = "update "+Shop.class.getSimpleName()+" shop set shop.status= 1- shop.status,shop.lastModiTime = :datetime  where shop.name = :name";
         Query query = em.createQuery(hql);
         query.setParameter("datetime", LocalDateTime.now());
-        query.setParameter("name",shopName);
+        query.setParameter("name",name);
         query.executeUpdate();
     }
 
     //设置最后修改时间
     private void shopModifiedAccessTime(Shop shop) throws SerException {
         shop.setLastModiTime(LocalDateTime.now());
+    }
+
+    @Override
+    public void update(Shop shop) {
+        shopRep.saveAndFlush(shop);
+    }
+
+    @Override
+    public Shop save(Shop shop){
+        return shopRep.save(shop);
     }
 }
