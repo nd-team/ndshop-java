@@ -37,7 +37,7 @@ public class TestCategory {
     public void addCategory() throws SerException{
         String categoryName = "BEAUTI";
         String secondName = "FACEBEAUTI";
-        String thirdName = "FACE CARE";
+        String thirdName = "HAIR CARE";
         GoodsCategory goodsCategory = new GoodsCategory();
         goodsCategory.setName(  categoryName );
         goodsCategory.setSecondName( secondName );

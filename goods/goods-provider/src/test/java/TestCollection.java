@@ -1,3 +1,4 @@
+import com.alibaba.fastjson.JSON;
 import com.dounine.corgi.spring.rpc.Reference;
 import goods.provider.test.ApplicationConfiguration;
 import org.apache.log4j.Logger;
@@ -37,10 +38,13 @@ public class TestCollection {
     @Reference
     private IUserSer userSer;
 
-
+    /**
+     * 添加收藏
+     * @throws SerException
+     */
     @Test
     public void addCollection() throws SerException {
-        String gid = "81861f34-9af6-4858-96b4-4b7c7c67b587";
+        String gid = "bf12268e-940e-4b0d-993a-b37a27fb7fe7";
         String userid = "drge345456reyrh";
         GoodsCollection goodsCollection = new GoodsCollection();
         Goods goods = new Goods();
@@ -84,8 +88,65 @@ public class TestCollection {
 
     }
 
+    /**
+     * 修改收藏的状态  取消收藏 和收藏
+     * @throws SerException
+     */
+    @Test
+    public void updateCollection() throws SerException{
+        String gid = "81861f34-9af6-4858-96b4-4b7c7c67b587";
+        String userid = "drge345456reyrh";
+        GoodsCollection goodsCollection = new GoodsCollection();
+        Goods goods = new Goods();
+        goods.setId( gid );
+        goodsCollection.setGoods( goods  );
 
-//    @Test
-//    public void updateCollection
+        User user = new User();
+        user.setId( userid );
+        System.out.println(user);
+        goodsCollection.setUser( user );
+
+        GoodsCollectionDto dto = new GoodsCollectionDto();
+        Condition c1 = new Condition("id", DataType.STRING,gid);
+        c1.fieldToModels(Goods.class);
+        c1.setRestrict( RestrictionType.EQ );
+
+        Condition c2 = new Condition("id",DataType.STRING,gid);
+        c2.fieldToModels(Goods.class);
+        c2.setRestrict( RestrictionType.EQ );
+
+        dto.getConditions().add( c1 );
+        dto.getConditions().add( c2 );
+
+
+        List<GoodsCollection> list = goodsCollectionSer.findByCis( dto );
+        if( list !=null && list.size() > 0 ) {
+            goodsCollection.setStatus(CollectionStatus.CONCEL.name());
+            goodsCollection.setCreateTime(list.get(0).getCreateTime());
+            goodsCollection.setModifyTime(LocalDateTime.now());
+            goodsCollection.setId(list.get(0).getId());
+
+            goodsCollectionSer.update(goodsCollection);
+        }
+
+    }
+
+    /**
+     * 根据用户id查询该用户的商品收藏
+     * @throws SerException
+     */
+    @Test
+    public void findCollection() throws SerException{
+        String userId = "drge345456reyrh";
+        GoodsCollectionDto dto = new GoodsCollectionDto();
+
+        Condition c = new Condition( "id" ,DataType.STRING ,userId );
+        c.fieldToModels( User.class );
+        c.setRestrict( RestrictionType.EQ );
+        dto.getConditions().add( c );
+
+        List<GoodsCollection> gc = goodsCollectionSer.findByCis(  dto );
+        logger.info(JSON.toJSONString( gc ) );
+    }
 
 }

@@ -1,3 +1,4 @@
+import com.alibaba.fastjson.JSON;
 import goods.provider.test.ApplicationConfiguration;
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -67,6 +68,18 @@ public class TestDescription {
 
         goods.setGoodsDes(goodsDes);
         goodsSer.update( goods );
+    }
+
+    /**
+     * 查找描述
+     * @throws SerException
+     */
+    @Test
+    public void findDese() throws SerException{
+        String goodId = "81861f34-9af6-4858-96b4-4b7c7c67b587";
+        Goods goods = goodsSer.findById( goodId );
+        GoodsDes goodsDes = goods.getGoodsDes();
+        logger.info(JSON.toJSONString( goodsDes ));
     }
 
 }

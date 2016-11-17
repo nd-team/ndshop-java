@@ -47,6 +47,10 @@ public class TestBrands {
         goodsBrandSer.save( goodsBrand );
     }
 
+    /**
+     * 更新品牌名
+     * @throws SerException
+     */
     @Test
     public void updateBrand ()throws SerException{
         String name = "美羊羊";
@@ -60,6 +64,10 @@ public class TestBrands {
         logger.info ( JSON.toJSONString( goodsBrand ) );
     }
 
+    /**
+     * 更新品牌名激活状态
+     * @throws SerException
+     */
     @Test
     public void updateBrandstatus ()throws SerException{
         String status = BrandStatus.ACTIVE.getName();

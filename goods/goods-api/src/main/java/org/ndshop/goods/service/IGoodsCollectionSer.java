@@ -11,4 +11,8 @@ import org.ndshop.goods.entity.GoodsCollection;
 public interface IGoodsCollectionSer extends IService<GoodsCollection , GoodsCollectionDto> {
 
     void addCollection(String goodsId, String userId) throws SerException;
+
+    void updateCollection(String goodsId ,String userId ) throws SerException;
+
+    void findCollection(String userId ) throws SerException;
 }
