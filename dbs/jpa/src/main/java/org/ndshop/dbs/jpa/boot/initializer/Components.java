@@ -5,6 +5,7 @@ import org.ndshop.dbs.jpa.boot.Constant;
 import org.apache.commons.lang3.ArrayUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
@@ -15,7 +16,6 @@ import org.springframework.orm.hibernate5.support.OpenSessionInViewInterceptor;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.util.ArrayList;
@@ -37,27 +37,27 @@ public class Components {
         return dds;
     }
 
+    @Bean(name = "entityManagerFactory")
+    public EntityManagerFactory entityManagerFactory(LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean) {
+        return localContainerEntityManagerFactoryBean.getNativeEntityManagerFactory();
+    }
+
     /**
      * 实体管理器
      *
      * @return
      */
+    @Autowired
+    private EntityToScan packagesToScan;
+
     @Bean(name = "entityManagerFactoryBean")
     public LocalContainerEntityManagerFactoryBean getLCEMF(DruidDataSource druidDataSource) {
         LocalContainerEntityManagerFactoryBean lcemf = new LocalContainerEntityManagerFactoryBean();
         lcemf.setDataSource(druidDataSource);
         lcemf.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-        lcemf.setPackagesToScan(ArrayUtils.add(scanPackages(), Constant.SCAN_APP_PACKAGES));
+        String[] packages = ArrayUtils.add(packagesToScan.entityScan(), Constant.SCAN_APP_PACKAGES);
+        lcemf.setPackagesToScan(packages);
         return lcemf;
-    }
-
-    public String[] scanPackages() {
-        return new String[0];
-    }
-
-    @Bean(name = "entityManagerFactory")
-    public EntityManagerFactory entityManagerFactory(LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean) {
-        return localContainerEntityManagerFactoryBean.getNativeEntityManagerFactory();
     }
 
     /**
@@ -77,12 +77,14 @@ public class Components {
     public OpenSessionInViewInterceptor openSessionInViewInterceptor(EntityManager entityManager) {
         OpenSessionInViewInterceptor inViewInterceptor = new OpenSessionInViewInterceptor();
         Session session = (Session) entityManager.getDelegate();
-        SessionFactory sessionFactory  =session.getSessionFactory();
+        SessionFactory sessionFactory = session.getSessionFactory();
         inViewInterceptor.setSessionFactory(sessionFactory);
         return inViewInterceptor;
     }
 
 
+    @Autowired
+    private JpaCache jpaCache;
 
     /**
      * 加载缓存配置
@@ -96,12 +98,10 @@ public class Components {
         for (String cache_name : Constant.CACHE_NAME) {
             caches.add(new ConcurrentMapCache(cache_name));
         }
-        caches.addAll(initCaches());
+        caches.addAll(jpaCache.initCaches());
         cacheManager.setCaches(caches);
         return cacheManager;
     }
 
-    public List<Cache> initCaches() {
-        return new ArrayList<>(0);
-    }
+
 }

@@ -1,27 +1,16 @@
 package org.ndshop.user.common.boot;
 
 import org.ndshop.dbs.jpa.boot.initializer.Components;
-import org.springframework.cache.Cache;
-import org.springframework.cache.concurrent.ConcurrentMapCache;
+import org.ndshop.dbs.jpa.boot.initializer.EntityToScan;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
- * Created by lgq on 16-10-13.
+ * Created by lgq on 16-11-18.
  */
 @Component
-public class MyComponents extends Components {
-
+public class MyComponents extends Components implements EntityToScan{
     @Override
-    public String[] scanPackages() {
-        return new String[]{"org.ndshop.user.common"};
-    }
-
-    @Override
-    public List<Cache> initCaches() {
-        ConcurrentMapCache cache =  new ConcurrentMapCache("myCache");
-        return Arrays.asList(cache);
+    public String[] entityScan() {
+        return new String[]{"org.ndshop.user.common.entity"};
     }
 }
