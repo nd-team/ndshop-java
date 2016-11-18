@@ -92,7 +92,7 @@ public class GoodsCollectionSerImpl extends ServiceImpl<GoodsCollection, GoodsCo
     }
 
 
-    @Cacheable("serviceCache")
+
     @Override
     public void findCollection(String userId ) throws SerException{
         GoodsCollectionDto dto = new GoodsCollectionDto();

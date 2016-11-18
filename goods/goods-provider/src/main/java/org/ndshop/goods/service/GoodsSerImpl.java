@@ -34,7 +34,7 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
     @Autowired
     private IGoodsBrandSer goodsBrandSer;
 
-    @Cacheable("serviceCache")
+
     @Override
     public Goods findByGoodName(String goodsName) {
         Goods goods = goodsRep.findByGoodsName( goodsName );
@@ -76,7 +76,6 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
 
     }
 
-    @Cacheable("serviceCache")
     @Override
     public void findGoodsByFirstCategory(String firstCagetoryName) throws SerException{
         GoodsDto dto = new GoodsDto();
@@ -90,7 +89,6 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
         logger.info(JSON.toJSONString( goods ));
     }
 
-    @Cacheable("serviceCache")
     @Override
     public void findDese( String goodId ) throws SerException{
         Goods goods = findById( goodId );

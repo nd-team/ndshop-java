@@ -76,7 +76,7 @@ public class GoodsCategorySerImpl extends ServiceImpl<GoodsCategory , GoodsCateg
 
     }
 
-    @Cacheable("serviceCache")
+
     @Override
     public void findCategoryByFirstCategory (String firstCategoryName ) throws  SerException{
         Condition condition = new Condition("name",DataType.STRING ,firstCategoryName);
