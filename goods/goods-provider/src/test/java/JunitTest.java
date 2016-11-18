@@ -1,16 +1,20 @@
 
 import com.alibaba.fastjson.JSON;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.ndshop.dbs.jpa.dto.Condition;
 import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.enums.RestrictionType;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.goods.dto.GoodsCategoryDto;
+import org.ndshop.goods.dto.GoodsCollectionDto;
 import org.ndshop.goods.dto.GoodsPicDto;
 import org.ndshop.goods.entity.*;
 import org.ndshop.goods.enums.BrandStatus;
+import org.ndshop.goods.enums.CollectionStatus;
 import org.ndshop.goods.enums.SaleStatus;
 import org.ndshop.goods.service.*;
+import org.ndshop.user.common.entity.User;
 import org.ndshop.user.common.service.IUserSer;
 import com.dounine.corgi.spring.rpc.Reference;
 import goods.provider.test.ApplicationConfiguration;
@@ -43,6 +47,8 @@ public class JunitTest {
     private IGoodsPicSer goodsPicSer;
     @Autowired
     private IGoodsBrandSer goodsBrandSer;
+    @Autowired
+    private IGoodsCollectionSer goodsCollectionSer;
     @Autowired
     private IShopsSer shopsSer;
     @Reference
@@ -159,197 +165,6 @@ public class JunitTest {
             logger.info( JSON.toJSONString(g));
         }
     }
-
-    @Test
-    public void addBatchCategory() throws  SerException {
-        List<String> electricType = Arrays.asList("BIGELECTRIC","AUDIOELECTRIC","LIVINGELECTRIC","KITCHENELECTRIC","HEALTHELECTRIC");
-        String categoryName = "ELECTRC";
-        List<GoodsCategory> goodElectric = new ArrayList<>();
-        for(int i =0 ;i<electricType.size() ;i++){
-            GoodsCategoryDto  dto = new GoodsCategoryDto();
-            Condition condition1 = new Condition("name", DataType.STRING,categoryName);
-            Condition condition2 = new Condition("secondName", DataType.STRING,electricType.get(i) );
-            dto.getConditions().add(  condition1  );
-            dto.getConditions().add(  condition2  );
-            GoodsCategory gc = goodsCategorySer.findOne(  dto );
-            if( gc == null ){
-                GoodsCategory goodsCategory = new GoodsCategory();
-                goodsCategory.setName(  categoryName  );
-                goodsCategory.setSecondName(  electricType.get(i) );
-                goodsCategory.setCreateTime( LocalDateTime.now() );
-                goodsCategory.setModifyTime( LocalDateTime.now() );
-
-                goodElectric.add( goodsCategory );
-            }
-        }
-        if( goodElectric != null && goodElectric.size()>0){
-            goodsCategorySer.save(  goodElectric );
-            System.out.println( JSON.toJSONString( goodElectric ));
-        }
-
-
-    }
-
-    @Test
-    public void upateBatchCategory() throws  SerException {
-        List<String> electricType = Arrays.asList("BIGELECTRIC","AUDIOELECTRIC","LIVINGELECTRIC","KITCHENELECTRIC","HEALTHELECTRIC");
-        String categoryName = "ELECTRC";
-        List<GoodsCategory> goodElectricUpdate = new ArrayList<>();
-        for(int i =0 ;i<electricType.size() ;i++){
-            GoodsCategoryDto  dto = new GoodsCategoryDto();
-            Condition condition1 = new Condition("name", DataType.STRING,categoryName);
-            Condition condition2 = new Condition("secondName", DataType.STRING,electricType.get(i) );
-            dto.getConditions().add(  condition1  );
-            dto.getConditions().add(  condition2  );
-            GoodsCategory gc = goodsCategorySer.findOne(  dto );
-            if( gc!= null ){
-                GoodsCategory updateCategory = new GoodsCategory();
-                updateCategory.setId( gc.getId() );
-                updateCategory.setName(  categoryName  );
-                updateCategory.setSecondName(  electricType.get(i) );
-                updateCategory.setCreateTime( gc.getCreateTime() );
-                updateCategory.setModifyTime( LocalDateTime.now() );
-                goodElectricUpdate.add( updateCategory );
-            }
-
-        }
-        if( goodElectricUpdate != null && goodElectricUpdate.size()>0 ){
-            goodsCategorySer.update(  goodElectricUpdate );
-            System.out.println( JSON.toJSONString( goodElectricUpdate ));
-        }
-    }
-
-    @Test
-    public void updateCategory() throws SerException{
-        String cateoryId ="0dc5aeaa-6cc1-4a01-b0c5-96cf62115653";
-        GoodsCategory goodsCategory = goodsCategorySer.findById( cateoryId );
-        goodsCategory.setSecondName("HEALTHELECTRIC");
-        goodsCategory.setModifyTime( LocalDateTime.now() );
-        goodsCategory.setId( cateoryId );
-        goodsCategorySer.update( goodsCategory );
-        logger.info( JSON.toJSONString( goodsCategory ) );
-    }
-
-
-    @Test
-    public void deleteCategory() throws SerException{
-        String cateoryId ="0dc5aeaa-6cc1-4a01-b0c5-96cf62115653";
-        GoodsCategory goodsCategory = goodsCategorySer.findById( cateoryId );
-        if( goodsCategory != null ){
-            goodsCategorySer.remove( cateoryId );
-        }else{
-            logger.info(JSON.toJSONString(goodsCategory) );
-        }
-
-    }
-
-    @Test
-    public void findCategoryByFirstCategory () throws  SerException{
-        String name = "ELECTRC";
-        Condition condition = new Condition("name",DataType.STRING ,name);
-        GoodsCategoryDto dto = new GoodsCategoryDto();
-        dto.getConditions().add( condition );
-        dto.setLimit(2);
-        dto.setPage(1);
-        List<GoodsCategory> goodCategory = goodsCategorySer.findByCis( dto,true );
-        logger.info(JSON.toJSONString(goodCategory) );
-    }
-
-
-    /**
-     * 测试商品图片
-     */
-    @Test
-    public  void addGoodsPic () throws  SerException{
-        String gid ="0ad8ccdd-6ccf-40e1-8647-f6fadb4973b8";
-        Goods goods = goodsSer.findById( gid );
-        GoodsPic goodsPic = new GoodsPic();
-        String time = goodsPic.getCreateTime().minusSeconds(0).format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-        goodsPic.setPicUrl("/home/xx/xx"+time+".jpg");
-        goodsPic.setFlag("详情图片");
-        goodsPic.setGoods( goods );
-        goodsPicSer.save(  goodsPic );
-        logger.info(time+""+ goodsPic );
-
-    }
-
-    @Test
-    public  void updateGoodsPic () throws  SerException{
-        String picId ="cc8a3190-83c1-4a52-b61b-9b22f34e08b0";
-        GoodsPic goodsPic = new GoodsPic();
-        String time = goodsPic.getCreateTime().minusSeconds(0).format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-        goodsPic.setPicUrl("/home/xx/xx"+time+".jpg");
-        goodsPic.setFlag("详情图片");
-        goodsPicSer.update(  goodsPic );
-        logger.info(time+""+ goodsPic );
-
-    }
-
-    /**
-     * 根据商品id查找商品图片
-     * @throws SerException
-     */
-    @Test
-    public void findGoodsPic() throws  SerException{
-        String gid ="805968df-78cf-416b-b0ff-030638599584";
-        Condition condition = new Condition("id", DataType.STRING , gid);
-        condition.fieldToModels(Goods.class);
-        GoodsPicDto goodsPicDto = new GoodsPicDto();
-        condition.setRestrict(RestrictionType.EQ);
-        goodsPicDto.getConditions().add( condition );
-        List<GoodsPic> gp = goodsPicSer.findByCis( goodsPicDto );
-        logger.info( JSON.toJSONString( gp ));
-    }
-
-    /**
-     * 添加商品 品牌
-     */
-    @Test
-    public void addBrand() throws SerException{
-        String brandName = "喜羊羊";
-        GoodsBrand goodsBrand = new GoodsBrand();
-        goodsBrand.setBrandName(  brandName );
-        goodsBrand.setBrandStatus(BrandStatus.FROZEN.getName() );
-        goodsBrand.setCreateTime(  LocalDateTime.now() );
-        goodsBrand.setModifyTime(  LocalDateTime.now() );
-        goodsBrandSer.save( goodsBrand );
-    }
-
-    @Test
-    public void updateBrand ()throws SerException{
-        String name = "美羊羊";
-        String bid = "4069cb12-bbd0-4641-aa93-de4c811fe2b0";
-        GoodsBrand goodsBrand = goodsBrandSer.findById( bid );
-        if (goodsBrand != null ){
-            goodsBrand.setBrandName( name );
-            goodsBrand.setModifyTime( LocalDateTime.now() );
-            goodsBrandSer.update( goodsBrand );
-        }
-        logger.info ( JSON.toJSONString( goodsBrand ) );
-    }
-
-    @Test
-    public void updateBrandstatus ()throws SerException{
-        String status = BrandStatus.ACTIVE.getName();
-        String bid = "4069cb12-bbd0-4641-aa93-de4c811fe2b0";
-        GoodsBrand goodsBrand = goodsBrandSer.findById( bid );
-        if (goodsBrand != null ){
-            goodsBrand.setBrandStatus( status );
-            goodsBrand.setModifyTime( LocalDateTime.now() );
-            goodsBrandSer.update( goodsBrand );
-        }
-        logger.info( JSON.toJSONString ( goodsBrand ) );
-    }
-
-    @Test
-    public void findBrand() throws SerException{
-        List<GoodsBrand> goodsBrands = goodsBrandSer.findAll();
-        logger.info( JSON.toJSONString( goodsBrands));
-    }
-
-
-
-
 
 
 

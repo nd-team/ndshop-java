@@ -19,6 +19,9 @@ public class GoodsCategory extends BaseEntity{
     @Column(nullable = false , unique = true)
     private String secondName ;//二级分类
 
+    @Column(nullable = false , unique = true)
+    private String thirdName;//三级分类
+
     @OneToMany(mappedBy = "goodsCategory", cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
     private Set<Goods> goods;
 
@@ -44,6 +47,14 @@ public class GoodsCategory extends BaseEntity{
 
     public void setSecondName(String secondName) {
         this.secondName = secondName;
+    }
+
+    public String getThirdName() {
+        return thirdName;
+    }
+
+    public void setThirdName(String thirdName) {
+        this.thirdName = thirdName;
     }
 
     public Set<Goods> getGoods() {
