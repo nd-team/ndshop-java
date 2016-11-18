@@ -1,5 +1,7 @@
 package org.ndshop.goods.service;
 
+import com.alibaba.fastjson.JSON;
+import org.apache.log4j.Logger;
 import org.ndshop.dbs.jpa.dto.Condition;
 import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.enums.RestrictionType;
@@ -23,6 +25,8 @@ import java.util.Set;
  */
 @Service
 public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoodsSer{
+    private static Logger logger = Logger.getLogger(GoodsSerImpl.class);
+
     @Autowired
     private IGoodsRep goodsRep;
     @Autowired
@@ -72,21 +76,26 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
 
     }
 
-//    @Cacheable("serviceCache")
-//    @Override
-//    public List<Goods> findByCategory(String firstCategory, String secondCategory) throws SerException{
-//        GoodsDto dto = new GoodsDto();
-//        List<Condition> conditions = dto.getConditions();
-//        Condition condition = new Condition("goods.firstCategory", DataType.STRING,firstCategory);
-//        condition.setRestrict(RestrictionType.EQ);
-//        conditions.add(condition);
-//
-//        Condition condition1 = new Condition("goods.secondCategory", DataType.STRING,secondCategory);
-//        condition1.setRestrict(RestrictionType.EQ);
-//        conditions.add(condition1);
-//
-//        List<Goods> list = findByCis(dto , true);
-//
-//        return list;
-//    }
+    @Cacheable("serviceCache")
+    @Override
+    public void findGoodsByFirstCategory(String firstCagetoryName) throws SerException{
+        GoodsDto dto = new GoodsDto();
+
+        Condition c = new Condition("name", DataType.STRING , firstCagetoryName);
+        c.setRestrict( RestrictionType.EQ );
+        c.fieldToModels( GoodsCategory.class );
+        dto.getConditions().add( c );
+
+        List<Goods> goods = findByCis( dto );
+        logger.info(JSON.toJSONString( goods ));
+    }
+
+    @Cacheable("serviceCache")
+    @Override
+    public void findDese( String goodId ) throws SerException{
+        Goods goods = findById( goodId );
+        GoodsDes goodsDes = goods.getGoodsDes();
+        logger.info(JSON.toJSONString( goodsDes ));
+    }
+
 }

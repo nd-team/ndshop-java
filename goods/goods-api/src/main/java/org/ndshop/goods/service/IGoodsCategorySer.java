@@ -13,10 +13,6 @@ import java.util.List;
  */
 public interface IGoodsCategorySer extends IService<GoodsCategory, GoodsCategoryDto> {
 
-    void addBatchCategory(List<String> goodsSecondCategory , String firstCategory ) throws SerException;
-
-    void upateBatchCategory( List<String> goodsSecondCategory , String firstCategory ) throws  SerException;
-
     void addCategory ( GoodsCategory goodsCategory) throws SerException;
 
     void updateCategory( GoodsCategory goodsCategory ) throws SerException;
