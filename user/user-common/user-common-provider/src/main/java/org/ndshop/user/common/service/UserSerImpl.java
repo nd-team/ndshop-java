@@ -22,7 +22,6 @@ public class UserSerImpl extends ServiceImpl<User, UserDto> implements IUserSer 
     @Autowired
     private IUserRep userRep;
 
-
     @Override
     public User findByUsername(String username) {
         return userRep.findByUsername(username);

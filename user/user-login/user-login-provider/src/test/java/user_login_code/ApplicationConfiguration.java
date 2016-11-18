@@ -1,4 +1,4 @@
-package org.ndshop.user.login.boot;
+package user_login_code;
 
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
@@ -8,12 +8,9 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-/**
- * Created by huanghuanlai on 16/8/16.
- */
 
 @Configuration
-@EnableJpaRepositories(basePackages = {"com.bjike.ndshop.user.common.dao"})
+@EnableJpaRepositories(basePackages = {"org.ndshop.user.common.dao"})
 @EnableTransactionManagement(proxyTargetClass = true)
 @EnableCaching
 @PropertySource({"classpath:config.properties","classpath:corgi.properties"})
@@ -21,7 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         excludeFilters = {@ComponentScan.Filter(
                 type = FilterType.ANNOTATION,
                 value = {Configuration.class})})
-public class App {
-
+public class ApplicationConfiguration {
 
 }
+

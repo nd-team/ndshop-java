@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  * 用户
  */
 @Entity
-@Table(name = "nd_user")
+@Table(name = "user")
 public class User extends BaseEntity {
 
     @Column(unique = true, length = 16, nullable = false)

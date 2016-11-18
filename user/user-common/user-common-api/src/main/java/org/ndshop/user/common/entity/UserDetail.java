@@ -10,7 +10,7 @@ import javax.persistence.*;
  * 用户详情
  */
 @Entity
-@Table(name="nd_user_detail")
+@Table(name="user_detail")
 public class UserDetail extends BaseEntity {
 
     @OneToOne(optional = false, cascade = CascadeType.REFRESH)
