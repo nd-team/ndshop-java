@@ -56,12 +56,16 @@ public class testShop {
             }
             shop.setOwner(user);
 
-            shopSer.save(shop);
+            shopSer.saveAndClearCache(shop);
         }
     }
 
     @Test
     public void testFindShop() {
+        System.out.println(shopSer.findByName("AAA"));
+        System.out.println(shopSer.findByName("AAA"));
+        System.out.println(shopSer.findByName("AAA"));
+        System.out.println(shopSer.findByName("AAA"));
         System.out.println(shopSer.findByName("AAA"));
     }
 
@@ -100,7 +104,7 @@ public class testShop {
     public void testChange1() throws SerException {
         //测试service缓存，调用多个现有Service
         shopSer.shopStatusChange("AAA");
-        shopSer.findByName("AAA");
+        Shop shop = shopSer.findByName("AAA");
         shopSer.findByName("AAA");
     }
 
@@ -111,12 +115,18 @@ public class testShop {
     }
 
     @Test
-    public void testDaoCache() throws SerException {
-        //测试dao缓存,根据AAA仍然查出BBB,则错
+    public void testServiceCacheClear() throws SerException {
+        //测试service缓存清除,根据AAA仍然查出BBB,则错
         Shop shop = shopSer.findByName("AAA");
         shop.setName("BBB");
-        shopSer.update(shop);
+        shopSer.updateAndClearCache(shop,"AAA");
         Shop shop2 = shopSer.findByName("AAA");
         System.out.println(shop2.getName());
+    }
+
+
+    @Test
+    public void testDaoCache(){
+        shopSer.testSingle();
     }
 }
