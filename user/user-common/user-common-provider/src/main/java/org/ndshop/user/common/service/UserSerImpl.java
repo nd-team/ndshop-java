@@ -8,8 +8,8 @@ import org.ndshop.user.common.dao.IUserRep;
 import org.ndshop.user.common.dto.UserDto;
 import org.ndshop.user.common.entity.User;
 import org.ndshop.dbs.jpa.exception.SerException;
-import com.dounine.corgi.spring.rpc.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -21,7 +21,6 @@ import java.util.List;
 public class UserSerImpl extends ServiceImpl<User, UserDto> implements IUserSer {
     @Autowired
     private IUserRep userRep;
-
 
     @Override
     public User findByUsername(String username) {

@@ -17,7 +17,7 @@ import com.dounine.corgi.spring.rpc.Service;
 @Service
 public class UserRegisterSerImpl implements IUserRegisterSer {
 
-    @Reference
+    @Reference(url = "localhost:8888")
     private IUserSer userSer;
 
     @Override

@@ -12,7 +12,7 @@ import javax.persistence.*;
  * 收货地址
  */
 @Entity
-@Table(name = "nd_shipping_address")
+@Table(name = "shipping_address")
 public class ShippingAddress extends BaseEntity {
 
     @ManyToOne(cascade = CascadeType.REFRESH)

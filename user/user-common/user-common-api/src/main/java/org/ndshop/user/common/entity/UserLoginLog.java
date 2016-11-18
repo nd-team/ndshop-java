@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  * 用户登陆日志
  */
 @Entity
-@Table(name = "nd_user_login_log")
+@Table(name = "user_login_log")
 public class UserLoginLog extends BaseEntity {
 
     private LocalDateTime loginTime;//    登录时间
