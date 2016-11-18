@@ -30,4 +30,6 @@ include ':message:message-api'
 include ':message:message-consumer'
 include ':message:message-provider'
 
+include ':shop:shop-api'
+include ':shop:shop-provider'
 
