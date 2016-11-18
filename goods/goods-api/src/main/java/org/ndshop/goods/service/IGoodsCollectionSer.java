@@ -15,6 +15,6 @@ public interface IGoodsCollectionSer extends IService<GoodsCollection , GoodsCol
 
     void updateCollection(String goodsId ,String userId ) throws SerException;
 
-    @Cacheable("serviceCache")
+    @Cacheable("goodsServiceCache")
     void findCollection(String userId ) throws SerException;
 }

@@ -12,13 +12,10 @@ import org.ndshop.goods.dao.IGoodsRep;
 import org.ndshop.goods.dto.GoodsDto;
 import org.ndshop.goods.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by ike on 16-11-4.
@@ -64,14 +61,14 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
             update( goods );
         }
 
-        GoodsShops goodsShops = new GoodsShops();
-        goodsShops.setGoods(goods);
-        Shops shops = new Shops();
-        shops.setId( shopId );
-        goodsShops.setShops( shops );
-        Set<GoodsShops> gs = new HashSet<>();
-        gs.add(goodsShops);
-        goods.setGoodsShops(gs);
+//        GoodsShops goodsShops = new GoodsShops();
+//        goodsShops.setGoods(goods);
+//        Shops shops = new Shops();
+//        shops.setId( shopId );
+//        goodsShops.setShops( shops );
+//        Set<GoodsShops> gs = new HashSet<>();
+//        gs.add(goodsShops);
+//        goods.setGoodsShops(gs);
 
 
     }

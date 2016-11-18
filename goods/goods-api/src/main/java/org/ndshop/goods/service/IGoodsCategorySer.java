@@ -18,6 +18,6 @@ public interface IGoodsCategorySer extends IService<GoodsCategory, GoodsCategory
 
     void deleteCategory( GoodsCategory goodsCategory ) throws SerException;
 
-    @Cacheable("serviceCache")
+    @Cacheable("goodsServiceCache")
     void findCategoryByFirstCategory (String firstCategoryName ) throws  SerException;
 }

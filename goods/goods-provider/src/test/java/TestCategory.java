@@ -37,7 +37,7 @@ public class TestCategory {
     public void addCategory() throws SerException{
         String categoryName = "BEAUTI";
         String secondName = "FACEBEAUTI";
-        String thirdName = "HAIR CARE";
+        String thirdName = "BAB CARE";
         GoodsCategory goodsCategory = new GoodsCategory();
         goodsCategory.setName(  categoryName );
         goodsCategory.setSecondName( secondName );
@@ -89,6 +89,7 @@ public class TestCategory {
         dto.setPage(1);
         List<GoodsCategory> goodCategory = goodsCategorySer.findByCis( dto,true );
         logger.info(JSON.toJSONString(goodCategory) );
+
     }
 
     @Test

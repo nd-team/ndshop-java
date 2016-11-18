@@ -11,7 +11,7 @@ import org.springframework.cache.annotation.Cacheable;
  * Created by ike on 16-11-4.
  */
 public interface IGoodsSer extends IService<Goods, GoodsDto> {
-    @Cacheable("serviceCache")
+    @Cacheable("goodsServiceCache")
     default Goods findByGoodName(String goodsName) {
         return null;
     }
@@ -20,9 +20,9 @@ public interface IGoodsSer extends IService<Goods, GoodsDto> {
     default void addGoods(Goods goods, String shopId, String categoryId, String goodsBrandId) throws SerException {
     }
 
-    @Cacheable("serviceCache")
+    @Cacheable("goodsServiceCache")
     void findGoodsByFirstCategory(String firstCagetoryName) throws SerException;
 
-    @Cacheable("serviceCache")
+    @Cacheable("goodsServiceCache")
     void findDese(String goodId) throws SerException;
 }

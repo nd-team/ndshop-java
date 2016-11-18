@@ -37,15 +37,15 @@ public class Goods extends BaseEntity{
     @OneToOne( cascade = CascadeType.ALL, mappedBy = "goods")
     private GoodsInventory goodsInventory;
 
-    @OneToMany(mappedBy = "goods", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    private Set<GoodsShops> goodsShops;
+//    @OneToMany(mappedBy = "goods", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+//    private Set<GoodsShops> goodsShops;
 
     @OneToMany(mappedBy = "goods", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private Set<GoodsPic> goodsPic;
 
     @OneToMany(mappedBy = "goods", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private Set<GoodsCollection> goodsCollections;
-    
+
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
     @Column(columnDefinition="dateTime") //指定数据库类型
     private LocalDateTime createTime = LocalDateTime.now();//创建时间
@@ -158,14 +158,14 @@ public class Goods extends BaseEntity{
         this.goodsInventory = goodsInventory;
     }
 
-    public Set<GoodsShops> getGoodsShops() {
-        return goodsShops;
-    }
-
-    public void setGoodsShops(Set<GoodsShops> goodsShops) {
-        this.goodsShops = goodsShops;
-    }
-
+//    public Set<GoodsShops> getGoodsShops() {
+//        return goodsShops;
+//    }
+//
+//    public void setGoodsShops(Set<GoodsShops> goodsShops) {
+//        this.goodsShops = goodsShops;
+//    }
+//
     public Set<GoodsPic> getGoodsPic() {
         return goodsPic;
     }

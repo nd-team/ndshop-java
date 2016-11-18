@@ -15,6 +15,6 @@ public interface IGoodsBrandSer extends IService<GoodsBrand , GoodsBrandDto>{
 
     void updateBrand (GoodsBrand gb )throws SerException;
 
-    @Cacheable("serviceCache")
+    @Cacheable("goodsServiceCache")
     void findBrand() throws SerException;
 }

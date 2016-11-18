@@ -38,7 +38,7 @@ public class TestPic {
      */
     @Test
     public  void addGoodsPic () throws SerException {
-        String gid = "34db4781-15cf-4354-a416-dbb2253d5d6e";
+        String gid = "b0f7ed15-7e1b-4699-a654-4ae19b4a20b2";
         Goods goods = goodsSer.findById( gid );
         GoodsPic goodsPic = new GoodsPic();
         String time = goodsPic.getCreateTime().minusSeconds(0).format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
@@ -52,7 +52,7 @@ public class TestPic {
 
     @Test
     public  void updateGoodsPic () throws  SerException{
-        String picId ="31a7748a-4eb6-4252-bf8b-3776547c2306";
+        String picId ="3abfab9e-1ebb-4247-8f44-d80c8294e5c1";
         GoodsPic goodsPic = goodsPicSer.findById( picId );
         String time = goodsPic.getCreateTime().minusSeconds(0).format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
         goodsPic.setPicUrl("/home/xx/xx"+time+".jpg");
@@ -69,7 +69,7 @@ public class TestPic {
      */
     @Test
     public void findGoodsPic() throws  SerException{
-        String gid = "34db4781-15cf-4354-a416-dbb2253d5d6e";
+        String gid = "b0f7ed15-7e1b-4699-a654-4ae19b4a20b2";
         Condition condition = new Condition("id", DataType.STRING , gid);
         condition.fieldToModels(Goods.class);
         GoodsPicDto goodsPicDto = new GoodsPicDto();

@@ -44,7 +44,7 @@ public class TestCollection {
      */
     @Test
     public void addCollection() throws SerException {
-        String gid = "bf12268e-940e-4b0d-993a-b37a27fb7fe7";
+        String gid = "3abfab9e-1ebb-4247-8f44-d80c8294e5c1";
         String userid = "drge345456reyrh";
         GoodsCollection goodsCollection = new GoodsCollection();
         Goods goods = new Goods();
@@ -94,7 +94,7 @@ public class TestCollection {
      */
     @Test
     public void updateCollection() throws SerException{
-        String gid = "81861f34-9af6-4858-96b4-4b7c7c67b587";
+        String gid = "3abfab9e-1ebb-4247-8f44-d80c8294e5c1";
         String userid = "drge345456reyrh";
         GoodsCollection goodsCollection = new GoodsCollection();
         Goods goods = new Goods();

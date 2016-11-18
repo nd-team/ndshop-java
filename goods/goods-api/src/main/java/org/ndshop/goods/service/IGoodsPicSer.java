@@ -14,6 +14,6 @@ public interface IGoodsPicSer extends IService<GoodsPic, GoodsPicDto> {
 
     void addGoodsPic (Goods goods , String picStrs , String flag)throws SerException;
 
-    @Cacheable("serviceCache")
+    @Cacheable("goodsServiceCache")
     void findGoodsPic( String goodsId ) throws  SerException;
 }

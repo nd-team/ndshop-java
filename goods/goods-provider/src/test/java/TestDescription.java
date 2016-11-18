@@ -27,7 +27,7 @@ public class TestDescription {
 
     @Test
     public void addDescription() throws SerException{
-        String gid = "81861f34-9af6-4858-96b4-4b7c7c67b587";
+        String gid = "b0f7ed15-7e1b-4699-a654-4ae19b4a20b2";
         Goods goods = goodsSer.findById( gid );
 
         GoodsDes gDes = new GoodsDes();
@@ -49,7 +49,7 @@ public class TestDescription {
 
     @Test
     public void updateGoodsDes() throws SerException{
-        String goodId = "81861f34-9af6-4858-96b4-4b7c7c67b587";
+        String goodId = "b0f7ed15-7e1b-4699-a654-4ae19b4a20b2";
         Goods goods = goodsSer.findById( goodId );
 
         GoodsDes goodsDes = new GoodsDes();
