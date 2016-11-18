@@ -1,5 +1,6 @@
 package org.ndshop.user.common.service;
 
+import com.dounine.corgi.spring.rpc.Service;
 import org.ndshop.dbs.jpa.dto.Condition;
 import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.enums.RestrictionType;
@@ -10,6 +11,7 @@ import org.ndshop.user.common.entity.User;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 
