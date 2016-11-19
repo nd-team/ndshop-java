@@ -1,3 +1,4 @@
+import com.alibaba.fastjson.JSON;
 import com.dounine.corgi.spring.rpc.Reference;
 import goods.provider.test.ApplicationConfiguration;
 import org.apache.log4j.Logger;
@@ -148,9 +149,9 @@ public class JunitTest {
     public void findAll() throws SerException {
 //        User user =userSer.findByUsername("liguiqin");
         List<Goods> goods = goodsSer.findAll();
-//        for(Goods g : goods){
-//            logger.info( JSON.toJSONString(user));
-//        }
+        for(Goods g : goods){
+            logger.info( JSON.toJSONString(g));
+        }
     }
 
 

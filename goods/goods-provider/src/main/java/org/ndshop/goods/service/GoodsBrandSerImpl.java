@@ -7,6 +7,7 @@ import org.ndshop.dbs.jpa.service.ServiceImpl;
 import org.ndshop.goods.dto.GoodsBrandDto;
 import org.ndshop.goods.entity.GoodsBrand;
 import org.ndshop.goods.enums.BrandStatus;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,7 +49,7 @@ public class GoodsBrandSerImpl extends ServiceImpl<GoodsBrand, GoodsBrandDto> im
         logger.info( JSON.toJSONString (goodsBrand) );
     }
 
-
+    @Cacheable("goodsServiceCache")
     @Override
     public void findBrand() throws SerException{
         List<GoodsBrand> goodsBrands = findAll();

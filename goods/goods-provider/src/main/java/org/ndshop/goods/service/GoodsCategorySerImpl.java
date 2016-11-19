@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -76,7 +75,7 @@ public class GoodsCategorySerImpl extends ServiceImpl<GoodsCategory , GoodsCateg
 
     }
 
-
+    @Cacheable("goodsServiceCache")
     @Override
     public void findCategoryByFirstCategory (String firstCategoryName ) throws  SerException{
         Condition condition = new Condition("name",DataType.STRING ,firstCategoryName);

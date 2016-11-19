@@ -43,7 +43,7 @@ public class GoodsPicSerImpl extends ServiceImpl<GoodsPic,GoodsPicDto> implement
 
     }
 
-
+    @Cacheable("goodsServiceCache")
     @Override
     public void findGoodsPic( String goodsId ) throws  SerException{
         Condition condition = new Condition("id", DataType.STRING , goodsId);

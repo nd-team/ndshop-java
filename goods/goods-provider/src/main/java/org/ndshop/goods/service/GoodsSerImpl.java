@@ -12,6 +12,7 @@ import org.ndshop.goods.dao.IGoodsRep;
 import org.ndshop.goods.dto.GoodsDto;
 import org.ndshop.goods.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,7 +32,7 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
     @Autowired
     private IGoodsBrandSer goodsBrandSer;
 
-
+    @Cacheable("goodsServiceCache")
     @Override
     public Goods findByGoodName(String goodsName) {
         Goods goods = goodsRep.findByGoodsName( goodsName );
@@ -73,6 +74,7 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
 
     }
 
+    @Cacheable("goodsServiceCache")
     @Override
     public void findGoodsByFirstCategory(String firstCagetoryName) throws SerException{
         GoodsDto dto = new GoodsDto();
@@ -86,6 +88,7 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
         logger.info(JSON.toJSONString( goods ));
     }
 
+    @Cacheable("goodsServiceCache")
     @Override
     public void findDese( String goodId ) throws SerException{
         Goods goods = findById( goodId );
