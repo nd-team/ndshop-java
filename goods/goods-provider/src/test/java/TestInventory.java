@@ -3,14 +3,9 @@ import goods.provider.test.ApplicationConfiguration;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.ndshop.dbs.jpa.dto.Condition;
-import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.exception.SerException;
-import org.ndshop.goods.dto.GoodsDto;
 import org.ndshop.goods.entity.Goods;
-import org.ndshop.goods.entity.GoodsDes;
 import org.ndshop.goods.entity.GoodsInventory;
-import org.ndshop.goods.enums.SaleStatus;
 import org.ndshop.goods.service.IGoodsSer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -31,7 +26,7 @@ public class TestInventory {
 
     @Test
     public void addInventory() throws SerException{
-        String gid = "81861f34-9af6-4858-96b4-4b7c7c67b587";
+        String gid = "b0f7ed15-7e1b-4699-a654-4ae19b4a20b2";
         Goods goods = goodsSer.findById( gid );
 
         GoodsInventory gi = new GoodsInventory();
@@ -56,7 +51,7 @@ public class TestInventory {
 
     @Test
     public void updateGoodsInventorys() throws SerException {
-        String goodId = "81861f34-9af6-4858-96b4-4b7c7c67b587";
+        String goodId = "b0f7ed15-7e1b-4699-a654-4ae19b4a20b2";
         Goods goods = goodsSer.findById( goodId );
 
         GoodsInventory goodsInventory =  new GoodsInventory();
@@ -79,7 +74,7 @@ public class TestInventory {
 
     @Test
     public void findInventory() throws SerException{
-        String goodId = "81861f34-9af6-4858-96b4-4b7c7c67b587";
+        String goodId = "b0f7ed15-7e1b-4699-a654-4ae19b4a20b2";
 
         Goods goods = goodsSer.findById( goodId );
         GoodsInventory goodsInventory = goods.getGoodsInventory();

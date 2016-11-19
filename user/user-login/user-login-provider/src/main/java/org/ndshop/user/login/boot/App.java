@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 
 @Configuration
+
 @EnableJpaRepositories(basePackages = {"org.ndshop.user.common.dao"})
 @EnableTransactionManagement(proxyTargetClass = true)
 @EnableCaching

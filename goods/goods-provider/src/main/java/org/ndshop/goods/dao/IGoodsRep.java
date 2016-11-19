@@ -5,13 +5,11 @@ import org.ndshop.goods.dto.GoodsDto;
 import org.ndshop.goods.entity.Goods;
 import org.springframework.cache.annotation.Cacheable;
 
-import java.util.List;
-
 /**
  * Created by ike on 16-11-4.
  */
 public interface IGoodsRep extends MyRep<Goods,GoodsDto> {
-    @Cacheable("daoCache")
+    @Cacheable("goodsDaoCache")
     Goods findByGoodsName(String goodsName);
 
 //    @Cacheable("daoCache")

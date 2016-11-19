@@ -10,6 +10,7 @@ import org.ndshop.user.common.dto.UserDto;
 import org.ndshop.user.common.entity.User;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 
 import java.util.List;

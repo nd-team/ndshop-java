@@ -49,7 +49,7 @@ public class GoodsBrandSerImpl extends ServiceImpl<GoodsBrand, GoodsBrandDto> im
         logger.info( JSON.toJSONString (goodsBrand) );
     }
 
-    @Cacheable("serviceCache")
+    @Cacheable("goodsServiceCache")
     @Override
     public void findBrand() throws SerException{
         List<GoodsBrand> goodsBrands = findAll();

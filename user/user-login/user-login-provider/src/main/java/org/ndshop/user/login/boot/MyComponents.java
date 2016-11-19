@@ -1,6 +1,7 @@
 package org.ndshop.user.login.boot;
 
 import org.ndshop.dbs.jpa.boot.initializer.Components;
+
 import org.ndshop.dbs.jpa.boot.initializer.EntityToScan;
 import org.springframework.stereotype.Component;
 

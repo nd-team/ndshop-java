@@ -4,6 +4,7 @@ import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.IService;
 import org.ndshop.goods.dto.GoodsCollectionDto;
 import org.ndshop.goods.entity.GoodsCollection;
+import org.springframework.cache.annotation.Cacheable;
 
 /**
  * Created by ike on 16-11-15.

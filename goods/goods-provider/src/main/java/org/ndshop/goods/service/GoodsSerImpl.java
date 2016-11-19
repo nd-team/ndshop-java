@@ -16,9 +16,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by ike on 16-11-4.
@@ -34,7 +32,7 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
     @Autowired
     private IGoodsBrandSer goodsBrandSer;
 
-    @Cacheable("serviceCache")
+    @Cacheable("goodsServiceCache")
     @Override
     public Goods findByGoodName(String goodsName) {
         Goods goods = goodsRep.findByGoodsName( goodsName );
@@ -64,19 +62,19 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
             update( goods );
         }
 
-        GoodsShops goodsShops = new GoodsShops();
-        goodsShops.setGoods(goods);
-        Shops shops = new Shops();
-        shops.setId( shopId );
-        goodsShops.setShops( shops );
-        Set<GoodsShops> gs = new HashSet<>();
-        gs.add(goodsShops);
-        goods.setGoodsShops(gs);
+//        GoodsShops goodsShops = new GoodsShops();
+//        goodsShops.setGoods(goods);
+//        Shops shops = new Shops();
+//        shops.setId( shopId );
+//        goodsShops.setShops( shops );
+//        Set<GoodsShops> gs = new HashSet<>();
+//        gs.add(goodsShops);
+//        goods.setGoodsShops(gs);
 
 
     }
 
-    @Cacheable("serviceCache")
+    @Cacheable("goodsServiceCache")
     @Override
     public void findGoodsByFirstCategory(String firstCagetoryName) throws SerException{
         GoodsDto dto = new GoodsDto();
@@ -90,7 +88,7 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
         logger.info(JSON.toJSONString( goods ));
     }
 
-    @Cacheable("serviceCache")
+    @Cacheable("goodsServiceCache")
     @Override
     public void findDese( String goodId ) throws SerException{
         Goods goods = findById( goodId );

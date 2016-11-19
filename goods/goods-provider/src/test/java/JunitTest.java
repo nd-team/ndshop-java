@@ -1,32 +1,20 @@
-
 import com.alibaba.fastjson.JSON;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
-import org.ndshop.dbs.jpa.dto.Condition;
-import org.ndshop.dbs.jpa.enums.DataType;
-import org.ndshop.dbs.jpa.enums.RestrictionType;
-import org.ndshop.dbs.jpa.exception.SerException;
-import org.ndshop.goods.dto.GoodsCategoryDto;
-import org.ndshop.goods.dto.GoodsCollectionDto;
-import org.ndshop.goods.dto.GoodsPicDto;
-import org.ndshop.goods.entity.*;
-import org.ndshop.goods.enums.BrandStatus;
-import org.ndshop.goods.enums.CollectionStatus;
-import org.ndshop.goods.enums.SaleStatus;
-import org.ndshop.goods.service.*;
-import org.ndshop.user.common.entity.User;
-import org.ndshop.user.common.service.IUserSer;
 import com.dounine.corgi.spring.rpc.Reference;
 import goods.provider.test.ApplicationConfiguration;
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ndshop.dbs.jpa.exception.SerException;
+import org.ndshop.goods.entity.*;
+import org.ndshop.goods.enums.SaleStatus;
+import org.ndshop.goods.service.*;
+import org.ndshop.user.common.service.IUserSer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.List;
 
 /**
  * Created by ike on 2016/11/14
@@ -92,16 +80,16 @@ public class JunitTest {
             }
 
 
-            String shopId = "111111";
-            GoodsShops goodsShops = new GoodsShops();
-            goodsShops.setGoods(goods);
-            Shops shops = new Shops();
-            shops.setId( shopId );
-            goodsShops.setShops( shops );
-            Set<GoodsShops> gs = new HashSet<>();
-            gs.add(goodsShops);
-            goods.setGoodsShops(gs);
-            goodsSer.update( goods );
+//            String shopId = "111111";
+//            GoodsShops goodsShops = new GoodsShops();
+//            goodsShops.setGoods(goods);
+//            Shops shops = new Shops();
+//            shops.setId( shopId );
+//            goodsShops.setShops( shops );
+//            Set<GoodsShops> gs = new HashSet<>();
+//            gs.add(goodsShops);
+//            goods.setGoodsShops(gs);
+//            goodsSer.update( goods );
 
 
         }
