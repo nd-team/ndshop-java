@@ -44,8 +44,8 @@ public class ShopSerImpl extends ServiceImpl<Shop,ShopDto> implements IShopSer {
 
 
     @Override
-    public Shop findByName(String shopName) {
-        return shopRep.findByName(shopName);
+    public Shop findByName(String name) {
+        return shopRep.findByName(name);
     }
 
     @Override
@@ -88,6 +88,7 @@ public class ShopSerImpl extends ServiceImpl<Shop,ShopDto> implements IShopSer {
     }
 
     @Override
+    @Transactional
     public void shopStatusChange(String name, int test) {
         String hql = "update "+Shop.class.getSimpleName()+" shop set shop.status= 1- shop.status,shop.lastModiTime = :datetime  where shop.name = :name";
         Query query = em.createQuery(hql);
@@ -102,12 +103,25 @@ public class ShopSerImpl extends ServiceImpl<Shop,ShopDto> implements IShopSer {
     }
 
     @Override
-    public void update(Shop shop) {
+    public void updateAndClearCache(Shop shop,String oldName) {
         shopRep.saveAndFlush(shop);
     }
 
     @Override
-    public Shop save(Shop shop){
+    public Shop saveAndClearCache(Shop shop){
         return shopRep.save(shop);
+    }
+
+
+    //test the cache of DAO
+    public Shop testSingle(){
+        System.out.println(shopRep.findByName("AAA"));
+        System.out.println(shopRep.findByName("AAA"));
+        System.out.println(shopRep.findByName("AAA"));
+        System.out.println(shopRep.findByName("AAA"));
+        System.out.println(shopRep.findByName("AAA"));
+        System.out.println(shopRep.findByName("AAA"));
+        System.out.println(shopRep.findByName("AAA"));
+        return null;
     }
 }

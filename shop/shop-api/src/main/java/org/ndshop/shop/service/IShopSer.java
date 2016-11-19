@@ -12,6 +12,7 @@ import org.ndshop.user.common.entity.User;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
@@ -22,47 +23,57 @@ import java.util.Set;
  */
 public interface IShopSer extends IService<Shop, ShopDto> {
 
-    @Cacheable("serviceCache")
+    @Cacheable(value = "shopServiceCache", key = "#name")
     default Shop findByName(String name) {
         return null;
     }
 
-    @Cacheable("serviceCache")
+    @Cacheable(value = "shopServiceCache", key = "#ownerName+#methodName")
     default Set<Shop> findByOwnerName(String ownerName) {
         return null;
     }
 
-    @CacheEvict("serviceCache")
-    @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "shopServiceCache", key = "#ownerName" + "findByOwnerName"),
+            @CacheEvict(value = "shopDaoCache", key = "#ownerName" + "findByOwner")
+    })
     default void addShopByOwnerName(Shop shop, String ownerName) throws SerException {
         return;
     }
 
-    @CacheEvict("serviceCache")
-    @Transactional
     default void shopStatusChange(Shop shop) throws SerException {
         return;
     }
 
-    @CacheEvict("serviceCache")
-    @Transactional
     default void shopStatusChange(String name) throws SerException {
         return;
     }
 
-    @CacheEvict("serviceCache")
-    @Transactional
-    default void shopStatusChange(String name,int test){
+    default void shopStatusChange(String name, int test) {
         return;
     }
 
-    @CacheEvict("serviceCache")
-    default void update(Shop shop){
+    @Caching(evict = {
+            @CacheEvict(value = "shopServiceCache", key = "#shop.getId()"),
+            @CacheEvict(value = "shopServiceCache", key = "#oldName"),
+            @CacheEvict(value = "shopDaoCache", key = "#shop.getId()"),
+            @CacheEvict(value = "shopDaoCache", key = "#oldName")
+    })
+    default void updateAndClearCache(Shop shop, String oldName) {
         return;
     }
 
-    @CacheEvict("serviceCache")
-    default Shop save(Shop shop){
+    @Caching(evict = {
+            @CacheEvict(value = "shopServiceCache", key = "#shop.getId()"),
+            @CacheEvict(value = "shopServiceCache", key = "#shop.getName()"),
+            @CacheEvict(value = "shopDaoCache", key = "#shop.getId()"),
+            @CacheEvict(value = "shopDaoCache", key = "#shop.getName()")
+    })
+    default Shop saveAndClearCache(Shop shop) {
+        return null;
+    }
+
+    default public Shop testSingle() {
         return null;
     }
 }
