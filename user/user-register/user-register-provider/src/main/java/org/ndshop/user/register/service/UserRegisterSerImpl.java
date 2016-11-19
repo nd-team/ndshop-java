@@ -10,6 +10,8 @@ import org.ndshop.user.register.quartz.VerifyQuartz;
 import com.dounine.corgi.security.PasswordHash;
 import com.dounine.corgi.spring.rpc.Reference;
 import com.dounine.corgi.spring.rpc.Service;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by lgq on 16-10-31.
@@ -17,9 +19,10 @@ import com.dounine.corgi.spring.rpc.Service;
 @Service
 public class UserRegisterSerImpl implements IUserRegisterSer {
 
-    @Reference(url = "localhost:8888")
+    @Reference
     private IUserSer userSer;
 
+    @Cacheable("userSerCache")
     @Override
     public Boolean existUsername(String username) throws SerException {
         User user = userSer.findByUsername(username);
@@ -27,6 +30,7 @@ public class UserRegisterSerImpl implements IUserRegisterSer {
 
     }
 
+    @Cacheable("userSerCache")
     @Override
     public Boolean existPhone(String phone) throws SerException {
         boolean reg = Validator.isPhone(phone);
@@ -39,6 +43,7 @@ public class UserRegisterSerImpl implements IUserRegisterSer {
         return null != user;
 
     }
+
 
     @Override
     public void sendCodeToPhone(UserRegisterDto dto) throws SerException {
@@ -56,6 +61,7 @@ public class UserRegisterSerImpl implements IUserRegisterSer {
         }
     }
 
+    @Transactional
     @Override
     public void verifyCodeAndReg(UserRegisterDto dto) throws SerException {
 

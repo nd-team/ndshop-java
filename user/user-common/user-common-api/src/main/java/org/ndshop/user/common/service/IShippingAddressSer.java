@@ -20,7 +20,6 @@ public interface IShippingAddressSer extends IService<ShippingAddress, ShippingA
      * @return
      * @throws SerException
      */
-    @Cacheable("serviceCache")
     List<ShippingAddress> findAddressByCurrentUser() throws SerException;
 
     /**
@@ -37,7 +36,6 @@ public interface IShippingAddressSer extends IService<ShippingAddress, ShippingA
      *
      * @param address
      */
-    @Cacheable("serviceCache")
     void setDefaultAddress(ShippingAddress address) throws SerException;
 
 }

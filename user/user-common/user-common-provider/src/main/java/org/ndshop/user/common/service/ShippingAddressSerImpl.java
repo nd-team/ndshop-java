@@ -8,6 +8,7 @@ import org.ndshop.dbs.jpa.service.ServiceImpl;
 import org.ndshop.user.common.dto.ShippingAddressDto;
 import org.ndshop.user.common.entity.ShippingAddress;
 import org.ndshop.user.common.entity.User;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,7 @@ import java.util.List;
 @Service
 public class ShippingAddressSerImpl extends ServiceImpl<ShippingAddress, ShippingAddressDto> implements IShippingAddressSer {
 
+    @Cacheable("userSerCache")
     @Override
     public List<ShippingAddress> findAddressByCurrentUser() throws SerException {
         //获取当前用户
@@ -34,6 +36,7 @@ public class ShippingAddressSerImpl extends ServiceImpl<ShippingAddress, Shippin
         return  this.findByCis(dto);
     }
 
+
     @Transactional
     @Override
     public ShippingAddress addShippingAddress(ShippingAddress address) throws SerException {
@@ -46,7 +49,6 @@ public class ShippingAddressSerImpl extends ServiceImpl<ShippingAddress, Shippin
             throw new SerException("收货地址不能超过20个，请先删除再添加");
         }
     }
-
 
     @Transactional
     @Override

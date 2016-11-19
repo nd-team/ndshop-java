@@ -16,12 +16,13 @@ public interface IUserRep extends MyRep<User, UserDto> {
      * @param username,password 用户名
      * @return 用户信息
      */
-    @Cacheable("daoCache")
+
+    @Cacheable("userDaoCache")
     User findByUsernameAndPassword(String username, String password);
 
-    @Cacheable("daoCache")
+    @Cacheable("userDaoCache")
     User findByUsername(String username);
 
-    @Cacheable("daoCache")
+    @Cacheable("userDaoCache")
     User findByNickname(String nickname);
 }

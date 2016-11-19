@@ -74,12 +74,5 @@ public class ShippingAddressTest {
         System.out.println(address1);
     }
 
-    public static void main(String[] args) {
-        String str = "User";
-        String first = String.valueOf(str.charAt(0));
-        System.out.println(str.replaceFirst(first , first.toLowerCase()));
-
-    }
-
 
 }

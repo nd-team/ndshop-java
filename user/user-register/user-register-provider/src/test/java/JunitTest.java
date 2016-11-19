@@ -41,6 +41,10 @@ public class JunitTest extends AbstractJUnit4SpringContextTests {
     @Test
     public void existPhone() throws SerException {
         boolean users = userRegisterSer.existPhone("13457910241");
+         users = userRegisterSer.existPhone("13457910241");
+         users = userRegisterSer.existPhone("13457910241");
+         users = userRegisterSer.existPhone("13457910241");
+         users = userRegisterSer.existPhone("13457910241");
         System.out.println(users);
     }
 

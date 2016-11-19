@@ -16,7 +16,8 @@ import java.util.List;
 public class MyJpaCache implements JpaCache {
     @Override
     public List<Cache> initCaches() {
-        ConcurrentMapCache cache = new ConcurrentMapCache("userCache");
-        return Arrays.asList(cache);
+        ConcurrentMapCache serCache = new ConcurrentMapCache("userSerCache");
+        ConcurrentMapCache daoCache = new ConcurrentMapCache("userDaoCache");
+        return Arrays.asList(serCache,daoCache);
     }
 }
