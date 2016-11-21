@@ -52,7 +52,7 @@ public class User extends BaseEntity {
 
     private Status status = Status.THAW;//用户状态
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "user")
     private UserDetail userDetail; //用户详情
 
     public String getUsername() {

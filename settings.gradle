@@ -3,6 +3,7 @@ rootProject.name = 'ndshop'
 //#dbs
 include ':dbs:jpa'
 include ':dbs:mongo'
+include ':dbs:redis'
 //#user
 //common
 include ':user:user-common:user-common-api'

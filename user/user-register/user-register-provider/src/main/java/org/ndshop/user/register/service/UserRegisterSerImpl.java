@@ -10,7 +10,9 @@ import org.ndshop.user.register.quartz.VerifyQuartz;
 import com.dounine.corgi.security.PasswordHash;
 import com.dounine.corgi.spring.rpc.Reference;
 import com.dounine.corgi.spring.rpc.Service;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.annotation.Transient;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,21 +20,6 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
 public class UserTest {
-
-    @Before
-    public void init() throws SerException {
-        if (null == userSer.findByUsername("liguiqin")) {
-            User user = new User();
-            user.setUsername("liguiqin");
-            user.setPassword("123456");
-            user.setAge(55);
-            user.setNickname("xiaoming");
-            user.setEmail("xinaml@qq.com");
-            user.setSex(SexType.MAN);
-            user.setPhone("13457910241");
-            userSer.save(user);
-        }
-    }
 
     @Autowired
     private IUserSer userSer;
@@ -60,7 +46,19 @@ public class UserTest {
 
     }
 
+    @Test
+    public void add() throws SerException {
+        List<User> users = new ArrayList<>();
+        for(int i=0;i<5;i++){
+            User user = new User();
+            user.setUsername("aa"+i);
+            user.setPassword("asa");
+            user.setPhone("1325791024"+i);
+            users.add(user);
+        }
+       userSer.save(users);
 
+    }
 
 
 }

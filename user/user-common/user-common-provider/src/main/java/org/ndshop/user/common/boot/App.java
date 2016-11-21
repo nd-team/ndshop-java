@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableJpaRepositories(basePackages = {"org.ndshop.user.common.dao"})
 @EnableTransactionManagement(proxyTargetClass = true)
-//@EnableCaching
+@EnableCaching
 @PropertySource({"classpath:config.properties","classpath:corgi.properties"})
 @ComponentScan(basePackages = {"org.ndshop.user.common"},
         excludeFilters = {@ComponentScan.Filter(
