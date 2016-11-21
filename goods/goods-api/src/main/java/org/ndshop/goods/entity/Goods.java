@@ -9,6 +9,7 @@ import java.util.Set;
 
 /**
  * Created by ike on 16-11-4.
+ * 商品
  */
 @Entity
 @Table(name = "goods")

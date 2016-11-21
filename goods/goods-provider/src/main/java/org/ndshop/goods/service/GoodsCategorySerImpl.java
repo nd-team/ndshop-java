@@ -12,15 +12,17 @@ import org.ndshop.goods.dto.GoodsCategoryDto;
 import org.ndshop.goods.entity.GoodsCategory;
 import org.ndshop.user.common.service.IUserSer;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by ike on 16-11-9.
  */
-@com.dounine.corgi.spring.rpc.Service
+@Service
 public class GoodsCategorySerImpl extends ServiceImpl<GoodsCategory , GoodsCategoryDto> implements IGoodsCategorySer {
     private static Logger logger = Logger.getLogger(GoodsCategorySerImpl.class);
 
@@ -92,6 +94,7 @@ public class GoodsCategorySerImpl extends ServiceImpl<GoodsCategory , GoodsCateg
             if( gc== null || gc.size()==0 ){
                 GoodsCategory gct = new GoodsCategory();
                 gct.setName( name );
+
                 gct.setSecondName( str );
                 save( gct );
                 logger.info(JSON.toJSONString( gct ) );
@@ -105,10 +108,12 @@ public class GoodsCategorySerImpl extends ServiceImpl<GoodsCategory , GoodsCateg
     public void findCategoryByFirstCategory (String firstCategoryName ) throws  SerException{
 //        User user =userSer.findByUsername("liguiqin");
         Condition condition = new Condition("name",DataType.STRING ,firstCategoryName);
+        condition.setRestrict(RestrictionType.LIKE);
         GoodsCategoryDto dto = new GoodsCategoryDto();
         dto.getConditions().add( condition );
         dto.setLimit(2);
         dto.setPage(1);
+        dto.setSorts(Arrays.asList("modifyTime"));
         List<GoodsCategory> goodCategory = findByCis( dto,true );
         logger.info(JSON.toJSONString(goodCategory) );
     }

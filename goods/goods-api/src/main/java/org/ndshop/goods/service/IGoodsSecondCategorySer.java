@@ -26,5 +26,5 @@ public interface IGoodsSecondCategorySer extends IService<GoodsSecondCategory, G
     }
 
     ;
-    default void addBatchSecondCategory(String firstCategoryName , List<String> name ) throws SerException{};
+    default void addBatchSecondCategory(String firstCategoryName, List<String> name) throws SerException{};
 }

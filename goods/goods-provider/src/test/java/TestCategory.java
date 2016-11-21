@@ -7,6 +7,7 @@ import org.ndshop.dbs.jpa.dto.Condition;
 import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.enums.RestrictionType;
 import org.ndshop.dbs.jpa.exception.SerException;
+import org.ndshop.goods.dao.IGoodsCategoryRep;
 import org.ndshop.goods.dto.GoodsCategoryDto;
 import org.ndshop.goods.entity.GoodsCategory;
 import org.ndshop.goods.service.IGoodsCategorySer;
@@ -29,6 +30,8 @@ public class TestCategory {
     @Autowired
     private IGoodsCategorySer goodsCategorySer;
 
+    @Autowired
+    private IGoodsCategoryRep goodsCategoryRep;
 
     /**
      * 添加分类
@@ -104,12 +107,15 @@ public class TestCategory {
     public void findCategoryByFirstCategory () throws  SerException{
         String name = "BEAUTI";
         Condition condition = new Condition("name", DataType.STRING ,name);
+        condition.setRestrict(RestrictionType.LIKE);
         GoodsCategoryDto dto = new GoodsCategoryDto();
         dto.getConditions().add( condition );
         dto.setLimit(2);
         dto.setPage(1);
+        dto.setSorts(Arrays.asList("modifyTime"));
+        Long l = goodsCategorySer.countByCis( dto );
         List<GoodsCategory> goodCategory = goodsCategorySer.findByCis( dto,true );
-        logger.info(JSON.toJSONString(goodCategory) );
+        logger.info(l+JSON.toJSONString(goodCategory) );
 
     }
 

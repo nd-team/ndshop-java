@@ -5,23 +5,20 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 /**
- * Created by ike on 16-11-9.
- * 一级父级商品分类 如：服饰箱包
+ * Created by ike on 16-11-21.
  */
 @Entity
-@Table(name = "goodsCategory")
-public class GoodsCategory extends BaseEntity{
+@Table(name = "goodsThirdCategory")
+public class GoodsThirdCategory extends BaseEntity{
+
     @Column(nullable = false ,unique = true)
-    private String name ; //一级分类
+    private  String name ;
 
-    @OneToMany(mappedBy = "goodsCategory", cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
-    private Set<GoodsSecondCategory> goodsSecondCategory; //二级分类
-
-    @OneToMany(mappedBy = "goodsCategory", cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
-    private Set<Goods> goods;
+    @ManyToOne(cascade = {CascadeType.REFRESH})
+    @JoinColumn(name = "goodsSecondCategory_id")
+    private GoodsSecondCategory goodsSecondCategory;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
     @Column(columnDefinition="dateTime") //指定数据库类型
@@ -39,20 +36,12 @@ public class GoodsCategory extends BaseEntity{
         this.name = name;
     }
 
-    public Set<GoodsSecondCategory> getGoodsSecondCategory() {
+    public GoodsSecondCategory getGoodsSecondCategory() {
         return goodsSecondCategory;
     }
 
-    public void setGoodsSecondCategory(Set<GoodsSecondCategory> goodsSecondCategory) {
+    public void setGoodsSecondCategory(GoodsSecondCategory goodsSecondCategory) {
         this.goodsSecondCategory = goodsSecondCategory;
-    }
-
-    public Set<Goods> getGoods() {
-        return goods;
-    }
-
-    public void setGoods(Set<Goods> goods) {
-        this.goods = goods;
     }
 
     public LocalDateTime getCreateTime() {

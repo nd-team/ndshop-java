@@ -8,11 +8,11 @@ import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.enums.RestrictionType;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.goods.dto.GoodsCategoryDto;
-import org.ndshop.goods.dto.GoodsSecondCategoryDto;
+import org.ndshop.goods.dto.GoodsThirdCategoryDto;
 import org.ndshop.goods.entity.GoodsCategory;
-import org.ndshop.goods.entity.GoodsSecondCategory;
+import org.ndshop.goods.entity.GoodsThirdCategory;
 import org.ndshop.goods.service.IGoodsCategorySer;
-import org.ndshop.goods.service.IGoodsSecondCategorySer;
+import org.ndshop.goods.service.IGoodsThirdCategorySer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -26,48 +26,48 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
-public class TestSecondCategory {
-    private static Logger logger = Logger.getLogger( TestSecondCategory.class );
+public class TestThirdCategory {
+    private static Logger logger = Logger.getLogger( TestThirdCategory.class );
 
     @Autowired
-    private IGoodsSecondCategorySer goodsSecondCategorySer;
+    private IGoodsThirdCategorySer goodsThirdCategorySer;
     @Autowired
     private IGoodsCategorySer goodsCategorySer;
 
     @Test
-    public void addSecondCategory() throws SerException{
-        GoodsSecondCategory goodsSecondCategory = new GoodsSecondCategory();
-        goodsSecondCategory.setName("FACE CARE");
+    public void addThirdCategory() throws SerException{
+        GoodsThirdCategory goodsThirdCategory = new GoodsThirdCategory();
+        goodsThirdCategory.setName("FACE CARE");
 
         String gcId = "b67c3d21-f5a6-486f-ac5d-6a83cbbf6b93";
         GoodsCategory goodsCategory = new GoodsCategory();
         goodsCategory.setId( gcId );
-        goodsSecondCategory.setGoodsCategory( goodsCategory );
+        goodsThirdCategory.setGoodsCategory( goodsCategory );
 
-        goodsSecondCategory.setCreateTime( LocalDateTime.now() );
-        goodsSecondCategory.setModifyTime( LocalDateTime.now() );
+        goodsThirdCategory.setCreateTime( LocalDateTime.now() );
+        goodsThirdCategory.setModifyTime( LocalDateTime.now() );
 
-        goodsSecondCategorySer.save(  goodsSecondCategory );
-        logger.info( goodsSecondCategory);
+        goodsThirdCategorySer.save(  goodsThirdCategory );
+        logger.info( goodsThirdCategory);
     }
 
     @Test
-    public void findSecondCategory() throws SerException{
+    public void findThirdCategory() throws SerException{
         String gcId = "b67c3d21-f5a6-486f-ac5d-6a83cbbf6b93";
-        GoodsSecondCategoryDto dto = new GoodsSecondCategoryDto();
+        GoodsThirdCategoryDto dto = new GoodsThirdCategoryDto();
         Condition c = new Condition("id" , DataType.STRING , gcId );
         c.setRestrict(RestrictionType.EQ);
         c.fieldToModels( GoodsCategory.class );
         dto.getConditions().add( c );
 
-        List<GoodsSecondCategory> gs =  goodsSecondCategorySer.findByCis( dto );
+        List<GoodsThirdCategory> gs =  goodsThirdCategorySer.findByCis( dto );
         logger.info(JSON.toJSONString( gs ));
     }
 
     @Test
-    public void updateSecondCategory() throws SerException{
+    public void updateThirdCategory() throws SerException{
         String gscId = "32ee2b77-157c-4b53-9a5f-f05eb3a18172";
-        GoodsSecondCategory gs = goodsSecondCategorySer.findById( gscId );
+        GoodsThirdCategory gs = goodsThirdCategorySer.findById( gscId );
 
         String name ="HAIR CARE";
         if( gs != null ){
@@ -75,13 +75,13 @@ public class TestSecondCategory {
             gs.setCreateTime( gs.getCreateTime() );
             gs.setModifyTime( LocalDateTime.now() );
 
-            goodsSecondCategorySer.update( gs );
+            goodsThirdCategorySer.update( gs );
             logger.info( JSON.toJSONString( gs ));
         }
     }
 
     @Test
-    public void addBatchSecondCategory() throws SerException{
+    public void addBatchThirdCategory() throws SerException{
         String firstCategoryName ="CLOSEBEAUTI";
         List<String> name = Arrays.asList("xixi","bulu","yishun");
 
@@ -92,17 +92,17 @@ public class TestSecondCategory {
         List<GoodsCategory> goodsCategory = goodsCategorySer.findByCis( gcDto );
 
         for( String str : name){
-            GoodsSecondCategoryDto gscDto = new GoodsSecondCategoryDto();
+            GoodsThirdCategoryDto gscDto = new GoodsThirdCategoryDto();
             Condition c1 = new Condition("name",DataType.STRING , str);
             c1.setRestrict( RestrictionType.EQ );
             gscDto.getConditions().add( c1 );
-            List<GoodsSecondCategory> gsc = goodsSecondCategorySer.findByCis( gscDto );
+            List<GoodsThirdCategory> gsc = goodsThirdCategorySer.findByCis( gscDto );
 
             if( gsc== null || gsc.size()==0 ){
-                GoodsSecondCategory gsct = new GoodsSecondCategory();
+                GoodsThirdCategory gsct = new GoodsThirdCategory();
                 gsct.setName( str );
                 gsct.setGoodsCategory( goodsCategory.get(0));
-                goodsSecondCategorySer.save( gsct );
+                goodsThirdCategorySer.save( gsct );
                 logger.info(JSON.toJSONString( gsct ) );
             }
         }

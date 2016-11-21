@@ -7,5 +7,5 @@ import org.ndshop.goods.entity.GoodsSecondCategory;
 /**
  * Created by ike on 16-11-21.
  */
-public interface IGoodsSecondCategoryRep extends MyRep<GoodsSecondCategory , GoodsSecondCategoryDto>{
+public interface IGoodsSecondCategoryRep extends MyRep<GoodsSecondCategory, GoodsSecondCategoryDto>{
 }
