@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ndshop.dbs.jpa.dto.Condition;
 import org.ndshop.dbs.jpa.enums.DataType;
+import org.ndshop.dbs.jpa.enums.RestrictionType;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.goods.dto.GoodsCategoryDto;
 import org.ndshop.goods.entity.GoodsCategory;
@@ -14,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -37,14 +39,37 @@ public class TestCategory {
     public void addCategory() throws SerException{
         String categoryName = "BEAUTI";
         String secondName = "FACEBEAUTI";
-        String thirdName = "BAB CARE";
         GoodsCategory goodsCategory = new GoodsCategory();
         goodsCategory.setName(  categoryName );
         goodsCategory.setSecondName( secondName );
-        goodsCategory.setThirdName( thirdName );
         goodsCategory.setCreateTime( LocalDateTime.now() );
         goodsCategory.setModifyTime(LocalDateTime.now() );
         goodsCategorySer.save(  goodsCategory );
+    }
+
+    @Test
+    public void addBatchCategory() throws SerException{
+        String name ="BEAUTI";
+        List<String> category = Arrays.asList("CLOSEBEAUTI","BODYBEAUTI","SHOEBEAUTI");
+        for( String str : category){
+            GoodsCategoryDto dto = new GoodsCategoryDto();
+            Condition c = new Condition("name",DataType.STRING , name );
+            Condition c1 = new Condition( "secondName",DataType.STRING , str );
+            c.setRestrict(RestrictionType.EQ);
+            c1.setRestrict(RestrictionType.EQ);
+            dto.getConditions().add( c );
+            dto.getConditions().add( c1 );
+            List<GoodsCategory> gc = goodsCategorySer.findByCis( dto );
+
+            if( gc== null || gc.size()==0 ){
+                GoodsCategory gct = new GoodsCategory();
+                gct.setName( name );
+                gct.setSecondName( str );
+                goodsCategorySer.save( gct );
+                logger.info(JSON.toJSONString( gct ) );
+            }
+        }
+
     }
 
     /**
@@ -56,7 +81,6 @@ public class TestCategory {
         String cateoryId ="88fe1f03-1e6b-44e5-a09f-ebbb880d5cce";
         String categoryName = "BEAUTI";
         String secondName = "FACEBEAUTI";
-        String thirdName = "HAIR CARE";
 
         GoodsCategory goodsCategory = goodsCategorySer.findById( cateoryId );
         if ( categoryName != "" &&  categoryName != null) {
@@ -64,9 +88,6 @@ public class TestCategory {
         }
         if ( secondName !="" && secondName != null ) {
             goodsCategory.setSecondName( secondName );
-        }
-        if ( thirdName != "" && thirdName != null ) {
-            goodsCategory.setThirdName( thirdName );
         }
         goodsCategory.setModifyTime( LocalDateTime.now() );
         goodsCategory.setId( cateoryId );

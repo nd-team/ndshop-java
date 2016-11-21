@@ -22,7 +22,7 @@ import java.util.List;
  * Created by ike on 16-11-12.
  */
 @Service
-public class GoodsPicSerImpl extends ServiceImpl<GoodsPic,GoodsPicDto> implements IGoodsPicSer{
+public class GoodsPicSerImpl extends ServiceImpl<GoodsPic,GoodsPicDto> implements IGoodsPicSer {
 
     private static Logger logger = Logger.getLogger(GoodsPicSerImpl.class);
 

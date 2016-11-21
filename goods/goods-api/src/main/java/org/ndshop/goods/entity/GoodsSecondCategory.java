@@ -5,25 +5,20 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 /**
- * Created by ike on 16-11-9.
+ * Created by ike on 16-11-21.
  */
 @Entity
-@Table(name = "goodsCategory")
-public class GoodsCategory extends BaseEntity{
-    @Column(nullable = false )
-    private String name ; //一级分类
+@Table(name = "goodsSecondCategory")
+public class GoodsSecondCategory extends BaseEntity{
 
     @Column(nullable = false ,unique = true)
-    private String secondName ;//二级分类
+    private  String name ;
 
-    @OneToMany(mappedBy = "goodsCategory", cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
-    private Set<GoodsSecondCategory> goodsSecondCategory;
-
-    @OneToMany(mappedBy = "goodsCategory", cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
-    private Set<Goods> goods;
+    @ManyToOne(cascade = {CascadeType.REFRESH})
+    @JoinColumn(name = "goodsCategory_id")
+    private GoodsCategory goodsCategory;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
     @Column(columnDefinition="dateTime") //指定数据库类型
@@ -41,28 +36,12 @@ public class GoodsCategory extends BaseEntity{
         this.name = name;
     }
 
-    public String getSecondName() {
-        return secondName;
+    public GoodsCategory getGoodsCategory() {
+        return goodsCategory;
     }
 
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
-    }
-
-    public Set<GoodsSecondCategory> getGoodsSecondCategory() {
-        return goodsSecondCategory;
-    }
-
-    public void setGoodsSecondCategory(Set<GoodsSecondCategory> goodsSecondCategory) {
-        this.goodsSecondCategory = goodsSecondCategory;
-    }
-
-    public Set<Goods> getGoods() {
-        return goods;
-    }
-
-    public void setGoods(Set<Goods> goods) {
-        this.goods = goods;
+    public void setGoodsCategory(GoodsCategory goodsCategory) {
+        this.goodsCategory = goodsCategory;
     }
 
     public LocalDateTime getCreateTime() {

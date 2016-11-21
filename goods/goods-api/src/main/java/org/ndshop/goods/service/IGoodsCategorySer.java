@@ -4,7 +4,8 @@ import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.IService;
 import org.ndshop.goods.dto.GoodsCategoryDto;
 import org.ndshop.goods.entity.GoodsCategory;
-import org.springframework.cache.annotation.Cacheable;
+
+import java.util.List;
 
 
 /**
@@ -19,4 +20,6 @@ public interface IGoodsCategorySer extends IService<GoodsCategory, GoodsCategory
     void deleteCategory( GoodsCategory goodsCategory ) throws SerException;
 
     void findCategoryByFirstCategory (String firstCategoryName ) throws  SerException;
+
+    default void addBatchCategory(List<String> goodsSecondCategory , String name) throws SerException{};
 }
