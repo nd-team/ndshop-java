@@ -14,8 +14,8 @@ import java.util.Set;
 /**
  * Created by ike on 16-11-10.
  */
-@Entity
-@Table(name = "nd_shop_category")
+@Entity(name = "店内分类")
+@Table(name = "shop_category")
 public class Category extends BaseEntity {
 
     @Column(columnDefinition = "varchar(30)", nullable = true)
