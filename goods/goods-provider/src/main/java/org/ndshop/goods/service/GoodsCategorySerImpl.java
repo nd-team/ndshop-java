@@ -28,6 +28,7 @@ public class GoodsCategorySerImpl extends ServiceImpl<GoodsCategory , GoodsCateg
 
     @Reference
     IUserSer userSer;
+
     @Transactional
     @Override
     public void addCategory(GoodsCategory goodsCategory) throws SerException {

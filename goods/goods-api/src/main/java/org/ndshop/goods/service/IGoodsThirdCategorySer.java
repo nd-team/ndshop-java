@@ -5,19 +5,22 @@ import org.ndshop.dbs.jpa.service.IService;
 import org.ndshop.goods.dto.GoodsThirdCategoryDto;
 import org.ndshop.goods.entity.GoodsThirdCategory;
 
-import java.util.List;
-
 /**
  * Created by ike on 16-11-21.
  */
 public interface IGoodsThirdCategorySer extends IService<GoodsThirdCategory, GoodsThirdCategoryDto> {
 
-    default void addThirdCategory(GoodsThirdCategory goodsThirdCategory, String gcId) throws SerException {
+    default void addThirdCategory(GoodsThirdCategory goodsThirdCategory, String secondCategoryId) throws SerException {
     }
 
     ;
 
-    default void findThirdCategory(String gcId) throws SerException {
+    default void findThirdCategoryBySecondCategory(String secondCategoryId) throws SerException {
+    }
+
+    ;
+
+    default void findThirdCategoryByPinyin(String pinyin) throws SerException {
     }
 
     ;
@@ -26,5 +29,4 @@ public interface IGoodsThirdCategorySer extends IService<GoodsThirdCategory, Goo
     }
 
     ;
-    default void addBatchThirdCategory(String firstCategoryName , List<String> name ) throws SerException{};
 }

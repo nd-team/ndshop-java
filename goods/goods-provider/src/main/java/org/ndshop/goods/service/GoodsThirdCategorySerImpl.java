@@ -7,9 +7,8 @@ import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.enums.RestrictionType;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.ServiceImpl;
-import org.ndshop.goods.dto.GoodsCategoryDto;
 import org.ndshop.goods.dto.GoodsThirdCategoryDto;
-import org.ndshop.goods.entity.GoodsCategory;
+import org.ndshop.goods.entity.GoodsSecondCategory;
 import org.ndshop.goods.entity.GoodsThirdCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -31,12 +30,13 @@ public class GoodsThirdCategorySerImpl extends ServiceImpl<GoodsThirdCategory,Go
 
     @Transactional
     @Override
-    public void addThirdCategory(GoodsThirdCategory goodsThirdCategory , String gcId ) throws SerException {
-//        goodsThirdCategory.setName( goodsThirdCategory.getName() );
+    public void addThirdCategory( GoodsThirdCategory goodsThirdCategory , String secondCategoryId ) throws SerException{
+        goodsThirdCategory.setThirdName( goodsThirdCategory.getThirdName());
+        goodsThirdCategory.setPinyin( goodsThirdCategory.getPinyin() );
 
-        GoodsCategory goodsCategory = new GoodsCategory();
-        goodsCategory.setId( gcId );
-//        goodsThirdCategory.setGoodsCategory( goodsCategory );
+        GoodsSecondCategory goodsSecondCategory = new GoodsSecondCategory();
+        goodsSecondCategory.setId( secondCategoryId );
+        goodsThirdCategory.setGoodsSecondCategory( goodsSecondCategory );
 
         goodsThirdCategory.setCreateTime( LocalDateTime.now() );
         goodsThirdCategory.setModifyTime( LocalDateTime.now() );
@@ -47,23 +47,37 @@ public class GoodsThirdCategorySerImpl extends ServiceImpl<GoodsThirdCategory,Go
 
     @Cacheable("goodsServiceCache")
     @Override
-    public void findThirdCategory( String gcId ) throws SerException{
+    public void findThirdCategoryBySecondCategory( String secondCategoryId ) throws SerException{
         GoodsThirdCategoryDto dto = new GoodsThirdCategoryDto();
-        Condition c = new Condition("id" , DataType.STRING , gcId );
+        Condition c = new Condition("id" , DataType.STRING , secondCategoryId );
         c.setRestrict(RestrictionType.EQ);
-        c.fieldToModels( GoodsCategory.class );
+        c.fieldToModels( GoodsSecondCategory.class );
         dto.getConditions().add( c );
 
         List<GoodsThirdCategory> gs =  findByCis( dto );
         logger.info(JSON.toJSONString( gs ));
     }
 
+    @Cacheable("goodsServiceCache")
+    @Override
+    public void findThirdCategoryByPinyin( String pinyin ) throws SerException{
+        GoodsThirdCategoryDto dto = new GoodsThirdCategoryDto();
+        Condition c = new Condition("pinyin" , DataType.STRING , pinyin );
+        c.setRestrict(RestrictionType.LIKE);
+        dto.getConditions().add( c );
+
+        List<GoodsThirdCategory> gs =  findByCis( dto );
+        logger.info(JSON.toJSONString( gs ));
+    }
+
+
     @Transactional
     @Override
     public void updateThirdCategory( GoodsThirdCategory goodsThirdCategory ) throws SerException{
         GoodsThirdCategory gs = findById( goodsThirdCategory.getId() );
+
         if( gs != null ){
-//            gs.setName(  goodsThirdCategory.getName() );
+            gs.setThirdName(  goodsThirdCategory.getThirdName() );
             gs.setCreateTime( gs.getCreateTime() );
             gs.setModifyTime( LocalDateTime.now() );
 
@@ -72,32 +86,7 @@ public class GoodsThirdCategorySerImpl extends ServiceImpl<GoodsThirdCategory,Go
         }
     }
 
-    @Transactional
-    @Override
-    public void addBatchThirdCategory(String firstCategoryName , List<String> name ) throws SerException{
-        GoodsCategoryDto gcDto = new GoodsCategoryDto();
-        Condition c = new Condition("ThirdName",DataType.STRING,firstCategoryName );
-        c.setRestrict(RestrictionType.EQ);
-        gcDto.getConditions().add( c );
-        List<GoodsCategory> goodsCategory = goodsCategorySer.findByCis( gcDto );
 
-        for( String str : name){
-            GoodsThirdCategoryDto gscDto = new GoodsThirdCategoryDto();
-            Condition c1 = new Condition("name",DataType.STRING , str);
-            c1.setRestrict( RestrictionType.EQ );
-            gscDto.getConditions().add( c1 );
-            List<GoodsThirdCategory> gsc = findByCis( gscDto );
-
-            if( gsc== null || gsc.size()==0 ){
-                GoodsThirdCategory gsct = new GoodsThirdCategory();
-//                gsct.setName( str );
-//                gsct.setGoodsCategory( goodsCategory.get(0));
-                save( gsct );
-                logger.info(JSON.toJSONString( gsct ) );
-            }
-        }
-
-    }
 
 
 }

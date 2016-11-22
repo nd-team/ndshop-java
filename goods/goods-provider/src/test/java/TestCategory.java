@@ -111,4 +111,10 @@ public class TestCategory {
         goodsCategorySer.remove(  ci );
     }
 
+
+    @Test
+    public void finds()throws SerException{
+        goodsCategorySer.findCategoryByFirstCategory("");
+    }
+
 }
