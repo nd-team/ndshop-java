@@ -21,5 +21,5 @@ public interface IGoodsCategorySer extends IService<GoodsCategory, GoodsCategory
 
     void findCategoryByFirstCategory (String firstCategoryName ) throws  SerException;
 
-    default void addBatchCategory(List<String> goodsSecondCategory , String name) throws SerException{};
+    default void addBatchCategory(List<String> categoryName) throws SerException{};
 }

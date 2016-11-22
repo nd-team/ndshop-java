@@ -40,11 +40,9 @@ public class TestCategory {
 
     @Test
     public void addCategory() throws SerException{
-        String categoryName = "BEAUTI";
-        String secondName = "FACEBEAUTI";
+        String categoryName = "MONA";
         GoodsCategory goodsCategory = new GoodsCategory();
         goodsCategory.setName(  categoryName );
-        goodsCategory.setSecondName( secondName );
         goodsCategory.setCreateTime( LocalDateTime.now() );
         goodsCategory.setModifyTime(LocalDateTime.now() );
         goodsCategorySer.save(  goodsCategory );
@@ -52,22 +50,17 @@ public class TestCategory {
 
     @Test
     public void addBatchCategory() throws SerException{
-        String name ="BEAUTI";
-        List<String> category = Arrays.asList("CLOSEBEAUTI","BODYBEAUTI","SHOEBEAUTI");
+        List<String> category = Arrays.asList("HUHU","BUBU","ZK");
         for( String str : category){
             GoodsCategoryDto dto = new GoodsCategoryDto();
-            Condition c = new Condition("name",DataType.STRING , name );
-            Condition c1 = new Condition( "secondName",DataType.STRING , str );
+            Condition c = new Condition("name",DataType.STRING , str );
             c.setRestrict(RestrictionType.EQ);
-            c1.setRestrict(RestrictionType.EQ);
             dto.getConditions().add( c );
-            dto.getConditions().add( c1 );
             List<GoodsCategory> gc = goodsCategorySer.findByCis( dto );
 
             if( gc== null || gc.size()==0 ){
                 GoodsCategory gct = new GoodsCategory();
-                gct.setName( name );
-                gct.setSecondName( str );
+                gct.setName( str );
                 goodsCategorySer.save( gct );
                 logger.info(JSON.toJSONString( gct ) );
             }
@@ -81,19 +74,13 @@ public class TestCategory {
      */
     @Test
     public void updateCategory() throws SerException{
-        String cateoryId ="88fe1f03-1e6b-44e5-a09f-ebbb880d5cce";
-        String categoryName = "BEAUTI";
-        String secondName = "FACEBEAUTI";
+        String cateoryId ="b3ecbadd-bdbc-4a9f-b121-e04faa19a672";
+        String categoryName = "其他";
 
         GoodsCategory goodsCategory = goodsCategorySer.findById( cateoryId );
-        if ( categoryName != "" &&  categoryName != null) {
-            goodsCategory.setSecondName( categoryName );
-        }
-        if ( secondName !="" && secondName != null ) {
-            goodsCategory.setSecondName( secondName );
-        }
         goodsCategory.setModifyTime( LocalDateTime.now() );
         goodsCategory.setId( cateoryId );
+        goodsCategory.setName( categoryName );
         goodsCategorySer.update( goodsCategory );
         logger.info( JSON.toJSONString( goodsCategory ) );
     }
@@ -113,15 +100,14 @@ public class TestCategory {
         dto.setLimit(2);
         dto.setPage(1);
         dto.setSorts(Arrays.asList("modifyTime"));
-        Long l = goodsCategorySer.countByCis( dto );
         List<GoodsCategory> goodCategory = goodsCategorySer.findByCis( dto,true );
-        logger.info(l+JSON.toJSONString(goodCategory) );
+        logger.info( JSON.toJSONString(goodCategory) );
 
     }
 
     @Test
     public void deleteCategory() throws SerException{
-        String ci ="c1033ab2-3338-472d-aeef-2f0fcb049129";
+        String ci ="0582cf35-b47a-494e-93fb-c3d4e1573d9e";
         goodsCategorySer.remove(  ci );
     }
 

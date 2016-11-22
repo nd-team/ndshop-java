@@ -18,11 +18,14 @@ public class GoodsSecondCategory extends BaseEntity{
     @Column(nullable = false ,unique = true)
     private  String secondName ;
 
+    @Column
+    private String pinyin;//拼音
+
     @ManyToOne(cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "goodsCategory_id")
     private GoodsCategory goodsCategory;
 
-    @OneToMany(mappedBy = "goodsCategory", cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "goodsSecondCategory", cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
     private Set<GoodsThirdCategory> goodsThirdCategory;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
@@ -41,12 +44,28 @@ public class GoodsSecondCategory extends BaseEntity{
         this.secondName = secondName;
     }
 
+    public String getPinyin() {
+        return pinyin;
+    }
+
+    public void setPinyin(String pinyin) {
+        this.pinyin = pinyin;
+    }
+
     public GoodsCategory getGoodsCategory() {
         return goodsCategory;
     }
 
     public void setGoodsCategory(GoodsCategory goodsCategory) {
         this.goodsCategory = goodsCategory;
+    }
+
+    public Set<GoodsThirdCategory> getGoodsThirdCategory() {
+        return goodsThirdCategory;
+    }
+
+    public void setGoodsThirdCategory(Set<GoodsThirdCategory> goodsThirdCategory) {
+        this.goodsThirdCategory = goodsThirdCategory;
     }
 
     public LocalDateTime getCreateTime() {

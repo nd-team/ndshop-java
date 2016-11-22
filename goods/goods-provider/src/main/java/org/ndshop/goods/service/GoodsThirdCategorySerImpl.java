@@ -32,11 +32,11 @@ public class GoodsThirdCategorySerImpl extends ServiceImpl<GoodsThirdCategory,Go
     @Transactional
     @Override
     public void addThirdCategory(GoodsThirdCategory goodsThirdCategory , String gcId ) throws SerException {
-        goodsThirdCategory.setName( goodsThirdCategory.getName() );
+//        goodsThirdCategory.setName( goodsThirdCategory.getName() );
 
         GoodsCategory goodsCategory = new GoodsCategory();
         goodsCategory.setId( gcId );
-        goodsThirdCategory.setGoodsCategory( goodsCategory );
+//        goodsThirdCategory.setGoodsCategory( goodsCategory );
 
         goodsThirdCategory.setCreateTime( LocalDateTime.now() );
         goodsThirdCategory.setModifyTime( LocalDateTime.now() );
@@ -63,7 +63,7 @@ public class GoodsThirdCategorySerImpl extends ServiceImpl<GoodsThirdCategory,Go
     public void updateThirdCategory( GoodsThirdCategory goodsThirdCategory ) throws SerException{
         GoodsThirdCategory gs = findById( goodsThirdCategory.getId() );
         if( gs != null ){
-            gs.setName(  goodsThirdCategory.getName() );
+//            gs.setName(  goodsThirdCategory.getName() );
             gs.setCreateTime( gs.getCreateTime() );
             gs.setModifyTime( LocalDateTime.now() );
 
@@ -90,8 +90,8 @@ public class GoodsThirdCategorySerImpl extends ServiceImpl<GoodsThirdCategory,Go
 
             if( gsc== null || gsc.size()==0 ){
                 GoodsThirdCategory gsct = new GoodsThirdCategory();
-                gsct.setName( str );
-                gsct.setGoodsCategory( goodsCategory.get(0));
+//                gsct.setName( str );
+//                gsct.setGoodsCategory( goodsCategory.get(0));
                 save( gsct );
                 logger.info(JSON.toJSONString( gsct ) );
             }

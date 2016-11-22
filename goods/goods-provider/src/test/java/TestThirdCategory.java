@@ -37,12 +37,12 @@ public class TestThirdCategory {
     @Test
     public void addThirdCategory() throws SerException{
         GoodsThirdCategory goodsThirdCategory = new GoodsThirdCategory();
-        goodsThirdCategory.setName("FACE CARE");
+//        goodsThirdCategory.setName("FACE CARE");
 
         String gcId = "b67c3d21-f5a6-486f-ac5d-6a83cbbf6b93";
         GoodsCategory goodsCategory = new GoodsCategory();
         goodsCategory.setId( gcId );
-        goodsThirdCategory.setGoodsCategory( goodsCategory );
+//        goodsThirdCategory.setGoodsCategory( goodsCategory );
 
         goodsThirdCategory.setCreateTime( LocalDateTime.now() );
         goodsThirdCategory.setModifyTime( LocalDateTime.now() );
@@ -71,7 +71,7 @@ public class TestThirdCategory {
 
         String name ="HAIR CARE";
         if( gs != null ){
-            gs.setName(  name );
+//            gs.setName(  name );
             gs.setCreateTime( gs.getCreateTime() );
             gs.setModifyTime( LocalDateTime.now() );
 
@@ -100,8 +100,8 @@ public class TestThirdCategory {
 
             if( gsc== null || gsc.size()==0 ){
                 GoodsThirdCategory gsct = new GoodsThirdCategory();
-                gsct.setName( str );
-                gsct.setGoodsCategory( goodsCategory.get(0));
+//                gsct.setName( str );
+//                gsct.setGoodsCategory( goodsCategory.get(0));
                 goodsThirdCategorySer.save( gsct );
                 logger.info(JSON.toJSONString( gsct ) );
             }

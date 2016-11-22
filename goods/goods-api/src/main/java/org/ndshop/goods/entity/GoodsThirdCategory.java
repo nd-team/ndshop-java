@@ -14,7 +14,9 @@ import java.time.LocalDateTime;
 public class GoodsThirdCategory extends BaseEntity{
 
     @Column(nullable = false ,unique = true)
-    private  String name ;
+    private  String thirdName ;
+    @Column
+    private String pinyin;
 
     @ManyToOne(cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "goodsSecondCategory_id")
@@ -28,12 +30,20 @@ public class GoodsThirdCategory extends BaseEntity{
     @Column(columnDefinition="dateTime") //指定数据库类型
     private LocalDateTime modifyTime = LocalDateTime.now();//修改时间
 
-    public String getName() {
-        return name;
+    public String getThirdName() {
+        return thirdName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setThirdName(String thirdName) {
+        this.thirdName = thirdName;
+    }
+
+    public String getPinyin() {
+        return pinyin;
+    }
+
+    public void setPinyin(String pinyin) {
+        this.pinyin = pinyin;
     }
 
     public GoodsSecondCategory getGoodsSecondCategory() {

@@ -1,4 +1,8 @@
 import com.alibaba.fastjson.JSON;
+import com.dounine.corgi.cluster.Balance;
+import com.dounine.corgi.rpc.RpcApp;
+import com.dounine.corgi.spring.rpc.Reference;
+import com.dounine.corgi.spring.rpc.ReferenceImpl;
 import goods.provider.test.ApplicationConfiguration;
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -8,11 +12,15 @@ import org.ndshop.goods.entity.Goods;
 import org.ndshop.goods.entity.GoodsDes;
 import org.ndshop.goods.enums.SaleStatus;
 import org.ndshop.goods.service.IGoodsSer;
+import org.ndshop.user.common.entity.User;
+import org.ndshop.user.common.service.IUserSer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Created by ike on 16-11-16.
@@ -74,13 +82,23 @@ public class TestDescription {
      * 查找描述
      * @throws SerException
      */
+    @Reference
+    private IUserSer userSer;
+    @Autowired
+    protected Balance balance;
+    @PostConstruct
+    public void initApi(){
+        userSer = RpcApp.instance().getProxy(IUserSer.class,new ReferenceImpl(),balance);
+    }
 
     @Test
     public void findDese() throws SerException{
-        String goodId = "b0f42a2a-6c28-42bd-9e5e-969733ae7a84";
-        Goods goods = goodsSer.findById( goodId );
-        GoodsDes goodsDes = goods.getGoodsDes();
-        logger.info(JSON.toJSONString( goodsDes ));
+//        String goodId = "b0f42a2a-6c28-42bd-9e5e-969733ae7a84";
+//        Goods goods = goodsSer.findById( goodId );
+//        GoodsDes goodsDes = goods.getGoodsDes();
+//        logger.info(JSON.toJSONString( goodsDes ));
+        List<User> u = userSer.findAll();
+        logger.info(JSON.toJSONString( u ));
     }
 
 }
