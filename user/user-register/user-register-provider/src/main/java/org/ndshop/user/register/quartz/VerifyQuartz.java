@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class VerifyQuartz {
     private final static Map<String, VerifyCode> VERIFY_CODE_SESSION = new ConcurrentHashMap<String, VerifyCode>();//time主属
     private static final Logger CONSOLE = LoggerFactory.getLogger(VerifyQuartz.class);
-    private final static int INVALIDTIME = 3;//session key失效时间 1分钟
+    private final static int INVALID_TIME = 3;//session key失效时间 1分钟
     private final static int START = 0;//设置执行开始时间
     private final static int INTERVAL = 10000;//设置间隔执行时间 单位/毫秒
 
@@ -25,35 +25,34 @@ public class VerifyQuartz {
 
     public static VerifyCode get(String key) {
         Object obj = VERIFY_CODE_SESSION.get(key);
-        if(null!=obj){
-            return (VerifyCode)obj;
-        }else {
+        if (null != obj) {
+            return (VerifyCode) obj;
+        } else {
             return null;
         }
 
     }
 
-    public static boolean  remove(String key) {
-        if(VERIFY_CODE_SESSION.containsKey(key)){
+    public static boolean remove(String key) {
+        if (VERIFY_CODE_SESSION.containsKey(key)) {
             VERIFY_CODE_SESSION.remove(key);
             return true;
-        }else{
-            return  false;
+        } else {
+            return false;
         }
     }
 
 
     static {
         Timer timer = new Timer();//定时类
-        CONSOLE.info("start:"+LocalDateTime.now());
+        CONSOLE.info("start:" + LocalDateTime.now());
         timer.schedule(new TimerTask() {//创建一个定时任务
             @Override
             public void run() {
-                CONSOLE.info("running...");
-                for(Map.Entry<String,VerifyCode> entry : VERIFY_CODE_SESSION.entrySet()){
-                    int invalidTime = entry.getValue().getInvalidTime()!=null?entry.getValue().getInvalidTime():INVALIDTIME;
-                    if(entry.getValue().getCreateTime().plusMinutes(invalidTime).isBefore(LocalDateTime.now())){
-                        CONSOLE.info("remove token:"+entry.getKey());
+                for (Map.Entry<String, VerifyCode> entry : VERIFY_CODE_SESSION.entrySet()) {
+                    int invalidTime = entry.getValue().getInvalidTime() != null ? entry.getValue().getInvalidTime() : INVALID_TIME;
+                    if (entry.getValue().getCreateTime().plusMinutes(invalidTime).isBefore(LocalDateTime.now())) {
+                        CONSOLE.info("remove token:" + entry.getKey());
                         VERIFY_CODE_SESSION.remove(entry.getKey());
                     }
                 }

@@ -2,6 +2,7 @@ package org.ndshop.user.common.enums;
 
 /**
  * Created by lgq on 16-11-5.
+ * 登录类型
  */
 public enum  LoginType {
     NONE(0),//未识别

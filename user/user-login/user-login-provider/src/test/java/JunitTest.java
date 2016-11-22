@@ -1,6 +1,7 @@
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.junit.Test;
 import org.ndshop.user.common.entity.User;
+import org.ndshop.user.common.utils.CookieOperate;
 import org.ndshop.user.login.service.IUserLoginSer;
 import com.dounine.corgi.spring.ApplicationContext;
 import org.junit.Before;
@@ -33,8 +34,14 @@ public class JunitTest extends AbstractJUnit4SpringContextTests {
 
     @Test
     public void loginUser()throws SerException{
-        userLoginSer.login(new User());
+        User user = new User();
+        user.setUsername("liguiqin0");
+        user.setPassword("123456");
+        userLoginSer.login(user);
+        CookieOperate cookieOperate = new CookieOperate();
     }
+
+
 
 
 }

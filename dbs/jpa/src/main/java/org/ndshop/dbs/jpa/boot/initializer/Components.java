@@ -16,6 +16,7 @@ import org.springframework.orm.hibernate5.support.OpenSessionInViewInterceptor;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.util.ArrayList;
@@ -26,6 +27,10 @@ import java.util.List;
  * Created by huanghuanlai on 16/8/17.
  */
 public class Components {
+    @Autowired
+    private JpaCache jpaCache;
+    @Autowired
+    private EntityToScan packagesToScan;
 
     @Bean
     public DruidDataSource getDruid(Environment env) {
@@ -47,8 +52,6 @@ public class Components {
      *
      * @return
      */
-    @Autowired
-    private EntityToScan packagesToScan;
 
     @Bean(name = "entityManagerFactoryBean")
     public LocalContainerEntityManagerFactoryBean getLCEMF(DruidDataSource druidDataSource) {
@@ -82,9 +85,6 @@ public class Components {
         return inViewInterceptor;
     }
 
-
-    @Autowired
-    private JpaCache jpaCache;
 
     /**
      * 加载缓存配置

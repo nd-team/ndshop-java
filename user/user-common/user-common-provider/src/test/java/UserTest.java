@@ -1,3 +1,4 @@
+import com.dounine.corgi.security.PasswordHash;
 import org.ndshop.user.common.enums.SexType;
 import org.junit.Before;
 import user_common_code.ApplicationConfiguration;
@@ -32,6 +33,7 @@ public class UserTest {
     public void findAll() throws SerException {
         List<User> users = userSer.findAll();
         for(User u : users){
+            u.setSex(SexType.WOMAN);
             System.out.println(u.getUsername());
         }
     }
@@ -42,23 +44,38 @@ public class UserTest {
      */
     @Test
     public void verifyByAccountNumber() throws SerException {
-        System.out.println(null!=userSer.findByAccountNumber("1"));
+        System.out.println(null!=userSer.findByAccountNumber("liguiqin"));
 
     }
 
     @Test
     public void add() throws SerException {
         List<User> users = new ArrayList<>();
-        for(int i=0;i<5;i++){
-            User user = new User();
-            user.setUsername("aa"+i);
-            user.setPassword("asa");
-            user.setPhone("1325791024"+i);
-            users.add(user);
+        try {
+            for(int i=0;i<5;i++){
+                User user = new User();
+                user.setUsername("liguiqin"+i);
+                user.setPassword(PasswordHash.createHash("123456"));
+                user.setPhone("1325791024"+i);
+                users.add(user);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
+
        userSer.save(users);
 
     }
+
+    @Test
+    public void cacheUser()throws SerException{
+        User user = userSer.findByPhone("13257910244");
+        user.setUsername("liguiqin666");
+        userSer.update(user);
+        User u =  userSer.findByPhone("13257910244");
+        System.out.println(u);
+    }
+
 
 
 }

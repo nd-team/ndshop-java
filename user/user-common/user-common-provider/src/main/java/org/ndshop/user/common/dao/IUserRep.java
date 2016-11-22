@@ -25,4 +25,6 @@ public interface IUserRep extends MyRep<User, UserDto> {
 
     @Cacheable("userDaoCache")
     User findByNickname(String nickname);
+    @Cacheable("userDaoCache")
+    User findByPhone(String phone);
 }

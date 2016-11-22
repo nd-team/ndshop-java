@@ -10,11 +10,11 @@ import javax.persistence.*;
  * 用户详情
  */
 @Entity
-@Table(name="user_detail")
+@Table(name = "user_detail")
 public class UserDetail extends BaseEntity {
 
     @OneToOne(optional = false, cascade = CascadeType.REFRESH)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     @JSONField(serialize = false)
     private User user;
 
@@ -26,7 +26,7 @@ public class UserDetail extends BaseEntity {
     private Double growthValue; //成长值
     private String idCard;//身份证
     private String educationLevel;//教育程度
-    private String job ; //职业
+    private String job; //职业
 
     @Column(columnDefinition = "TINYINT(1)")
     private Boolean maritalStatus;//婚姻状态
