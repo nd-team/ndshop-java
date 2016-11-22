@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 
 /**
  * Created by ike on 16-11-5.
+ * 商品数量，库存
  */
 @Entity
 @Table(name = "goodsInventory")

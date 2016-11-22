@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 
 /**
  * Created by ike on 16-11-21.
+ * 三级分类
  */
 @Entity
 @Table(name = "goodsThirdCategory")
