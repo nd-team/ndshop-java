@@ -103,7 +103,8 @@ public final class UserSession {
     }
 
     public static void main(String[] args){
-        //System.out.println(TokenUtils.verify(TokenUtils.create("119.129.208.1","admin")));
+        String token = TokenUtils.create("119.129.208.1","admin");
+       System.out.println(TokenUtils.verify(TokenUtils.create("119.129.208.1","admin")));
     }
 
 

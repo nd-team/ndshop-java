@@ -9,8 +9,28 @@ import org.ndshop.user.common.entity.User;
  */
 public interface IUserLoginSer extends IService<User,UserDto> {
 
+    /**
+     * 验证 token
+     * @param token
+     * @return
+     * @throws SerException
+     */
     boolean verify(String token) throws SerException;
 
+    /**
+     *登录
+     * @param user
+     * @return token
+     * @throws SerException
+     */
     String login(User user) throws SerException;
+
+    /**
+     *登录
+     * @param token
+     * @return token
+     * @throws SerException
+     */
+    boolean loginOut(String token) throws SerException;
 
 }

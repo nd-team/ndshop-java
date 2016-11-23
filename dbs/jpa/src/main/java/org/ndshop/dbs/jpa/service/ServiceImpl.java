@@ -1,5 +1,6 @@
 package org.ndshop.dbs.jpa.service;
 
+import org.hibernate.Session;
 import org.ndshop.dbs.jpa.constant.FinalCommons;
 import org.ndshop.dbs.jpa.dao.MyRep;
 import org.ndshop.dbs.jpa.dao.MySpecification;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
@@ -29,6 +31,7 @@ public class ServiceImpl<BE extends BaseEntity, BD extends BaseDto> extends Fina
     protected MyRep<BE, BD> myRepository;
     @Autowired
     protected EntityManager entityManager;
+
 
     @Override
     public List<BE> findAll() throws SerException {
@@ -154,18 +157,18 @@ public class ServiceImpl<BE extends BaseEntity, BD extends BaseDto> extends Fina
     }
 
     @Override
-    public String findByMaxField(String field,Class clazz) throws SerException {
+    public String findByMaxField(String field, Class clazz) throws SerException {
         StringBuilder jpql = new StringBuilder();
         jpql.append("SELECT MAX ( ");
         jpql.append(field);
         jpql.append(") FROM ");
         jpql.append(clazz.getSimpleName());
         Object obj = entityManager.createQuery(jpql.toString()).getSingleResult();
-        return obj!=null?obj.toString():"0";
+        return obj != null ? obj.toString() : "0";
     }
 
     @Override
-    public String findByMinField(String field,Class clazz) throws SerException {
+    public String findByMinField(String field, Class clazz) throws SerException {
         StringBuilder jpql = new StringBuilder();
         jpql.append("SELECT MIN (");
         jpql.append(field);

@@ -12,14 +12,14 @@ import javax.persistence.*;
  * 收货地址
  */
 @Entity
-@Table(name = "shipping_address")
+@Table(name = "user_shipping_address")
 public class ShippingAddress extends BaseEntity {
 
-    @ManyToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "user_id",nullable = false)
+    @ManyToOne(optional = false,cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "user_id")
     private User user;//所属用户
 
-    private String aliases ;  // 地址别名
+    private String aliases;  // 地址别名
     @Column(nullable = false)
     private String area; //地区
     @Column(nullable = false)
@@ -27,13 +27,13 @@ public class ShippingAddress extends BaseEntity {
     @Email
     private String email;//邮件
     private String postcode;//邮政编码
-    @Column(length = 25,nullable = false)
+    @Column(length = 25, nullable = false)
     private String receiverName;//收货人姓名
-    private String phone ; // 手机号码（手机号码电话号码二选一必填）
+    private String phone; // 手机号码（手机号码电话号码二选一必填）
     private String telPhone;//电话号码
     @Column(columnDefinition = "TINYINT(1)")
     private Boolean defaultAddress; //是否默认地址
-    @Range(min = 0,max = 20)
+    @Range(min = 0, max = 20)
     private Integer seq;// 序列 0-20
     private Status status;
 

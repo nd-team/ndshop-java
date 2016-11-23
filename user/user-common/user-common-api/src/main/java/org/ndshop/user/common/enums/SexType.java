@@ -6,8 +6,8 @@ package org.ndshop.user.common.enums;
  */
 public enum  SexType {
     NONE(0),//无
-    WOMAN(1),//男
-    MAN(2),//女
+    MAN(1),//男
+    WOMAN(2),//女
     ;
 
     private int code;

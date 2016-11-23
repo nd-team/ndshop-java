@@ -39,7 +39,7 @@ public class UserSerImpl extends ServiceImpl<User, UserDto> implements IUserSer 
     @Cacheable("userSerCache")
     @Override
     public User findByPhone(String phone) {
-        return userRep.findByUsername(phone);
+        return userRep.findByPhone(phone);
     }
 
     @Cacheable("userSerCache")
