@@ -28,6 +28,8 @@ public class JunitTest {
     @Autowired
     private IGoodsSer goodsSer;
     @Autowired
+    private IGoodsThirdCategorySer goodsThirdCategorySer;
+    @Autowired
     private IGoodsCategorySer goodsCategorySer;
     @Autowired
     private IGoodsPicSer goodsPicSer;
@@ -42,7 +44,7 @@ public class JunitTest {
 
     @Test
     public  void init () throws SerException {
-        String categoryId = "7b971dda-fd95-4f15-853c-d454d2ae4757";
+        String thirdCategoryId = "7b971dda-fd95-4f15-853c-d454d2ae4757";
         if(null == goodsSer.findByGoodName("洗衣机")  ){
             //temp
             Goods goods = new Goods();
@@ -66,10 +68,10 @@ public class JunitTest {
 
             goodsSer.save(goods);
 
-            GoodsCategory gd = goodsCategorySer.findById( categoryId );
-            goods.setGoodsCategory( gd );
-            goodsSer.update( goods );
-
+//            GoodsThirdCategory gd = goodsThirdCategorySer.findById( thirdCategoryId );
+//            goods.setGoodsThirdCategory( gd );
+//            goodsSer.update( goods );
+//
             String goodBrandId = "54731781-0a9d-4c30-98f9-69f1f9b6d7cf";
             if( goodBrandId != null ){
                 GoodsBrand goodsBrand = goodsBrandSer.findById( goodBrandId );

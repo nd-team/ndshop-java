@@ -19,12 +19,12 @@ public class GoodsCollection extends BaseEntity {
     @Column(nullable = false)
     private String status;//关注状态（已关注，取消关注）
 
-    @ManyToOne(cascade = CascadeType.REFRESH)
+    @ManyToOne(cascade = CascadeType.REFRESH ,fetch = FetchType.LAZY)
     @JoinColumn(name = "goods_id")
     @JSONField(serialize = false)
     private Goods goods;
 
-    @OneToOne(optional = true ,cascade = CascadeType.REFRESH)
+    @OneToOne(optional = true ,cascade = CascadeType.REFRESH ,fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 

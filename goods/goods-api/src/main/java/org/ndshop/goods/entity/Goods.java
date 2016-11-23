@@ -24,27 +24,26 @@ public class Goods extends BaseEntity{
     private Double goodsWeight;//重量
     private String goodsColor;//颜色
 
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
-    @JoinColumn(name = "goodsCategory_id")
-    private GoodsCategory goodsCategory;
+    @OneToOne(optional = true ,cascade = CascadeType.ALL, mappedBy = "goods" ,fetch = FetchType.LAZY)
+    private GoodsAndCategory goodsAndCategory;
 
     @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinColumn(name = "goodsBrand_id")
     private GoodsBrand goodsBrand;
 
-    @OneToOne(optional = true ,cascade = CascadeType.ALL, mappedBy = "goods")
+    @OneToOne(optional = true ,cascade = CascadeType.ALL, mappedBy = "goods" ,fetch = FetchType.LAZY)
     private GoodsDes goodsDes;
 
-    @OneToOne( cascade = CascadeType.ALL, mappedBy = "goods")
+    @OneToOne( cascade = CascadeType.ALL, mappedBy = "goods" ,fetch = FetchType.LAZY)
     private GoodsInventory goodsInventory;
 
 //    @OneToMany(mappedBy = "goods", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
 //    private Set<GoodsShops> goodsShops;
 
-    @OneToMany(mappedBy = "goods", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "goods", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private Set<GoodsPic> goodsPic;
 
-    @OneToMany(mappedBy = "goods", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "goods", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private Set<GoodsCollection> goodsCollections;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
@@ -127,12 +126,12 @@ public class Goods extends BaseEntity{
         this.modifyTime = modifyTime;
     }
 
-    public GoodsCategory getGoodsCategory() {
-        return goodsCategory;
+    public GoodsAndCategory getGoodsAndCategory() {
+        return goodsAndCategory;
     }
 
-    public void setGoodsCategory(GoodsCategory goodsCategory) {
-        this.goodsCategory = goodsCategory;
+    public void setGoodsAndCategory(GoodsAndCategory goodsAndCategory) {
+        this.goodsAndCategory = goodsAndCategory;
     }
 
     public GoodsBrand getGoodsBrand() {

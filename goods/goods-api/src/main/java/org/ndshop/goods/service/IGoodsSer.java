@@ -4,7 +4,6 @@ import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.IService;
 import org.ndshop.goods.dto.GoodsDto;
 import org.ndshop.goods.entity.Goods;
-import org.springframework.cache.annotation.Cacheable;
 
 
 /**
@@ -19,7 +18,7 @@ public interface IGoodsSer extends IService<Goods, GoodsDto> {
     default void addGoods(Goods goods, String shopId, String categoryId, String goodsBrandId) throws SerException {
     }
 
-    void findGoodsByFirstCategory(String firstCagetoryName) throws SerException;
+    void findGoodsByThirdCategory(String thirdCagetoryName) throws SerException;
 
     void findDese(String goodId) throws SerException;
 }

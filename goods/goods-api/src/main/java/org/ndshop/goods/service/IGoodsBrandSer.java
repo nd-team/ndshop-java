@@ -6,7 +6,7 @@ import org.ndshop.goods.dto.GoodsBrandDto;
 import org.ndshop.goods.entity.GoodsBrand;
 
 /**
- * Created by ike on 16-11-14.
+ * Created by tanghaixiang on 16-11-14.
  */
 public interface IGoodsBrandSer extends IService<GoodsBrand , GoodsBrandDto>{
 

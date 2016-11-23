@@ -35,8 +35,8 @@ public class TestSecondCategory {
      */
     @Test
     public void addSecondCategory() throws SerException {
-        String firstCategoryId = "12bc9a8c-0e2f-41fe-b30f-a9a163f4ccf7";
-        String secondName = "玉布尔";
+        String firstCategoryId = "718d25e2-6417-48d7-a867-44c71e0f7921";
+        String secondName = "喜洋洋";
         GoodsSecondCategory goodsSecondCategory = new GoodsSecondCategory();
         goodsSecondCategory.setSecondName(secondName);
         goodsSecondCategory.setCreateTime(LocalDateTime.now());

@@ -17,11 +17,11 @@ public class GoodsCategory extends BaseEntity{
     @Column(nullable = false ,unique = true)
     private String name ; //一级分类
 
-    @OneToMany(mappedBy = "goodsCategory", cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "goodsCategory", cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
     private Set<GoodsSecondCategory> goodsSecondCategory; //二级分类
 
-    @OneToMany(mappedBy = "goodsCategory", cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
-    private Set<Goods> goods;
+    @OneToMany(mappedBy = "goodsCategory", cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    private Set<GoodsAndCategory> goodsAndCategory;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
     @Column(columnDefinition="dateTime") //指定数据库类型
@@ -47,12 +47,12 @@ public class GoodsCategory extends BaseEntity{
         this.goodsSecondCategory = goodsSecondCategory;
     }
 
-    public Set<Goods> getGoods() {
-        return goods;
+    public Set<GoodsAndCategory> getGoodsAndCategory() {
+        return goodsAndCategory;
     }
 
-    public void setGoods(Set<Goods> goods) {
-        this.goods = goods;
+    public void setGoodsAndCategory(Set<GoodsAndCategory> goodsAndCategory) {
+        this.goodsAndCategory = goodsAndCategory;
     }
 
     public LocalDateTime getCreateTime() {

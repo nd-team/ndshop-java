@@ -18,7 +18,7 @@ public class GoodsPic extends BaseEntity{
     @Column( unique = true ,nullable = false )
     private String picUrl ;
 
-    @ManyToOne(cascade = CascadeType.REFRESH)
+    @ManyToOne(cascade = CascadeType.REFRESH ,fetch = FetchType.LAZY)
     @JoinColumn(name = "goods_id")
     @JSONField(serialize = false)
     private Goods goods;

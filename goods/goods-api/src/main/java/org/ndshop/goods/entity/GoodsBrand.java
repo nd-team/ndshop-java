@@ -18,7 +18,7 @@ public class GoodsBrand extends BaseEntity {
     @Column(nullable = false , unique = true)
     private String brandName ;//品牌名
 
-    @OneToMany(mappedBy = "goodsBrand", cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "goodsBrand", cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
     private Set<Goods> goods;
 
     @Column(nullable = false)

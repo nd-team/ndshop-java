@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
- * Created by ike on 16-11-21.
+ * Created by tanghaixiang on 16-11-21.
  * 商品二级分类 如：精品女装
  */
 @Entity
@@ -21,12 +21,15 @@ public class GoodsSecondCategory extends BaseEntity{
     @Column
     private String pinyin;//拼音
 
-    @ManyToOne(cascade = {CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.REFRESH} ,fetch = FetchType.LAZY)
     @JoinColumn(name = "goodsCategory_id")
     private GoodsCategory goodsCategory;
 
-    @OneToMany(mappedBy = "goodsSecondCategory", cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "goodsSecondCategory", cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
     private Set<GoodsThirdCategory> goodsThirdCategory;
+
+    @OneToMany(mappedBy = "goodsSecondCategory", cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    private Set<GoodsAndCategory> goodsAndCategory;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
     @Column(columnDefinition="dateTime") //指定数据库类型
@@ -66,6 +69,14 @@ public class GoodsSecondCategory extends BaseEntity{
 
     public void setGoodsThirdCategory(Set<GoodsThirdCategory> goodsThirdCategory) {
         this.goodsThirdCategory = goodsThirdCategory;
+    }
+
+    public Set<GoodsAndCategory> getGoodsAndCategory() {
+        return goodsAndCategory;
+    }
+
+    public void setGoodsAndCategory(Set<GoodsAndCategory> goodsAndCategory) {
+        this.goodsAndCategory = goodsAndCategory;
     }
 
     public LocalDateTime getCreateTime() {

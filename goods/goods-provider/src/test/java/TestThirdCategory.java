@@ -32,10 +32,10 @@ public class TestThirdCategory {
     @Test
     public void addThirdCategory() throws SerException{
         GoodsThirdCategory goodsThirdCategory = new GoodsThirdCategory();
-        goodsThirdCategory.setThirdName("FACE CARE");
+        goodsThirdCategory.setThirdName("BAB CARE");
         goodsThirdCategory.setPinyin("face");
 
-        String gscId = "0bc46188-0e37-43bc-a232-6a91865b8073";
+        String gscId = "43374db6-42bd-46a9-b2cb-c77c5457d1e2";
         GoodsSecondCategory goodsSecondCategory = new GoodsSecondCategory();
         goodsSecondCategory.setId( gscId );
         goodsThirdCategory.setGoodsSecondCategory( goodsSecondCategory );

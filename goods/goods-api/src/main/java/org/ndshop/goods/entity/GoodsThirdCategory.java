@@ -5,9 +5,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 /**
- * Created by ike on 16-11-21.
+ * Created by tanghaixiang on 16-11-21.
  * 三级分类
  */
 @Entity
@@ -19,9 +20,12 @@ public class GoodsThirdCategory extends BaseEntity{
     @Column
     private String pinyin;
 
-    @ManyToOne(cascade = {CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.REFRESH} ,fetch = FetchType.LAZY)
     @JoinColumn(name = "goodsSecondCategory_id")
     private GoodsSecondCategory goodsSecondCategory;
+
+    @OneToMany(mappedBy = "goodsThirdCategory", cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    private Set<GoodsAndCategory> goodsAndCategory;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
     @Column(columnDefinition="dateTime") //指定数据库类型
@@ -53,6 +57,14 @@ public class GoodsThirdCategory extends BaseEntity{
 
     public void setGoodsSecondCategory(GoodsSecondCategory goodsSecondCategory) {
         this.goodsSecondCategory = goodsSecondCategory;
+    }
+
+    public Set<GoodsAndCategory> getGoodsAndCategory() {
+        return goodsAndCategory;
+    }
+
+    public void setGoodsAndCategory(Set<GoodsAndCategory> goodsAndCategory) {
+        this.goodsAndCategory = goodsAndCategory;
     }
 
     public LocalDateTime getCreateTime() {

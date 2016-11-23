@@ -22,7 +22,7 @@ public class GoodsDes extends BaseEntity {
     @Column(nullable = false)
     private SaleStatus saleStatus;
 
-    @OneToOne(optional = false, cascade = CascadeType.REFRESH)
+    @OneToOne(optional = false, cascade = CascadeType.REFRESH ,fetch = FetchType.LAZY)
     @JoinColumn(name="goods_id")
     @JSONField(serialize = false)
     private Goods goods;

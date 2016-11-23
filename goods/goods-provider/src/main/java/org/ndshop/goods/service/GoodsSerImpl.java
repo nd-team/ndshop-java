@@ -7,8 +7,8 @@ import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.enums.RestrictionType;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.ServiceImpl;
-import org.ndshop.goods.dao.IGoodsCategoryRep;
 import org.ndshop.goods.dao.IGoodsRep;
+import org.ndshop.goods.dao.IGoodsThirdCategoryRep;
 import org.ndshop.goods.dto.GoodsDto;
 import org.ndshop.goods.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
     @Autowired
     private IGoodsRep goodsRep;
     @Autowired
-    private IGoodsCategoryRep goodsCategoryRep;
+    private IGoodsThirdCategoryRep goodsThirdCategoryRep;
     @Autowired
     protected IGoodsBrandSer goodsBrandSer;
 
@@ -52,9 +52,9 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
 
         save(goods);
 
-        GoodsCategory gd = goodsCategoryRep.findById( categoryId );
-        goods.setGoodsCategory( gd );
-        update( goods );
+//        GoodsThirdCategory gd = goodsThirdCategoryRep.findById( categoryId );
+//        goods.setGoodsThirdCategory( gd );
+//        update( goods );
 
         if( goodsBrandId != null ){
             GoodsBrand goodsBrand = goodsBrandSer.findById( goodsBrandId );
@@ -76,12 +76,12 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
 
     @Cacheable("goodsServiceCache")
     @Override
-    public void findGoodsByFirstCategory(String firstCagetoryName) throws SerException{
+    public void findGoodsByThirdCategory(String thirdCagetoryName) throws SerException{
         GoodsDto dto = new GoodsDto();
 
-        Condition c = new Condition("name", DataType.STRING , firstCagetoryName);
+        Condition c = new Condition("thirdName", DataType.STRING , thirdCagetoryName);
         c.setRestrict( RestrictionType.EQ );
-        c.fieldToModels( GoodsCategory.class );
+        c.fieldToModels( GoodsThirdCategory.class );
         dto.getConditions().add( c );
 
         List<Goods> goods = findByCis( dto );

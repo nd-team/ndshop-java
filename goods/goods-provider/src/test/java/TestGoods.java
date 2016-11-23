@@ -11,10 +11,10 @@ import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.goods.dto.GoodsDto;
 import org.ndshop.goods.entity.Goods;
 import org.ndshop.goods.entity.GoodsBrand;
-import org.ndshop.goods.entity.GoodsCategory;
+import org.ndshop.goods.entity.GoodsThirdCategory;
 import org.ndshop.goods.service.IGoodsBrandSer;
-import org.ndshop.goods.service.IGoodsCategorySer;
 import org.ndshop.goods.service.IGoodsSer;
+import org.ndshop.goods.service.IGoodsThirdCategorySer;
 import org.ndshop.user.common.service.IUserSer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -36,18 +36,22 @@ public class TestGoods {
     @Autowired
     private IGoodsSer goodsSer;
     @Autowired
-    private IGoodsCategorySer goodsCategorySer;
+    private IGoodsThirdCategorySer goodsThirdCategorySer;
     @Autowired
     private IGoodsBrandSer goodsBrandSer;
     @Reference
     private IUserSer userSer;
 
+    /**
+     * 添加商品
+     * @throws SerException
+     */
     @Test
     public void init() throws SerException {
-        if (null == goodsSer.findByGoodName("吹风机")) {
+        if (null == goodsSer.findByGoodName("食物")) {
             //temp
             Goods goods = new Goods();
-            goods.setGoodsName("吹风机");
+            goods.setGoodsName("食物");
             goods.setPrice(5000.0);
             goods.setGoodsLength(13.4);
             goods.setGoodsWidth(2.5);
@@ -61,30 +65,38 @@ public class TestGoods {
 
     }
 
+    /**
+     * 根据三级分类找到商品 ，再更改商品
+     * @throws SerException
+     */
     @Test
     public void updateForiegnKey() throws SerException {
-        String categoryId = "cdea3266-f283-49d6-bb5c-bf06905e03c2";
-        String gid = "b0f42a2a-6c28-42bd-9e5e-969733ae7a84";
+        String thirdCategoryId = "62cc8b1c-8df6-40cb-a540-701f17c47136";
+        String gid = "4a15a242-a907-4c00-bcb1-bea0a29311b5";
         Goods goods = goodsSer.findById(gid);
 
-        GoodsCategory gd = goodsCategorySer.findById(categoryId);
-        goods.setGoodsCategory(gd);
-        goodsSer.update(goods);
+//        GoodsThirdCategory gd = goodsThirdCategorySer.findById(thirdCategoryId);
+//        goods.setGoodsThirdCategory(gd);
+//        goodsSer.update(goods);
 
-        String goodBrandId = "260a42cf-67cd-4285-a617-d08de8ab3b55";
+        String goodBrandId = "aec591c1-7389-4b88-8d3b-91084b5554b9";
         GoodsBrand goodsBrand = goodsBrandSer.findById(goodBrandId);
         goods.setGoodsBrand(goodsBrand);
         goodsSer.update(goods);
     }
 
+    /**
+     * 根据三级分类找到商品
+     * @throws SerException
+     */
     @Test
-    public void findGoodsByFirstCategory() throws SerException{
-        String firstCagetory = "BEAUTI";
+    public void findGoodsByThirdCategory() throws SerException{
+        String thirdCagetory = "BEAUTI";
         GoodsDto dto = new GoodsDto();
 
-        Condition c = new Condition("name", DataType.STRING , firstCagetory);
+        Condition c = new Condition("thirdName", DataType.STRING , thirdCagetory);
         c.setRestrict( RestrictionType.EQ );
-        c.fieldToModels( GoodsCategory.class );
+        c.fieldToModels( GoodsThirdCategory.class );
         dto.getConditions().add( c );
 
         List<Goods> goods = goodsSer.findByCis( dto );
