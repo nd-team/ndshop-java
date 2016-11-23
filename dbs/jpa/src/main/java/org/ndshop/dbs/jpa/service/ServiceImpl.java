@@ -1,6 +1,5 @@
 package org.ndshop.dbs.jpa.service;
 
-import org.hibernate.Session;
 import org.ndshop.dbs.jpa.constant.FinalCommons;
 import org.ndshop.dbs.jpa.dao.MyRep;
 import org.ndshop.dbs.jpa.dao.MySpecification;
@@ -14,13 +13,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * Created by huanghuanlai on 16/9/3.
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [基础的业务查询s实现]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 public class ServiceImpl<BE extends BaseEntity, BD extends BaseDto> extends FinalCommons implements IService<BE, BD> {
 
@@ -34,16 +37,16 @@ public class ServiceImpl<BE extends BaseEntity, BD extends BaseDto> extends Fina
 
 
     @Override
-    public List<BE> findAll() throws SerException {
-        return myRepository.findAll();
+    public Optional<List<BE>> findAll() throws SerException {
+        return Optional.ofNullable(myRepository.findAll());
     }
 
     @Override
-    public List<BE> findByPage(BD dto) throws SerException {
+    public Optional<List<BE>> findByPage(BD dto) throws SerException {
         try {
             MySpecification mySpecification = new MySpecification<BE, BD>(dto);
             PageRequest pageRequest = mySpecification.getPageRequest(dto);
-            return myRepository.findAll(mySpecification, pageRequest).getContent();
+            return Optional.ofNullable(myRepository.findAll(mySpecification, pageRequest).getContent());
         } catch (RepException e) {
             throw repExceptionHandler(e);
         }
@@ -57,43 +60,44 @@ public class ServiceImpl<BE extends BaseEntity, BD extends BaseDto> extends Fina
     }
 
     @Override
-    public BE findOne(BD dto) throws SerException {
+    public Optional<BE> findOne(BD dto) throws SerException {
         MySpecification mySpecification = new MySpecification<BE, BD>(dto);
-        List<BE> list = myRepository.findAll(mySpecification);
-        return null != list && list.size() > 0 ? list.get(0) : null;
+        Optional<List<BE>> optional = Optional.ofNullable(myRepository.findAll(mySpecification));
+
+        return optional.isPresent() ? Optional.ofNullable(optional.get().get(0)) : Optional.ofNullable(null);
     }
 
     @Override
-    public List<BE> findByCis(BD dto, Boolean pageAndSort) throws SerException {
+    public Optional<List<BE>> findByCis(BD dto, Boolean pageAndSort) throws SerException {
         MySpecification mySpecification = new MySpecification<BE, BD>(dto);
         if (pageAndSort) {
             PageRequest pageRequest = mySpecification.getPageRequest(dto);
-            return myRepository.findAll(mySpecification, pageRequest).getContent();
+            return Optional.ofNullable(myRepository.findAll(mySpecification, pageRequest).getContent());
         } else {
-            return myRepository.findAll(mySpecification);
+            return Optional.ofNullable(myRepository.findAll(mySpecification));
         }
     }
 
     @Override
-    public List<BE> findByCis(BD dto) throws SerException {
+    public Optional<List<BE>> findByCis(BD dto) throws SerException {
         MySpecification mySpecification = new MySpecification<BE, BD>(dto);
-        return myRepository.findAll(mySpecification);
+        return Optional.ofNullable(myRepository.findAll(mySpecification));
     }
 
     @Override
-    public Long countByCis(BD dto) throws SerException {
+    public Optional<Long> countByCis(BD dto) throws SerException {
         MySpecification mySpecification = new MySpecification<BE, BD>(dto);
-        return myRepository.count(mySpecification);
+        return Optional.ofNullable(myRepository.count(mySpecification));
     }
 
     @Override
-    public BE findById(String id) throws SerException {
+    public Optional<BE> findById(String id) throws SerException {
         return myRepository.findById(id);
     }
 
     @Override
-    public BE save(BE entity) throws SerException {
-        return myRepository.save(entity);
+    public Optional<BE> save(BE entity) throws SerException {
+        return Optional.ofNullable(myRepository.save(entity));
     }
 
     @Override
@@ -131,8 +135,8 @@ public class ServiceImpl<BE extends BaseEntity, BD extends BaseDto> extends Fina
     }
 
     @Override
-    public Boolean exists(String id) throws SerException {
-        return myRepository.exists(id);
+    public Optional<Boolean> exists(String id) throws SerException {
+        return Optional.ofNullable(myRepository.exists(id));
     }
 
     private SerException repExceptionHandler(RepException e) {
@@ -157,25 +161,24 @@ public class ServiceImpl<BE extends BaseEntity, BD extends BaseDto> extends Fina
     }
 
     @Override
-    public String findByMaxField(String field, Class clazz) throws SerException {
+    public Optional<String> findByMaxField(String field, Class clazz) throws SerException {
         StringBuilder jpql = new StringBuilder();
         jpql.append("SELECT MAX ( ");
         jpql.append(field);
         jpql.append(") FROM ");
         jpql.append(clazz.getSimpleName());
         Object obj = entityManager.createQuery(jpql.toString()).getSingleResult();
-        return obj != null ? obj.toString() : "0";
+        return Optional.ofNullable(obj != null ? obj.toString() : "0");
     }
 
     @Override
-    public String findByMinField(String field, Class clazz) throws SerException {
+    public Optional<String> findByMinField(String field, Class clazz) throws SerException {
         StringBuilder jpql = new StringBuilder();
         jpql.append("SELECT MIN (");
         jpql.append(field);
         jpql.append(")FROM ");
         jpql.append(clazz.getSimpleName());
-        return entityManager.createQuery(jpql.toString()).getSingleResult().toString();
+        Object obj = entityManager.createQuery(jpql.toString()).getSingleResult();
+        return Optional.ofNullable(obj != null ? obj.toString() : null);
     }
-
-
 }

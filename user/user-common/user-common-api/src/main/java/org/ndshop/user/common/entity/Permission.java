@@ -6,8 +6,11 @@ import org.ndshop.dbs.jpa.enums.Status;
 import javax.persistence.*;
 
 /**
- * Created by lgq on 16-11-22.
- * 认证
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [资源认证]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Entity
 @Table(name = "user_permission")
@@ -19,11 +22,11 @@ public class Permission extends BaseEntity {
     private String description;//描述
     private Status status;
 
-    @ManyToOne( cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "parent_id")
     private Permission parent;//认证父id
 
-    @ManyToOne(optional = false,cascade = CascadeType.ALL)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "role_id")
     private Role role; //所属
 

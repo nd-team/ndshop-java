@@ -9,6 +9,7 @@ import test_java_service.code.dto.UserDto;
 import test_java_service.code.entity.User;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by huanghuanlai on 16/5/24.
@@ -16,9 +17,9 @@ import java.util.List;
 public interface IUserSer extends IService<User, UserDto> {
 
     @Cacheable("serviceCache")
-    User findByUsername(String username) throws SerException;
+    Optional<User> findByUsername(String username) throws SerException;
 
-    List<User> findByNickname(String nickname) throws SerException;
+    Optional<User> findByNickname(String nickname) throws SerException;
 
 
 }

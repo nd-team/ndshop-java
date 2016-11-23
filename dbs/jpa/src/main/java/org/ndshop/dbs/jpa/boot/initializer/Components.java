@@ -24,7 +24,11 @@ import java.util.List;
 
 
 /**
- * Created by huanghuanlai on 16/8/17.
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [配置项扫描类]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 public class Components {
     @Autowired
@@ -32,6 +36,12 @@ public class Components {
     @Autowired
     private EntityToScan packagesToScan;
 
+    /**
+     * 数据源配置
+     *
+     * @param env 　配置文件实体
+     * @return
+     */
     @Bean
     public DruidDataSource getDruid(Environment env) {
         DruidDataSource dds = new DruidDataSource();
@@ -42,6 +52,12 @@ public class Components {
         return dds;
     }
 
+    /**
+     * 实体类管理工厂
+     *
+     * @param localContainerEntityManagerFactoryBean
+     * @return
+     */
     @Bean(name = "entityManagerFactory")
     public EntityManagerFactory entityManagerFactory(LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean) {
         return localContainerEntityManagerFactoryBean.getNativeEntityManagerFactory();
@@ -76,6 +92,12 @@ public class Components {
     }
 
 
+    /**
+     * 懒加载配置
+     *
+     * @param entityManager
+     * @return
+     */
     @Bean(name = "openSessionInViewInterceptor")
     public OpenSessionInViewInterceptor openSessionInViewInterceptor(EntityManager entityManager) {
         OpenSessionInViewInterceptor inViewInterceptor = new OpenSessionInViewInterceptor();

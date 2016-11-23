@@ -1,7 +1,11 @@
 package org.ndshop.dbs.jpa.enums;
 
 /**
- * Created by lgq on 16-10-7.
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [jpa dao查询错误类型]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 public enum RepExceptionType {
     UNDEFINE, //未定义错误

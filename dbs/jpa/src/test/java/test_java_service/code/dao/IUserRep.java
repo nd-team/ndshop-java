@@ -9,6 +9,7 @@ import test_java_service.code.entity.User;
 
 import javax.persistence.QueryHint;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by huanghuanlai on 16/5/24.
@@ -22,7 +23,7 @@ public interface IUserRep extends MyRep<User,UserDto> {
      */
 
     @Cacheable("daoCache")
-    User findByUsername(String username);
+    Optional<User> findByUsername(String username);
 
     /**
      * 查询缓存
@@ -30,5 +31,5 @@ public interface IUserRep extends MyRep<User,UserDto> {
      * @return
      */
     @QueryHints(value={@QueryHint(name="org.hibernate.cacheable",value="true")})
-    List<User> findByNickname(String nickname);
+    Optional<User> findByNickname(String nickname);
 }

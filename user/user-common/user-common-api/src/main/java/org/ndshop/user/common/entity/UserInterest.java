@@ -5,15 +5,17 @@ import org.ndshop.dbs.jpa.entity.BaseEntity;
 import javax.persistence.*;
 
 /**
- * 用户喜好
- * <p>
- * Created by lgq on 16-11-8.
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [用户喜好]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Entity
 @Table(name = "user_interest")
 public class UserInterest extends BaseEntity {
     //用户
-    @ManyToOne(optional = false,cascade = CascadeType.ALL)
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
     //商品类型

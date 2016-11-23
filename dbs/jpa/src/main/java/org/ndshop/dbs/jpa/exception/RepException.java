@@ -4,14 +4,18 @@ package org.ndshop.dbs.jpa.exception;
 import org.ndshop.dbs.jpa.enums.RepExceptionType;
 
 /**
- * Created by lgq on 16-10-7.
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [dao层异自定义常]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
-public class RepException extends RuntimeException{
-    private RepExceptionType type= RepExceptionType.UNDEFINE;
+public class RepException extends RuntimeException {
+    private RepExceptionType type = RepExceptionType.UNDEFINE;
 
     private RepException repException;
 
-    public RepException(RepExceptionType repExceptionType, String msg){
+    public RepException(RepExceptionType repExceptionType, String msg) {
         super(msg);
         this.type = repExceptionType;
     }

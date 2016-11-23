@@ -7,6 +7,8 @@ import test_java_service.code.dao.IUserGroupRep;
 import test_java_service.code.dto.UserGroupDto;
 import test_java_service.code.entity.UserGroup;
 
+import java.util.Optional;
+
 /**
  * Created by lgq on 16-10-13.
  */
@@ -15,7 +17,7 @@ public class UserGroupSerImpl extends ServiceImpl<UserGroup, UserGroupDto> imple
     @Autowired
     private IUserGroupRep groupRep;
     @Override
-    public UserGroup findByName(String name) {
+    public Optional<UserGroup> findByName(String name) {
         return groupRep.findByName(name);
     }
 }

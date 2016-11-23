@@ -6,7 +6,11 @@ import org.ndshop.dbs.jpa.enums.RestrictionType;
 import org.apache.commons.lang3.text.StrBuilder;
 
 /**
- * Created by lgq on 16-9-29.
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [查询条件传输]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 public class Condition {
     private RestrictionType restrict = RestrictionType.EQ; //查询条件 eq gt lt ...
@@ -29,7 +33,10 @@ public class Condition {
         values = new String[]{String.valueOf(value)};
     }
 
-    //连表查询属性必调该方法
+    /**
+     * 连表查询属性必调该方法
+     * @param clazz　连接表对象
+     */
     public void fieldToModels(Class... clazz) {
         StrBuilder sb = new StrBuilder();
         for(Class c :clazz){

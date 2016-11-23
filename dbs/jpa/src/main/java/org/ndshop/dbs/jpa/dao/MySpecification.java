@@ -22,7 +22,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by lgq on 16-9-30.
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [jpa 高级查询，高级查询条件拼装分页，排序等]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implements Specification<BE> {
 
@@ -52,6 +56,7 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
 
     /**
      * 连表查询set集合暂时无效，暂时仅支持单属性（model）查询
+     *
      * @param dto
      * @param root
      * @param cb
@@ -200,6 +205,12 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
 
     }
 
+    /**
+     * 查询异常处理
+     *
+     * @param e
+     * @return
+     */
     private RepException exceptionHandler(Exception e) {
         String msg = "";
         RepExceptionType type = RepExceptionType.UNDEFINE;

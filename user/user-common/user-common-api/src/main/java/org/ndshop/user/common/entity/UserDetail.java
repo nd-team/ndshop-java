@@ -6,8 +6,11 @@ import org.ndshop.dbs.jpa.entity.BaseEntity;
 import javax.persistence.*;
 
 /**
- * Created by lgq on 16-10-26.
- * 用户详情
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [用户详情]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Entity
 @Table(name = "user_detail")

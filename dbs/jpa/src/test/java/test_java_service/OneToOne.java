@@ -17,6 +17,8 @@ import test_java_service.code.entity.User;
 import test_java_service.code.entity.UserInfo;
 import test_java_service.code.service.IUserSer;
 
+import java.util.Optional;
+
 /**
  * Created by huanghuanlai on 2016/10/13.
  */
@@ -47,17 +49,17 @@ public class OneToOne {
 
     @Test
     public void addUserInfo() throws SerException {
-        User user = userSer.findByUsername("liguiqin");
-        UserInfo info = user.getUserInfo();
+        Optional<User> optional = userSer.findByUsername("liguiqin");
+        UserInfo info = optional.get().getUserInfo();
         if (null == info) {
             info = new UserInfo();
         }
         info.setEmail("xinaml@qq.com");
         info.setFox("1122");
-        info.setUser(user);
-        user.setUserInfo(info);
-        userSer.update(user);
-        System.out.println(JSON.toJSONString(user));
+        info.setUser(optional.get());
+        optional.get().setUserInfo(info);
+        userSer.update(optional.get());
+        System.out.println(JSON.toJSONString(optional.get()));
     }
 
     @Test

@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import sun.security.acl.GroupImpl;
 import test_java_service.code.ApplicationConfiguration;
 import test_java_service.code.dto.UserDto;
 import test_java_service.code.entity.User;
@@ -21,6 +22,7 @@ import test_java_service.code.service.IUserSer;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by huanghuanlai on 2016/10/13.
@@ -42,8 +44,8 @@ public class ManyToOne {
 
     @Before
     public void initGroup() throws SerException {
-
-        if (0 == userGroupSer.findAll().size()) {
+        Optional<List<UserGroup>> optional = userGroupSer.findAll();
+        if (!optional.isPresent()) {
             UserGroup group1 = new UserGroup();
             group1.setName("用户组1");
             group1.setCreateTime(LocalDateTime.now());
@@ -68,13 +70,17 @@ public class ManyToOne {
      */
     @Test
     public void addGroupForUser() throws SerException {
-        User user = userSer.findByUsername("liguiqin77");
-        user.setPassword("123456");
-        user.setMoney(5000.0);
-        UserGroup group = userGroupSer.findByName("用户组2");
-        user.setGroup(group);
-        userSer.update(user);
-        System.out.println(JSON.toJSONString(user));
+        Optional<User> optional = userSer.findByUsername("liguiqin77");
+        if(optional.isPresent()){
+            User user = optional.get();
+            user.setPassword("123456");
+            user.setMoney(5000.0);
+            Optional<UserGroup> optional1 = userGroupSer.findByName("用户组2");
+            user.setGroup(optional1.get());
+            userSer.update(user);
+            System.out.println(JSON.toJSONString(user));
+        }
+
     }
 
 
@@ -87,14 +93,17 @@ public class ManyToOne {
         Condition condition = new Condition("group.name", DataType.STRING);
         condition.setRestrict(RestrictionType.EQ);
         condition.setValues(new String[]{"用户组2"});
-        List<User> users = userSer.findByCis(dto); //查询所有用户组2 的用户
-        for (User user : users) {
-            user.setGroup(null);
-        }
-        userSer.update(users);
+        Optional<List<User>> optional = userSer.findByCis(dto); //查询所有用户组2 的用户
+        if(optional.isPresent()){
+            for (User user : optional.get()) {
+                user.setGroup(null);
+            }
+            userSer.update(optional.get());
 
-        UserGroup group = userGroupSer.findByName("用户组2");
-        userGroupSer.remove(group);
+        }
+
+        Optional<UserGroup> optional1 = userGroupSer.findByName("用户组2");
+        userGroupSer.remove(optional1.get());
     }
 
 

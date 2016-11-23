@@ -1,7 +1,11 @@
 package org.ndshop.dbs.jpa.dto;
 
 /**
- * Created by lgq on 16-9-2.
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [分页数据传输，基础dto继承该类]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 public class PageDto {
     private int limit = 10;//每显示数量

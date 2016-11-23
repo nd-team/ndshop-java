@@ -1,16 +1,21 @@
 package org.ndshop.user.common.enums;
 
+
 /**
- * Created by lgq on 16-11-5.
- * 登录类型
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [登录类型]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
-public enum  LoginType {
+public enum LoginType {
     NONE(0),//未识别
     APP(1),//app
     PC(2),//pc
     ;
 
     private int code;
+
     LoginType(int code) {
         this.code = code;
     }

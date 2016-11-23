@@ -14,10 +14,7 @@ import test_java_service.code.entity.UserInterest;
 import test_java_service.code.service.IUserInterestSer;
 import test_java_service.code.service.IUserSer;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by huanghuanlai on 2016/10/13.
@@ -49,41 +46,41 @@ public class OneToMany {
 
     @Test
     public void addUserInterest() throws SerException {
-        User user = userSer.findByUsername("liguiqin");
+        Optional<User> optional = userSer.findByUsername("liguiqin");
         List<UserInterest> interests = new ArrayList<>(5);
         for (int i = 0; i < 5; i++) {
             UserInterest interest = new UserInterest();
             interest.setName("ga" + i);
-            interest.setUser(user);
+            interest.setUser(optional.get());
             interest.setSeq(i);
             interests.add(interest);
         }
         interestSer.save(interests);
-        System.out.println(JSON.toJSONString(user));
+        System.out.println(JSON.toJSONString(optional.get()));
     }
 
     @Test
     public void delUserInterest() throws SerException {
-        User user = userSer.findByUsername("liguiqin");
-        Set<UserInterest> interests = user.getInterests();
+        Optional<User> optional = userSer.findByUsername("liguiqin");
+        Set<UserInterest> interests = optional.get().getInterests();
         if (null != interests) {
             interestSer.remove(interests);
         }
-        System.out.println(JSON.toJSONString(user));
+        System.out.println(JSON.toJSONString(optional.get()));
     }
 
 
     @Test
     public void updateUserInterest() throws SerException {
-        User user = userSer.findByUsername("liguiqin");
-        Set<UserInterest> interests = user.getInterests();
+        Optional<User> optional = userSer.findByUsername("liguiqin");
+        Set<UserInterest> interests = optional.get().getInterests();
         if (null != interests) {
             for (UserInterest interest : interests) {
                 interest.setName("update" + new Random().nextInt(999));
             }
         }
         interestSer.update(interests);
-        System.out.println(JSON.toJSONString(user));
+        System.out.println(JSON.toJSONString(optional.get()));
     }
 
 

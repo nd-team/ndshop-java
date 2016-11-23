@@ -10,6 +10,7 @@ import test_java_service.code.entity.User;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by lgq on 16-10-13.
@@ -26,13 +27,13 @@ public class UserSerImpl extends ServiceImpl<User, UserDto> implements IUserSer 
     }
 
     @Override
-    public User findByUsername(String username) throws SerException {
+    public Optional<User> findByUsername(String username) throws SerException {
        // System.out.println("service cache");
         return userRep.findByUsername(username);
     }
 
     @Override
-    public List<User> findByNickname(String nickname) throws SerException {
+    public Optional<User> findByNickname(String nickname) throws SerException {
         return userRep.findByNickname(nickname);
     }
 

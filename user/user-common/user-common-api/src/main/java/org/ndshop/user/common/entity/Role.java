@@ -2,13 +2,18 @@ package org.ndshop.user.common.entity;
 
 import org.ndshop.dbs.jpa.entity.BaseEntity;
 import org.ndshop.dbs.jpa.enums.Status;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
- * Created by lgq on 16-11-22.
- * 角色
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [用户角色]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Entity
 @Table(name = "user_role")
@@ -17,6 +22,10 @@ public class Role extends BaseEntity {
     private String name;//角色名
     private String description;//描述
     private Status status;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @Column(columnDefinition = "dateTime")//指定数据库类型
+    private LocalDateTime accessTime = LocalDateTime.now();
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "parent_id")
@@ -63,5 +72,13 @@ public class Role extends BaseEntity {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public LocalDateTime getAccessTime() {
+        return accessTime;
+    }
+
+    public void setAccessTime(LocalDateTime accessTime) {
+        this.accessTime = accessTime;
     }
 }
