@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 
 /**
  * Created by ike on 16-11-5.
+ * 商品描述
  */
 @Entity
 @Table(name = "goodsDescription")

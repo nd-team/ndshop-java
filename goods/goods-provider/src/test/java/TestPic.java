@@ -10,6 +10,7 @@ import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.goods.dto.GoodsPicDto;
 import org.ndshop.goods.entity.Goods;
 import org.ndshop.goods.entity.GoodsPic;
+import org.ndshop.goods.enums.GoodsPicType;
 import org.ndshop.goods.service.IGoodsPicSer;
 import org.ndshop.goods.service.IGoodsSer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class TestPic {
      */
     @Test
     public  void addGoodsPic () throws SerException {
-        String gid = "b0f7ed15-7e1b-4699-a654-4ae19b4a20b2";
+        String gid = "b0f42a2a-6c28-42bd-9e5e-969733ae7a84";
         Goods goods = goodsSer.findById( gid );
         GoodsPic goodsPic = new GoodsPic();
         String time = goodsPic.getCreateTime().minusSeconds(0).format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
@@ -52,11 +53,11 @@ public class TestPic {
 
     @Test
     public  void updateGoodsPic () throws  SerException{
-        String picId ="3abfab9e-1ebb-4247-8f44-d80c8294e5c1";
+        String picId ="5bf0b4ca-6952-47e5-80ee-87a37544c1a7";
         GoodsPic goodsPic = goodsPicSer.findById( picId );
         String time = goodsPic.getCreateTime().minusSeconds(0).format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
         goodsPic.setPicUrl("/home/xx/xx"+time+".jpg");
-        goodsPic.setFlag("详情图片");
+        goodsPic.setFlag(GoodsPicType.LOGPIC.name());
         goodsPic.setModifyTime( LocalDateTime.now() );
         goodsPicSer.update(  goodsPic );
         logger.info(time+""+ JSON.toJSONString( goodsPic ) );
@@ -69,7 +70,7 @@ public class TestPic {
      */
     @Test
     public void findGoodsPic() throws  SerException{
-        String gid = "b0f7ed15-7e1b-4699-a654-4ae19b4a20b2";
+        String gid = "b0f42a2a-6c28-42bd-9e5e-969733ae7a84";
         Condition condition = new Condition("id", DataType.STRING , gid);
         condition.fieldToModels(Goods.class);
         GoodsPicDto goodsPicDto = new GoodsPicDto();

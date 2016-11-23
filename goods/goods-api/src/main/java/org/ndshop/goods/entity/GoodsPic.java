@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 
 /**
  * Created by ike on 16-11-12.
+ * 商品图片
  */
 @Entity
 @Table(name = "goodsPic")

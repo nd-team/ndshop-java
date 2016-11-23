@@ -2,7 +2,6 @@ package org.ndshop.shop.entity;
 
 import org.ndshop.dbs.jpa.entity.BaseEntity;
 import org.ndshop.shop.enums.ShopStatus;
-
 import org.ndshop.user.common.entity.User;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -13,8 +12,8 @@ import java.util.Set;
 /**
  * Created by ike on 16-11-10.
  */
-@Entity
-@Table(name="nd_shop")
+@Entity(name = "商店")
+@Table(name="shop")
 public class Shop extends BaseEntity {
 
     @Column(nullable = false,unique = true)
@@ -24,6 +23,10 @@ public class Shop extends BaseEntity {
     @JoinColumn(name="user_id",nullable = true)
     private User owner;
     //店铺拥有者
+
+    @Column(name = "locate",nullable = true,columnDefinition = "varchar(20)")
+    private String locate;
+    //店铺定位
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
     @Column(columnDefinition="dateTime") //指定数据库类型

@@ -13,11 +13,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 
 @Configuration
-@EnableJpaRepositories(basePackages = {"org.ndshop.shop.dao","org.ndshop.user.common.dao","org.ndshop.dbs.jpa"})
+@EnableJpaRepositories(basePackages = {"org.ndshop.shop.dao"})
 @EnableTransactionManagement(proxyTargetClass = true)
     @EnableCaching
     @PropertySource({"classpath:config.properties"})
-    @ComponentScan(basePackages = {"org.ndshop.testshop","org.ndshop.shop","org.ndshop.user.common"},
+    @ComponentScan(basePackages = {"org.ndshop.shop"},
             excludeFilters = {@ComponentScan.Filter(
                     type = FilterType.ANNOTATION,
                     value = {Configuration.class})})

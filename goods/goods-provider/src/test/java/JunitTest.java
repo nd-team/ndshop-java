@@ -1,4 +1,3 @@
-import com.alibaba.fastjson.JSON;
 import com.dounine.corgi.spring.rpc.Reference;
 import goods.provider.test.ApplicationConfiguration;
 import org.apache.log4j.Logger;
@@ -14,7 +13,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * Created by ike on 2016/11/14
@@ -147,11 +145,7 @@ public class JunitTest {
      */
     @Test
     public void findAll() throws SerException {
-//        User user =userSer.findByUsername("liguiqin");
-        List<Goods> goods = goodsSer.findAll();
-        for(Goods g : goods){
-            logger.info( JSON.toJSONString(g));
-        }
+        goodsCategorySer.findCategoryByFirstCategory("");
     }
 
 

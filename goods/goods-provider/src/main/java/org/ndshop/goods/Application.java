@@ -1,7 +1,7 @@
 package org.ndshop.goods;
 
-import org.ndshop.goods.boot.App;
 import com.dounine.corgi.spring.ApplicationContext;
+import org.ndshop.goods.boot.App;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

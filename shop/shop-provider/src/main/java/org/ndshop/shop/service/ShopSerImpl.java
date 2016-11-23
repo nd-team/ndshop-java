@@ -2,29 +2,24 @@ package org.ndshop.shop.service;
 
 
 import com.dounine.corgi.spring.rpc.Service;
+import org.ndshop.dbs.jpa.dto.Condition;
+import org.ndshop.dbs.jpa.enums.DataType;
+import org.ndshop.dbs.jpa.enums.RestrictionType;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.ServiceImpl;
-
 import org.ndshop.shop.dao.IShopRep;
 import org.ndshop.shop.dto.ShopDto;
 import org.ndshop.shop.entity.Shop;
 import org.ndshop.shop.enums.ShopStatus;
-import org.ndshop.user.common.dao.IUserRep;
 import org.ndshop.user.common.entity.User;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.persistence.TemporalType;
 import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 import java.util.Set;
-import org.ndshop.shop.entity.*;
 
 
 /**
@@ -37,9 +32,6 @@ public class ShopSerImpl extends ServiceImpl<Shop,ShopDto> implements IShopSer {
     private IShopRep shopRep;
 
     @Autowired
-    private IUserRep userRep;
-
-    @Autowired
     private EntityManager em;
 
 
@@ -49,9 +41,8 @@ public class ShopSerImpl extends ServiceImpl<Shop,ShopDto> implements IShopSer {
     }
 
     @Override
-    public Set<Shop> findByOwnerName(String ownerName) {
+    public Set<Shop> findByOwner(User owner) {
         Set<Shop> set = null;
-        User owner = userRep.findByUsername(ownerName);
         if(owner!=null){
             set = shopRep.findByOwner(owner);
         }
@@ -59,8 +50,8 @@ public class ShopSerImpl extends ServiceImpl<Shop,ShopDto> implements IShopSer {
     }
 
     @Override
-    public void addShopByOwnerName(Shop shop, String ownerName) throws SerException {
-        User user = userRep.findByUsername(ownerName);
+    @Transactional
+    public void addShopByOwner(Shop shop, User user) throws SerException {
         //商店数量不超过5个
         ShopDto shopDto = new ShopDto();
         if(count(shopDto)<5){
@@ -73,6 +64,7 @@ public class ShopSerImpl extends ServiceImpl<Shop,ShopDto> implements IShopSer {
     }
 
     @Override
+    @Transactional
     public void shopStatusChange(Shop shop) throws SerException {
         shop.setStatus(shop.getStatus()==ShopStatus.OFFLINE?ShopStatus.ONLINE:ShopStatus.OFFLINE);
         shopModifiedAccessTime(shop);
@@ -80,6 +72,7 @@ public class ShopSerImpl extends ServiceImpl<Shop,ShopDto> implements IShopSer {
     }
 
     @Override
+    @Transactional
     public void shopStatusChange(String name) throws SerException {
         Shop shop = shopRep.findByName(name);
         shop.setStatus(shop.getStatus()==ShopStatus.OFFLINE?ShopStatus.ONLINE:ShopStatus.OFFLINE);
@@ -88,12 +81,26 @@ public class ShopSerImpl extends ServiceImpl<Shop,ShopDto> implements IShopSer {
     }
 
     @Override
-    public void shopStatusChange(String name, int test) {
-        String hql = "update "+Shop.class.getSimpleName()+" shop set shop.status= 1- shop.status,shop.lastModiTime = :datetime  where shop.name = :name";
+    @Transactional
+    public void shopStatusChange(String name, int test) throws SerException {
+        /*String hql = "update "+Shop.class.getSimpleName()+" shop set shop.status= 1- shop.status,shop.lastModiTime = :datetime  where shop.name = :name";
         Query query = em.createQuery(hql);
         query.setParameter("datetime", LocalDateTime.now());
         query.setParameter("name",name);
-        query.executeUpdate();
+        query.executeUpdate();*/
+
+        ShopDto shopDto = new ShopDto();
+        Condition condition = new Condition("name", DataType.STRING, name);
+        condition.setRestrict(RestrictionType.EQ);
+        shopDto.getConditions().add(condition);
+        List<Shop> shopList = findByCis(shopDto);
+        if(shopList!=null&&shopList.size()>0){
+            for (Shop shop : shopList){
+                shop.setStatus(shop.getStatus()==ShopStatus.OFFLINE?ShopStatus.ONLINE:ShopStatus.OFFLINE);
+                shop.setLastModiTime(LocalDateTime.now());
+                update(shop);
+            }
+        }
     }
 
     //设置最后修改时间
@@ -102,7 +109,7 @@ public class ShopSerImpl extends ServiceImpl<Shop,ShopDto> implements IShopSer {
     }
 
     @Override
-    public void update(Shop shop) {
+    public void update(Shop shop, String oldName) {
         shopRep.saveAndFlush(shop);
     }
 
@@ -110,4 +117,24 @@ public class ShopSerImpl extends ServiceImpl<Shop,ShopDto> implements IShopSer {
     public Shop save(Shop shop){
         return shopRep.save(shop);
     }
+
+
+    /***
+     * 测试dao缓存,begin
+     *
+     */
+        /*public void testDao(){
+            Shop aaa = shopRep.findByName("AAA");
+            aaa = shopRep.findByName("AAA");
+            aaa = shopRep.findByName("AAA");
+            aaa = shopRep.findByName("AAA");
+            aaa = shopRep.findByName("AAA");
+
+            //findByName 缓存可用
+
+            aaa.setName("CCC");
+            update(aaa,"AAA");
+            aaa = shopRep.findByName("AAA");
+            System.out.println(aaa.getName());
+        }*/
 }
