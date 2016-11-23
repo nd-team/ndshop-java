@@ -3,7 +3,11 @@ package org.ndshop.user.common.utils;
 import java.util.regex.Pattern;
 
 /**
- * Created by lgq on 16-11-5.
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [正则表达式工具类]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 public class Validator {
 

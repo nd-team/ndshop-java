@@ -5,7 +5,11 @@ import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
 
 /**
- * Created by lgq on 16-11-21.
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [过滤器]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @WebFilter
 public class MyFilter implements Filter{

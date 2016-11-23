@@ -52,10 +52,10 @@ public class RbacTest {
     @Test
     public void addUserRole()throws SerException {
         Role role = roleSer.findOne(new RoleDto());
-        User u =  userSer.findByPhone("13257910244");
+      //  User u =  userSer.findByPhone("13257910244");
         UserRole userRole = new UserRole();
         userRole.setRole(role);
-        userRole.setUser(u);
+     //   userRole.setUser(u);
         userRoleSer.save(userRole);
     }
 
@@ -76,9 +76,9 @@ public class RbacTest {
 
     @Test
     public void findAllByUserId()throws SerException {
-       User user = userSer.findByPhone("13257910244");
-       Set<Permission> permissionSet =  permissionSer.findAllByUserId(user.getId());
-        System.out.println(permissionSet);
+//       User user = userSer.findByPhone("13257910244");
+//       Set<Permission> permissionSet =  permissionSer.findAllByUserId(user.getId());
+//        System.out.println(permissionSet);
     }
 
 

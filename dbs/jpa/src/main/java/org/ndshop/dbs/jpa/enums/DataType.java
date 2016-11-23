@@ -1,7 +1,12 @@
 package org.ndshop.dbs.jpa.enums;
 
+
 /**
- * Created by lgq on 16-10-7.
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [jpa数据类型映射]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 public enum DataType {
     STRING(0),

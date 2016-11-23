@@ -8,14 +8,17 @@ import org.hibernate.validator.constraints.Range;
 import javax.persistence.*;
 
 /**
- * Created by lgq on 16-10-26.
- * 收货地址
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [用户收货地址]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Entity
 @Table(name = "user_shipping_address")
 public class ShippingAddress extends BaseEntity {
 
-    @ManyToOne(optional = false,cascade = CascadeType.REFRESH)
+    @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "user_id")
     private User user;//所属用户
 

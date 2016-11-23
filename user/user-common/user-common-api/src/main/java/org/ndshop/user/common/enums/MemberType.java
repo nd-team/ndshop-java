@@ -1,8 +1,12 @@
 package org.ndshop.user.common.enums;
 
+
 /**
- * Created by lgq on 16-10-26.
- * 会员类型
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [会员类型]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 public enum MemberType {
     REGISTERED(0),//注册会员
@@ -11,6 +15,7 @@ public enum MemberType {
     ;
 
     private int code;
+
     MemberType(int code) {
         this.code = code;
     }

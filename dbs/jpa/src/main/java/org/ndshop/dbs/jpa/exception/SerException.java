@@ -1,7 +1,11 @@
 package org.ndshop.dbs.jpa.exception;
 
 /**
- * Created by huanghuanlai on 16/6/13.
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [service层自定义异常]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 public class SerException extends Throwable {
 

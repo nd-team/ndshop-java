@@ -7,12 +7,16 @@ import org.ndshop.user.common.enums.SexType;
 import org.ndshop.user.common.enums.UserType;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Range;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
- * Created by lgq on 16-10-26.
- * 用户
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [用户]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Entity
 @Table(name = "user")
@@ -52,7 +56,7 @@ public class User extends BaseEntity {
 
     private Status status = Status.THAW;//用户状态
 
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     private UserDetail userDetail; //用户详情
 
     //other params

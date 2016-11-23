@@ -11,6 +11,7 @@ import test_java_service.code.entity.User;
 import test_java_service.code.service.IUserSer;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by huanghuanlai on 2016/10/13.
@@ -35,12 +36,14 @@ public class ManyToMany {
 
     @Test
     public void findUser() throws SerException {
-        List<User> users = userSer.findAll();
-
-        for (User u : users) {
-            System.out.println(u.getInterests().size());
-            System.out.println(u);
+        Optional<List<User>> optional = userSer.findAll();
+        if(optional.isPresent()){
+            for (User u : optional.get()) {
+                System.out.println(u.getInterests().size());
+                System.out.println(u);
+            }
         }
+
 
     }
 

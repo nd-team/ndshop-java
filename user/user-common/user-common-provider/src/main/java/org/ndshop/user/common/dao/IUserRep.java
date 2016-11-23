@@ -5,26 +5,57 @@ import org.ndshop.user.common.dto.UserDto;
 import org.ndshop.user.common.entity.User;
 import org.springframework.cache.annotation.Cacheable;
 
+import java.util.Optional;
+
 /**
- * Created by lgq on 16-10-28.
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [用户持久化接口, 继承基类可使用ｊｐａ命名查询]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 public interface IUserRep extends MyRep<User, UserDto> {
     /**
      * 此处使用的是spring-data-jpa接口,不需要对接口进行实现,jpa可根据命名自动进行数据的查询
      * jpa接口规范：http://docs.spring.io/spring-data/jpa/docs/1.11.0.M1/reference/html/
+     * <p>
+     * <p>
+     * /
+     * <p>
+     * /**
+     * 通过用户名和密码查找用户
      *
-     * @param username,password 用户名
-     * @return 用户信息
+     * @param username 用户名
+     * @param password 密码
+     * @return
      */
+    @Cacheable("userDaoCache")
+    Optional<User> findByUsernameAndPassword(String username, String password);
 
+    /**
+     * 通过用户名查找用户
+     *
+     * @param username 用户名
+     * @return
+     */
     @Cacheable("userDaoCache")
-    User findByUsernameAndPassword(String username, String password);
+    Optional<User> findByUsername(String username);
 
+    /**
+     * 通过昵称查找用户
+     *
+     * @param nickname 昵称
+     * @return
+     */
     @Cacheable("userDaoCache")
-    User findByUsername(String username);
+    Optional<User> findByNickname(String nickname);
 
+    /**
+     * 通过手机查找用户
+     *
+     * @param phone 手机
+     * @return
+     */
     @Cacheable("userDaoCache")
-    User findByNickname(String nickname);
-    @Cacheable("userDaoCache")
-    User findByPhone(String phone);
+    Optional<User> findByPhone(String phone);
 }

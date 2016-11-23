@@ -2,17 +2,18 @@ package org.ndshop.dbs.jpa.boot.initializer;
 
 
 import org.springframework.cache.Cache;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by lgq on 16-11-18.
- *
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [缓存实现类，默认不实现]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
-
-public class JpaCacheImpl implements  JpaCache{
+public class JpaCacheImpl implements JpaCache {
     @Override
     public List<Cache> initCaches() {
         return new ArrayList<>(0);

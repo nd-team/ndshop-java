@@ -7,8 +7,11 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
- * Created by lgq on 16-11-5.
- * 用户登陆日志
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [用户登陆日志]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Entity
 @Table(name = "user_login_log")

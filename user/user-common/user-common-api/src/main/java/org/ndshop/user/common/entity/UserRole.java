@@ -6,8 +6,11 @@ import org.ndshop.dbs.jpa.enums.Status;
 import javax.persistence.*;
 
 /**
- * Created by lgq on 16-11-22.
- * 用户角色
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [用户角色]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Entity
 @Table(name = "user_user_role")
@@ -20,7 +23,7 @@ public class UserRole extends BaseEntity {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    private Status status=Status.THAW;
+    private Status status = Status.THAW;
 
     public User getUser() {
         return user;

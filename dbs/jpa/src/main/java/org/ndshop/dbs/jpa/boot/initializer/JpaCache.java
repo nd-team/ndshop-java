@@ -7,11 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by lgq on 16-11-18.
- * 添加自己的缓存
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [缓存接口，配置自己模块的缓存]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 public interface JpaCache {
-    default List<Cache> initCaches(){
+    default List<Cache> initCaches() {
         return new ArrayList<>(0);
-    };
+    }
+
 }

@@ -13,9 +13,12 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * Created by huanghuanlai on 16/9/3.
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [基础实体类，所有entity继承该类]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
-
 @Entity
 @Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
 @Cacheable
@@ -26,7 +29,7 @@ public abstract class BaseEntity implements Serializable{
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "id", nullable = false,length = 36)
     @NotBlank(message = "user id not blank",groups = {Del.class, Edit.class, Get.class})
-    protected String id;
+    protected String id;//entityｉｄ
 
     public String getId() {
         return id;

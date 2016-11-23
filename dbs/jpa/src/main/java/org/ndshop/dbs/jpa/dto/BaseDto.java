@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by lgq on 16-9-2.
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [基础数据传输，所有dto继承该类]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 public class BaseDto extends PageDto implements Serializable {
     private static final long serialVersionUID = -3558525794931360478L;

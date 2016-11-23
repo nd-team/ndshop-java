@@ -14,10 +14,15 @@ import org.springframework.cache.annotation.Cacheable;
 
 
 import java.util.List;
+import java.util.Optional;
 
 
 /**
- * Created by lgq on 16-10-28.
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: 用户业务实现]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Service
 public class UserSerImpl extends ServiceImpl<User, UserDto> implements IUserSer {
@@ -26,25 +31,31 @@ public class UserSerImpl extends ServiceImpl<User, UserDto> implements IUserSer 
 
     @Cacheable("userSerCache")
     @Override
-    public User findByUsername(String username) {
+    public Optional<List<User>> findAll() throws SerException {
+        return super.findAll();
+    }
+
+    @Cacheable("userSerCache")
+    @Override
+    public Optional<User> findByUsername(String username) {
         return userRep.findByUsername(username);
     }
 
     @Cacheable("userSerCache")
     @Override
-    public User findByNickname(String nickname) {
+    public Optional<User> findByNickname(String nickname) {
         return userRep.findByUsername(nickname);
     }
 
     @Cacheable("userSerCache")
     @Override
-    public User findByPhone(String phone) {
+    public Optional<User> findByPhone(String phone) {
         return userRep.findByPhone(phone);
     }
 
     @Cacheable("userSerCache")
     @Override
-    public User findByAccountNumber(String accountNumber) throws SerException {
+    public Optional<User> findByAccountNumber(String accountNumber) throws SerException {
         UserDto dto = new UserDto();
         List<Condition> conditions = dto.getConditions();
 

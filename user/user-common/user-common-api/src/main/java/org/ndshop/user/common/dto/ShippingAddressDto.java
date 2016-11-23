@@ -4,7 +4,11 @@ package org.ndshop.user.common.dto;
 import org.ndshop.dbs.jpa.dto.BaseDto;
 
 /**
- * Created by lgq on 16-10-28.
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [收货地址传输]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 public class ShippingAddressDto extends BaseDto {
 }

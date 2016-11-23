@@ -5,14 +5,18 @@ import org.ndshop.dbs.jpa.entity.BaseEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-/**
- * Created by huanghuanlai on 16/9/3.
- */
-public interface MyRep<BE extends BaseEntity,BD extends BaseDto> extends JpaRepository<BE,String>
-        ,JpaSpecificationExecutor<BE> {
+import java.util.Optional;
 
-    default BE findById(String id){
-        return findOne(id);
-    }
+/**
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [jpa dao接口，实现该接口可使用ｊｐａ命名查询]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
+ */
+public interface MyRep<BE extends BaseEntity, BD extends BaseDto> extends JpaRepository<BE, String>
+        , JpaSpecificationExecutor<BE> {
+
+    Optional<BE> findById(String id);
 
 }

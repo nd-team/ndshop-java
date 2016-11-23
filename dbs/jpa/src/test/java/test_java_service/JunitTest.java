@@ -18,10 +18,7 @@ import test_java_service.code.entity.User;
 import test_java_service.code.entity.UserInfo;
 import test_java_service.code.service.IUserSer;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by huanghuanlai on 2016/10/13.
@@ -58,9 +55,11 @@ public class JunitTest {
      */
     @Test
     public void findAll() throws SerException {
-        List<User> users = userSer.findAll();
-        for (User u : users) {
-            System.out.println(u.getUsername());
+        Optional<List<User>> optional = userSer.findAll();
+        if(optional.isPresent()){
+            for (User u : optional.get()) {
+                System.out.println(u.getUsername());
+            }
         }
     }
 
@@ -73,10 +72,13 @@ public class JunitTest {
         UserDto dto = new UserDto();
         dto.setPage(3);
         dto.setSorts(Arrays.asList("username"));
-        List<User> users = userSer.findByPage(dto);
-        for (User u : users) {
-            System.out.println(u.getUsername());
+        Optional<List<User>> optional = userSer.findByPage(dto);
+        if(optional.isPresent()){
+            for (User u : optional.get()) {
+                System.out.println(u.getUsername());
+            }
         }
+
     }
 
 
@@ -87,8 +89,8 @@ public class JunitTest {
         Condition condition = new Condition("username", DataType.STRING,"123");
         condition.setRestrict(RestrictionType.OR);
         dto.getConditions().add(condition);
-        List<User> users = userSer.findByCis(dto, true); //按条件查询并分页
-        System.out.println(JSON.toJSONString(users));
+        Optional<List<User>> optional =  userSer.findByCis(dto, true); //按条件查询并分页
+        System.out.println(JSON.toJSONString(optional.get()));
     }
 
     /**
@@ -116,9 +118,9 @@ public class JunitTest {
     @Test
     public void update() throws SerException {
 
-        User user = userSer.findByUsername("liguiqin");
-        user.setPassword("666 this is a pass");
-        System.out.println(JSON.toJSONString(user));
+        Optional<User> users = userSer.findByUsername("liguiqin");
+        users.get().setPassword("666 this is a pass");
+        System.out.println(JSON.toJSONString( users.get()));
     }
 
     /**
@@ -126,8 +128,8 @@ public class JunitTest {
      */
     @Test
     public void remove() throws SerException {
-        User user = userSer.findByUsername("liguiqin");
-        userSer.remove(user.getId());
+        Optional<User> users = userSer.findByUsername("liguiqin");
+        userSer.remove(users.get().getId());
         System.out.println("remove user success!");
     }
 
@@ -141,8 +143,11 @@ public class JunitTest {
         c.setValues(new String[]{"gui"});
         c.setRestrict(RestrictionType.LIKE);
         dto.getConditions().add(c);
-        User user = userSer.findOne(dto);
-        System.out.println(JSON.toJSONString(user));
+       Optional<User>  optional = userSer.findOne(dto);
+        if(optional.isPresent()){
+            System.out.println(JSON.toJSONString(optional.get()));
+
+        }
     }
 
     /**
@@ -170,17 +175,22 @@ public class JunitTest {
     @Test
     public void updateAll() throws SerException {
         UserDto dto = new UserDto();
-        List<User> users = null;
+        Optional<List<User>> optional = null;
         Condition c = new Condition("username", DataType.STRING);
         c.setValues(new String[]{"testName"});
         c.setRestrict(RestrictionType.LIKE);
         dto.getConditions().add(c);
-        users = userSer.findByCis(dto, true);
-        for (User user : users) {
-            user.setUsername("update" + new Random().nextInt(9999));
+        optional = userSer.findByCis(dto, true);
+        if(optional.isPresent()){
+            for (User user : optional.get()) {
+                user.setUsername("update" + new Random().nextInt(9999));
+            }
+            userSer.update(optional.get());
+            System.out.println(JSON.toJSONString(optional.get()));
         }
-        userSer.update(users);
-        System.out.println(JSON.toJSONString(users));
+
+
+
 
     }
 
@@ -189,8 +199,10 @@ public class JunitTest {
      */
     @Test
     public void removeAll() throws SerException {
-        List<User> users = userSer.findAll();
-        userSer.remove(users);
+        Optional<List<User>> optional = userSer.findAll();
+        if(optional.isPresent()){
+            userSer.remove(optional.get());
+        }
         System.out.println(JSON.toJSONString(userSer.findAll()));
 
     }
@@ -203,9 +215,9 @@ public class JunitTest {
     @Transactional
     @Test
     public void rollBack() throws SerException {
-        User user = userSer.findByUsername("liguiqin");
-        user.setAge(555);
-        userSer.update(user);
+        Optional<User> optional = userSer.findByUsername("liguiqin");
+        optional.get().setAge(555);
+        userSer.update( optional.get());
         int i = 9 / 0; // fail
     }
 

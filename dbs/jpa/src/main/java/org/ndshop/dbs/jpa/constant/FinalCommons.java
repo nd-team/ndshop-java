@@ -1,5 +1,12 @@
 package org.ndshop.dbs.jpa.constant;
 
+/**
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [同用常量配置]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
+ */
 public class FinalCommons {
 
     public static final String ASC = "ASC";
