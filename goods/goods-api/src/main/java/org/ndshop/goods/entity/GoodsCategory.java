@@ -9,18 +9,16 @@ import java.util.Set;
 
 /**
  * Created by ike on 16-11-9.
+ * 一级父级商品分类 如：服饰箱包
  */
 @Entity
 @Table(name = "goodsCategory")
 public class GoodsCategory extends BaseEntity{
-    @Column(nullable = false )
+    @Column(nullable = false ,unique = true)
     private String name ; //一级分类
 
-    @Column(nullable = false , unique = true)
-    private String secondName ;//二级分类
-
-    @Column(nullable = false , unique = true)
-    private String thirdName;//三级分类
+    @OneToMany(mappedBy = "goodsCategory", cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    private Set<GoodsSecondCategory> goodsSecondCategory; //二级分类
 
     @OneToMany(mappedBy = "goodsCategory", cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
     private Set<Goods> goods;
@@ -41,20 +39,12 @@ public class GoodsCategory extends BaseEntity{
         this.name = name;
     }
 
-    public String getSecondName() {
-        return secondName;
+    public Set<GoodsSecondCategory> getGoodsSecondCategory() {
+        return goodsSecondCategory;
     }
 
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
-    }
-
-    public String getThirdName() {
-        return thirdName;
-    }
-
-    public void setThirdName(String thirdName) {
-        this.thirdName = thirdName;
+    public void setGoodsSecondCategory(Set<GoodsSecondCategory> goodsSecondCategory) {
+        this.goodsSecondCategory = goodsSecondCategory;
     }
 
     public Set<Goods> getGoods() {

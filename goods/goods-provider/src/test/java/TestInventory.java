@@ -26,7 +26,7 @@ public class TestInventory {
 
     @Test
     public void addInventory() throws SerException{
-        String gid = "b0f7ed15-7e1b-4699-a654-4ae19b4a20b2";
+        String gid = "b0f42a2a-6c28-42bd-9e5e-969733ae7a84";
         Goods goods = goodsSer.findById( gid );
 
         GoodsInventory gi = new GoodsInventory();
@@ -51,7 +51,7 @@ public class TestInventory {
 
     @Test
     public void updateGoodsInventorys() throws SerException {
-        String goodId = "b0f7ed15-7e1b-4699-a654-4ae19b4a20b2";
+        String goodId = "b0f42a2a-6c28-42bd-9e5e-969733ae7a84";
         Goods goods = goodsSer.findById( goodId );
 
         GoodsInventory goodsInventory =  new GoodsInventory();
@@ -74,7 +74,7 @@ public class TestInventory {
 
     @Test
     public void findInventory() throws SerException{
-        String goodId = "b0f7ed15-7e1b-4699-a654-4ae19b4a20b2";
+        String goodId = "b0f42a2a-6c28-42bd-9e5e-969733ae7a84";
 
         Goods goods = goodsSer.findById( goodId );
         GoodsInventory goodsInventory = goods.getGoodsInventory();

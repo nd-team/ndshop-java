@@ -22,7 +22,7 @@ import java.util.List;
  * Created by ike on 16-11-4.
  */
 @Service
-public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoodsSer{
+public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoodsSer {
     private static Logger logger = Logger.getLogger(GoodsSerImpl.class);
 
     @Autowired
@@ -30,7 +30,7 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
     @Autowired
     private IGoodsCategoryRep goodsCategoryRep;
     @Autowired
-    private IGoodsBrandSer goodsBrandSer;
+    protected IGoodsBrandSer goodsBrandSer;
 
     @Cacheable("goodsServiceCache")
     @Override

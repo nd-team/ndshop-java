@@ -3,18 +3,10 @@ import goods.provider.test.ApplicationConfiguration;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.ndshop.dbs.jpa.dto.Condition;
-import org.ndshop.dbs.jpa.enums.DataType;
-import org.ndshop.dbs.jpa.enums.RestrictionType;
 import org.ndshop.dbs.jpa.exception.SerException;
-import org.ndshop.goods.dto.GoodsCollectionDto;
-import org.ndshop.goods.entity.Goods;
 import org.ndshop.goods.entity.GoodsBrand;
-import org.ndshop.goods.entity.GoodsCollection;
 import org.ndshop.goods.enums.BrandStatus;
-import org.ndshop.goods.enums.CollectionStatus;
 import org.ndshop.goods.service.IGoodsBrandSer;
-import org.ndshop.user.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -38,7 +30,7 @@ public class TestBrands {
      */
     @Test
     public void addBrand() throws SerException {
-        String brandName = "懒羊羊";
+        String brandName = "费羊羊";
         GoodsBrand goodsBrand = new GoodsBrand();
         goodsBrand.setBrandName(  brandName );
         goodsBrand.setBrandStatus(BrandStatus.FROZEN.getName() );
