@@ -10,7 +10,11 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by lgq on 16-11-18.
+ * @Author: [lgq]
+ * @Date: [2016-11-18 09:04]
+ * @Description: []
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Component
 public class MyJpaCache implements JpaCache {

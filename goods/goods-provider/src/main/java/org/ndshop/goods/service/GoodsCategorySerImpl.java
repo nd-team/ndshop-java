@@ -20,7 +20,11 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by ike on 16-11-9.
+ * @Author: [tanghaixiang]
+ * @Date: [2016-11-24 09:04]
+ * @Description: [商品一级分类业务实现]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Service
 public class GoodsCategorySerImpl extends ServiceImpl<GoodsCategory , GoodsCategoryDto> implements IGoodsCategorySer {

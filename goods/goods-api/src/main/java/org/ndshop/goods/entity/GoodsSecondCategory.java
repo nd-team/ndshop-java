@@ -8,28 +8,31 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
- * Created by tanghaixiang on 16-11-21.
- * 商品二级分类 如：精品女装
+ * @Author: [tanghaixiang]
+ * @Date: [2016-11-23 17:38]
+ * @Description: [商品二级分类 如：精品女装]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Entity
 @Table(name = "goodsSecondCategory")
-public class GoodsSecondCategory extends BaseEntity{
+public class GoodsSecondCategory extends BaseEntity {
 
     @Column(nullable = false ,unique = true)
-    private  String secondName ;
+    private  String secondName ;//二级分类名
 
     @Column
     private String pinyin;//拼音
 
     @ManyToOne(cascade = {CascadeType.REFRESH} ,fetch = FetchType.LAZY)
     @JoinColumn(name = "goodsCategory_id")
-    private GoodsCategory goodsCategory;
+    private GoodsCategory goodsCategory;//一级分类
 
     @OneToMany(mappedBy = "goodsSecondCategory", cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
-    private Set<GoodsThirdCategory> goodsThirdCategory;
+    private Set<GoodsThirdCategory> goodsThirdCategory;//三级分类
 
     @OneToMany(mappedBy = "goodsSecondCategory", cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
-    private Set<GoodsAndCategory> goodsAndCategory;
+    private Set<GoodsAndCategory> goodsAndCategory;//商品和分类
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
     @Column(columnDefinition="dateTime") //指定数据库类型
@@ -95,3 +98,4 @@ public class GoodsSecondCategory extends BaseEntity{
         this.modifyTime = modifyTime;
     }
 }
+

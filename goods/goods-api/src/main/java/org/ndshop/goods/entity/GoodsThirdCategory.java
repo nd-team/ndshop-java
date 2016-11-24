@@ -8,24 +8,28 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
- * Created by tanghaixiang on 16-11-21.
- * 三级分类
+ * @Author: [tanghaixiang]
+ * @Date: [2016-11-23 17:39]
+ * @Description: [三级分类]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Entity
 @Table(name = "goodsThirdCategory")
-public class GoodsThirdCategory extends BaseEntity{
+public class GoodsThirdCategory extends BaseEntity {
 
     @Column(nullable = false ,unique = true)
-    private  String thirdName ;
+    private  String thirdName ;//三级分类名
     @Column
-    private String pinyin;
+    private String pinyin;//拼音
 
     @ManyToOne(cascade = {CascadeType.REFRESH} ,fetch = FetchType.LAZY)
     @JoinColumn(name = "goodsSecondCategory_id")
-    private GoodsSecondCategory goodsSecondCategory;
+    private GoodsSecondCategory goodsSecondCategory;//二级分类
 
+    @MapKeyJoinColumn
     @OneToMany(mappedBy = "goodsThirdCategory", cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
-    private Set<GoodsAndCategory> goodsAndCategory;
+    private Set<GoodsAndCategory> goodsAndCategory;//商品和分类
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
     @Column(columnDefinition="dateTime") //指定数据库类型
@@ -83,3 +87,4 @@ public class GoodsThirdCategory extends BaseEntity{
         this.modifyTime = modifyTime;
     }
 }
+

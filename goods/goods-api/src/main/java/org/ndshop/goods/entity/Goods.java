@@ -1,5 +1,6 @@
 package org.ndshop.goods.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import org.ndshop.dbs.jpa.entity.BaseEntity;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -8,50 +9,58 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
- * Created by ike on 16-11-4.
- * 商品
+ * @Author: [tanghaixiang]
+ * @Date: [2016-11-23 17:31]
+ * @Description: [商品]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Entity
 @Table(name = "goods")
-public class Goods extends BaseEntity{
+public class Goods extends BaseEntity {
     @Column(nullable = false)
-    private String goodsName ;//名
-    @Column( nullable = true, precision = 12, scale = 2)//12位数字可保留两位小数，可以为空
-    private Double price ;//价格
+    private String goodsName;//名
+    @Column(nullable = true, precision = 12, scale = 2)//12位数字可保留两位小数，可以为空
+    private Double price;//价格
     private Double goodsLength;//长
     private Double goodsWidth;//宽
     private Double goodsHeight;//高
     private Double goodsWeight;//重量
     private String goodsColor;//颜色
 
-    @OneToOne(optional = true ,cascade = CascadeType.ALL, mappedBy = "goods" ,fetch = FetchType.LAZY)
-    private GoodsAndCategory goodsAndCategory;
+    @JSONField(serialize = false)
+    @OneToOne(optional = true, mappedBy = "goods", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    private GoodsAndCategory goodsAndCategory;//商品和分类
 
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn(name = "goodsBrand_id")
-    private GoodsBrand goodsBrand;
+    private GoodsBrand goodsBrand;//商品品牌
 
-    @OneToOne(optional = true ,cascade = CascadeType.ALL, mappedBy = "goods" ,fetch = FetchType.LAZY)
-    private GoodsDes goodsDes;
+    @JSONField(serialize = false)
+    @OneToOne(optional = false, mappedBy = "goods", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    private GoodsDes goodsDes;//商品描述
 
-    @OneToOne( cascade = CascadeType.ALL, mappedBy = "goods" ,fetch = FetchType.LAZY)
-    private GoodsInventory goodsInventory;
+    @JSONField(serialize = false)
+    @OneToOne(optional = false, mappedBy = "goods", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    private GoodsInventory goodsInventory;//库存数量
 
 //    @OneToMany(mappedBy = "goods", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
 //    private Set<GoodsShops> goodsShops;
 
+    @JSONField(serialize = false)
     @OneToMany(mappedBy = "goods", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    private Set<GoodsPic> goodsPic;
+    private Set<GoodsPic> goodsPic;//商品图片
 
+    @JSONField(serialize = false)
     @OneToMany(mappedBy = "goods", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-    private Set<GoodsCollection> goodsCollections;
+    private Set<GoodsCollection> goodsCollections;//商品收藏
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
-    @Column(columnDefinition="dateTime") //指定数据库类型
+    @Column(columnDefinition = "dateTime") //指定数据库类型
     private LocalDateTime createTime = LocalDateTime.now();//创建时间
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
-    @Column(columnDefinition="dateTime") //指定数据库类型
+    @Column(columnDefinition = "dateTime") //指定数据库类型
     private LocalDateTime modifyTime = LocalDateTime.now();//修改时间
 
     public String getGoodsName() {
@@ -158,7 +167,7 @@ public class Goods extends BaseEntity{
         this.goodsInventory = goodsInventory;
     }
 
-//    public Set<GoodsShops> getGoodsShops() {
+    //    public Set<GoodsShops> getGoodsShops() {
 //        return goodsShops;
 //    }
 //
@@ -182,3 +191,4 @@ public class Goods extends BaseEntity{
         this.goodsCollections = goodsCollections;
     }
 }
+

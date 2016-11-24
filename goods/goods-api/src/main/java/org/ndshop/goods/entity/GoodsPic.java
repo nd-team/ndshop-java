@@ -8,20 +8,23 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
- * Created by ike on 16-11-12.
- * 商品图片
+ * @Author: [tanghaixiang]
+ * @Date: [2016-11-23 17:34]
+ * @Description: [商品图片]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Entity
 @Table(name = "goodsPic")
-public class GoodsPic extends BaseEntity{
+public class GoodsPic extends BaseEntity {
 
     @Column( unique = true ,nullable = false )
-    private String picUrl ;
+    private String picUrl ;//图片地址
 
     @ManyToOne(cascade = CascadeType.REFRESH ,fetch = FetchType.LAZY)
     @JoinColumn(name = "goods_id")
     @JSONField(serialize = false)
-    private Goods goods;
+    private Goods goods;//商品
 
     @Column(nullable = false)
     private String flag;//标志是哪个部分的图片
@@ -75,3 +78,4 @@ public class GoodsPic extends BaseEntity{
         this.modifyTime = modifyTime;
     }
 }
+

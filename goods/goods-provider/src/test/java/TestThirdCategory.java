@@ -10,16 +10,22 @@ import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.goods.dto.GoodsThirdCategoryDto;
 import org.ndshop.goods.entity.GoodsSecondCategory;
 import org.ndshop.goods.entity.GoodsThirdCategory;
+import org.ndshop.goods.service.IGoodsSecondCategorySer;
 import org.ndshop.goods.service.IGoodsThirdCategorySer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by ike on 16-11-21.
+ * @Author: [tanghaixiang]
+ * @Date: [2016-11-24 09:04]
+ * @Description: [商品三级分类业务测试]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
@@ -28,14 +34,52 @@ public class TestThirdCategory {
 
     @Autowired
     private IGoodsThirdCategorySer goodsThirdCategorySer;
+    @Autowired
+    private IGoodsSecondCategorySer goodsSecondCategorySer;
 
+    /**
+     * 自我测试： 添加三级分类
+     * @throws SerException
+     */
+    @Test
+    public void add() throws SerException{
+        List<GoodsSecondCategory> gscy = goodsSecondCategorySer.findAll();
+//        String gscId = gscy.get(0).getId();
+        String gscId = gscy.get(2).getId();
+//        List<String> thirdName = Arrays.asList("飞虎队","de hedu","奥斯卡");
+        List<String> thirdName = Arrays.asList("大型超市","史蒂夫");
+        for(String str : thirdName){
+            GoodsThirdCategory goodsThirdCategory = new GoodsThirdCategory();
+            goodsThirdCategory.setThirdName( str );
+            goodsThirdCategory.setPinyin("face");
+
+
+            GoodsSecondCategory goodsSecondCategory = new GoodsSecondCategory();
+            goodsSecondCategory.setId( gscId );
+            goodsThirdCategory.setGoodsSecondCategory( goodsSecondCategory );
+
+            goodsThirdCategory.setCreateTime( LocalDateTime.now() );
+            goodsThirdCategory.setModifyTime( LocalDateTime.now() );
+
+            goodsThirdCategorySer.save(  goodsThirdCategory );
+            logger.info( goodsThirdCategory);
+        }
+
+    }
+
+
+
+    /**
+     * 添加三级分类
+     * @throws SerException
+     */
     @Test
     public void addThirdCategory() throws SerException{
         GoodsThirdCategory goodsThirdCategory = new GoodsThirdCategory();
-        goodsThirdCategory.setThirdName("BAB CARE");
+        goodsThirdCategory.setThirdName("GHOE CARE");
         goodsThirdCategory.setPinyin("face");
 
-        String gscId = "43374db6-42bd-46a9-b2cb-c77c5457d1e2";
+        String gscId = "36399543-f42b-4af5-942f-77aad42baafb";
         GoodsSecondCategory goodsSecondCategory = new GoodsSecondCategory();
         goodsSecondCategory.setId( gscId );
         goodsThirdCategory.setGoodsSecondCategory( goodsSecondCategory );

@@ -20,10 +20,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by ike on 16-11-16.
+ * @Author: [tanghaixiang]
+ * @Date: [2016-11-24 09:04]
+ * @Description: [商品业务测试]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
@@ -43,15 +48,43 @@ public class TestGoods {
     private IUserSer userSer;
 
     /**
+     * 自我测试：批量添加商品
+     * @throws SerException
+     */
+    @Test
+    public void BatchAdd() throws SerException {
+        List<String> name = Arrays.asList("键盘","水瓶","镜头");
+        for(String str : name ){
+            if (null == goodsSer.findByGoodName(str)) {
+                //temp
+                Goods goods = new Goods();
+                goods.setGoodsName(str);
+                goods.setPrice(5000.0);
+                goods.setGoodsLength(13.4);
+                goods.setGoodsWidth(2.5);
+                goods.setGoodsHeight(10.6);
+                goods.setGoodsWeight(10.8);
+
+                goodsSer.save(goods);
+
+
+            }
+        }
+
+
+    }
+
+
+    /**
      * 添加商品
      * @throws SerException
      */
     @Test
     public void init() throws SerException {
-        if (null == goodsSer.findByGoodName("食物")) {
+        if (null == goodsSer.findByGoodName("水果")) {
             //temp
             Goods goods = new Goods();
-            goods.setGoodsName("食物");
+            goods.setGoodsName("水果");
             goods.setPrice(5000.0);
             goods.setGoodsLength(13.4);
             goods.setGoodsWidth(2.5);

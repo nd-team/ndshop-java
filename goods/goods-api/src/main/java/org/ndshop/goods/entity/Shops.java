@@ -1,33 +1,36 @@
 package org.ndshop.goods.entity;
 
-
 import com.alibaba.fastjson.annotation.JSONField;
 import org.ndshop.dbs.jpa.entity.BaseEntity;
 import org.ndshop.user.common.entity.User;
 import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
- * Created by ike on 16-11-5.
+ * @Author: [tanghaixiang]
+ * @Date: [2016-11-23 17:39]
+ * @Description: []
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Entity
 @Table(name = "shops")
 public class Shops extends BaseEntity {
-    //店铺名称＇商家用户＇店铺地址＇
     @Column(nullable = true)
-    private String shopsName;
+    private String shopsName;//店铺名
 
     @OneToMany(mappedBy = "shops", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    private Set<GoodsShops> goodsShops ;
+    private Set<GoodsShops> goodsShops ;//商品和店铺信息
 
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "user_id")
     @JSONField(serialize = false)
-    private User user;
+    private User user;//用户信息
 
-    private String addr;
+    private String addr;//店铺地址
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
     @Column(columnDefinition="dateTime") //指定数据库类型
@@ -85,3 +88,4 @@ public class Shops extends BaseEntity {
         this.goodsShops = goodsShops;
     }
 }
+

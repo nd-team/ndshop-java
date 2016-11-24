@@ -10,16 +10,22 @@ import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.goods.dto.GoodsSecondCategoryDto;
 import org.ndshop.goods.entity.GoodsCategory;
 import org.ndshop.goods.entity.GoodsSecondCategory;
+import org.ndshop.goods.service.IGoodsCategorySer;
 import org.ndshop.goods.service.IGoodsSecondCategorySer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by ike on 16-11-21.
+ * @Author: [tanghaixiang]
+ * @Date: [2016-11-24 09:04]
+ * @Description: [商品二级分类业务测试]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
@@ -28,6 +34,36 @@ public class TestSecondCategory {
 
     @Autowired
     private IGoodsSecondCategorySer goodsSecondCategorySer;
+    @Autowired
+    private IGoodsCategorySer goodsCategorySer;
+
+    /**
+     * 自我测试：添加二级分类
+     * @throws SerException
+     */
+    @Test
+    public void add() throws SerException {
+        List<GoodsCategory> gcy = goodsCategorySer.findAll();
+        String firstCategoryId = gcy.get(1).getId();
+//        List<String> secondName = Arrays.asList("海盗","水果","桌子","电脑");
+        List<String> secondName = Arrays.asList("洗衣机");
+        for(String str : secondName){
+            GoodsSecondCategory goodsSecondCategory = new GoodsSecondCategory();
+            goodsSecondCategory.setSecondName( str );
+            goodsSecondCategory.setCreateTime(LocalDateTime.now());
+            goodsSecondCategory.setModifyTime(LocalDateTime.now());
+
+            GoodsCategory gc = new GoodsCategory();
+            gc.setId(firstCategoryId);
+            goodsSecondCategory.setGoodsCategory(gc);
+
+            goodsSecondCategorySer.save(goodsSecondCategory);
+
+            logger.info(JSON.toJSONString(goodsSecondCategory));
+        }
+
+    }
+
 
     /**
      * 添加二级分类
@@ -35,8 +71,8 @@ public class TestSecondCategory {
      */
     @Test
     public void addSecondCategory() throws SerException {
-        String firstCategoryId = "718d25e2-6417-48d7-a867-44c71e0f7921";
-        String secondName = "喜洋洋";
+        String firstCategoryId = "41a65d18-f204-41e0-8a7e-ea6e761dcaa1";
+        String secondName = "海盗";
         GoodsSecondCategory goodsSecondCategory = new GoodsSecondCategory();
         goodsSecondCategory.setSecondName(secondName);
         goodsSecondCategory.setCreateTime(LocalDateTime.now());

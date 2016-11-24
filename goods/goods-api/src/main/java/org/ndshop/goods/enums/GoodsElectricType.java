@@ -1,7 +1,11 @@
 package org.ndshop.goods.enums;
 
 /**
- * Created by ike on 16-11-5.
+ * @Author: [tanghaixiang]
+ * @Date: [2016-11-24 09:04]
+ * @Description: [商品类型]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 public enum GoodsElectricType {
     BIGELECTRIC(0)//大家电

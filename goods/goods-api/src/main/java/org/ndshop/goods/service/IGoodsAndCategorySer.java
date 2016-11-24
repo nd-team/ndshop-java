@@ -5,7 +5,11 @@ import org.ndshop.goods.dto.GoodsAndCategoryDto;
 import org.ndshop.goods.entity.GoodsAndCategory;
 
 /**
- * Created by tanghaixiang on 16-11-23.
+ * @Author: [tanghaixiang]
+ * @Date: [2016-11-24 09:04]
+ * @Description: [商品和分类接口]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 public interface IGoodsAndCategorySer extends IService<GoodsAndCategory ,GoodsAndCategoryDto>{
 }

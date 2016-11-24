@@ -1,7 +1,11 @@
 package org.ndshop.goods.enums;
 
 /**
- * Created by ike on 16-11-14.
+ * @Author: [tanghaixiang]
+ * @Date: [2016-11-24 09:04]
+ * @Description: [商品品牌申请状态]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 public enum BrandStatus {
     ACTIVE("ACTIVE")   //激活

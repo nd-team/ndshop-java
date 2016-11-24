@@ -4,21 +4,24 @@ import org.ndshop.dbs.jpa.entity.BaseEntity;
 
 import javax.persistence.*;
 
-
 /**
- * Created by ike on 16-11-7.
+ * @Author: [tanghaixiang]
+ * @Date: [2016-11-23 17:39]
+ * @Description: []
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Entity
 @Table(name = "goodsShops")
-public class GoodsShops extends BaseEntity{
+public class GoodsShops extends BaseEntity {
 
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "goods_id")
-    private Goods goods;
+    private Goods goods;//商品
 
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "shops_id")
-    private Shops shops;
+    private Shops shops;//店铺
 
     public Goods getGoods() {
         return goods;
@@ -36,3 +39,4 @@ public class GoodsShops extends BaseEntity{
         this.shops = shops;
     }
 }
+

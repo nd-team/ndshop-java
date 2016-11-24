@@ -13,9 +13,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 /**
- * Created by ike on 2016/11/14
+ * @Author: [tanghaixiang]
+ * @Date: [2016-11-24 09:04]
+ * @Description: [商品业务测试]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
@@ -74,8 +79,10 @@ public class JunitTest {
 //
             String goodBrandId = "54731781-0a9d-4c30-98f9-69f1f9b6d7cf";
             if( goodBrandId != null ){
-                GoodsBrand goodsBrand = goodsBrandSer.findById( goodBrandId );
-                goods.setGoodsBrand( goodsBrand );
+                Optional<GoodsBrand> op_goodsBrand = goodsBrandSer.findById( goodBrandId );
+                if(op_goodsBrand.isPresent()){
+                    goods.setGoodsBrand( op_goodsBrand.get() );
+                }
                 goodsSer.update( goods );
             }
 

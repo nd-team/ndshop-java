@@ -8,8 +8,11 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
- * Created by ike on 16-11-14.
- * 商品品牌
+ * @Author: [tanghaixiang]
+ * @Date: [2016-11-23 17:32]
+ * @Description: [商品品牌]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Entity
 @Table(name = "goodsBrand")
@@ -19,7 +22,7 @@ public class GoodsBrand extends BaseEntity {
     private String brandName ;//品牌名
 
     @OneToMany(mappedBy = "goodsBrand", cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
-    private Set<Goods> goods;
+    private Set<Goods> goods;//商品
 
     @Column(nullable = false)
     private String brandStatus;//品牌申请状态
@@ -72,3 +75,4 @@ public class GoodsBrand extends BaseEntity {
         this.modifyTime = modifyTime;
     }
 }
+

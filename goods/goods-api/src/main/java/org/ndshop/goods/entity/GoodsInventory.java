@@ -8,22 +8,23 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
- * Created by ike on 16-11-5.
- * 商品数量，库存
+ * @Author: [tanghaixiang]
+ * @Date: [2016-11-23 17:34]
+ * @Description: [商品数量，库存]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Entity
 @Table(name = "goodsInventory")
-public class GoodsInventory extends BaseEntity{
-    //店铺ｉｄ＇商品ｉｄ＇数量＇出售数量＇修改时间＇创建时间
-
+public class GoodsInventory extends BaseEntity {
     @Column(nullable = false)
     private Long quanty;//现存数量
     private Long hasSaleQuanty;//已卖出数量
 
-    @OneToOne(optional = false, cascade = CascadeType.REFRESH)
+    @OneToOne(optional = false, cascade = CascadeType.REFRESH ,fetch = FetchType.LAZY)
     @JoinColumn(name="goods_id")
     @JSONField(serialize = false)
-    private Goods goods;
+    private Goods goods;//商品
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
     @Column(columnDefinition="dateTime") //指定数据库类型
@@ -74,3 +75,4 @@ public class GoodsInventory extends BaseEntity{
         this.goods = goods;
     }
 }
+

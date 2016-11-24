@@ -9,23 +9,25 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
- * Created by ike on 16-11-5.
- * 商品描述
+ * @Author: [tanghaixiang]
+ * @Date: [2016-11-23 17:33]
+ * @Description: [商品描述]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Entity
 @Table(name = "goodsDescription")
 public class GoodsDes extends BaseEntity {
-    //＇描述＇上下架＇店铺信息＇修改时间＇创建时间
 
     @Column(nullable = true)
-    private String description;
+    private String description;//描述
     @Column(nullable = false)
-    private SaleStatus saleStatus;
+    private SaleStatus saleStatus;//上下架信息
 
     @OneToOne(optional = false, cascade = CascadeType.REFRESH ,fetch = FetchType.LAZY)
     @JoinColumn(name="goods_id")
     @JSONField(serialize = false)
-    private Goods goods;
+    private Goods goods;//商品
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
     @Column(columnDefinition="dateTime") //指定数据库类型

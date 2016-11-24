@@ -7,9 +7,9 @@ import org.ndshop.dbs.jpa.dto.Condition;
 import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.goods.dto.GoodsAndCategoryDto;
+import org.ndshop.goods.dto.GoodsDto;
 import org.ndshop.goods.entity.*;
-import org.ndshop.goods.service.IGoodsAndCategorySer;
-import org.ndshop.goods.service.IGoodsSer;
+import org.ndshop.goods.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -19,7 +19,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * Created by ike on 16-11-23.
+ * @Author: [tanghaixiang]
+ * @Date: [2016-11-24 09:04]
+ * @Description: [商品和分类业务测试]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
@@ -30,6 +34,13 @@ public class TestGoodsAndCategory {
     private IGoodsAndCategorySer goodsAndCategorySer;
     @Autowired
     private IGoodsSer goodsSer;
+    @Autowired
+    private IGoodsCategorySer goodsCategorySer;
+    @Autowired
+    private IGoodsSecondCategorySer goodsSecondCategorySer ;
+    @Autowired
+    private IGoodsThirdCategorySer goodsThirdCategorySer;
+
 
     /**
      * 添加商品与分类的中间表
@@ -37,10 +48,10 @@ public class TestGoodsAndCategory {
     @Test
     public void addGoodsAndCategory() {
 
-        String gid = "f8c812bc-d82c-4ad6-87c2-5b3652f3c026";
-        String gFirstCategoryId = "6edf7aa1-86f2-400f-a3dc-22add7154c5a";
-        String gSecondCategoryId = "43374db6-42bd-46a9-b2cb-c77c5457d1e2";
-        String gThirdCategoryId = "daf2399c-aecd-4933-8d42-ad0e68179153";
+        String gid = "b3044a9d-7042-4b7c-a2bb-77f482a1269f";
+        String gFirstCategoryId = "e432ca90-d6b9-459b-a626-bad8370e1cd7";
+        String gSecondCategoryId = "6a2e3dad-a19a-4c3f-893c-5510a4c26879";
+        String gThirdCategoryId = "45586958-097b-40e2-ae1e-42fc845ee5bd";
 
         Goods g = new Goods();
         g.setId(gid);
@@ -68,14 +79,14 @@ public class TestGoodsAndCategory {
         } catch (SerException e) {
             e.printStackTrace();
         } finally {
-            logger.error("method:addGoodsAndCategory(), about insert GoodsAndCategory class has error :maybe foriegnkey has null or ‘’ or has same foriegnkey");
+//            logger.error("method:addGoodsAndCategory(), about insert GoodsAndCategory class has error :maybe foriegnkey has null or ‘’ or has same foriegnkey");
         }
     }
 
     @Transactional
     @Test
     public void findGoodsByFirstCategory() {
-        String firstCategoryId = "6edf7aa1-86f2-400f-a3dc-22add7154c5a";
+        String firstCategoryId = "28fd7d17-81e1-4187-bc28-5f08bbfe0f9f";
 
         GoodsAndCategoryDto dto = new GoodsAndCategoryDto();
         Condition c = new Condition("id", DataType.STRING, firstCategoryId);
@@ -87,6 +98,30 @@ public class TestGoodsAndCategory {
             List<GoodsAndCategory> gac = goodsAndCategorySer.findByCis(dto);
             logger.info("哈迪斯："+JSON.toJSONString(gac));
             logger.info("哈哈："+JSON.toJSONString(gac.get(0).getGoods()));
+        } catch (SerException e) {
+            e.printStackTrace();
+        } finally {
+        }
+
+
+    }
+
+
+    @Transactional
+    @Test
+    public void findGoodsByCategory() {
+        String firstCategoryId = "28fd7d17-81e1-4187-bc28-5f08bbfe0f9f";
+
+        GoodsDto dto = new GoodsDto();
+        Condition c = new Condition("id", DataType.STRING, firstCategoryId);
+        c.fieldToModels(GoodsAndCategory.class,GoodsCategory.class);
+
+        dto.getConditions().add(c);
+
+        try {
+            List<Goods> gac = goodsSer.findByCis(dto);
+            logger.info("哈迪斯："+JSON.toJSONString(gac));
+//            logger.info("哈哈："+JSON.toJSONString(gac.get(0).getGoods()));
         } catch (SerException e) {
             e.printStackTrace();
         } finally {

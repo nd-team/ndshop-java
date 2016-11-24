@@ -13,9 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 /**
- * Created by ike on 16-11-14.
+ * @Author: [tanghaixiang]
+ * @Date: [2016-11-24 09:04]
+ * @Description: [商品品牌业务实现]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Service
 public class GoodsBrandSerImpl extends ServiceImpl<GoodsBrand, GoodsBrandDto> implements IGoodsBrandSer {
@@ -35,9 +40,9 @@ public class GoodsBrandSerImpl extends ServiceImpl<GoodsBrand, GoodsBrandDto> im
     @Transactional
     @Override
     public void updateBrand (GoodsBrand gb )throws SerException{
-        GoodsBrand goodsBrand = findById( gb.getId() );
-        if (goodsBrand != null ){
-            if( !gb.getBrandName().trim().equals( goodsBrand.getBrandName())){
+        Optional<GoodsBrand> opGoodsBrand = findById( gb.getId() );
+        if (opGoodsBrand.isPresent() ){
+            if( !gb.getBrandName().trim().equals( opGoodsBrand.get().getBrandName())){
                 goodsBrand.setBrandName( gb.getBrandName().trim() );
             }
             if( !gb.getBrandStatus().trim().equals( goodsBrand.getBrandStatus())){

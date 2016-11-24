@@ -19,7 +19,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * Created by ike on 16-11-21.
+ * @Author: [tanghaixiang]
+ * @Date: [2016-11-24 09:04]
+ * @Description: [商品三级分类业务实现]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Service
 public class GoodsThirdCategorySerImpl extends ServiceImpl<GoodsThirdCategory,GoodsThirdCategoryDto> implements IGoodsThirdCategorySer {

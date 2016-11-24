@@ -24,7 +24,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * Created by ike on 16-11-16.
+ * @Author: [tanghaixiang]
+ * @Date: [2016-11-24 09:04]
+ * @Description: [收藏业务测试]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)

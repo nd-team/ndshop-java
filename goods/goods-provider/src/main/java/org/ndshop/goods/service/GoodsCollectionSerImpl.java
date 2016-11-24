@@ -23,7 +23,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * Created by ike on 16-11-15.
+ * @Author: [tanghaixiang]
+ * @Date: [2016-11-24 09:04]
+ * @Description: [商品收藏业务实现]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Service
 public class GoodsCollectionSerImpl extends ServiceImpl<GoodsCollection, GoodsCollectionDto> implements IGoodsCollectionSer {

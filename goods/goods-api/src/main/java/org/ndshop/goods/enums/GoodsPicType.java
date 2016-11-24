@@ -1,7 +1,11 @@
 package org.ndshop.goods.enums;
 
 /**
- * Created by ike on 16-11-19.
+ * @Author: [tanghaixiang]
+ * @Date: [2016-11-24 09:04]
+ * @Description: [商品图片类型]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 public enum GoodsPicType {
     /**

@@ -8,29 +8,32 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
- * Created by tanghaixiang on 16-11-23.
- * 商品与分类的中间表
+ * @Author: [tanghaixiang]
+ * @Date: [2016-11-23 17:37]
+ * @Description: [商品与分类的中间表]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Entity
 @Table(name = "goodsAndCategory")
-public class GoodsAndCategory  extends BaseEntity{
+public class GoodsAndCategory  extends BaseEntity {
 
     @OneToOne(optional = false, cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
     @JoinColumn(name="goods_id")
     @JSONField(serialize = false)
-    private Goods goods;
+    private Goods goods;//商品
 
     @ManyToOne(cascade = {CascadeType.REFRESH} ,fetch = FetchType.LAZY)
     @JoinColumn(name = "goodsCategory_id")
-    private GoodsCategory goodsCategory;
+    private GoodsCategory goodsCategory;//商品一级分类
 
     @ManyToOne(cascade = {CascadeType.REFRESH},fetch = FetchType.LAZY)
     @JoinColumn(name = "goodsSecondCategory_id")
-    private GoodsSecondCategory goodsSecondCategory;
+    private GoodsSecondCategory goodsSecondCategory;//商品二级分类
 
     @ManyToOne(cascade = {CascadeType.REFRESH} ,fetch = FetchType.LAZY)
     @JoinColumn(name = "goodsThirdCategory_id")
-    private GoodsThirdCategory goodsThirdCategory;
+    private GoodsThirdCategory goodsThirdCategory;//商品三级分类
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")//格式化
     @Column(columnDefinition="dateTime" ,nullable = false) //指定数据库类型
@@ -88,3 +91,4 @@ public class GoodsAndCategory  extends BaseEntity{
         this.modifyTime = modifyTime;
     }
 }
+
