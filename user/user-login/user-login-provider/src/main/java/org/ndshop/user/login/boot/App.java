@@ -12,9 +12,12 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
- * Created by huanghuanlai on 16/8/16.
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [扫描配置文件及自身包，依赖包]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
-
 @Configuration
 
 @EnableJpaRepositories(basePackages = {"org.ndshop.user.common.dao"})

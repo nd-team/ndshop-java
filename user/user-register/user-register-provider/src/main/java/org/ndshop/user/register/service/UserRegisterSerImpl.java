@@ -13,8 +13,14 @@ import com.dounine.corgi.spring.rpc.Service;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 /**
- * Created by lgq on 16-10-31.
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: 用户注册业务实现]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Service
 public class UserRegisterSerImpl implements IUserRegisterSer {
@@ -25,18 +31,21 @@ public class UserRegisterSerImpl implements IUserRegisterSer {
     @Cacheable("userSerCache")
     @Override
     public Boolean existUsername(String username) throws SerException {
-        User user = userSer.findByUsername(username);
-        return null != user;
+        Optional<User> optional = userSer.findByUsername(username);
+        return optional.isPresent();
 
     }
 
     @Cacheable("userSerCache")
     @Override
     public Boolean existPhone(String phone) throws SerException {
-        boolean reg = Validator.isPhone(phone);
+        boolean isPhone = Validator.isPhone(phone);
         User user = null;
-        if (reg) {
-            user = userSer.findByPhone(phone);
+        if (isPhone) {
+            Optional<User> op_user = userSer.findByPhone(phone);
+            if (op_user.isPresent()) {
+                user = op_user.get();
+            }
         } else {
             throw new SerException("手机格式不正确");
         }
@@ -49,7 +58,7 @@ public class UserRegisterSerImpl implements IUserRegisterSer {
     public void sendCodeToPhone(UserRegisterDto dto) throws SerException {
         String phone = dto.getPhone();
 
-        if (null == userSer.findByPhone(phone)) {
+        if (userSer.findByPhone(phone).isPresent()) {
             //generateCode()
             String code = "123456";
             VerifyCode verifyCode = new VerifyCode(code);
@@ -76,7 +85,7 @@ public class UserRegisterSerImpl implements IUserRegisterSer {
         //通过手机号码获得系统生成的验证码对象
         VerifyCode verifyCode = VerifyQuartz.get(dto.getPhone());
         if (null != verifyCode) {
-            if (verifyCode.getCode().equals(dto.getPhone_code())) {
+            if (verifyCode.getCode().equals(dto.getPhoneCode())) {
                 saveUserByDto(dto);
                 VerifyQuartz.remove(dto.getPhone());
             } else {
@@ -90,6 +99,12 @@ public class UserRegisterSerImpl implements IUserRegisterSer {
 
     }
 
+    /**
+     * 通过用户注册数据传输实体保存用户
+     *
+     * @param dto
+     * @throws SerException
+     */
     private void saveUserByDto(UserRegisterDto dto) throws SerException {
         try {
             User user = new User();

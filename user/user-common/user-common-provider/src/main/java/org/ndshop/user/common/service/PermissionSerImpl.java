@@ -37,10 +37,10 @@ public class PermissionSerImpl extends ServiceImpl<Permission, PermissionDto> im
     @Transactional
     @Override
     public Optional<Set<Permission>> findAllByUserId(String userId) throws SerException {
-        Optional<List<UserRole>> optional = userRoleSer.findByUserId(userId);//所拥有的角色
+        Optional<List<UserRole>> op_userRole = userRoleSer.findByUserId(userId);//所拥有的角色
         Set<Permission> permissions = new HashSet<>(); //所有认证权限
-        if(optional.isPresent()){
-            Stream<UserRole> userRoleStream = optional.get().stream();
+        if(op_userRole.isPresent()){
+            Stream<UserRole> userRoleStream = op_userRole.get().stream();
             userRoleStream.forEach(userRole -> {
                 Role role = userRole.getRole();
                 if (null != role) {
@@ -56,15 +56,15 @@ public class PermissionSerImpl extends ServiceImpl<Permission, PermissionDto> im
     @Transactional
     @Override
     public void addPermission() throws SerException {
-        Optional<Role> optional = roleSer.findOne(new RoleDto());
-        if(optional.isPresent()){
+        Optional<Role> op_role = roleSer.findOne(new RoleDto());
+        if(op_role.isPresent()){
             Permission root = new Permission();
-            root.setRole(optional.get());
+            root.setRole(op_role.get());
             root.setDescription("无描述");
             root.setResource("/");
             root.setName("根资源");
             Permission child = new Permission();
-            child.setRole(optional.get());
+            child.setRole(op_role.get());
             child.setDescription("无描述");
             child.setResource("/user");
             child.setName("用户支援");

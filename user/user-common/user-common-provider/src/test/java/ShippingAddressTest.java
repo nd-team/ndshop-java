@@ -1,8 +1,4 @@
-import org.ndshop.dbs.jpa.dto.Condition;
-import org.ndshop.dbs.jpa.enums.DataType;
-import org.ndshop.dbs.jpa.enums.RestrictionType;
 import org.ndshop.dbs.jpa.exception.SerException;
-import org.ndshop.user.common.dto.ShippingAddressDto;
 import org.ndshop.user.common.entity.ShippingAddress;
 import org.ndshop.user.common.entity.User;
 import org.ndshop.user.common.enums.SexType;
@@ -17,8 +13,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import user_common_code.ApplicationConfiguration;
 
 import java.util.List;
+import java.util.Optional;
 
-
+/**
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [收货地址业务测试]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
 public class ShippingAddressTest {
@@ -52,16 +55,16 @@ public class ShippingAddressTest {
         address.setEmail("aml@qq.com");
         address.setArea("fds");
         address.setDetailAddress("fdsf");
-        address.setUser(userSer.findByUsername("liguiqin"));
+        address.setUser(userSer.findByUsername("liguiqin").get());
         address.setReceiverName("fdsfs");
         addressSer.addShippingAddress(address);
     }
 
     @Test
     public void setDefaultAddress() throws SerException {
-        List<ShippingAddress> address = addressSer.findAddressByCurrentUser();
-        if (address != null && address.size() > 0) {
-            ShippingAddress address1 = address.get(0);
+        Optional<List<ShippingAddress>> address = addressSer.findAddressByCurrentUser();
+        if (address.isPresent()) {
+            ShippingAddress address1 = address.get().get(0);
             addressSer.setDefaultAddress(address1);
         }
 
@@ -69,8 +72,8 @@ public class ShippingAddressTest {
 
     @Test
     public void finAll() throws SerException {
-        List<ShippingAddress> address = addressSer.findAll();
-        ShippingAddress address1 = address.get(0);
+        Optional<List<ShippingAddress>> listOptional = addressSer.findAll();
+        ShippingAddress address1 = listOptional.get().get(0);
         System.out.println(address1);
     }
 

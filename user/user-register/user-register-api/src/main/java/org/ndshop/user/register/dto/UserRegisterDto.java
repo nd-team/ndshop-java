@@ -4,7 +4,11 @@ package org.ndshop.user.register.dto;
 import org.ndshop.dbs.jpa.dto.BaseDto;
 
 /**
- * Created by lgq on 16-11-2.
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: 用户注册数据传输]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 public class UserRegisterDto extends BaseDto {
 
@@ -12,7 +16,7 @@ public class UserRegisterDto extends BaseDto {
     private String password;//注册密码
     private String rePassword;//重复密码
     private String phone; //注册手机
-    private String phone_code ;//手机验证码
+    private String phoneCode;//手机验证码
     private String captcha;//验证码
 
     public String getUsername() {
@@ -47,12 +51,12 @@ public class UserRegisterDto extends BaseDto {
         this.phone = phone;
     }
 
-    public String getPhone_code() {
-        return phone_code;
+    public String getPhoneCode() {
+        return phoneCode;
     }
 
-    public void setPhone_code(String phone_code) {
-        this.phone_code = phone_code;
+    public void setPhoneCode(String phoneCode) {
+        this.phoneCode = phoneCode;
     }
 
     public String getCaptcha() {

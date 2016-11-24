@@ -9,10 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Created by lgq on 16-11-21.
- * 登录拦截器
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [登录拦截器]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
-
 public class LoginSecurityInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
