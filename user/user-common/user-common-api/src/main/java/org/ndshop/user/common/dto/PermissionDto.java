@@ -11,4 +11,13 @@ import org.ndshop.dbs.jpa.dto.BaseDto;
  * @Copy: [org.ndshop]
  */
 public class PermissionDto extends BaseDto {
+    private String parent_id; //以此节点作为父亲节点
+
+    public String getParent_id() {
+        return parent_id;
+    }
+
+    public void setParent_id(String parent_id) {
+        this.parent_id = parent_id;
+    }
 }

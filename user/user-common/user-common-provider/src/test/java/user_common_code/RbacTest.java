@@ -17,10 +17,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Stream;
 
 
 /**
@@ -56,7 +54,7 @@ public class RbacTest {
 
     @Test
     public void addUserRole() throws SerException {
-        Optional<Role> roleOptional = roleSer.findOne(new RoleDto());
+        Optional<Role> roleOptional = roleSer.findById("939aa9a9-4b5e-4542-80ea-de7374a25b5c");
         Optional<User> userOptional = userSer.findByPhone("13257910244");
         UserRole userRole = new UserRole();
         userRole.setRole(roleOptional.get());
@@ -66,7 +64,16 @@ public class RbacTest {
 
     @Test
     public void addPermission() throws SerException {
-        permissionSer.addPermission();
+        Permission root = new Permission();
+        root.setDescription("无描述");
+        root.setResource("/");
+        root.setName("根资源");
+        Permission child = new Permission();
+        child.setDescription("无描述");
+        child.setResource("/user");
+        child.setName("用户资源");
+        child.setParent(root);
+        permissionSer.save(child);
     }
 
     @Transactional
@@ -79,14 +86,40 @@ public class RbacTest {
                 System.out.println(userRole);
             }
         }
-
     }
+
+
+    @Test
+    public void addRolePermission() throws SerException {
+
+        Optional<Role> op_role = roleSer.findById("939aa9a9-4b5e-4542-80ea-de7374a25b5c");
+        if (op_role.isPresent()) {
+            Optional<List<Permission>> op_permission = permissionSer.findAll();
+            Set<Permission> permissions = new HashSet<>(op_permission.get().size());
+            permissions.addAll(op_permission.get());
+            op_role.get().setPermissions(permissions);
+            roleSer.update(op_role.get());
+        }
+    }
+
 
     @Test
     public void findAllByUserId() throws SerException {
-        Optional<User> op_user = userSer.findByPhone("13257910244");
-        Optional<Set<Permission>> op_permissions = permissionSer.findAllByUserId(op_user.get().getId());
+
+        Optional<Set<Permission>> op_permissions = permissionSer.findAllByUserId("9d7f591b-6388-4346-aaee-0304481d82ca");
         System.out.println(op_permissions.get());
+    }
+
+    @Test
+    public void updatePermissions() throws SerException {
+
+        Optional<Permission> op_permissions = permissionSer.findById("72ae9d8f-9a25-45c1-b068-4387b2667b31"); //儿子
+        Permission permission = op_permissions.get();
+        Permission parent = new Permission();
+        parent.setId("99ae9d8f-9a25-45c1-b068-4387b2667b33");//更改父节点为孙节点测试
+        permission.setParent(parent);
+        permissionSer.update(permission);
+        System.out.println(permission);
     }
 
 

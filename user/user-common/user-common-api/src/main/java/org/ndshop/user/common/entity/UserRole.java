@@ -23,7 +23,6 @@ public class UserRole extends BaseEntity {
     @JoinColumn(name = "role_id")
     private Role role;
 
-    private Status status = Status.THAW;
 
     public User getUser() {
         return user;
@@ -41,11 +40,4 @@ public class UserRole extends BaseEntity {
         this.role = role;
     }
 
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
 }

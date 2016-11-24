@@ -45,7 +45,9 @@ public class User extends BaseEntity {
     @Range(min = 0, max = 120)
     private Integer age;//年龄
 
+    @Column(columnDefinition = "INT(1)", nullable = false)
     private MemberType memberType; //会员类型
+
     @Column(columnDefinition = "INT(1)", nullable = false)
     private UserType userType = UserType.CUSTOMER;
 

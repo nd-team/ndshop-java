@@ -4,6 +4,7 @@ package org.ndshop.dbs.jpa.dto;
 import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.enums.RestrictionType;
 import org.apache.commons.lang3.text.StrBuilder;
+import org.ndshop.dbs.jpa.enums.Status;
 
 /**
  * @Author: [liguiqin]

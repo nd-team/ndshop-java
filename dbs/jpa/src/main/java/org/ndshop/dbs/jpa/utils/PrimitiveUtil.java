@@ -36,6 +36,9 @@ public class PrimitiveUtil {
                 break;
             }
         }
+        if (type.equals(DataType.ENUM)) {
+            clazz = Integer.class;
+        }
         clazz = clazz == null ? String.class : clazz;
         return clazz;
     }
