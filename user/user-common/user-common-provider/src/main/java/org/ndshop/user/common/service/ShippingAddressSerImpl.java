@@ -46,7 +46,7 @@ public class ShippingAddressSerImpl extends ServiceImpl<ShippingAddress, Shippin
     @Override
     public Optional<ShippingAddress> addShippingAddress(ShippingAddress address) throws SerException {
         ShippingAddressDto dto = new ShippingAddressDto();
-        if (21 > count(dto)) {
+        if (21 > count(dto).get()) {
             String seq = findByMaxField("seq", ShippingAddress.class).get();
             address.setSeq(Integer.parseInt(seq) + 1);
             return super.save(address);
@@ -61,11 +61,11 @@ public class ShippingAddressSerImpl extends ServiceImpl<ShippingAddress, Shippin
         ShippingAddressDto dto = new ShippingAddressDto();
         Condition condition = new Condition("defaultAddress", DataType.BOOLEAN, true);
         dto.getConditions().add(condition);
-        Optional<ShippingAddress> old_address = findOne(dto);
+        Optional<ShippingAddress> op_old_address = findOne(dto);
         //撤销旧的收货地址
-        if (old_address.isPresent()) {
-            old_address.get().setDefaultAddress(false);
-            update(old_address.get());
+        if (op_old_address.isPresent()) {
+            op_old_address.get().setDefaultAddress(false);
+            update(op_old_address.get());
         }
         //设置新的收货地址
         //    ShippingAddress new_address = findById(address.getId());

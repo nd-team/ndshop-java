@@ -10,7 +10,11 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by lgq on 16-11-18.
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [自定义缓存添加]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Component
 public class MyJpaCache implements JpaCache {
@@ -18,6 +22,6 @@ public class MyJpaCache implements JpaCache {
     public List<Cache> initCaches() {
         ConcurrentMapCache serCache = new ConcurrentMapCache("userSerCache");
         ConcurrentMapCache daoCache = new ConcurrentMapCache("userDaoCache");
-        return Arrays.asList(serCache,daoCache);
+        return Arrays.asList(serCache, daoCache);
     }
 }

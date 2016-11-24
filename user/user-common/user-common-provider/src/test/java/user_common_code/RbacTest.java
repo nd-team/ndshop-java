@@ -19,11 +19,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 
 /**
- * Created by lgq on 16-11-22.
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [权限认证业务测试]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
@@ -38,7 +43,7 @@ public class RbacTest {
     private IPermissionSer permissionSer;
 
     @Test
-    public void addRole()throws SerException {
+    public void addRole() throws SerException {
         Role root = new Role();
         root.setName("根角色１");
         root.setDescription("无描述");
@@ -50,37 +55,39 @@ public class RbacTest {
     }
 
     @Test
-    public void addUserRole()throws SerException {
-        Role role = roleSer.findOne(new RoleDto());
-      //  User u =  userSer.findByPhone("13257910244");
+    public void addUserRole() throws SerException {
+        Optional<Role> roleOptional = roleSer.findOne(new RoleDto());
+        Optional<User> userOptional = userSer.findByPhone("13257910244");
         UserRole userRole = new UserRole();
-        userRole.setRole(role);
-     //   userRole.setUser(u);
+        userRole.setRole(roleOptional.get());
+        userRole.setUser(userOptional.get());
         userRoleSer.save(userRole);
     }
 
     @Test
-    public void addPermission()throws SerException {
+    public void addPermission() throws SerException {
         permissionSer.addPermission();
     }
 
     @Transactional
     @Test
-    public void findUserRole()throws SerException {
-        List<UserRole> users = userRoleSer.findAll();
-        for(UserRole userRole : users){
-            userRole.getRole().getPermissions().size();
-            System.out.println(userRole);
+    public void findUserRole() throws SerException {
+        Optional<List<UserRole>> op_userRole = userRoleSer.findAll();
+        if (op_userRole.isPresent()) {
+            for (UserRole userRole : op_userRole.get()) {
+                userRole.getRole().getPermissions().size();
+                System.out.println(userRole);
+            }
         }
+
     }
 
     @Test
-    public void findAllByUserId()throws SerException {
-//       User user = userSer.findByPhone("13257910244");
-//       Set<Permission> permissionSet =  permissionSer.findAllByUserId(user.getId());
-//        System.out.println(permissionSet);
+    public void findAllByUserId() throws SerException {
+        Optional<User> op_user = userSer.findByPhone("13257910244");
+        Optional<Set<Permission>> op_permissions = permissionSer.findAllByUserId(op_user.get().getId());
+        System.out.println(op_permissions.get());
     }
-
 
 
 }

@@ -46,7 +46,7 @@ public interface IService<BE extends BaseEntity, BD extends BaseDto> {
      * @return
      * @throws SerException
      */
-    default Long count(BD dto) throws SerException {
+    default Optional<Long> count(BD dto) throws SerException {
         return null;
     }
 

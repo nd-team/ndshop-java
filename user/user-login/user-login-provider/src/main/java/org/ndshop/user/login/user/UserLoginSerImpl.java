@@ -4,23 +4,22 @@ package org.ndshop.user.login.user;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.user.common.entity.User;
 import org.ndshop.user.common.service.IUserSer;
+import org.ndshop.user.login.dto.UserLoginDto;
 import org.ndshop.user.login.service.IUserLoginSer;
 import org.ndshop.user.login.session.TokenUtils;
 import org.ndshop.user.login.session.UserSession;
 import com.dounine.corgi.security.PasswordHash;
 import com.dounine.corgi.spring.rpc.Reference;
 import com.dounine.corgi.spring.rpc.Service;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 
-import javax.annotation.PostConstruct;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 /**
- * Created by huanghuanlai on 16/5/24.
+ * @Author: [liguiqin]
+ * @Date: [2016-11-24 09:37]
+ * @Description: [用户登陆业务实现]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Service
 public class UserLoginSerImpl implements IUserLoginSer {
@@ -36,31 +35,28 @@ public class UserLoginSerImpl implements IUserLoginSer {
         throw new SerException("token无效");
     }
 
-    public String login(User user) throws SerException {
+    @Override
+    public String login(UserLoginDto dto) throws SerException {
         String token = null;
-        user.setIp("192.168.0.1");
-        //------------------------test
-        String account = StringUtils.isNotBlank(user.getUsername()) ? user.getUsername() : user.getEmail();
-        account = StringUtils.isBlank(account) ? user.getPassword() : account;
-        User persistUser = userSer.findByAccountNumber(account); //通过用户名/手机号/或者邮箱登陆
-        try {
-            if (null != persistUser) {
-                if (persistUser.getUsername().equals(user.getUsername())
-                        && PasswordHash.validatePassword(user.getPassword(), persistUser.getPassword())) {
-                    UserSession.removeByUsername(user.getUsername());
-                    token = TokenUtils.create(user.getIp(), user.getUsername());
-                    UserSession.put(token, user);
+        dto.setIp("192.168.0.1");
+
+        Optional<User> op_user = userSer.findByAccountNumber(dto.getAccount()); //通过用户名/手机号/或者邮箱登陆
+        if (op_user.isPresent()) {
+            User persistUser = op_user.get();
+            try {
+                if (PasswordHash.validatePassword(dto.getPassword(), persistUser.getPassword())) {
+                    UserSession.removeByUsername(persistUser.getUsername());
+                    token = TokenUtils.create(dto.getIp(), persistUser.getUsername());
+                    UserSession.put(token, persistUser);
                 }
+
+            } catch (Exception e) {
+                throw new SerException(e.getMessage());
             }
-
-        } catch (Exception e) {
-            throw new SerException(e.getMessage());
         }
-
 
         return token;
     }
-
 
 
     @Override

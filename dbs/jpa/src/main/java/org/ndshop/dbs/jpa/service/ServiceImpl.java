@@ -54,9 +54,9 @@ public class ServiceImpl<BE extends BaseEntity, BD extends BaseDto> extends Fina
 
 
     @Override
-    public Long count(BD dto) throws SerException {
+    public Optional<Long> count(BD dto) throws SerException {
         MySpecification mySpecification = new MySpecification<BE, BD>(dto);
-        return myRepository.count(mySpecification);
+        return Optional.ofNullable(myRepository.count(mySpecification));
     }
 
     @Override

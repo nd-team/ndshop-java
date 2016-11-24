@@ -2,16 +2,20 @@ package org.ndshop.user.register.quartz;
 
 import java.time.LocalDateTime;
 
+
 /**
- * Created by lgq on 16-11-8.
- * 验证码失效辅助实体
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: 验证码定时失效辅助工具实体]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 public class VerifyCode {
     private LocalDateTime createTime = LocalDateTime.now(); //创建时间
     private String code; //验证码
-    private Integer  invalidTime; //设置独立的失效时间(分钟)
+    private Integer invalidTime; //设置独立的失效时间(分钟)
 
-    public VerifyCode(String code){
+    public VerifyCode(String code) {
         this.code = code;
     }
 

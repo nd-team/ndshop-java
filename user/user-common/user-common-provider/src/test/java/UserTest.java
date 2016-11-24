@@ -22,7 +22,11 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * Created by huanghuanlai on 2016/10/13.
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [用户业务测试]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
@@ -35,13 +39,13 @@ public class UserTest {
 
 
     /**
-     * 查询全部
+     * 查询全部,缓存测试
      */
     @Test
     public void findAll() throws SerException {
-        List<User> users = userSer.findAll();
-        users = userSer.findAll();
-        users = userSer.findAll();
+        Optional<List<User>> op_users = userSer.findAll();
+        op_users = userSer.findAll();
+        op_users = userSer.findAll();
 
         Collection<String> cacheNames = cacheManager.getCacheNames();
         for (String name : cacheNames) {
@@ -49,11 +53,11 @@ public class UserTest {
             cache.clear();
         }
         add();
-        users = userSer.findAll();
-        users = userSer.findAll();
-        users = userSer.findAll();
-        users = userSer.findAll();
-        System.out.println(users);
+        op_users = userSer.findAll();
+        op_users = userSer.findAll();
+        op_users = userSer.findAll();
+        op_users = userSer.findAll();
+        System.out.println(op_users);
     }
 
     /**
@@ -88,9 +92,9 @@ public class UserTest {
 
     @Test
     public void cacheUser() throws SerException {
-        Optional<User> optional = userSer.findByPhone("13257910244");
-        if (optional.isPresent()) {
-            User user = optional.get();
+        Optional<User> op_user = userSer.findByPhone("13257910244");
+        if (op_user.isPresent()) {
+            User user = op_user.get();
             user.setUsername("liguiqin666");
             System.out.println(user);
         }

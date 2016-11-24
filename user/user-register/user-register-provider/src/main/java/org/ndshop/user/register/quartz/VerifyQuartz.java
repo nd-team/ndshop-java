@@ -7,9 +7,13 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+
 /**
- * Created by lgq on 16-11-8.
- * 验证码定时失效
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: 验证码定时失效辅助工具]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 public class VerifyQuartz {
     private final static Map<String, VerifyCode> VERIFY_CODE_SESSION = new ConcurrentHashMap<String, VerifyCode>();//time主属

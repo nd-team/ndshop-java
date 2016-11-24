@@ -7,12 +7,13 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
 /**
- * Created by huanghuanlai on 16/9/27.
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [测试配置项]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
-
-
 @Configuration
 @EnableJpaRepositories(basePackages = {"org.ndshop.user.common.dao"})
 @EnableTransactionManagement(proxyTargetClass = true)

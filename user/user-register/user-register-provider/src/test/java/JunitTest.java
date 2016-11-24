@@ -12,7 +12,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import user_register_code.ApplicationConfiguration;
 
 /**
- * Created by huanghuanlai on 2016/10/13.
+ * @Author: [liguiqin]
+ * @Date: [2016-11-23 15:47]
+ * @Description: [用户注册业务测试]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
@@ -54,14 +58,14 @@ public class JunitTest extends AbstractJUnit4SpringContextTests {
     @Test
     public void verifyCodeAndReg() throws SerException {
         UserRegisterDto dto = new UserRegisterDto();
-        dto.setPhone_code("123");
+        dto.setPhoneCode("123");
         userRegisterSer.verifyCodeAndReg(dto);
     }
 
     @Test
     public void saveUser() throws SerException {
         UserRegisterDto dto = new UserRegisterDto();
-        dto.setPhone_code("123");
+        dto.setPhoneCode("123");
         userRegisterSer.verifyCodeAndReg(dto);
     }
 
