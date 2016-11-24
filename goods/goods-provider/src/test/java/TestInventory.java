@@ -12,6 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 /**
  * @Author: [tanghaixiang]
@@ -31,7 +32,8 @@ public class TestInventory {
     @Test
     public void addInventory() throws SerException{
         String gid = "b0f42a2a-6c28-42bd-9e5e-969733ae7a84";
-        Goods goods = goodsSer.findById( gid );
+        Optional<Goods> opGoods = goodsSer.findById( gid );
+        Goods goods = opGoods.get();
 
         GoodsInventory gi = new GoodsInventory();
         gi.setQuanty( 199L);
@@ -56,7 +58,8 @@ public class TestInventory {
     @Test
     public void updateGoodsInventorys() throws SerException {
         String goodId = "b0f42a2a-6c28-42bd-9e5e-969733ae7a84";
-        Goods goods = goodsSer.findById( goodId );
+        Optional<Goods> opGoods = goodsSer.findById( goodId );
+        Goods goods = opGoods.get();
 
         GoodsInventory goodsInventory =  new GoodsInventory();
         goodsInventory.setQuanty( 100L );
@@ -80,8 +83,8 @@ public class TestInventory {
     public void findInventory() throws SerException{
         String goodId = "b0f42a2a-6c28-42bd-9e5e-969733ae7a84";
 
-        Goods goods = goodsSer.findById( goodId );
-        GoodsInventory goodsInventory = goods.getGoodsInventory();
+        Optional<Goods> goods = goodsSer.findById( goodId );
+        GoodsInventory goodsInventory = goods.get().getGoodsInventory();
         logger.info(  JSON.toJSONString( goodsInventory) );
     }
 }

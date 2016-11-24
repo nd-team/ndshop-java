@@ -18,6 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @Author: [tanghaixiang]
@@ -60,9 +61,9 @@ public class TestCategory {
             Condition c = new Condition("name",DataType.STRING , str );
             c.setRestrict(RestrictionType.EQ);
             dto.getConditions().add( c );
-            List<GoodsCategory> gc = goodsCategorySer.findByCis( dto );
+            Optional<List<GoodsCategory>> gc = goodsCategorySer.findByCis( dto );
 
-            if( gc== null || gc.size()==0 ){
+            if( !gc.isPresent() ){
                 GoodsCategory gct = new GoodsCategory();
                 gct.setName( str );
                 goodsCategorySer.save( gct );
@@ -81,7 +82,9 @@ public class TestCategory {
         String cateoryId ="b3ecbadd-bdbc-4a9f-b121-e04faa19a672";
         String categoryName = "其他";
 
-        GoodsCategory goodsCategory = goodsCategorySer.findById( cateoryId );
+        Optional<GoodsCategory> opGoodsCategory = goodsCategorySer.findById( cateoryId );
+        GoodsCategory goodsCategory = opGoodsCategory.get();
+
         goodsCategory.setModifyTime( LocalDateTime.now() );
         goodsCategory.setId( cateoryId );
         goodsCategory.setName( categoryName );
@@ -104,8 +107,8 @@ public class TestCategory {
         dto.setLimit(2);
         dto.setPage(1);
         dto.setSorts(Arrays.asList("modifyTime"));
-        List<GoodsCategory> goodCategory = goodsCategorySer.findByCis( dto,true );
-        logger.info( JSON.toJSONString(goodCategory) );
+        Optional<List<GoodsCategory>> opGoodCategory = goodsCategorySer.findByCis( dto,true );
+        logger.info( JSON.toJSONString( opGoodCategory.get() ) );
 
     }
 

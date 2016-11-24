@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @Author: [tanghaixiang]
@@ -53,8 +54,9 @@ public class GoodsSecondCategorySerImpl extends ServiceImpl<GoodsSecondCategory,
     @Transactional
     @Override
     public void updateSecondCategoryName( GoodsSecondCategory goodsSecondCategory ) throws SerException {
-        GoodsSecondCategory gsc = findById( goodsSecondCategory.getId() );
-        if (gsc != null) {
+        Optional<GoodsSecondCategory> opGoodsSecondCategory = findById( goodsSecondCategory.getId() );
+        if ( opGoodsSecondCategory.isPresent() ) {
+            GoodsSecondCategory gsc = opGoodsSecondCategory.get();
             gsc.setSecondName( goodsSecondCategory.getSecondName() );
             gsc.setModifyTime(LocalDateTime.now());
             update(gsc);
@@ -65,11 +67,13 @@ public class GoodsSecondCategorySerImpl extends ServiceImpl<GoodsSecondCategory,
     @Transactional
     @Override
     public void updateSecondCategoryForeignKey(String secondCategoryId, String firstCategoryId  ) throws SerException {
-        GoodsSecondCategory gsc = findById(secondCategoryId);
+        Optional<GoodsSecondCategory> opGoodsSecondCategory = findById(secondCategoryId);
 
-        if (gsc != null) {
+        if ( opGoodsSecondCategory.isPresent() ) {
+            GoodsSecondCategory gsc = opGoodsSecondCategory.get();
             GoodsCategory gc = new GoodsCategory();
             gc.setId(firstCategoryId);
+
             gsc.setGoodsCategory(gc);
             gsc.setModifyTime(LocalDateTime.now());
             update(gsc);
@@ -81,9 +85,10 @@ public class GoodsSecondCategorySerImpl extends ServiceImpl<GoodsSecondCategory,
     @Transactional
     @Override
     public void updateSecondCategoryPinyin( String secondCategoryId , String pinyin  ) throws SerException {
-        GoodsSecondCategory gsc = findById(secondCategoryId);
+        Optional<GoodsSecondCategory> opGoodsSecondCategory = findById(secondCategoryId);
 
-        if (gsc != null) {
+        if ( opGoodsSecondCategory.isPresent() ) {
+            GoodsSecondCategory gsc = opGoodsSecondCategory.get();
             gsc.setPinyin(pinyin);
             gsc.setModifyTime(LocalDateTime.now());
             update(gsc);
@@ -93,8 +98,8 @@ public class GoodsSecondCategorySerImpl extends ServiceImpl<GoodsSecondCategory,
     @Transactional
     @Override
     public void deleteSecondCategory( String secondCategoryId ) throws SerException {
-        GoodsSecondCategory gsc = findById(secondCategoryId);
-        if (gsc != null) {
+        Optional<GoodsSecondCategory> opGoodsSecondCategory = findById(secondCategoryId);
+        if ( opGoodsSecondCategory.isPresent() ) {
             remove(secondCategoryId);
         }
     }
@@ -108,8 +113,10 @@ public class GoodsSecondCategorySerImpl extends ServiceImpl<GoodsSecondCategory,
         c.fieldToModels(GoodsCategory.class);
 
         dto.getConditions().add(c);
-        List<GoodsSecondCategory> gsc = findByCis( dto );
-        logger.info(JSON.toJSONString(gsc));
+        Optional<List<GoodsSecondCategory>> opList = findByCis( dto );
+        if ( opList.isPresent() ) {
+            logger.info(JSON.toJSONString( opList.get() ));
+        }
     }
 
     @Cacheable("goodsServiceCache")
@@ -120,8 +127,10 @@ public class GoodsSecondCategorySerImpl extends ServiceImpl<GoodsSecondCategory,
         c.setRestrict(RestrictionType.LIKE);
 
         dto.getConditions().add(c);
-        List<GoodsSecondCategory> gsc = findByCis( dto );
-        logger.info(JSON.toJSONString(gsc));
+        Optional<List<GoodsSecondCategory>> opList = findByCis( dto );
+        if ( opList.isPresent() ) {
+            logger.info(JSON.toJSONString(  opList.get() ));
+        }
     }
 
     @Cacheable("goodsServiceCache")
@@ -132,7 +141,9 @@ public class GoodsSecondCategorySerImpl extends ServiceImpl<GoodsSecondCategory,
         c.setRestrict(RestrictionType.LIKE);
 
         dto.getConditions().add(c);
-        List<GoodsSecondCategory> gsc = findByCis( dto );
-        logger.info(JSON.toJSONString(gsc));
+        Optional<List<GoodsSecondCategory>> opList = findByCis( dto );
+        if ( opList.isPresent() ) {
+            logger.info(JSON.toJSONString(  opList.get() ));
+        }
     }
 }

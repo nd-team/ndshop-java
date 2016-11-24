@@ -21,6 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @Author: [tanghaixiang]
@@ -40,7 +41,8 @@ public class TestDescription {
     @Test
     public void addDescription() throws SerException{
         String gid = "b0f42a2a-6c28-42bd-9e5e-969733ae7a84";
-        Goods goods = goodsSer.findById( gid );
+        Optional<Goods> opGoods = goodsSer.findById( gid );
+        Goods goods = opGoods.get();
 
         GoodsDes gDes = new GoodsDes();
         gDes.setSaleStatus( SaleStatus.ONSHELF );
@@ -62,7 +64,8 @@ public class TestDescription {
     @Test
     public void updateGoodsDes() throws SerException{
         String goodId = "b0f42a2a-6c28-42bd-9e5e-969733ae7a84";
-        Goods goods = goodsSer.findById( goodId );
+        Optional<Goods> opGoods = goodsSer.findById( goodId );
+        Goods goods = opGoods.get();
 
         GoodsDes goodsDes = new GoodsDes();
         goodsDes.setDescription("乐视超4 X50 乐视TV X3-50 UHD液晶平板电视机50英寸3D 4K超3 48");
@@ -101,8 +104,8 @@ public class TestDescription {
 //        Goods goods = goodsSer.findById( goodId );
 //        GoodsDes goodsDes = goods.getGoodsDes();
 //        logger.info(JSON.toJSONString( goodsDes ));
-        List<User> u = userSer.findAll();
-        logger.info(JSON.toJSONString( u ));
+        Optional<List<User>> u = userSer.findAll();
+        logger.info(JSON.toJSONString( u.get() ));
     }
 
 }

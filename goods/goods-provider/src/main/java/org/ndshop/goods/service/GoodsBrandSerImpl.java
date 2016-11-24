@@ -42,22 +42,23 @@ public class GoodsBrandSerImpl extends ServiceImpl<GoodsBrand, GoodsBrandDto> im
     public void updateBrand (GoodsBrand gb )throws SerException{
         Optional<GoodsBrand> opGoodsBrand = findById( gb.getId() );
         if (opGoodsBrand.isPresent() ){
+            GoodsBrand goodsBrandFromOption = opGoodsBrand.get();
             if( !gb.getBrandName().trim().equals( opGoodsBrand.get().getBrandName())){
-                goodsBrand.setBrandName( gb.getBrandName().trim() );
+                goodsBrandFromOption.setBrandName( gb.getBrandName().trim() );
             }
-            if( !gb.getBrandStatus().trim().equals( goodsBrand.getBrandStatus())){
-                goodsBrand.setBrandStatus(  gb.getBrandStatus().trim() );
+            if( !gb.getBrandStatus().trim().equals( goodsBrandFromOption.getBrandStatus())){
+                goodsBrandFromOption.setBrandStatus(  gb.getBrandStatus().trim() );
             }
-            goodsBrand.setModifyTime( LocalDateTime.now() );
-            update( goodsBrand );
+            goodsBrandFromOption.setModifyTime( LocalDateTime.now() );
+            update( goodsBrandFromOption );
+            logger.info( JSON.toJSONString (goodsBrandFromOption) );
         }
-        logger.info( JSON.toJSONString (goodsBrand) );
     }
 
     @Cacheable("goodsServiceCache")
     @Override
     public void findBrand() throws SerException{
-        List<GoodsBrand> goodsBrands = findAll();
-        logger.info( JSON.toJSONString( goodsBrands));
+        Optional<List<GoodsBrand>> goodsBrands = findAll();
+        logger.info( JSON.toJSONString( goodsBrands.get()));
     }
 }

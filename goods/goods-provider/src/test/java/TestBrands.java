@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @Author: [tanghaixiang]
@@ -51,7 +52,8 @@ public class TestBrands {
     public void updateBrand ()throws SerException{
         String name = "美羊羊";
         String bid = "4069cb12-bbd0-4641-aa93-de4c811fe2b0";
-        GoodsBrand goodsBrand = goodsBrandSer.findById( bid );
+        Optional<GoodsBrand> opGoodsBrand = goodsBrandSer.findById( bid );
+        GoodsBrand goodsBrand = opGoodsBrand.get();
         if (goodsBrand != null ){
             goodsBrand.setBrandName( name );
             goodsBrand.setModifyTime( LocalDateTime.now() );
@@ -68,7 +70,8 @@ public class TestBrands {
     public void updateBrandstatus ()throws SerException{
         String status = BrandStatus.ACTIVE.getName();
         String bid = "4069cb12-bbd0-4641-aa93-de4c811fe2b0";
-        GoodsBrand goodsBrand = goodsBrandSer.findById( bid );
+        Optional<GoodsBrand> opGoodsBrand = goodsBrandSer.findById( bid );
+        GoodsBrand goodsBrand = opGoodsBrand.get();
         if (goodsBrand != null ){
             goodsBrand.setBrandStatus( status );
             goodsBrand.setModifyTime( LocalDateTime.now() );
@@ -79,8 +82,8 @@ public class TestBrands {
 
     @Test
     public void findBrand() throws SerException{
-        List<GoodsBrand> goodsBrands = goodsBrandSer.findAll();
-        logger.info( JSON.toJSONString( goodsBrands));
+        Optional<List<GoodsBrand>> opGoodsBrands = goodsBrandSer.findAll();
+        logger.info( JSON.toJSONString(  opGoodsBrands.get() ));
     }
 
 

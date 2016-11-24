@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @Author: [tanghaixiang]
@@ -43,12 +44,12 @@ public class GoodsCollectionSerImpl extends ServiceImpl<GoodsCollection, GoodsCo
     @Override
     public void addCollection(String goodsId, String userId) throws SerException {
         GoodsCollection goodsCollection = new GoodsCollection();
-        Goods goods = goodsSer.findById(goodsId);
-        goodsCollection.setGoods(goods);
+        Optional<Goods> opGoods = goodsSer.findById(goodsId);
+        goodsCollection.setGoods( opGoods.get() );
 
-        User user = userSer.findById(userId);
-        System.out.println(user);
-        goodsCollection.setUser(user);
+        Optional<User> opUser = userSer.findById(userId);
+        System.out.println( opUser.get() );
+        goodsCollection.setUser( opUser.get() );
 
         goodsCollection.setCreateTime(LocalDateTime.now());
         goodsCollection.setModifyTime(LocalDateTime.now());
@@ -83,8 +84,9 @@ public class GoodsCollectionSerImpl extends ServiceImpl<GoodsCollection, GoodsCo
         dto.getConditions().add( c2 );
 
 
-        List<GoodsCollection> list = findByCis( dto );
-        if( list !=null && list.size() > 0 ) {
+        Optional<List<GoodsCollection>> opList = findByCis( dto );
+        if( opList.isPresent() ) {
+            List<GoodsCollection> list = opList.get();
             goodsCollection.setStatus(CollectionStatus.CONCEL.name());
             goodsCollection.setCreateTime(list.get(0).getCreateTime());
             goodsCollection.setModifyTime(LocalDateTime.now());
@@ -106,8 +108,10 @@ public class GoodsCollectionSerImpl extends ServiceImpl<GoodsCollection, GoodsCo
         c.setRestrict( RestrictionType.EQ );
         dto.getConditions().add( c );
 
-        List<GoodsCollection> gc = findByCis(  dto );
-        logger.info(JSON.toJSONString( gc ) );
+        Optional<List<GoodsCollection>> gc = findByCis(  dto );
+        if ( gc.isPresent() ) {
+            logger.info(JSON.toJSONString( gc.get() ) );
+        }
     }
 
 }

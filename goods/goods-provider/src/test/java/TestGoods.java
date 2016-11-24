@@ -22,6 +22,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @Author: [tanghaixiang]
@@ -106,14 +107,17 @@ public class TestGoods {
     public void updateForiegnKey() throws SerException {
         String thirdCategoryId = "62cc8b1c-8df6-40cb-a540-701f17c47136";
         String gid = "4a15a242-a907-4c00-bcb1-bea0a29311b5";
-        Goods goods = goodsSer.findById(gid);
+        Optional<Goods> opGoods = goodsSer.findById(gid);
+        Goods goods = opGoods.get();
 
 //        GoodsThirdCategory gd = goodsThirdCategorySer.findById(thirdCategoryId);
 //        goods.setGoodsThirdCategory(gd);
 //        goodsSer.update(goods);
 
         String goodBrandId = "aec591c1-7389-4b88-8d3b-91084b5554b9";
-        GoodsBrand goodsBrand = goodsBrandSer.findById(goodBrandId);
+        Optional<GoodsBrand> opGoodsBrand = goodsBrandSer.findById(goodBrandId);
+        GoodsBrand goodsBrand = opGoodsBrand.get();
+
         goods.setGoodsBrand(goodsBrand);
         goodsSer.update(goods);
     }
@@ -132,7 +136,7 @@ public class TestGoods {
         c.fieldToModels( GoodsThirdCategory.class );
         dto.getConditions().add( c );
 
-        List<Goods> goods = goodsSer.findByCis( dto );
-        logger.info(JSON.toJSONString( goods ));
+        Optional<List<Goods>> goods = goodsSer.findByCis( dto );
+        logger.info(JSON.toJSONString( goods.get() ));
     }
 }

@@ -106,8 +106,9 @@ public class JunitTest {
     @Test
     public void updateGoodsDes() throws SerException{
         String goodId = "805968df-78cf-416b-b0ff-030638599584";
-        Goods goods = goodsSer.findById( goodId );
+        Optional<Goods> opGoods = goodsSer.findById( goodId );
 
+        Goods goods = opGoods.get();
         GoodsDes goodsDes = new GoodsDes();
         goodsDes.setDescription("乐视超4 X50 乐视TV X3-50 UHD液晶平板电视机50英寸3D 4K超3 48");
         goodsDes.setSaleStatus(SaleStatus.ONSHELF);
@@ -129,7 +130,8 @@ public class JunitTest {
     @Test
     public void updateGoodsInventorys() throws SerException {
         String goodId = "805968df-78cf-416b-b0ff-030638599584";
-        Goods goods = goodsSer.findById( goodId );
+        Optional<Goods> opOoods = goodsSer.findById( goodId );
+        Goods goods = opOoods.get();
 
         GoodsInventory goodsInventory =  new GoodsInventory();
         goodsInventory.setQuanty( 100L );

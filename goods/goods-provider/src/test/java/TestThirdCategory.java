@@ -19,6 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @Author: [tanghaixiang]
@@ -43,9 +44,9 @@ public class TestThirdCategory {
      */
     @Test
     public void add() throws SerException{
-        List<GoodsSecondCategory> gscy = goodsSecondCategorySer.findAll();
+        Optional<List<GoodsSecondCategory>> gscy = goodsSecondCategorySer.findAll();
 //        String gscId = gscy.get(0).getId();
-        String gscId = gscy.get(2).getId();
+        String gscId = gscy.get().get(2).getId();
 //        List<String> thirdName = Arrays.asList("飞虎队","de hedu","奥斯卡");
         List<String> thirdName = Arrays.asList("大型超市","史蒂夫");
         for(String str : thirdName){
@@ -100,8 +101,8 @@ public class TestThirdCategory {
         c.fieldToModels( GoodsSecondCategory.class );
         dto.getConditions().add( c );
 
-        List<GoodsThirdCategory> gs =  goodsThirdCategorySer.findByCis( dto );
-        logger.info(JSON.toJSONString( gs ));
+        Optional<List<GoodsThirdCategory>> gs =  goodsThirdCategorySer.findByCis( dto );
+        logger.info(JSON.toJSONString( gs.get() ));
     }
 
     @Test
@@ -112,17 +113,18 @@ public class TestThirdCategory {
         c.setRestrict(RestrictionType.LIKE);
         dto.getConditions().add( c );
 
-        List<GoodsThirdCategory> gs =  goodsThirdCategorySer.findByCis( dto );
-        logger.info(JSON.toJSONString( gs ));
+        Optional<List<GoodsThirdCategory>> gs =  goodsThirdCategorySer.findByCis( dto );
+        logger.info(JSON.toJSONString( gs.get() ));
     }
 
     @Test
     public void updateThirdCategory() throws SerException{
         String gtcId = "ac935d92-30d9-4c28-91d2-e2c8185cf79c";
-        GoodsThirdCategory gs = goodsThirdCategorySer.findById( gtcId );
+        Optional<GoodsThirdCategory> opGoodsThirdCategory = goodsThirdCategorySer.findById( gtcId );
 
         String name ="HAIR CARE";
-        if( gs != null ){
+        if( opGoodsThirdCategory.isPresent() ){
+            GoodsThirdCategory gs = opGoodsThirdCategory.get();
             gs.setThirdName(  name );
             gs.setCreateTime( gs.getCreateTime() );
             gs.setModifyTime( LocalDateTime.now() );

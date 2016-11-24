@@ -19,6 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @Author: [tanghaixiang]
@@ -43,8 +44,8 @@ public class TestSecondCategory {
      */
     @Test
     public void add() throws SerException {
-        List<GoodsCategory> gcy = goodsCategorySer.findAll();
-        String firstCategoryId = gcy.get(1).getId();
+        Optional<List<GoodsCategory>> opGoodsCategory = goodsCategorySer.findAll();
+        String firstCategoryId = opGoodsCategory.get().get(1).getId();
 //        List<String> secondName = Arrays.asList("海盗","水果","桌子","电脑");
         List<String> secondName = Arrays.asList("洗衣机");
         for(String str : secondName){
@@ -95,13 +96,14 @@ public class TestSecondCategory {
     public void updateSecondCategoryName() throws SerException {
         String secondCategoryId = "0bc46188-0e37-43bc-a232-6a91865b8073";
         String secondName = "不齐耳";
-        GoodsSecondCategory gsc = goodsSecondCategorySer.findById(secondCategoryId);
-        if (gsc != null) {
+        Optional<GoodsSecondCategory> opGoodsSecondCategory = goodsSecondCategorySer.findById(secondCategoryId);
+
+        if (  opGoodsSecondCategory.isPresent() ) {
+            GoodsSecondCategory gsc = opGoodsSecondCategory.get();
             gsc.setSecondName(secondName);
             gsc.setModifyTime(LocalDateTime.now());
             goodsSecondCategorySer.update(gsc);
         }
-
     }
 
     /**
@@ -113,9 +115,11 @@ public class TestSecondCategory {
         String secondCategoryId = "0bc46188-0e37-43bc-a232-6a91865b8073";
         String firstCategoryId = "57c68cfc-ae99-4aff-918b-1c913d84289c";
 
-        GoodsSecondCategory gsc = goodsSecondCategorySer.findById(secondCategoryId);
+        Optional<GoodsSecondCategory> opGoodsSecondCategory = goodsSecondCategorySer.findById(secondCategoryId);
 
-        if (gsc != null) {
+        if (  opGoodsSecondCategory.isPresent() ) {
+            GoodsSecondCategory gsc = opGoodsSecondCategory.get();
+
             GoodsCategory gc = new GoodsCategory();
             gc.setId(firstCategoryId);
             gsc.setGoodsCategory(gc);
@@ -134,9 +138,10 @@ public class TestSecondCategory {
     public void updateSecondCategoryPinyin() throws SerException {
         String secondCategoryId = "0bc46188-0e37-43bc-a232-6a91865b8073";
         String pinyin = "yuyu";
-        GoodsSecondCategory gsc = goodsSecondCategorySer.findById(secondCategoryId);
+        Optional<GoodsSecondCategory> opGoodsSecondCategory = goodsSecondCategorySer.findById(secondCategoryId);
 
-        if (gsc != null) {
+        if (  opGoodsSecondCategory.isPresent() ) {
+            GoodsSecondCategory gsc = opGoodsSecondCategory.get();
             gsc.setPinyin(pinyin);
             gsc.setModifyTime(LocalDateTime.now());
             goodsSecondCategorySer.update(gsc);
@@ -152,8 +157,8 @@ public class TestSecondCategory {
     @Test
     public void deleteSecondCategory() throws SerException {
         String secondCategoryId = "438d70c8-4f29-450f-be52-056aa434d202";
-        GoodsSecondCategory gsc = goodsSecondCategorySer.findById(secondCategoryId);
-        if (gsc != null) {
+        Optional<GoodsSecondCategory> gsc = goodsSecondCategorySer.findById(secondCategoryId);
+        if ( gsc.isPresent() ) {
             goodsSecondCategorySer.remove(secondCategoryId);
         }
     }
@@ -171,8 +176,8 @@ public class TestSecondCategory {
         c.fieldToModels(GoodsCategory.class);
 
         dto.getConditions().add(c);
-        List<GoodsSecondCategory> gsc = goodsSecondCategorySer.findByCis( dto );
-        logger.info(JSON.toJSONString(gsc));
+        Optional<List<GoodsSecondCategory>> gsc = goodsSecondCategorySer.findByCis( dto );
+        logger.info(JSON.toJSONString(gsc.get()));
     }
 
     /**
@@ -188,8 +193,8 @@ public class TestSecondCategory {
         c.setRestrict(RestrictionType.LIKE);
 
         dto.getConditions().add(c);
-        List<GoodsSecondCategory> gsc = goodsSecondCategorySer.findByCis( dto );
-        logger.info(JSON.toJSONString(gsc));
+        Optional<List<GoodsSecondCategory>> gsc = goodsSecondCategorySer.findByCis( dto );
+        logger.info(JSON.toJSONString(gsc.get()));
     }
 
     /**
@@ -205,8 +210,8 @@ public class TestSecondCategory {
         c.setRestrict(RestrictionType.LIKE);
 
         dto.getConditions().add(c);
-        List<GoodsSecondCategory> gsc = goodsSecondCategorySer.findByCis( dto );
-        logger.info(JSON.toJSONString(gsc));
+        Optional<List<GoodsSecondCategory>> gsc = goodsSecondCategorySer.findByCis( dto );
+        logger.info(JSON.toJSONString(gsc.get()));
     }
 
 }

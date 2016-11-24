@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @Author: [tanghaixiang]
@@ -36,12 +37,12 @@ public class GoodsPicSerImpl extends ServiceImpl<GoodsPic,GoodsPicDto> implement
     @Transactional
     @Override
     public  void addGoodsPic ( Goods goods ,String picStrs ,String flag) throws SerException {
-        goods = goodsSer.findById( goods.getId() );
+        Optional<Goods> opGoods = goodsSer.findById( goods.getId() );
         GoodsPic goodsPic = new GoodsPic();
         String time = goodsPic.getCreateTime().minusSeconds(0).format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
         goodsPic.setPicUrl("/home/xx/xx"+time+".jpg");
         goodsPic.setFlag("详情图片");
-        goodsPic.setGoods( goods );
+        goodsPic.setGoods( opGoods.get() );
         save(  goodsPic );
         logger.info(JSON.toJSONString( goodsPic ) );
 
@@ -55,7 +56,9 @@ public class GoodsPicSerImpl extends ServiceImpl<GoodsPic,GoodsPicDto> implement
         GoodsPicDto goodsPicDto = new GoodsPicDto();
         condition.setRestrict(RestrictionType.EQ);
         goodsPicDto.getConditions().add( condition );
-        List<GoodsPic> gp = findByCis( goodsPicDto );
-        logger.info( JSON.toJSONString( gp ));
+        Optional<List<GoodsPic>> opGoodsPic = findByCis( goodsPicDto );
+        if ( opGoodsPic.isPresent() ) {
+            logger.info( JSON.toJSONString( opGoodsPic.get() ));
+        }
     }
 }

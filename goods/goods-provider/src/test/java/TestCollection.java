@@ -22,6 +22,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @Author: [tanghaixiang]
@@ -73,8 +74,10 @@ public class TestCollection {
         dto.getConditions().add( c2 );
 
 
-        List<GoodsCollection> list = goodsCollectionSer.findByCis( dto );
-        if( list !=null && list.size() > 0 ){
+        Optional<List<GoodsCollection>> opList = goodsCollectionSer.findByCis( dto );
+        if( opList.isPresent() ){
+            List<GoodsCollection> list = opList.get();
+
             goodsCollection.setStatus( CollectionStatus.CONCEL.name() );
             goodsCollection.setCreateTime( list.get(0).getCreateTime() );
             goodsCollection.setModifyTime(  LocalDateTime.now() );
@@ -123,8 +126,10 @@ public class TestCollection {
         dto.getConditions().add( c2 );
 
 
-        List<GoodsCollection> list = goodsCollectionSer.findByCis( dto );
-        if( list !=null && list.size() > 0 ) {
+        Optional<List<GoodsCollection>> opList = goodsCollectionSer.findByCis( dto );
+        if( opList.isPresent() ) {
+            List<GoodsCollection> list = opList.get();
+
             goodsCollection.setStatus(CollectionStatus.CONCEL.name());
             goodsCollection.setCreateTime(list.get(0).getCreateTime());
             goodsCollection.setModifyTime(LocalDateTime.now());
@@ -149,8 +154,8 @@ public class TestCollection {
         c.setRestrict( RestrictionType.EQ );
         dto.getConditions().add( c );
 
-        List<GoodsCollection> gc = goodsCollectionSer.findByCis(  dto );
-        logger.info(JSON.toJSONString( gc ) );
+        Optional<List<GoodsCollection>> gc = goodsCollectionSer.findByCis(  dto );
+        logger.info(JSON.toJSONString( gc.get() ) );
     }
 
 }

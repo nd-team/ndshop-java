@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @Author: [tanghaixiang]
@@ -95,9 +96,9 @@ public class TestGoodsAndCategory {
         dto.getConditions().add(c);
 
         try {
-            List<GoodsAndCategory> gac = goodsAndCategorySer.findByCis(dto);
-            logger.info("哈迪斯："+JSON.toJSONString(gac));
-            logger.info("哈哈："+JSON.toJSONString(gac.get(0).getGoods()));
+            Optional<List<GoodsAndCategory>> gac = goodsAndCategorySer.findByCis(dto);
+            logger.info("哈迪斯："+JSON.toJSONString(gac.get()));
+            logger.info("哈哈："+JSON.toJSONString(gac.get().get(0).getGoods()));
         } catch (SerException e) {
             e.printStackTrace();
         } finally {
@@ -119,8 +120,8 @@ public class TestGoodsAndCategory {
         dto.getConditions().add(c);
 
         try {
-            List<Goods> gac = goodsSer.findByCis(dto);
-            logger.info("哈迪斯："+JSON.toJSONString(gac));
+            Optional<List<Goods>> gac = goodsSer.findByCis(dto);
+            logger.info("哈迪斯："+JSON.toJSONString(gac.get()));
 //            logger.info("哈哈："+JSON.toJSONString(gac.get(0).getGoods()));
         } catch (SerException e) {
             e.printStackTrace();

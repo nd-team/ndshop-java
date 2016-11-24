@@ -20,6 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @Author: [tanghaixiang]
@@ -44,12 +45,12 @@ public class TestPic {
     @Test
     public  void addGoodsPic () throws SerException {
         String gid = "b0f42a2a-6c28-42bd-9e5e-969733ae7a84";
-        Goods goods = goodsSer.findById( gid );
+        Optional<Goods> goods = goodsSer.findById( gid );
         GoodsPic goodsPic = new GoodsPic();
         String time = goodsPic.getCreateTime().minusSeconds(0).format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
         goodsPic.setPicUrl("/home/xx/xx"+time+".jpg");
         goodsPic.setFlag("详情图片");
-        goodsPic.setGoods( goods );
+        goodsPic.setGoods( goods.get() );
         goodsPicSer.save(  goodsPic );
         logger.info(time+""+JSON.toJSONString( goodsPic ) );
 
@@ -58,7 +59,9 @@ public class TestPic {
     @Test
     public  void updateGoodsPic () throws  SerException{
         String picId ="5bf0b4ca-6952-47e5-80ee-87a37544c1a7";
-        GoodsPic goodsPic = goodsPicSer.findById( picId );
+        Optional<GoodsPic> opGoodsPic = goodsPicSer.findById( picId );
+        GoodsPic goodsPic = opGoodsPic.get();
+
         String time = goodsPic.getCreateTime().minusSeconds(0).format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
         goodsPic.setPicUrl("/home/xx/xx"+time+".jpg");
         goodsPic.setFlag(GoodsPicType.LOGPIC.name());
@@ -80,8 +83,8 @@ public class TestPic {
         GoodsPicDto goodsPicDto = new GoodsPicDto();
         condition.setRestrict(RestrictionType.EQ);
         goodsPicDto.getConditions().add( condition );
-        List<GoodsPic> gp = goodsPicSer.findByCis( goodsPicDto );
-        logger.info( JSON.toJSONString( gp ));
+        Optional<List<GoodsPic>> gp = goodsPicSer.findByCis( goodsPicDto );
+        logger.info( JSON.toJSONString( gp.get() ));
     }
 
 }

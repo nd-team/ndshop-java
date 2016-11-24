@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @Author: [tanghaixiang]
@@ -61,8 +62,8 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
 //        update( goods );
 
         if( goodsBrandId != null ){
-            GoodsBrand goodsBrand = goodsBrandSer.findById( goodsBrandId );
-            goods.setGoodsBrand( goodsBrand );
+            Optional<GoodsBrand> opGoodsBrand = goodsBrandSer.findById( goodsBrandId );
+            goods.setGoodsBrand( opGoodsBrand.get() );
             update( goods );
         }
 
@@ -88,15 +89,17 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
         c.fieldToModels( GoodsThirdCategory.class );
         dto.getConditions().add( c );
 
-        List<Goods> goods = findByCis( dto );
-        logger.info(JSON.toJSONString( goods ));
+        Optional<List<Goods>> opGoods = findByCis( dto );
+        if (  opGoods.isPresent() ) {
+            logger.info(JSON.toJSONString( opGoods.get() ));
+        }
     }
 
     @Cacheable("goodsServiceCache")
     @Override
     public void findDese( String goodId ) throws SerException{
-        Goods goods = findById( goodId );
-        GoodsDes goodsDes = goods.getGoodsDes();
+        Optional<Goods> opGoods = findById( goodId );
+        GoodsDes goodsDes = opGoods.get().getGoodsDes();
         logger.info(JSON.toJSONString( goodsDes ));
     }
 

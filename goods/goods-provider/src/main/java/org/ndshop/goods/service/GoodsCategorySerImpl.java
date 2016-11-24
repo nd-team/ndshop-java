@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @Author: [tanghaixiang]
@@ -51,12 +52,15 @@ public class GoodsCategorySerImpl extends ServiceImpl<GoodsCategory , GoodsCateg
             String cateoryId = goodsCategory.getId();
             String categoryName = goodsCategory.getName();
 
-            GoodsCategory gc = findById( cateoryId );
-            goodsCategory.setModifyTime( LocalDateTime.now() );
-            goodsCategory.setId( cateoryId );
-            goodsCategory.setName( categoryName );
-            update( goodsCategory );
-            logger.info( JSON.toJSONString( goodsCategory ) );
+            Optional<GoodsCategory> gc = findById( cateoryId );
+            if ( gc.isPresent() ) {
+                goodsCategory.setCreateTime( gc.get().getCreateTime() );
+                goodsCategory.setModifyTime( LocalDateTime.now() );
+                goodsCategory.setId( cateoryId );
+                goodsCategory.setName( categoryName );
+                update( goodsCategory );
+                logger.info( JSON.toJSONString( goodsCategory ) );
+            }
         }
     }
 
@@ -64,8 +68,8 @@ public class GoodsCategorySerImpl extends ServiceImpl<GoodsCategory , GoodsCateg
     @Override
     public void deleteCategory( GoodsCategory goodsCategory ) throws SerException{
         String cateoryId =goodsCategory.getId();
-        goodsCategory = findById( cateoryId );
-        if( goodsCategory != null ){
+        Optional<GoodsCategory> OpGoodsCategory = findById( cateoryId );
+        if( OpGoodsCategory.isPresent() ){
             remove( cateoryId );
         }else{
             logger.info(JSON.toJSONString(goodsCategory));
@@ -81,9 +85,9 @@ public class GoodsCategorySerImpl extends ServiceImpl<GoodsCategory , GoodsCateg
             Condition c = new Condition("name",DataType.STRING , str );
             c.setRestrict(RestrictionType.EQ);
             dto.getConditions().add( c );
-            List<GoodsCategory> gc = findByCis( dto );
+            Optional<List<GoodsCategory>> gc = findByCis( dto );
 
-            if( gc== null || gc.size()==0 ){
+            if( gc.isPresent() ){
                 GoodsCategory gct = new GoodsCategory();
                 gct.setName( str );
                 save( gct );
@@ -103,8 +107,10 @@ public class GoodsCategorySerImpl extends ServiceImpl<GoodsCategory , GoodsCateg
         dto.setLimit(2);
         dto.setPage(1);
         dto.setSorts(Arrays.asList("modifyTime"));
-        List<GoodsCategory> goodCategory = findByCis( dto,true );
-        logger.info( JSON.toJSONString(goodCategory) );
+        Optional<List<GoodsCategory>> opGoodCategory = findByCis( dto,true );
+        if ( opGoodCategory.isPresent() ) {
+            logger.info( JSON.toJSONString( opGoodCategory.get() ) );
+        }
 
     }
 }

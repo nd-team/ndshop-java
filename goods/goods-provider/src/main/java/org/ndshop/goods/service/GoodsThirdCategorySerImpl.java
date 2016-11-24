@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @Author: [tanghaixiang]
@@ -58,8 +59,8 @@ public class GoodsThirdCategorySerImpl extends ServiceImpl<GoodsThirdCategory,Go
         c.fieldToModels( GoodsSecondCategory.class );
         dto.getConditions().add( c );
 
-        List<GoodsThirdCategory> gs =  findByCis( dto );
-        logger.info(JSON.toJSONString( gs ));
+        Optional<List<GoodsThirdCategory>> gs =  findByCis( dto );
+        logger.info(JSON.toJSONString( gs.get() ));
     }
 
     @Cacheable("goodsServiceCache")
@@ -70,23 +71,24 @@ public class GoodsThirdCategorySerImpl extends ServiceImpl<GoodsThirdCategory,Go
         c.setRestrict(RestrictionType.LIKE);
         dto.getConditions().add( c );
 
-        List<GoodsThirdCategory> gs =  findByCis( dto );
-        logger.info(JSON.toJSONString( gs ));
+        Optional<List<GoodsThirdCategory>> gs =  findByCis( dto );
+        logger.info(JSON.toJSONString( gs.get() ));
     }
 
 
     @Transactional
     @Override
     public void updateThirdCategory( GoodsThirdCategory goodsThirdCategory ) throws SerException{
-        GoodsThirdCategory gs = findById( goodsThirdCategory.getId() );
+        Optional<GoodsThirdCategory> opGoodsThirdCategory = findById( goodsThirdCategory.getId() );
 
-        if( gs != null ){
-            gs.setThirdName(  goodsThirdCategory.getThirdName() );
-            gs.setCreateTime( gs.getCreateTime() );
-            gs.setModifyTime( LocalDateTime.now() );
+        if( opGoodsThirdCategory.isPresent() ){
+            GoodsThirdCategory gtc = opGoodsThirdCategory.get();
+            gtc.setThirdName(  goodsThirdCategory.getThirdName() );
+            gtc.setCreateTime( gtc.getCreateTime() );
+            gtc.setModifyTime( LocalDateTime.now() );
 
-            update( gs );
-            logger.info( JSON.toJSONString( gs ));
+            update( gtc );
+            logger.info( JSON.toJSONString( gtc ));
         }
     }
 
