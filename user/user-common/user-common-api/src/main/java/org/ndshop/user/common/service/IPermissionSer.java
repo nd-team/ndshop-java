@@ -5,7 +5,7 @@ import org.ndshop.dbs.jpa.service.IService;
 import org.ndshop.user.common.dto.PermissionDto;
 import org.ndshop.user.common.entity.Permission;
 
-import java.util.Optional;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -18,15 +18,37 @@ import java.util.Set;
 public interface IPermissionSer extends IService<Permission, PermissionDto> {
 
     /**
+     * 通过父节点查找其儿子节点(一级)
+     *
+     * @param parent_id
+     * @return
+     * @throws SerException
+     */
+    default List<Permission> findChildByParentId(String parent_id) throws SerException {
+        return null;
+    }
+
+    /**
      * 通过用户id查询其所拥有的所有权限资源
      *
      * @param userId
      * @return
      * @throws SerException
      */
-    default Optional<Set<Permission>> findAllByUserId(String userId) throws SerException {
+    default Set<Permission> findAllByUserId(String userId) throws SerException {
         return null;
     }
 
-    void addPermission() throws SerException;
+    /**
+     * 通过角色id查询其所拥有的所有权限资源
+     *
+     * @param roleId
+     * @return
+     * @throws SerException
+     */
+    default Set<Permission> findByRoleId(String roleId) throws SerException {
+        return null;
+    }
+
+
 }

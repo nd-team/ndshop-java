@@ -2,6 +2,7 @@ package org.ndshop.user.common.entity;
 
 import org.ndshop.dbs.jpa.entity.BaseEntity;
 import org.ndshop.dbs.jpa.enums.Status;
+import org.ndshop.user.common.enums.LoginStatus;
 import org.ndshop.user.common.enums.MemberType;
 import org.ndshop.user.common.enums.SexType;
 import org.ndshop.user.common.enums.UserType;
@@ -45,7 +46,9 @@ public class User extends BaseEntity {
     @Range(min = 0, max = 120)
     private Integer age;//年龄
 
+    @Column(columnDefinition = "INT(1)", nullable = false)
     private MemberType memberType; //会员类型
+
     @Column(columnDefinition = "INT(1)", nullable = false)
     private UserType userType = UserType.CUSTOMER;
 
@@ -55,6 +58,9 @@ public class User extends BaseEntity {
     private LocalDateTime createTime = LocalDateTime.now();//创建时间
 
     private Status status = Status.THAW;//用户状态
+
+    @Transient
+    private LoginStatus loginStatus = LoginStatus.LOGINOUT; //记录用户登录状态
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     private UserDetail userDetail; //用户详情
@@ -171,4 +177,11 @@ public class User extends BaseEntity {
         this.userDetail = userDetail;
     }
 
+    public LoginStatus getLoginStatus() {
+        return loginStatus;
+    }
+
+    public void setLoginStatus(LoginStatus loginStatus) {
+        this.loginStatus = loginStatus;
+    }
 }

@@ -18,7 +18,8 @@ public enum DataType {
     LONG(6),
     LOCALDATE(7),
     LOCALTIME(8),
-    LOCALDATETIME(9);
+    LOCALDATETIME(9),
+    ENUM(10);
     private int code;
 
     DataType(int code) {

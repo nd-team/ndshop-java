@@ -3,11 +3,9 @@ package org.ndshop.user.common.service;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.IService;
 import org.ndshop.user.common.dto.UserRoleDto;
-import org.ndshop.user.common.entity.User;
 import org.ndshop.user.common.entity.UserRole;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @Author: [liguiqin]
@@ -19,10 +17,11 @@ import java.util.Optional;
 public interface IUserRoleSer extends IService<UserRole, UserRoleDto> {
     /**
      * 通过用户id查询该用户拥有的角色
+     *
      * @param userId
      * @return
      * @throws SerException
      */
-    Optional<List<UserRole>> findByUserId(String userId) throws SerException;
+    List<UserRole> findByUserId(String userId) throws SerException;
 
 }

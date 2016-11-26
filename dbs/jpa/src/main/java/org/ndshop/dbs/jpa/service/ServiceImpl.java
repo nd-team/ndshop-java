@@ -15,7 +15,6 @@ import org.springframework.data.domain.PageRequest;
 import javax.persistence.EntityManager;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
@@ -37,16 +36,16 @@ public class ServiceImpl<BE extends BaseEntity, BD extends BaseDto> extends Fina
 
 
     @Override
-    public Optional<List<BE>> findAll() throws SerException {
-        return Optional.ofNullable(myRepository.findAll());
+    public List<BE> findAll() throws SerException {
+        return myRepository.findAll();
     }
 
     @Override
-    public Optional<List<BE>> findByPage(BD dto) throws SerException {
+    public List<BE> findByPage(BD dto) throws SerException {
         try {
             MySpecification mySpecification = new MySpecification<BE, BD>(dto);
             PageRequest pageRequest = mySpecification.getPageRequest(dto);
-            return Optional.ofNullable(myRepository.findAll(mySpecification, pageRequest).getContent());
+            return myRepository.findAll(mySpecification, pageRequest).getContent();
         } catch (RepException e) {
             throw repExceptionHandler(e);
         }
@@ -54,50 +53,49 @@ public class ServiceImpl<BE extends BaseEntity, BD extends BaseDto> extends Fina
 
 
     @Override
-    public Optional<Long> count(BD dto) throws SerException {
+    public Long count(BD dto) throws SerException {
         MySpecification mySpecification = new MySpecification<BE, BD>(dto);
-        return Optional.ofNullable(myRepository.count(mySpecification));
+        return myRepository.count(mySpecification);
     }
 
     @Override
-    public Optional<BE> findOne(BD dto) throws SerException {
+    public BE findOne(BD dto) throws SerException {
         MySpecification mySpecification = new MySpecification<BE, BD>(dto);
-        Optional<List<BE>> optional = Optional.ofNullable(myRepository.findAll(mySpecification));
-
-        return optional.isPresent() ? Optional.ofNullable(optional.get().get(0)) : Optional.ofNullable(null);
+        List<BE> list = myRepository.findAll(mySpecification);
+        return null != list && list.size() > 0 ? list.get(0) : null;
     }
 
     @Override
-    public Optional<List<BE>> findByCis(BD dto, Boolean pageAndSort) throws SerException {
+    public List<BE> findByCis(BD dto, Boolean pageAndSort) throws SerException {
         MySpecification mySpecification = new MySpecification<BE, BD>(dto);
         if (pageAndSort) {
             PageRequest pageRequest = mySpecification.getPageRequest(dto);
-            return Optional.ofNullable(myRepository.findAll(mySpecification, pageRequest).getContent());
+            return myRepository.findAll(mySpecification, pageRequest).getContent();
         } else {
-            return Optional.ofNullable(myRepository.findAll(mySpecification));
+            return myRepository.findAll(mySpecification);
         }
     }
 
     @Override
-    public Optional<List<BE>> findByCis(BD dto) throws SerException {
+    public List<BE> findByCis(BD dto) throws SerException {
         MySpecification mySpecification = new MySpecification<BE, BD>(dto);
-        return Optional.ofNullable(myRepository.findAll(mySpecification));
+        return myRepository.findAll(mySpecification);
     }
 
     @Override
-    public Optional<Long> countByCis(BD dto) throws SerException {
+    public Long countByCis(BD dto) throws SerException {
         MySpecification mySpecification = new MySpecification<BE, BD>(dto);
-        return Optional.ofNullable(myRepository.count(mySpecification));
+        return myRepository.count(mySpecification);
     }
 
     @Override
-    public Optional<BE> findById(String id) throws SerException {
+    public BE findById(String id) throws SerException {
         return myRepository.findById(id);
     }
 
     @Override
-    public Optional<BE> save(BE entity) throws SerException {
-        return Optional.ofNullable(myRepository.save(entity));
+    public BE save(BE entity) throws SerException {
+        return myRepository.save(entity);
     }
 
     @Override
@@ -135,8 +133,8 @@ public class ServiceImpl<BE extends BaseEntity, BD extends BaseDto> extends Fina
     }
 
     @Override
-    public Optional<Boolean> exists(String id) throws SerException {
-        return Optional.ofNullable(myRepository.exists(id));
+    public Boolean exists(String id) throws SerException {
+        return myRepository.exists(id);
     }
 
     private SerException repExceptionHandler(RepException e) {
@@ -161,24 +159,24 @@ public class ServiceImpl<BE extends BaseEntity, BD extends BaseDto> extends Fina
     }
 
     @Override
-    public Optional<String> findByMaxField(String field, Class clazz) throws SerException {
+    public String findByMaxField(String field, Class clazz) throws SerException {
         StringBuilder jpql = new StringBuilder();
         jpql.append("SELECT MAX ( ");
         jpql.append(field);
         jpql.append(") FROM ");
         jpql.append(clazz.getSimpleName());
         Object obj = entityManager.createQuery(jpql.toString()).getSingleResult();
-        return Optional.ofNullable(obj != null ? obj.toString() : "0");
+        return obj != null ? obj.toString() : "0";
     }
 
     @Override
-    public Optional<String> findByMinField(String field, Class clazz) throws SerException {
+    public String findByMinField(String field, Class clazz) throws SerException {
         StringBuilder jpql = new StringBuilder();
         jpql.append("SELECT MIN (");
         jpql.append(field);
         jpql.append(")FROM ");
         jpql.append(clazz.getSimpleName());
         Object obj = entityManager.createQuery(jpql.toString()).getSingleResult();
-        return Optional.ofNullable(obj != null ? obj.toString() : null);
+        return obj != null ? obj.toString() : null;
     }
 }
