@@ -93,6 +93,9 @@ public class TestCategory {
         JSON.toJSONString( gc );
     }
 
-
+    @Test
+    public void findCategoryService() throws SerException {
+        goodsCategorySer.findCategoryByNodeNum( 2l );
+    }
 
 }

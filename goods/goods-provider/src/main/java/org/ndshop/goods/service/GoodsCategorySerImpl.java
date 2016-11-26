@@ -10,6 +10,7 @@ import org.ndshop.dbs.jpa.service.ServiceImpl;
 import org.ndshop.goods.dto.GoodsCategoryDto;
 import org.ndshop.goods.entity.GoodsCategory;
 import org.ndshop.user.common.service.IUserSer;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,11 +60,15 @@ public class GoodsCategorySerImpl extends ServiceImpl<GoodsCategory, GoodsCatego
         }
     }
 
+    @Cacheable("goodsServiceCache")
+    @Override
     public Optional<List<GoodsCategory>> findCategoryByNodeNum(Long parentNodeNum ) throws SerException{
-        Condition c = new Condition("parentNodeNum", DataType.LONG,2);
+        Condition c = new Condition("parentNodeNum", DataType.LONG, parentNodeNum);
         GoodsCategoryDto dto = new GoodsCategoryDto();
         dto.getConditions().add( c );
         Optional<List<GoodsCategory>> opGoodsCategory = findByCis( dto );
+
+        userSer.findAll();
 
         return opGoodsCategory;
     }
