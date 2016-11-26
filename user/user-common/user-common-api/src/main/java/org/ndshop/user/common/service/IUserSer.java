@@ -1,11 +1,9 @@
 package org.ndshop.user.common.service;
 
+import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.IService;
 import org.ndshop.user.common.dto.UserDto;
 import org.ndshop.user.common.entity.User;
-import org.ndshop.dbs.jpa.exception.SerException;
-
-import java.util.Optional;
 
 /**
  * @Author: [liguiqin]
@@ -17,15 +15,15 @@ import java.util.Optional;
 public interface IUserSer extends IService<User, UserDto> {
 
 
-    default Optional<User> findByUsername(String username) throws SerException {
+    default User findByUsername(String username) throws SerException {
         return null;
     }
 
-    default Optional<User> findByNickname(String nickname) throws SerException {
+    default User findByNickname(String nickname) throws SerException {
         return null;
     }
 
-    default Optional<User> findByPhone(String phone) throws SerException {
+    default User findByPhone(String phone) throws SerException {
         return null;
     }
 
@@ -37,7 +35,7 @@ public interface IUserSer extends IService<User, UserDto> {
      * @return
      * @throws SerException
      */
-    default Optional<User> findByAccountNumber(String accountNumber) throws SerException {
+    default User findByAccountNumber(String accountNumber) throws SerException {
         return null;
     }
 

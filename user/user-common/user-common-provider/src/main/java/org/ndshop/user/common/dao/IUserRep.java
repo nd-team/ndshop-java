@@ -5,8 +5,6 @@ import org.ndshop.user.common.dto.UserDto;
 import org.ndshop.user.common.entity.User;
 import org.springframework.cache.annotation.Cacheable;
 
-import java.util.Optional;
-
 /**
  * @Author: [liguiqin]
  * @Date: [2016-11-23 15:47]
@@ -19,9 +17,6 @@ public interface IUserRep extends MyRep<User, UserDto> {
      * 此处使用的是spring-data-jpa接口,不需要对接口进行实现,jpa可根据命名自动进行数据的查询
      * jpa接口规范：http://docs.spring.io/spring-data/jpa/docs/1.11.0.M1/reference/html/
      * <p>
-     * <p>
-     * /
-     * <p>
      * /**
      * 通过用户名和密码查找用户
      *
@@ -30,7 +25,7 @@ public interface IUserRep extends MyRep<User, UserDto> {
      * @return
      */
     @Cacheable("userDaoCache")
-    Optional<User> findByUsernameAndPassword(String username, String password);
+    User findByUsernameAndPassword(String username, String password);
 
     /**
      * 通过用户名查找用户
@@ -39,7 +34,7 @@ public interface IUserRep extends MyRep<User, UserDto> {
      * @return
      */
     @Cacheable("userDaoCache")
-    Optional<User> findByUsername(String username);
+    User findByUsername(String username);
 
     /**
      * 通过昵称查找用户
@@ -48,7 +43,7 @@ public interface IUserRep extends MyRep<User, UserDto> {
      * @return
      */
     @Cacheable("userDaoCache")
-    Optional<User> findByNickname(String nickname);
+    User findByNickname(String nickname);
 
     /**
      * 通过手机查找用户
@@ -57,5 +52,5 @@ public interface IUserRep extends MyRep<User, UserDto> {
      * @return
      */
     @Cacheable("userDaoCache")
-    Optional<User> findByPhone(String phone);
+    User findByPhone(String phone);
 }

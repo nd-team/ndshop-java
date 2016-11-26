@@ -1,9 +1,14 @@
 package org.ndshop.user.common.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import org.ndshop.dbs.jpa.entity.BaseEntity;
 import org.ndshop.dbs.jpa.enums.Status;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @Author: [liguiqin]
@@ -15,20 +20,21 @@ import javax.persistence.*;
 @Entity
 @Table(name = "user_permission")
 public class Permission extends BaseEntity {
-
     private String name;//认证名
     @Column(unique = true)
     private String resource;//认证资源
     private String description;//描述
-    private Status status;
+    private Status status=Status.THAW; //状态
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @Column(columnDefinition = "dateTime")//指定数据库类型
+    private LocalDateTime createTime = LocalDateTime.now();
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "parent_id")
-    private Permission parent;//认证父id
+    private Permission permission;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "role_id")
-    private Role role; //所属
+    @ManyToMany(mappedBy="permissions",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private Set<Role> roles ;
 
     public String getName() {
         return name;
@@ -54,27 +60,35 @@ public class Permission extends BaseEntity {
         this.description = description;
     }
 
-    public Permission getParent() {
-        return parent;
-    }
-
-    public void setParent(Permission parent) {
-        this.parent = parent;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
     public Status getStatus() {
         return status;
     }
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public Permission getParent() {
+        return permission;
+    }
+
+    public void setParent(Permission parent) {
+        this.permission = parent;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

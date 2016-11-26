@@ -8,12 +8,10 @@ import org.ndshop.dbs.jpa.service.ServiceImpl;
 import org.ndshop.user.common.dto.ShippingAddressDto;
 import org.ndshop.user.common.entity.ShippingAddress;
 import org.ndshop.user.common.entity.User;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 
 /**
@@ -26,9 +24,8 @@ import java.util.Optional;
 @Service
 public class ShippingAddressSerImpl extends ServiceImpl<ShippingAddress, ShippingAddressDto> implements IShippingAddressSer {
 
-    @Cacheable("userSerCache")
     @Override
-    public Optional<List<ShippingAddress>> findAddressByCurrentUser() throws SerException {
+    public List<ShippingAddress> findAddressByCurrentUser() throws SerException {
         //获取当前用户
         User currentUser = new User();
         //temp
@@ -44,10 +41,10 @@ public class ShippingAddressSerImpl extends ServiceImpl<ShippingAddress, Shippin
 
     @Transactional
     @Override
-    public Optional<ShippingAddress> addShippingAddress(ShippingAddress address) throws SerException {
+    public ShippingAddress addShippingAddress(ShippingAddress address) throws SerException {
         ShippingAddressDto dto = new ShippingAddressDto();
-        if (21 > count(dto).get()) {
-            String seq = findByMaxField("seq", ShippingAddress.class).get();
+        if (21 > count(dto)) {
+            String seq = findByMaxField("seq", ShippingAddress.class);
             address.setSeq(Integer.parseInt(seq) + 1);
             return super.save(address);
         } else {
@@ -61,16 +58,16 @@ public class ShippingAddressSerImpl extends ServiceImpl<ShippingAddress, Shippin
         ShippingAddressDto dto = new ShippingAddressDto();
         Condition condition = new Condition("defaultAddress", DataType.BOOLEAN, true);
         dto.getConditions().add(condition);
-        Optional<ShippingAddress> op_old_address = findOne(dto);
+        ShippingAddress old_address = findOne(dto);
         //撤销旧的收货地址
-        if (op_old_address.isPresent()) {
-            op_old_address.get().setDefaultAddress(false);
-            update(op_old_address.get());
+        if (null != old_address) {
+            old_address.setDefaultAddress(false);
+            update(old_address);
         }
         //设置新的收货地址
-        //    ShippingAddress new_address = findById(address.getId());
-        // new_address.setDefaultAddress(true);
-        //  update(new_address);
+        ShippingAddress new_address = findById(address.getId());
+        new_address.setDefaultAddress(true);
+        update(new_address);
     }
 
 

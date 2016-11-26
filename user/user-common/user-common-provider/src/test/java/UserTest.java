@@ -43,9 +43,9 @@ public class UserTest {
      */
     @Test
     public void findAll() throws SerException {
-        Optional<List<User>> op_users = userSer.findAll();
-        op_users = userSer.findAll();
-        op_users = userSer.findAll();
+        List<User> users = userSer.findAll();
+        users = userSer.findAll();
+        users = userSer.findAll();
 
         Collection<String> cacheNames = cacheManager.getCacheNames();
         for (String name : cacheNames) {
@@ -53,11 +53,11 @@ public class UserTest {
             cache.clear();
         }
         add();
-        op_users = userSer.findAll();
-        op_users = userSer.findAll();
-        op_users = userSer.findAll();
-        op_users = userSer.findAll();
-        System.out.println(op_users);
+        users = userSer.findAll();
+        users = userSer.findAll();
+        users = userSer.findAll();
+        users = userSer.findAll();
+        System.out.println(users);
     }
 
     /**
@@ -92,10 +92,12 @@ public class UserTest {
 
     @Test
     public void cacheUser() throws SerException {
-        Optional<User> op_user = userSer.findByPhone("13257910244");
-        if (op_user.isPresent()) {
-            User user = op_user.get();
+       User user = userSer.findByPhone("13257910244");
+        if (null!=user) {
             user.setUsername("liguiqin666");
+            userSer.update(user);
+            System.out.println(user);
+            user =  userSer.findByPhone("13257910244");
             System.out.println(user);
         }
 

@@ -21,6 +21,8 @@ public class UserLoginDto extends BaseDto{
 
     private String password;
 
+    private boolean rememberMe;//记住我
+
     public String getToken() {
         return token;
     }
@@ -51,5 +53,13 @@ public class UserLoginDto extends BaseDto{
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isRememberMe() {
+        return rememberMe;
+    }
+
+    public void setRememberMe(boolean rememberMe) {
+        this.rememberMe = rememberMe;
     }
 }

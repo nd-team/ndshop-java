@@ -7,7 +7,6 @@ import org.ndshop.dbs.jpa.exception.SerException;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @Author: [liguiqin]
@@ -24,7 +23,7 @@ public interface IService<BE extends BaseEntity, BD extends BaseDto> {
      * @return
      * @throws SerException
      */
-    default Optional<List<BE>> findAll() throws SerException {
+    default List<BE> findAll() throws SerException {
         return null;
     }
 
@@ -35,7 +34,7 @@ public interface IService<BE extends BaseEntity, BD extends BaseDto> {
      * @return
      * @throws SerException
      */
-    default Optional<List<BE>> findByPage(BD dto) throws SerException {
+    default List<BE> findByPage(BD dto) throws SerException {
         return null;
     }
 
@@ -46,7 +45,7 @@ public interface IService<BE extends BaseEntity, BD extends BaseDto> {
      * @return
      * @throws SerException
      */
-    default Optional<Long> count(BD dto) throws SerException {
+    default Long count(BD dto) throws SerException {
         return null;
     }
 
@@ -57,7 +56,7 @@ public interface IService<BE extends BaseEntity, BD extends BaseDto> {
      * @return
      * @throws SerException
      */
-    default Optional<BE> findOne(BD dto) throws SerException {
+    default BE findOne(BD dto) throws SerException {
         return null;
     }
 
@@ -69,7 +68,7 @@ public interface IService<BE extends BaseEntity, BD extends BaseDto> {
      * @return
      * @throws SerException
      */
-    default Optional<List<BE>> findByCis(BD dto, Boolean pageAndSort) throws SerException {
+    default List<BE> findByCis(BD dto, Boolean pageAndSort) throws SerException {
         return null;
     }
 
@@ -81,7 +80,7 @@ public interface IService<BE extends BaseEntity, BD extends BaseDto> {
      * @return
      * @throws SerException
      */
-    default Optional<List<BE>> findByCis(BD dto) throws SerException {
+    default List<BE> findByCis(BD dto) throws SerException {
         return null;
     }
 
@@ -93,7 +92,7 @@ public interface IService<BE extends BaseEntity, BD extends BaseDto> {
      * @return
      * @throws SerException
      */
-    default Optional<Long> countByCis(BD dto) throws SerException {
+    default Long countByCis(BD dto) throws SerException {
         return null;
     }
 
@@ -104,7 +103,7 @@ public interface IService<BE extends BaseEntity, BD extends BaseDto> {
      * @return
      * @throws SerException
      */
-    default Optional<BE> findById(String id) throws SerException {
+    default BE findById(String id) throws SerException {
         return null;
     }
 
@@ -115,7 +114,7 @@ public interface IService<BE extends BaseEntity, BD extends BaseDto> {
      * @param entity
      * @throws SerException
      */
-    default Optional<BE> save(BE entity) throws SerException {
+    default BE save(BE entity) throws SerException {
         return null;
     }
 
@@ -187,7 +186,7 @@ public interface IService<BE extends BaseEntity, BD extends BaseDto> {
      * @return
      * @throws SerException
      */
-    default Optional<Boolean> exists(String id) throws SerException {
+    default Boolean exists(String id) throws SerException {
         return null;
     }
 
@@ -198,7 +197,7 @@ public interface IService<BE extends BaseEntity, BD extends BaseDto> {
      * @return
      * @throws SerException
      */
-    default Optional<String> findByMaxField(String field, Class clazz) throws SerException {
+    default String findByMaxField(String field, Class clazz) throws SerException {
         return null;
     }
 
@@ -209,7 +208,7 @@ public interface IService<BE extends BaseEntity, BD extends BaseDto> {
      * @return
      * @throws SerException
      */
-    default Optional<String> findByMinField(String field, Class clazz) throws SerException {
+    default String findByMinField(String field, Class clazz) throws SerException {
         return null;
     }
 

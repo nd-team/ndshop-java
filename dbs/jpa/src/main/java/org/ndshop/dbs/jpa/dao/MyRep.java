@@ -5,8 +5,6 @@ import org.ndshop.dbs.jpa.entity.BaseEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import java.util.Optional;
-
 /**
  * @Author: [liguiqin]
  * @Date: [2016-11-23 15:47]
@@ -17,6 +15,6 @@ import java.util.Optional;
 public interface MyRep<BE extends BaseEntity, BD extends BaseDto> extends JpaRepository<BE, String>
         , JpaSpecificationExecutor<BE> {
 
-    Optional<BE> findById(String id);
+    BE findById(String id);
 
 }

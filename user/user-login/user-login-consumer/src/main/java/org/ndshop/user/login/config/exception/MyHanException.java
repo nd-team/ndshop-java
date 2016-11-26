@@ -1,4 +1,4 @@
-package org.ndshop.user.login.exception;
+package org.ndshop.user.login.config.exception;
 
 import com.dounine.corgi.exception.ExceptionHandler;
 
