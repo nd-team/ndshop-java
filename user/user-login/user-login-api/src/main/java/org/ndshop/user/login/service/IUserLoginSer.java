@@ -42,4 +42,5 @@ public interface IUserLoginSer extends IService<User, UserDto> {
      */
     boolean loginOut(String token) throws SerException;
 
+
 }

@@ -19,7 +19,7 @@ import java.util.Set;
 public interface IPermissionSer extends IService<Permission, PermissionDto> {
 
     /**
-     * 通过父节点查找其儿子节点
+     * 通过父节点查找其儿子节点(一级)
      * @param parent_id
      * @return
      * @throws SerException
@@ -36,6 +36,17 @@ public interface IPermissionSer extends IService<Permission, PermissionDto> {
      * @throws SerException
      */
     default Optional<Set<Permission>> findAllByUserId(String userId) throws SerException {
+        return null;
+    }
+
+    /**
+     * 通过角色id查询其所拥有的所有权限资源
+     *
+     * @param roleId
+     * @return
+     * @throws SerException
+     */
+    default Optional<Set<Permission>> findByRoleId(String roleId) throws SerException {
         return null;
     }
 

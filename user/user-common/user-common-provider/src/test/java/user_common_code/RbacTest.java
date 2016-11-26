@@ -39,7 +39,10 @@ public class RbacTest {
     private IUserRoleSer userRoleSer;
     @Autowired
     private IPermissionSer permissionSer;
-
+    /**
+     * 添加角色
+     * @throws SerException
+     */
     @Test
     public void addRole() throws SerException {
         Role root = new Role();
@@ -52,6 +55,10 @@ public class RbacTest {
         roleSer.save(child);
     }
 
+    /**
+     * 添加用户角色
+     * @throws SerException
+     */
     @Test
     public void addUserRole() throws SerException {
         Optional<Role> roleOptional = roleSer.findById("939aa9a9-4b5e-4542-80ea-de7374a25b5c");
@@ -62,6 +69,10 @@ public class RbacTest {
         userRoleSer.save(userRole);
     }
 
+    /**
+     * 添加权限资源
+     * @throws SerException
+     */
     @Test
     public void addPermission() throws SerException {
         Permission root = new Permission();
@@ -75,7 +86,10 @@ public class RbacTest {
         child.setParent(root);
         permissionSer.save(child);
     }
-
+    /**
+     * 查找用户角色
+     * @throws SerException
+     */
     @Transactional
     @Test
     public void findUserRole() throws SerException {
@@ -88,7 +102,10 @@ public class RbacTest {
         }
     }
 
-
+    /**
+     * 添加角色权限资源
+     * @throws SerException
+     */
     @Test
     public void addRolePermission() throws SerException {
 
@@ -103,13 +120,10 @@ public class RbacTest {
     }
 
 
-    @Test
-    public void findAllByUserId() throws SerException {
-
-        Optional<Set<Permission>> op_permissions = permissionSer.findAllByUserId("9d7f591b-6388-4346-aaee-0304481d82ca");
-        System.out.println(op_permissions.get());
-    }
-
+    /**
+     * 更新权限资源
+     * @throws SerException
+     */
     @Test
     public void updatePermissions() throws SerException {
 
@@ -122,5 +136,38 @@ public class RbacTest {
         System.out.println(permission);
     }
 
+
+    /**
+     * 查询用户所拥有的所有权限资源
+     * @throws SerException
+     */
+    @Test
+    public void findAllPermissionByUserId() throws SerException {
+
+        Optional<Set<Permission>> op_permissions = permissionSer.findAllByUserId("9d7f591b-6388-4346-aaee-0304481d82ca");
+        System.out.println(op_permissions.get());
+    }
+
+    /**
+     * 查询用户所拥有角色
+     * @throws SerException
+     */
+    @Test
+    public void findRoleByUserId() throws SerException {
+
+        Optional<Set<Role>> roles = roleSer.findRoleByUserId("9d7f591b-6388-4346-aaee-0304481d82ca");
+        System.out.println(roles.get());
+    }
+
+    /**
+     * 通过角色查询其子角色
+     * @throws SerException
+     */
+    @Test
+    public void findChildByRoleId() throws SerException {
+
+        Optional<Set<Role>> roles = roleSer.findChildByRoleId("939aa9a9-4b5e-4542-80ea-de7374a25b5c");
+        System.out.println(roles.get());
+    }
 
 }

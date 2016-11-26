@@ -10,6 +10,7 @@ import org.ndshop.user.register.quartz.VerifyQuartz;
 import com.dounine.corgi.security.PasswordHash;
 import com.dounine.corgi.spring.rpc.Reference;
 import com.dounine.corgi.spring.rpc.Service;
+import org.ndshop.user.register.quartz.VerifySession;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,7 +63,7 @@ public class UserRegisterSerImpl implements IUserRegisterSer {
             //generateCode()
             String code = "123456";
             VerifyCode verifyCode = new VerifyCode(code);
-            VerifyQuartz.put("13457910241", verifyCode);
+            VerifySession.put("13457910241", verifyCode);
             //sendToPhone（）
         } else {
             throw new SerException("该手机号码已注册！");
@@ -83,11 +84,11 @@ public class UserRegisterSerImpl implements IUserRegisterSer {
         }
 
         //通过手机号码获得系统生成的验证码对象
-        VerifyCode verifyCode = VerifyQuartz.get(dto.getPhone());
+        VerifyCode verifyCode = VerifySession.get(dto.getPhone());
         if (null != verifyCode) {
             if (verifyCode.getCode().equals(dto.getPhoneCode())) {
                 saveUserByDto(dto);
-                VerifyQuartz.remove(dto.getPhone());
+                VerifySession.remove(dto.getPhone());
             } else {
                 throw new SerException("验证码不正确");
             }

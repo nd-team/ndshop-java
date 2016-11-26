@@ -30,6 +30,8 @@ public class PermissionSerImpl extends ServiceImpl<Permission, PermissionDto> im
 
     @Autowired
     private IUserRoleSer userRoleSer;
+    @Autowired
+    private IRoleSer roleSer;
 
     @Transactional
     @Override
@@ -48,41 +50,39 @@ public class PermissionSerImpl extends ServiceImpl<Permission, PermissionDto> im
     @Override
     public void update(Permission permission) throws SerException {
         Optional<Permission> op_parent = Optional.ofNullable(permission.getParent()); //
-       if(op_parent.isPresent()){
-           if( permission.getParent().getId().equals(permission.getId())){
-               throw new SerException("上级不能选择自己");
-           }
-           if(isChildren(op_parent.get().getId(),permission)){
-               throw new SerException("上级不能为自己的下级");
-           }
-           op_parent = findById(permission.getParent().getId());//更新父节点
-       }
+        if (op_parent.isPresent()) {
+            if (permission.getParent().getId().equals(permission.getId())) {
+                throw new SerException("上级不能选择自己");
+            }
+            if (isChildren(op_parent.get().getId(), permission)) {
+                throw new SerException("上级不能为自己的下级");
+            }
+            op_parent = findById(permission.getParent().getId());//更新父节点
+        }
         permission.setParent(op_parent.get());
         super.update(permission);
 
     }
 
     /**
-     *
      * @param parent_id 要更改的父亲节点
-     * @param current 当前节点
+     * @param current   当前节点
      * @return
      * @throws SerException
      */
-    public boolean isChildren(String parent_id,Permission current)throws SerException{
+    private boolean isChildren(String parent_id, Permission current) throws SerException {
         //查询当前节点的孩子节点
         Optional<List<Permission>> op_children = this.findChildByParentId(current.getId());
-        if (op_children.isPresent()){
-            for(Permission permission:op_children.get()){
-                if(permission.getId().equals(parent_id)){//要更改的父亲节点是其子节点
-                    return  Boolean.TRUE;
-                }
+        if (op_children.isPresent()) {
+            if (op_children.get().stream().anyMatch(permission -> permission.getId().equals(parent_id))) {
+                return Boolean.TRUE;
             }
         }
-        for(Permission permission:op_children.get()){ //递归遍历所有子孙节点
-           if( isChildren(parent_id,permission)) {
-               return  Boolean.TRUE;
-           }
+
+        for (Permission permission : op_children.get()) { //递归遍历所有子孙节点
+            if (isChildren(parent_id, permission)) {
+                return Boolean.TRUE;
+            }
         }
         return Boolean.FALSE;
     }
@@ -94,8 +94,7 @@ public class PermissionSerImpl extends ServiceImpl<Permission, PermissionDto> im
         Optional<List<UserRole>> op_userRole = userRoleSer.findByUserId(userId);//所拥有的角色
         Set<Permission> permissions = new HashSet<>(); //所有认证权限
         if (op_userRole.isPresent()) {
-            Stream<UserRole> userRoleStream = op_userRole.get().stream();
-            userRoleStream.forEach(userRole -> {
+            op_userRole.get().stream().forEach(userRole -> {
                 Role role = userRole.getRole();
                 if (null != role) {
                     permissions.addAll(role.getPermissions()); //添加角色拥有认证权限到集合
@@ -107,12 +106,26 @@ public class PermissionSerImpl extends ServiceImpl<Permission, PermissionDto> im
         return Optional.ofNullable(permissions);
     }
 
+    @Cacheable("userSerCache")
+    @Override
+    public Optional<Set<Permission>> findByRoleId(String roleId) throws SerException {
+        Optional<Set<Role>> op_roles = roleSer.findChildByRoleId(roleId);
+        Set<Permission> permissions = new HashSet<>(); //所有认证权限
+        if (op_roles.isPresent()) {
+            op_roles.get().stream().forEach(role -> {
+                permissions.addAll(role.getPermissions());
+            }); //添加角色拥有认证权限到集合
+        }
+        return  Optional.ofNullable(permissions);
+    }
+
+    @Cacheable("userSerCache")
     @Override
     public Optional<List<Permission>> findChildByParentId(String parent_id) throws SerException {
         PermissionDto dto = new PermissionDto();
-        Condition codn = new Condition("id", DataType.STRING,parent_id);
+        Condition codn = new Condition("id", DataType.STRING, parent_id);
         codn.fieldToModels(Permission.class);
         dto.getConditions().add(codn);
-        return  findByCis(dto);
+        return findByCis(dto);
     }
 }

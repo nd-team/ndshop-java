@@ -1,4 +1,4 @@
-package org.ndshop.user.login.beans;
+package org.ndshop.user.login.config.beans;
 
 import com.dounine.corgi.rpc.spring.SpringProcessor;
 import org.springframework.stereotype.Component;
@@ -9,4 +9,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class MyProcessor extends SpringProcessor {
 
+    @Override
+    public boolean exportRpcApp() {
+        return false;
+    }
 }
