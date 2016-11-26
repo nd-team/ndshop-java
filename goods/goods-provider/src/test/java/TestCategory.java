@@ -15,7 +15,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @Author: [tanghaixiang]
@@ -53,7 +52,7 @@ public class TestCategory {
     public void addChildCategory() throws SerException{
         String parentId = "be11c370-287e-4493-a75e-63e4802919ae";
         String categoryName = "电饭锅";
-        GoodsCategory gc = goodsCategorySer.findById( parentId ).get();
+        GoodsCategory gc = goodsCategorySer.findById( parentId );
         GoodsCategory goodsCategory = new GoodsCategory();
         goodsCategory.setParent( gc );
         goodsCategory.setName(  categoryName );
@@ -87,9 +86,8 @@ public class TestCategory {
         Condition c = new Condition("parentNodeNum", DataType.LONG,2);
         GoodsCategoryDto dto = new GoodsCategoryDto();
         dto.getConditions().add( c );
-        Optional<List<GoodsCategory>> opGoodsCategory = goodsCategorySer.findByCis( dto );
+        List<GoodsCategory> gc = goodsCategorySer.findByCis( dto );
 
-        List<GoodsCategory> gc = opGoodsCategory.get();
         JSON.toJSONString( gc );
     }
 

@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @Author: [tanghaixiang]
@@ -48,10 +47,9 @@ public class GoodsCategorySerImpl extends ServiceImpl<GoodsCategory, GoodsCatego
     @Transactional
     @Override
     public void addChildCategory(GoodsCategory goodsCategory, String parentId) throws SerException {
-        Optional<GoodsCategory> opGoodsCategory = findById(parentId);
+        GoodsCategory gc = findById(parentId);
 
-        if ( opGoodsCategory.isPresent()) {
-            GoodsCategory gc = opGoodsCategory.get();
+        if ( gc != null ) {
             goodsCategory.setParent(gc);
             goodsCategory.setCreateTime(LocalDateTime.now());
             goodsCategory.setModifyTime(LocalDateTime.now());
@@ -62,13 +60,13 @@ public class GoodsCategorySerImpl extends ServiceImpl<GoodsCategory, GoodsCatego
 
     @Cacheable("goodsServiceCache")
     @Override
-    public Optional<List<GoodsCategory>> findCategoryByNodeNum(Long parentNodeNum ) throws SerException{
+    public List<GoodsCategory> findCategoryByNodeNum(Long parentNodeNum ) throws SerException{
         Condition c = new Condition("parentNodeNum", DataType.LONG, parentNodeNum);
         GoodsCategoryDto dto = new GoodsCategoryDto();
         dto.getConditions().add( c );
-        Optional<List<GoodsCategory>> opGoodsCategory = findByCis( dto );
+        List<GoodsCategory> opGoodsCategory = findByCis( dto );
 
-        userSer.findAll();
+//        userSer.findAll();
 
         return opGoodsCategory;
     }

@@ -3,9 +3,7 @@ package org.ndshop.goods.entity;
 import org.ndshop.dbs.jpa.entity.BaseEntity;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
@@ -36,6 +34,9 @@ public class GoodsPic extends BaseEntity {
     @Column(columnDefinition="dateTime")
     private LocalDateTime modifyTime = LocalDateTime.now();//修改时间
 
+    @ManyToOne(cascade = {CascadeType.REFRESH,CascadeType.REMOVE})
+    @JoinColumn(name = "goods_id")
+    private Goods goods;
 
     public String getName() {
         return name;
@@ -83,5 +84,13 @@ public class GoodsPic extends BaseEntity {
 
     public void setModifyTime(LocalDateTime modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public Goods getGoods() {
+        return goods;
+    }
+
+    public void setGoods(Goods goods) {
+        this.goods = goods;
     }
 }

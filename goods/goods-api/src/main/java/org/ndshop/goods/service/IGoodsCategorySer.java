@@ -6,7 +6,6 @@ import org.ndshop.goods.dto.GoodsCategoryDto;
 import org.ndshop.goods.entity.GoodsCategory;
 
 import java.util.List;
-import java.util.Optional;
 
 
 /**
@@ -39,5 +38,5 @@ public interface IGoodsCategorySer extends IService<GoodsCategory, GoodsCategory
      * @return
      * @throws SerException
      */
-    default Optional<List<GoodsCategory>> findCategoryByNodeNum(Long parentNodeNum ) throws SerException{return null;};
+    default List<GoodsCategory> findCategoryByNodeNum(Long parentNodeNum ) throws SerException{return null;};
 }
