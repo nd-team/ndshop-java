@@ -10,11 +10,9 @@ import org.ndshop.user.common.dto.UserRoleDto;
 import org.ndshop.user.common.entity.Role;
 import org.ndshop.user.common.entity.User;
 import org.ndshop.user.common.entity.UserRole;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @Author: [liguiqin]
@@ -26,9 +24,8 @@ import java.util.Optional;
 @Service
 public class UserRoleSerImpl extends ServiceImpl<UserRole, UserRoleDto> implements IUserRoleSer {
 
-    @Cacheable("userSerCache")
     @Override
-    public Optional<List<UserRole>> findByUserId(String userId) throws SerException {
+    public List<UserRole> findByUserId(String userId) throws SerException {
         UserRoleDto dto = new UserRoleDto();
 
         Condition cond1 = new Condition("id", DataType.STRING, userId);

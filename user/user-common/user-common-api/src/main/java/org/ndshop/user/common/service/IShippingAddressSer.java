@@ -25,7 +25,7 @@ public interface IShippingAddressSer extends IService<ShippingAddress, ShippingA
      * @return
      * @throws SerException
      */
-    Optional<List<ShippingAddress>> findAddressByCurrentUser() throws SerException;
+    List<ShippingAddress> findAddressByCurrentUser() throws SerException;
 
     /**
      * 添加收货地址
@@ -34,7 +34,7 @@ public interface IShippingAddressSer extends IService<ShippingAddress, ShippingA
      * @return
      * @throws SerException
      */
-    Optional<ShippingAddress> addShippingAddress(ShippingAddress address) throws SerException;
+    ShippingAddress addShippingAddress(ShippingAddress address) throws SerException;
 
     /**
      * 设置默认收货地址

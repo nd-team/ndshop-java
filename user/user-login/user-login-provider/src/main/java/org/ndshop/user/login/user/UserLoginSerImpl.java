@@ -18,7 +18,6 @@ import org.ndshop.user.login.session.validfail.ValidErrSession;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Optional;
 
 /**
  * @Author: [liguiqin]
@@ -34,7 +33,7 @@ public class UserLoginSerImpl implements IUserLoginSer {
     private IUserSer userSer;
 
     @Override
-    public boolean verify(String token) throws SerException {
+    public Boolean verify(String token) throws SerException {
         if (TokenUtils.verify(token)) {
             return UserSession.exist(token);
         }
@@ -46,9 +45,9 @@ public class UserLoginSerImpl implements IUserLoginSer {
 
         String token = null;
         dto.setIp("192.168.0.1");
-        Optional<User> op_user = userSer.findByAccountNumber(dto.getAccount()); //通过用户名/手机号/或者邮箱查找用户
-        if (op_user.isPresent()) {
-            token = validatePassword(dto, op_user.get());  //验证密码
+        User user = userSer.findByAccountNumber(dto.getAccount()); //通过用户名/手机号/或者邮箱查找用户
+        if (null != user) {
+            token = validatePassword(dto, user);  //验证密码
             //  handlerRememberMe(dto,request,response); //处理记住我
             // tokenToCookie(token,request,response); //保存登录令牌到cookie
         }
@@ -104,7 +103,7 @@ public class UserLoginSerImpl implements IUserLoginSer {
 
 
     @Override
-    public boolean loginOut(String token) throws SerException {
+    public Boolean loginOut(String token) throws SerException {
         User user = UserSession.get(token);
         if (null != user) {
             user.setLoginStatus(LoginStatus.LOGINOUT);

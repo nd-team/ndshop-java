@@ -19,7 +19,7 @@ public interface IUserAuthCodeSer {
      * @return
      * @throws SerException
      */
-    boolean showAuthCode(String account) throws SerException;
+    Boolean  showAuthCode(String account) throws SerException;
 
     /**
      * 生成验证码
@@ -28,5 +28,5 @@ public interface IUserAuthCodeSer {
      * @return
      * @throws SerException
      */
-    boolean generateCode(String account) throws SerException;
+    Boolean generateCode(String account) throws SerException;
 }

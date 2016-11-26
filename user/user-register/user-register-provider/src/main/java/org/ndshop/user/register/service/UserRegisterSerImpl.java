@@ -1,20 +1,17 @@
 package org.ndshop.user.register.service;
 
+import com.dounine.corgi.security.PasswordHash;
+import com.dounine.corgi.spring.rpc.Reference;
+import com.dounine.corgi.spring.rpc.Service;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.user.common.entity.User;
 import org.ndshop.user.common.service.IUserSer;
 import org.ndshop.user.common.utils.Validator;
 import org.ndshop.user.register.dto.UserRegisterDto;
 import org.ndshop.user.register.quartz.VerifyCode;
-import org.ndshop.user.register.quartz.VerifyQuartz;
-import com.dounine.corgi.security.PasswordHash;
-import com.dounine.corgi.spring.rpc.Reference;
-import com.dounine.corgi.spring.rpc.Service;
 import org.ndshop.user.register.quartz.VerifySession;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 /**
  * @Author: [liguiqin]
@@ -26,14 +23,14 @@ import java.util.Optional;
 @Service
 public class UserRegisterSerImpl implements IUserRegisterSer {
 
-    @Reference
+    @Reference(timeout = 12000)
     private IUserSer userSer;
 
     @Cacheable("userSerCache")
     @Override
     public Boolean existUsername(String username) throws SerException {
-        Optional<User> optional = userSer.findByUsername(username);
-        return optional.isPresent();
+        User user = userSer.findByUsername(username);
+        return null != user;
 
     }
 
@@ -43,10 +40,8 @@ public class UserRegisterSerImpl implements IUserRegisterSer {
         boolean isPhone = Validator.isPhone(phone);
         User user = null;
         if (isPhone) {
-            Optional<User> op_user = userSer.findByPhone(phone);
-            if (op_user.isPresent()) {
-                user = op_user.get();
-            }
+            user = userSer.findByPhone(phone);
+
         } else {
             throw new SerException("手机格式不正确");
         }
@@ -59,7 +54,7 @@ public class UserRegisterSerImpl implements IUserRegisterSer {
     public void sendCodeToPhone(UserRegisterDto dto) throws SerException {
         String phone = dto.getPhone();
 
-        if (userSer.findByPhone(phone).isPresent()) {
+        if (null != userSer.findByPhone(phone)) {
             //generateCode()
             String code = "123456";
             VerifyCode verifyCode = new VerifyCode(code);

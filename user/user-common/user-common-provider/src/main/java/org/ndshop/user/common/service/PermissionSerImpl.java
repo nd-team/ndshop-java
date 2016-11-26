@@ -15,8 +15,9 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
-import java.util.stream.Stream;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @Author: [liguiqin]
@@ -35,12 +36,12 @@ public class PermissionSerImpl extends ServiceImpl<Permission, PermissionDto> im
 
     @Transactional
     @Override
-    public Optional<Permission> save(Permission permission) throws SerException {
+    public Permission save(Permission permission) throws SerException {
         String parent_id = permission.getParent().getId();
         if (StringUtils.isNotBlank(parent_id)) { //假如有父节点
-            Optional<Permission> op_parent = findById(parent_id);
-            if (op_parent.isPresent()) {
-                permission.setParent(op_parent.get());
+            Permission parent = findById(parent_id);
+            if (null != parent) {
+                permission.setParent(parent);
             }
         }
         return super.save(permission);
@@ -49,17 +50,17 @@ public class PermissionSerImpl extends ServiceImpl<Permission, PermissionDto> im
     @Transactional
     @Override
     public void update(Permission permission) throws SerException {
-        Optional<Permission> op_parent = Optional.ofNullable(permission.getParent()); //
-        if (op_parent.isPresent()) {
+        Permission parent = permission.getParent(); //
+        if (null != parent) {
             if (permission.getParent().getId().equals(permission.getId())) {
                 throw new SerException("上级不能选择自己");
             }
-            if (isChildren(op_parent.get().getId(), permission)) {
+            if (isChildren(parent.getId(), permission)) {
                 throw new SerException("上级不能为自己的下级");
             }
-            op_parent = findById(permission.getParent().getId());//更新父节点
+            parent = findById(permission.getParent().getId());//更新父节点
         }
-        permission.setParent(op_parent.get());
+        permission.setParent(parent);
         super.update(permission);
 
     }
@@ -72,14 +73,14 @@ public class PermissionSerImpl extends ServiceImpl<Permission, PermissionDto> im
      */
     private boolean isChildren(String parent_id, Permission current) throws SerException {
         //查询当前节点的孩子节点
-        Optional<List<Permission>> op_children = this.findChildByParentId(current.getId());
-        if (op_children.isPresent()) {
-            if (op_children.get().stream().anyMatch(permission -> permission.getId().equals(parent_id))) {
+        List<Permission> children = this.findChildByParentId(current.getId());
+        if (null != children && children.size() > 0) {
+            if (children.stream().anyMatch(permission -> permission.getId().equals(parent_id))) {
                 return Boolean.TRUE;
             }
         }
 
-        for (Permission permission : op_children.get()) { //递归遍历所有子孙节点
+        for (Permission permission : children) { //递归遍历所有子孙节点
             if (isChildren(parent_id, permission)) {
                 return Boolean.TRUE;
             }
@@ -87,14 +88,14 @@ public class PermissionSerImpl extends ServiceImpl<Permission, PermissionDto> im
         return Boolean.FALSE;
     }
 
+
     @Cacheable("userSerCache")
-    @Transactional
     @Override
-    public Optional<Set<Permission>> findAllByUserId(String userId) throws SerException {
-        Optional<List<UserRole>> op_userRole = userRoleSer.findByUserId(userId);//所拥有的角色
+    public Set<Permission> findAllByUserId(String userId) throws SerException {
+        List<UserRole> userRoles = userRoleSer.findByUserId(userId);//所拥有的角色
         Set<Permission> permissions = new HashSet<>(); //所有认证权限
-        if (op_userRole.isPresent()) {
-            op_userRole.get().stream().forEach(userRole -> {
+        if (null != userRoles && userRoles.size() > 0) {
+            userRoles.stream().forEach(userRole -> {
                 Role role = userRole.getRole();
                 if (null != role) {
                     permissions.addAll(role.getPermissions()); //添加角色拥有认证权限到集合
@@ -103,25 +104,23 @@ public class PermissionSerImpl extends ServiceImpl<Permission, PermissionDto> im
             });
         }
 
-        return Optional.ofNullable(permissions);
+        return permissions;
     }
 
-    @Cacheable("userSerCache")
     @Override
-    public Optional<Set<Permission>> findByRoleId(String roleId) throws SerException {
-        Optional<Set<Role>> op_roles = roleSer.findChildByRoleId(roleId);
+    public Set<Permission> findByRoleId(String roleId) throws SerException {
+        Set<Role> roles = roleSer.findChildByRoleId(roleId);
         Set<Permission> permissions = new HashSet<>(); //所有认证权限
-        if (op_roles.isPresent()) {
-            op_roles.get().stream().forEach(role -> {
+        if (null != roles && roles.size() > 0) {
+            roles.stream().forEach(role -> {
                 permissions.addAll(role.getPermissions());
             }); //添加角色拥有认证权限到集合
         }
-        return  Optional.ofNullable(permissions);
+        return permissions;
     }
 
-    @Cacheable("userSerCache")
     @Override
-    public Optional<List<Permission>> findChildByParentId(String parent_id) throws SerException {
+    public List<Permission> findChildByParentId(String parent_id) throws SerException {
         PermissionDto dto = new PermissionDto();
         Condition codn = new Condition("id", DataType.STRING, parent_id);
         codn.fieldToModels(Permission.class);

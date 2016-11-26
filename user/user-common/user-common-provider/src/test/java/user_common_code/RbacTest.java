@@ -3,7 +3,6 @@ package user_common_code;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ndshop.dbs.jpa.exception.SerException;
-import org.ndshop.user.common.dto.RoleDto;
 import org.ndshop.user.common.entity.Permission;
 import org.ndshop.user.common.entity.Role;
 import org.ndshop.user.common.entity.User;
@@ -17,8 +16,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
-import java.util.stream.Stream;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -39,8 +39,10 @@ public class RbacTest {
     private IUserRoleSer userRoleSer;
     @Autowired
     private IPermissionSer permissionSer;
+
     /**
      * 添加角色
+     *
      * @throws SerException
      */
     @Test
@@ -57,20 +59,22 @@ public class RbacTest {
 
     /**
      * 添加用户角色
+     *
      * @throws SerException
      */
     @Test
     public void addUserRole() throws SerException {
-        Optional<Role> roleOptional = roleSer.findById("939aa9a9-4b5e-4542-80ea-de7374a25b5c");
-        Optional<User> userOptional = userSer.findByPhone("13257910244");
+        Role role = roleSer.findById("939aa9a9-4b5e-4542-80ea-de7374a25b5c");
+        User user = userSer.findByPhone("13257910244");
         UserRole userRole = new UserRole();
-        userRole.setRole(roleOptional.get());
-        userRole.setUser(userOptional.get());
+        userRole.setRole(role);
+        userRole.setUser(user);
         userRoleSer.save(userRole);
     }
 
     /**
      * 添加权限资源
+     *
      * @throws SerException
      */
     @Test
@@ -86,16 +90,18 @@ public class RbacTest {
         child.setParent(root);
         permissionSer.save(child);
     }
+
     /**
      * 查找用户角色
+     *
      * @throws SerException
      */
     @Transactional
     @Test
     public void findUserRole() throws SerException {
-        Optional<List<UserRole>> op_userRole = userRoleSer.findAll();
-        if (op_userRole.isPresent()) {
-            for (UserRole userRole : op_userRole.get()) {
+        List<UserRole> userRoles = userRoleSer.findAll();
+        if (null != userRoles) {
+            for (UserRole userRole : userRoles) {
                 userRole.getRole().getPermissions().size();
                 System.out.println(userRole);
             }
@@ -104,31 +110,33 @@ public class RbacTest {
 
     /**
      * 添加角色权限资源
+     *
      * @throws SerException
      */
     @Test
     public void addRolePermission() throws SerException {
 
-        Optional<Role> op_role = roleSer.findById("939aa9a9-4b5e-4542-80ea-de7374a25b5c");
-        if (op_role.isPresent()) {
-            Optional<List<Permission>> op_permission = permissionSer.findAll();
-            Set<Permission> permissions = new HashSet<>(op_permission.get().size());
-            permissions.addAll(op_permission.get());
-            op_role.get().setPermissions(permissions);
-            roleSer.update(op_role.get());
+        Role role = roleSer.findById("939aa9a9-4b5e-4542-80ea-de7374a25b5c");
+        if (null != role) {
+            List<Permission> permissions_list = permissionSer.findAll();
+            Set<Permission> permissions_set = new HashSet<>(permissions_list.size());
+            permissions_set.addAll(permissions_list);
+            role.setPermissions(permissions_set);
+            roleSer.update(role);
         }
     }
 
 
     /**
      * 更新权限资源
+     *
      * @throws SerException
      */
     @Test
     public void updatePermissions() throws SerException {
 
-        Optional<Permission> op_permissions = permissionSer.findById("72ae9d8f-9a25-45c1-b068-4387b2667b31"); //儿子
-        Permission permission = op_permissions.get();
+        Permission permissions = permissionSer.findById("72ae9d8f-9a25-45c1-b068-4387b2667b31"); //儿子
+        Permission permission = permissions;
         Permission parent = new Permission();
         parent.setId("99ae9d8f-9a25-45c1-b068-4387b2667b33");//更改父节点为孙节点测试
         permission.setParent(parent);
@@ -139,35 +147,38 @@ public class RbacTest {
 
     /**
      * 查询用户所拥有的所有权限资源
+     *
      * @throws SerException
      */
     @Test
     public void findAllPermissionByUserId() throws SerException {
 
-        Optional<Set<Permission>> op_permissions = permissionSer.findAllByUserId("9d7f591b-6388-4346-aaee-0304481d82ca");
-        System.out.println(op_permissions.get());
+        Set<Permission> permissions = permissionSer.findAllByUserId("9d7f591b-6388-4346-aaee-0304481d82ca");
+        System.out.println(permissions);
     }
 
     /**
      * 查询用户所拥有角色
+     *
      * @throws SerException
      */
     @Test
     public void findRoleByUserId() throws SerException {
 
-        Optional<Set<Role>> roles = roleSer.findRoleByUserId("9d7f591b-6388-4346-aaee-0304481d82ca");
-        System.out.println(roles.get());
+        Set<Role> roles = roleSer.findRoleByUserId("9d7f591b-6388-4346-aaee-0304481d82ca");
+        System.out.println(roles);
     }
 
     /**
      * 通过角色查询其子角色
+     *
      * @throws SerException
      */
     @Test
     public void findChildByRoleId() throws SerException {
 
-        Optional<Set<Role>> roles = roleSer.findChildByRoleId("939aa9a9-4b5e-4542-80ea-de7374a25b5c");
-        System.out.println(roles.get());
+        Set<Role> roles = roleSer.findChildByRoleId("939aa9a9-4b5e-4542-80ea-de7374a25b5c");
+        System.out.println(roles);
     }
 
 }

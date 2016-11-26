@@ -6,22 +6,16 @@ import org.ndshop.dbs.jpa.dto.Condition;
 import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.ServiceImpl;
-import org.ndshop.user.common.dto.PermissionDto;
 import org.ndshop.user.common.dto.RoleDto;
-import org.ndshop.user.common.entity.Permission;
 import org.ndshop.user.common.entity.Role;
 import org.ndshop.user.common.entity.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.criteria.Root;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Stream;
 
 
 /**
@@ -39,12 +33,12 @@ public class RoleSerImpl extends ServiceImpl<Role, RoleDto> implements IRoleSer 
 
     @Transactional
     @Override
-    public Optional<Role> save(Role role) throws SerException {
+    public Role save(Role role) throws SerException {
         String parent_id = role.getParent().getId();
         if (StringUtils.isNotBlank(parent_id)) { //假如有父节点
-            Optional<Role> op_parent = findById(parent_id);
-            if (op_parent.isPresent()) {
-                role.setParent(op_parent.get());
+            Role parent = findById(parent_id);
+            if (null != parent) {
+                role.setParent(parent);
             }
         }
         return super.save(role);
@@ -53,24 +47,23 @@ public class RoleSerImpl extends ServiceImpl<Role, RoleDto> implements IRoleSer 
     @Transactional
     @Override
     public void update(Role role) throws SerException {
-        Optional<Role> op_parent = Optional.ofNullable(role.getParent()); //
-        if (op_parent.isPresent()) {
+        Role parent = role.getParent(); //
+        if (null != parent) {
             if (role.getId().equals(role.getParent().getId())) {
                 throw new SerException("上级不能选择自己");
             }
-            if (isChildren(op_parent.get().getId(), role)) {
+            if (isChildren(parent.getId(), role)) {
                 throw new SerException("上级不能为自己的下级");
             }
-            op_parent = findById(role.getParent().getId());//更新父节点
+            parent = findById(role.getParent().getId());//更新父节点
         }
-        role.setParent(op_parent.get());
+        role.setParent(parent);
         super.update(role);
 
     }
 
-    @Cacheable("userSerCache")
     @Override
-    public Optional<List<Role>> findChildByParentId(String parent_id) throws SerException {
+    public List<Role> findChildByParentId(String parent_id) throws SerException {
         RoleDto dto = new RoleDto();
         Condition codn = new Condition("id", DataType.STRING, parent_id);
         codn.fieldToModels(Role.class);
@@ -87,14 +80,14 @@ public class RoleSerImpl extends ServiceImpl<Role, RoleDto> implements IRoleSer 
      */
     private boolean isChildren(String parent_id, Role current) throws SerException {
         //查询当前节点的孩子节点
-        Optional<List<Role>> op_children = this.findChildByParentId(current.getId());
-        if (op_children.isPresent()) {
-            if (op_children.get().stream().anyMatch(permission -> permission.getId().equals(parent_id))) {
+        List<Role> children = this.findChildByParentId(current.getId());
+        if (null != children && children.size() > 0) {
+            if (children.stream().anyMatch(permission -> permission.getId().equals(parent_id))) {
                 return Boolean.TRUE;
             }
         }
 
-        for (Role role : op_children.get()) { //递归遍历所有子孙节点
+        for (Role role : children) { //递归遍历所有子孙节点
             if (isChildren(parent_id, role)) {
                 return Boolean.TRUE;
             }
@@ -102,20 +95,19 @@ public class RoleSerImpl extends ServiceImpl<Role, RoleDto> implements IRoleSer 
         return Boolean.FALSE;
     }
 
-    @Cacheable("userSerCache")
     @Override
-    public Optional<Set<Role>> findChildByRoleId(String roleId) throws SerException {
+    public Set<Role> findChildByRoleId(String roleId) throws SerException {
         Set<Role> allChild = new HashSet<>();
         initAllChild(roleId, allChild);
-        return Optional.ofNullable(allChild);
+        return allChild;
     }
 
     private void initAllChild(String roleId, Set<Role> allChild) throws SerException {
         //查询当前节点的所有孩子节点
         Set<Role> temp_child = new HashSet<>();
-        Optional<List<Role>> op_children = this.findChildByParentId(roleId);
-        if (op_children.isPresent()) {
-            op_children.get().stream().forEach(role -> {
+        List<Role> children = this.findChildByParentId(roleId);
+        if (null != children && children.size() > 0) {
+            children.stream().forEach(role -> {
                 if (role.getParent().getId().equals(roleId)) {
                     temp_child.add(role);
                 }
@@ -130,16 +122,15 @@ public class RoleSerImpl extends ServiceImpl<Role, RoleDto> implements IRoleSer 
         }
     }
 
-    @Cacheable("userSerCache")
     @Override
-    public Optional<Set<Role>> findRoleByUserId(String userId) throws SerException {
+    public Set<Role> findRoleByUserId(String userId) throws SerException {
         Set<Role> roles = new HashSet<>();
-        Optional<List<UserRole>> op_userRoles = userRoleSer.findByUserId(userId);
-        if (op_userRoles.isPresent()) {
-            op_userRoles.get().stream().forEach(userRole -> {
+        List<UserRole> userRoles = userRoleSer.findByUserId(userId);
+        if (null != userRoles && userRoles.size() > 0) {
+            userRoles.stream().forEach(userRole -> {
                 roles.add(userRole.getRole());
             });
         }
-        return Optional.ofNullable(roles);
+        return roles;
     }
 }

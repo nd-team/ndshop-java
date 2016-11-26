@@ -17,7 +17,7 @@ import org.ndshop.user.login.session.validfail.VerifyCode;
 public class UserAuthCodeSerImpl implements IUserAuthCodeSer {
 
     @Override
-    public boolean showAuthCode(String account) throws SerException {
+    public Boolean showAuthCode(String account) throws SerException {
         VerifyCode code = ValidErrSession.get(account);
         if (null != code && code.getCount() >= 5) {
             return true;
@@ -26,7 +26,7 @@ public class UserAuthCodeSerImpl implements IUserAuthCodeSer {
     }
 
     @Override
-    public boolean generateCode(String account) throws SerException {
+    public Boolean generateCode(String account) throws SerException {
         return false;
     }
 }

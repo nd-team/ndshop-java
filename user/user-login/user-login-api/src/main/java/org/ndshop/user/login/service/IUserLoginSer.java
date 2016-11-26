@@ -22,7 +22,7 @@ public interface IUserLoginSer extends IService<User, UserDto> {
      * @return
      * @throws SerException
      */
-    boolean verify(String token) throws SerException;
+    Boolean verify(String token) throws SerException;
 
     /**
      * 登录
@@ -40,7 +40,7 @@ public interface IUserLoginSer extends IService<User, UserDto> {
      * @return
      * @throws SerException
      */
-    boolean loginOut(String token) throws SerException;
+    Boolean loginOut(String token) throws SerException;
 
 
 }
