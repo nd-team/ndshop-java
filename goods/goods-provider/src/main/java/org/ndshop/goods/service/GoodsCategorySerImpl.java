@@ -1,22 +1,19 @@
 package org.ndshop.goods.service;
 
-import com.alibaba.fastjson.JSON;
 import com.dounine.corgi.spring.rpc.Reference;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.ndshop.dbs.jpa.dto.Condition;
 import org.ndshop.dbs.jpa.enums.DataType;
-import org.ndshop.dbs.jpa.enums.RestrictionType;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.ServiceImpl;
 import org.ndshop.goods.dto.GoodsCategoryDto;
 import org.ndshop.goods.entity.GoodsCategory;
 import org.ndshop.user.common.service.IUserSer;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +25,7 @@ import java.util.Optional;
  * @Copy: [org.ndshop]
  */
 @Service
-public class GoodsCategorySerImpl extends ServiceImpl<GoodsCategory , GoodsCategoryDto> implements IGoodsCategorySer {
+public class GoodsCategorySerImpl extends ServiceImpl<GoodsCategory, GoodsCategoryDto> implements IGoodsCategorySer {
     private static Logger logger = Logger.getLogger(GoodsCategorySerImpl.class);
 
     @Reference
@@ -36,81 +33,38 @@ public class GoodsCategorySerImpl extends ServiceImpl<GoodsCategory , GoodsCateg
 
     @Transactional
     @Override
-    public void addCategory(GoodsCategory goodsCategory) throws SerException {
-        goodsCategory.setName(  goodsCategory.getName() );
-        goodsCategory.setCreateTime( LocalDateTime.now() );
-        goodsCategory.setModifyTime(LocalDateTime.now() );
-        save(  goodsCategory );
-
-
-    }
-
-    @Transactional
-    @Override
-    public void updateCategory( GoodsCategory goodsCategory  ) throws SerException{
-        if( goodsCategory != null ){
-            String cateoryId = goodsCategory.getId();
-            String categoryName = goodsCategory.getName();
-
-            Optional<GoodsCategory> gc = findById( cateoryId );
-            if ( gc.isPresent() ) {
-                goodsCategory.setCreateTime( gc.get().getCreateTime() );
-                goodsCategory.setModifyTime( LocalDateTime.now() );
-                goodsCategory.setId( cateoryId );
-                goodsCategory.setName( categoryName );
-                update( goodsCategory );
-                logger.info( JSON.toJSONString( goodsCategory ) );
-            }
+    public void addParentCategory(GoodsCategory goodsCategory) throws SerException {
+        if (StringUtils.isBlank(goodsCategory.getName()) || StringUtils.isEmpty(goodsCategory.getName())) {
+            logger.error("category name is '' or null ,you cat not insert ");
+        } else {
+            goodsCategory.setParentNodeNum(0L);
+            goodsCategory.setCreateTime(LocalDateTime.now());
+            goodsCategory.setModifyTime(LocalDateTime.now());
+            save(goodsCategory);
         }
     }
 
     @Transactional
     @Override
-    public void deleteCategory( GoodsCategory goodsCategory ) throws SerException{
-        String cateoryId =goodsCategory.getId();
-        Optional<GoodsCategory> OpGoodsCategory = findById( cateoryId );
-        if( OpGoodsCategory.isPresent() ){
-            remove( cateoryId );
-        }else{
-            logger.info(JSON.toJSONString(goodsCategory));
-        }
+    public void addChildCategory(GoodsCategory goodsCategory, String parentId) throws SerException {
+        Optional<GoodsCategory> opGoodsCategory = findById(parentId);
 
-    }
-
-    @Transactional
-    @Override
-    public void addBatchCategory(List<String> categoryName) throws SerException{
-        for( String str : categoryName){
-            GoodsCategoryDto dto = new GoodsCategoryDto();
-            Condition c = new Condition("name",DataType.STRING , str );
-            c.setRestrict(RestrictionType.EQ);
-            dto.getConditions().add( c );
-            Optional<List<GoodsCategory>> gc = findByCis( dto );
-
-            if( gc.isPresent() ){
-                GoodsCategory gct = new GoodsCategory();
-                gct.setName( str );
-                save( gct );
-                logger.info(JSON.toJSONString( gct ) );
-            }
+        if ( opGoodsCategory.isPresent()) {
+            GoodsCategory gc = opGoodsCategory.get();
+            goodsCategory.setParent(gc);
+            goodsCategory.setCreateTime(LocalDateTime.now());
+            goodsCategory.setModifyTime(LocalDateTime.now());
+            goodsCategory.setParentNodeNum(gc.getParentNodeNum() + 1);
+            save(goodsCategory);
         }
     }
 
-    @Cacheable("goodsServiceCache")
-    @Override
-    public void findCategoryByFirstCategory (String firstCategoryName ) throws  SerException{
-//        User user =userSer.findByUsername("liguiqin");
-        Condition condition = new Condition("name", DataType.STRING ,firstCategoryName);
-        condition.setRestrict(RestrictionType.LIKE);
+    public Optional<List<GoodsCategory>> findCategoryByNodeNum(Long parentNodeNum ) throws SerException{
+        Condition c = new Condition("parentNodeNum", DataType.LONG,2);
         GoodsCategoryDto dto = new GoodsCategoryDto();
-        dto.getConditions().add( condition );
-        dto.setLimit(2);
-        dto.setPage(1);
-        dto.setSorts(Arrays.asList("modifyTime"));
-        Optional<List<GoodsCategory>> opGoodCategory = findByCis( dto,true );
-        if ( opGoodCategory.isPresent() ) {
-            logger.info( JSON.toJSONString( opGoodCategory.get() ) );
-        }
+        dto.getConditions().add( c );
+        Optional<List<GoodsCategory>> opGoodsCategory = findByCis( dto );
 
+        return opGoodsCategory;
     }
 }

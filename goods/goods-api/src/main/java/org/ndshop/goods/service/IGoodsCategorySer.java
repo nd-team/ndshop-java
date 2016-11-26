@@ -6,6 +6,7 @@ import org.ndshop.goods.dto.GoodsCategoryDto;
 import org.ndshop.goods.entity.GoodsCategory;
 
 import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -18,37 +19,25 @@ import java.util.List;
 public interface IGoodsCategorySer extends IService<GoodsCategory, GoodsCategoryDto> {
 
     /**
-     * 添加一级分类
+     * 添加父级分类
      * @param goodsCategory
      * @throws SerException
      */
-    void addCategory ( GoodsCategory goodsCategory) throws SerException;
+    default void addParentCategory ( GoodsCategory goodsCategory) throws SerException{};
 
     /**
-     * 更新一级分类
-     * @param goodsCategory
+     * 添加子分类
+     * @param goodsCategory 分类
+     * @param parentId 父分类id
      * @throws SerException
      */
-    void updateCategory( GoodsCategory goodsCategory ) throws SerException;
+    default void addChildCategory(GoodsCategory goodsCategory ,String parentId ) throws SerException{};
 
     /**
-     * 删除一级分类
-     * @param goodsCategory
+     * 根据父节点的个数查找所有分类
+     * @param parentNodeNum 父节点数
+     * @return
      * @throws SerException
      */
-    void deleteCategory( GoodsCategory goodsCategory ) throws SerException;
-
-    /**
-     * 根据一级分类查找
-     * @param firstCategoryName
-     * @throws SerException
-     */
-    void findCategoryByFirstCategory (String firstCategoryName ) throws  SerException;
-
-    /**
-     * 批量添加一级分类
-     * @param categoryName
-     * @throws SerException
-     */
-    default void addBatchCategory(List<String> categoryName) throws SerException{};
+    default Optional<List<GoodsCategory>> findCategoryByNodeNum(Long parentNodeNum ) throws SerException{return null;};
 }
