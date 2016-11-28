@@ -1,7 +1,11 @@
 package org.ndshop.shop.enums;
 
 /**
- * Created by ike on 16-11-10.
+ * @Author: [caixianyong]
+ * @Date: [2016-11-23 16:51]
+ * @Description: [店铺模块状态码]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 public enum ShopStatus {
     ONLINE(0),
