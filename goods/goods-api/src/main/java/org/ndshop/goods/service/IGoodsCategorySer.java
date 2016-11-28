@@ -9,17 +9,34 @@ import java.util.List;
 
 
 /**
- * Created by ike on 16-11-4.
+ * @Author: [tanghaixiang]
+ * @Date: [2016-11-24 09:04]
+ * @Description: [一级分类接口]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 public interface IGoodsCategorySer extends IService<GoodsCategory, GoodsCategoryDto> {
 
-    void addCategory ( GoodsCategory goodsCategory) throws SerException;
+    /**
+     * 添加父级分类
+     * @param goodsCategory
+     * @throws SerException
+     */
+    default void addParentCategory ( GoodsCategory goodsCategory) throws SerException{};
 
-    void updateCategory( GoodsCategory goodsCategory ) throws SerException;
+    /**
+     * 添加子分类
+     * @param goodsCategory 分类
+     * @param parentId 父分类id
+     * @throws SerException
+     */
+    default void addChildCategory(GoodsCategory goodsCategory ,String parentId ) throws SerException{};
 
-    void deleteCategory( GoodsCategory goodsCategory ) throws SerException;
-
-    void findCategoryByFirstCategory (String firstCategoryName ) throws  SerException;
-
-    default void addBatchCategory(List<String> categoryName) throws SerException{};
+    /**
+     * 根据父节点的个数查找所有分类
+     * @param parentNodeNum 父节点数
+     * @return
+     * @throws SerException
+     */
+    default List<GoodsCategory> findCategoryByNodeNum(Long parentNodeNum ) throws SerException{return null;};
 }

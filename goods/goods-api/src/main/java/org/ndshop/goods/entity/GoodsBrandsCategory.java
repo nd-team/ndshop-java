@@ -9,21 +9,17 @@ import java.util.Set;
 
 /**
  * @Author: [tanghaixiang]
- * @Date: [2016-11-23 17:31]
- * @Description: [商品]
+ * @Date: [2016-11-26 11:55]
+ * @Description: [品牌类别名]
  * @Version: [1.0.0]
  * @Copy: [org.ndshop]
  */
 @Entity
-@Table(name = "goods")
-public class Goods extends BaseEntity {
-    @Column(nullable = false ,unique = true)
-    private String goodsNum; //商品编号
+@Table(name = "goodsBrandsCategory")
+public class GoodsBrandsCategory extends BaseEntity {
 
-    @Column(nullable = false ,unique = true)
-    private String name;//商品名
-
-    private String goodsDescription; //商品描述
+    @Column(unique = true , name = "brandsCategoryName")
+    private String name ;//品牌类别名
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     @Column(columnDefinition="dateTime")
@@ -33,17 +29,8 @@ public class Goods extends BaseEntity {
     @Column(columnDefinition="dateTime")
     private LocalDateTime modifyTime = LocalDateTime.now();//修改时间
 
-
-    @OneToMany(cascade = CascadeType.ALL ,mappedBy = "goods" , fetch = FetchType.LAZY)
-    private Set<GoodsPic> goodsPic ;//商品图片
-
-    public String getGoodsNum() {
-        return goodsNum;
-    }
-
-    public void setGoodsNum(String goodsNum) {
-        this.goodsNum = goodsNum;
-    }
+    @OneToMany(cascade = CascadeType.ALL , mappedBy = "goodsBrandsCategory" ,fetch = FetchType.LAZY)
+    private Set<GoodsBrands> goodsBrands;
 
     public String getName() {
         return name;
@@ -51,14 +38,6 @@ public class Goods extends BaseEntity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getGoodsDescription() {
-        return goodsDescription;
-    }
-
-    public void setGoodsDescription(String goodsDescription) {
-        this.goodsDescription = goodsDescription;
     }
 
     public LocalDateTime getCreateTime() {
@@ -77,12 +56,11 @@ public class Goods extends BaseEntity {
         this.modifyTime = modifyTime;
     }
 
-    public Set<GoodsPic> getGoodsPic() {
-        return goodsPic;
+    public Set<GoodsBrands> getGoodsBrands() {
+        return goodsBrands;
     }
 
-    public void setGoodsPic(Set<GoodsPic> goodsPic) {
-        this.goodsPic = goodsPic;
+    public void setGoodsBrands(Set<GoodsBrands> goodsBrands) {
+        this.goodsBrands = goodsBrands;
     }
 }
-

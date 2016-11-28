@@ -3,7 +3,11 @@ package org.ndshop.goods.dto;
 import org.ndshop.dbs.jpa.dto.BaseDto;
 
 /**
- * Created by ike on 16-11-9.
+ * @Author: [tanghaixiang]
+ * @Date: [2016-11-24 09:04]
+ * @Description: [商品分类数据传输]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 public class GoodsCategoryDto extends BaseDto {
 }

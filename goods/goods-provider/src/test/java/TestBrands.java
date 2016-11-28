@@ -1,21 +1,26 @@
-import com.alibaba.fastjson.JSON;
 import goods.provider.test.ApplicationConfiguration;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ndshop.dbs.jpa.dto.Condition;
+import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.exception.SerException;
-import org.ndshop.goods.entity.GoodsBrand;
-import org.ndshop.goods.enums.BrandStatus;
-import org.ndshop.goods.service.IGoodsBrandSer;
+import org.ndshop.goods.dto.GoodsBrandsDto;
+import org.ndshop.goods.entity.GoodsBrands;
+import org.ndshop.goods.entity.GoodsBrandsCategory;
+import org.ndshop.goods.service.IGoodsBrandsSer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
- * Created by ike on 16-11-16.
+ * @Author: [tanghaixiang]
+ * @Date: [2016-11-26 15:01]
+ * @Description: [商品品牌业务测试]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
@@ -23,63 +28,34 @@ public class TestBrands {
     private static Logger logger = Logger.getLogger(TestBrands.class);
 
     @Autowired
-    private IGoodsBrandSer goodsBrandSer;
+    private IGoodsBrandsSer goodsBrandsSer;
 
-    /**
-     * 添加商品 品牌
-     */
     @Test
-    public void addBrand() throws SerException {
-        String brandName = "费羊羊";
-        GoodsBrand goodsBrand = new GoodsBrand();
-        goodsBrand.setBrandName(  brandName );
-        goodsBrand.setBrandStatus(BrandStatus.FROZEN.getName() );
-        goodsBrand.setCreateTime(  LocalDateTime.now() );
-        goodsBrand.setModifyTime(  LocalDateTime.now() );
-        goodsBrandSer.save( goodsBrand );
-    }
+    public void addBrands() throws SerException{
+        GoodsBrands gb = new GoodsBrands();
+        gb.setName( "360度衣服" );
+        gb.setTrademark("360商标");
+        gb.setRecommend( true );
+        gb.setKeyWord( "361度");
+        gb.setCreateTime( LocalDateTime.now() );
+        gb.setModifyTime( LocalDateTime.now() );
 
-    /**
-     * 更新品牌名
-     * @throws SerException
-     */
-    @Test
-    public void updateBrand ()throws SerException{
-        String name = "美羊羊";
-        String bid = "4069cb12-bbd0-4641-aa93-de4c811fe2b0";
-        GoodsBrand goodsBrand = goodsBrandSer.findById( bid );
-        if (goodsBrand != null ){
-            goodsBrand.setBrandName( name );
-            goodsBrand.setModifyTime( LocalDateTime.now() );
-            goodsBrandSer.update( goodsBrand );
-        }
-        logger.info ( JSON.toJSONString( goodsBrand ) );
-    }
+        String goodsBrandsCategoryId = "b0e1fb72-9b01-44a2-b644-5620f09e1956";
+        GoodsBrandsCategory goodsBrandsCategory = new GoodsBrandsCategory();
+        goodsBrandsCategory.setId( goodsBrandsCategoryId );
+        gb.setGoodsBrandsCategory(  goodsBrandsCategory );
 
-    /**
-     * 更新品牌名激活状态
-     * @throws SerException
-     */
-    @Test
-    public void updateBrandstatus ()throws SerException{
-        String status = BrandStatus.ACTIVE.getName();
-        String bid = "4069cb12-bbd0-4641-aa93-de4c811fe2b0";
-        GoodsBrand goodsBrand = goodsBrandSer.findById( bid );
-        if (goodsBrand != null ){
-            goodsBrand.setBrandStatus( status );
-            goodsBrand.setModifyTime( LocalDateTime.now() );
-            goodsBrandSer.update( goodsBrand );
-        }
-        logger.info( JSON.toJSONString ( goodsBrand ) );
+        goodsBrandsSer.save( gb );
     }
 
     @Test
-    public void findBrand() throws SerException{
-        List<GoodsBrand> goodsBrands = goodsBrandSer.findAll();
-        logger.info( JSON.toJSONString( goodsBrands));
+    public void findBrands() throws SerException{
+        String goodsBrandsCategoryId = "b0e1fb72-9b01-44a2-b644-5620f09e1956";
+
+        GoodsBrandsDto dto = new GoodsBrandsDto();
+        Condition c = new Condition("id", DataType.STRING , goodsBrandsCategoryId);
+        c.fieldToModels( GoodsBrandsCategory.class );
+        dto.getConditions().add( c );
+        goodsBrandsSer.findByCis( dto );
     }
-
-
-
-
 }
