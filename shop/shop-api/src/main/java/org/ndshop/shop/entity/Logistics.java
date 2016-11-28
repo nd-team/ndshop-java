@@ -6,37 +6,53 @@ import org.ndshop.shop.enums.ShopStatus;
 import javax.persistence.*;
 
 /**
- * Created by ike on 16-11-21.
+ * @Author: [caixianyong]
+ * @Date: [2016-11-23 16:51]
+ * @Description: [物流方案]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
-@Entity(name = "物流")
+@Entity(name = "物流方案")
 @Table(name = "shop_logistics")
-public class Logistics extends BaseEntity{
+public class Logistics extends BaseEntity {
 
-    @ManyToOne(targetEntity = Shop.class,cascade = CascadeType.DETACH)
+    @ManyToOne(targetEntity = Shop.class, cascade = CascadeType.REFRESH, optional = false,fetch = FetchType.EAGER)
     @JoinColumn(name = "shop_id")
     private Shop shop;
     //关联的店铺
 
-    @Column(nullable = false,unique = true,columnDefinition = "varchar(50)")
+    @Column(columnDefinition = "varchar(50)")
     private String name;
     //物流名称
 
-    @Column(nullable = false,columnDefinition = "varchar(50)")
+    @Column(columnDefinition = "varchar(50)")
     private String expressComp;
     //快递公司
 
-    @Column(nullable = false,columnDefinition = "double")
-    private double price;
-    //价格
+    @Column(columnDefinition = "double")
+    private double basicWeight=0;
+    //首重
 
-    @Column(nullable = false,columnDefinition = "double")
+    @Column(columnDefinition = "double")
+    private double basicPrice=0;
+    //首重价格
+
+    @Column(columnDefinition = "double")
+    private double extraWeigth=0;
+    //续重
+
+    @Column(columnDefinition = "double")
+    private double extraPrice=0;
+    //价格首重
+
+    @Column(columnDefinition = "varchar(200)")
     private String area;
     //配送范围
 
-    @Column(nullable = false,columnDefinition = "int")
+    @Column(columnDefinition = "int")
     private ShopStatus status;
 
-    @Column(nullable = false,columnDefinition = "int")
+    @Column(columnDefinition = "int")
     private int seq;
 
     public Shop getShop() {
@@ -63,12 +79,36 @@ public class Logistics extends BaseEntity{
         this.expressComp = expressComp;
     }
 
-    public double getPrice() {
-        return price;
+    public double getBasicWeight() {
+        return basicWeight;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setBasicWeight(double basicWeight) {
+        this.basicWeight = basicWeight;
+    }
+
+    public double getBasicPrice() {
+        return basicPrice;
+    }
+
+    public void setBasicPrice(double basicPrice) {
+        this.basicPrice = basicPrice;
+    }
+
+    public double getExtraWeigth() {
+        return extraWeigth;
+    }
+
+    public void setExtraWeigth(double extraWeigth) {
+        this.extraWeigth = extraWeigth;
+    }
+
+    public double getExtraPrice() {
+        return extraPrice;
+    }
+
+    public void setExtraPrice(double extraPrice) {
+        this.extraPrice = extraPrice;
     }
 
     public String getArea() {

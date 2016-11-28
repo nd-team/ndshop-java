@@ -7,11 +7,13 @@ import org.ndshop.shop.entity.Logistics;
 import java.util.Set;
 
 /**
- * Created by ike on 16-11-21.
+ * @Author: [caixianyong]
+ * @Date: [2016-11-23 16:51]
+ * @Description: [物流方案dao]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 public interface ILogisticsRep extends MyRep<Logistics,LogisticsDto> {
-
-    Logistics findByName(String name);
 
 
 }
