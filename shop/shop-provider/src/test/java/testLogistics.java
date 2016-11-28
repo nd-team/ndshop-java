@@ -1,33 +1,22 @@
-import com.alibaba.fastjson.JSON;
-import com.dounine.corgi.cluster.Balance;
-import com.dounine.corgi.rpc.RpcApp;
-import com.dounine.corgi.spring.ApplicationContext;
-import com.dounine.corgi.spring.rpc.Reference;
-import com.dounine.corgi.spring.rpc.ReferenceImpl;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ndshop.dbs.jpa.exception.SerException;
-import org.ndshop.shop.dao.ILogisticsRep;
 import org.ndshop.shop.entity.Logistics;
 import org.ndshop.shop.entity.Shop;
 import org.ndshop.shop.enums.ShopStatus;
 import org.ndshop.shop.service.ILogisticsSer;
 import org.ndshop.shop.service.IShopSer;
-import org.ndshop.shop.service.LogisticsSerImpl;
 import org.ndshop.testshop.App;
-import org.ndshop.user.common.entity.User;
-import org.ndshop.user.common.service.IUserSer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.annotation.PostConstruct;
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by ike on 16-11-21.
