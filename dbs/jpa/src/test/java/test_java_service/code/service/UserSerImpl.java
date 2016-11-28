@@ -9,8 +9,6 @@ import test_java_service.code.dto.UserDto;
 import test_java_service.code.entity.User;
 
 import javax.annotation.PostConstruct;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by lgq on 16-10-13.
@@ -27,13 +25,12 @@ public class UserSerImpl extends ServiceImpl<User, UserDto> implements IUserSer 
     }
 
     @Override
-    public Optional<User> findByUsername(String username) throws SerException {
-       // System.out.println("service cache");
+    public User findByUsername(String username) throws SerException {
         return userRep.findByUsername(username);
     }
 
     @Override
-    public Optional<User> findByNickname(String nickname) throws SerException {
+    public User findByNickname(String nickname) throws SerException {
         return userRep.findByNickname(nickname);
     }
 

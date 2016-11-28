@@ -1,9 +1,8 @@
 package org.ndshop.user.login.session.validcorrect;
 
+import org.apache.commons.lang3.StringUtils;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.user.common.entity.User;
-
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

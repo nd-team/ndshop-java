@@ -1,13 +1,13 @@
 package test_java_service;
 
 import com.alibaba.fastjson.JSON;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.ndshop.dbs.jpa.dto.Condition;
 import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.enums.RestrictionType;
 import org.ndshop.dbs.jpa.exception.SerException;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -18,7 +18,10 @@ import test_java_service.code.entity.User;
 import test_java_service.code.entity.UserInfo;
 import test_java_service.code.service.IUserSer;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Created by huanghuanlai on 2016/10/13.
@@ -55,9 +58,9 @@ public class JunitTest {
      */
     @Test
     public void findAll() throws SerException {
-        Optional<List<User>> optional = userSer.findAll();
-        if(optional.isPresent()){
-            for (User u : optional.get()) {
+        List<User> users = userSer.findAll();
+        if (null != users && users.size() > 0) {
+            for (User u : users) {
                 System.out.println(u.getUsername());
             }
         }
@@ -72,9 +75,9 @@ public class JunitTest {
         UserDto dto = new UserDto();
         dto.setPage(3);
         dto.setSorts(Arrays.asList("username"));
-        Optional<List<User>> optional = userSer.findByPage(dto);
-        if(optional.isPresent()){
-            for (User u : optional.get()) {
+        List<User> users = userSer.findByPage(dto);
+        if (null != users && users.size() > 0) {
+            for (User u : users) {
                 System.out.println(u.getUsername());
             }
         }
@@ -86,16 +89,17 @@ public class JunitTest {
     @Test
     public void findByCis() throws SerException {
         UserDto dto = new UserDto();
-        Condition condition = new Condition("username", DataType.STRING,"123");
+        Condition condition = new Condition("username", DataType.STRING, "123");
         condition.setRestrict(RestrictionType.OR);
         dto.getConditions().add(condition);
-        Optional<List<User>> optional =  userSer.findByCis(dto, true); //按条件查询并分页
-        System.out.println(JSON.toJSONString(optional.get()));
+        List<User> users = userSer.findByCis(dto, true); //按条件查询并分页
+        System.out.println(JSON.toJSONString(users));
     }
 
     /**
      * 连表查询属性查询
-     *   //通过用户邮箱查询用户
+     * //通过用户邮箱查询用户
+     *
      * @return
      * @throws SerException
      */
@@ -103,13 +107,12 @@ public class JunitTest {
     public void findByJoin() throws SerException {
 
         UserDto dto = new UserDto();
-        Condition condition = new Condition("email", DataType.STRING,"xinaml@qq.com");
+        Condition condition = new Condition("email", DataType.STRING, "xinaml@qq.com");
         condition.setRestrict(RestrictionType.EQ);
         condition.fieldToModels(UserInfo.class);
         dto.getConditions().add(condition);
         userSer.findByCis(dto);
     }
-
 
 
     /**
@@ -118,9 +121,9 @@ public class JunitTest {
     @Test
     public void update() throws SerException {
 
-        Optional<User> users = userSer.findByUsername("liguiqin");
-        users.get().setPassword("666 this is a pass");
-        System.out.println(JSON.toJSONString( users.get()));
+        User user = userSer.findByUsername("liguiqin");
+        user.setPassword("666 this is a pass");
+        System.out.println(JSON.toJSONString(user));
     }
 
     /**
@@ -128,9 +131,9 @@ public class JunitTest {
      */
     @Test
     public void remove() throws SerException {
-        Optional<User> users = userSer.findByUsername("liguiqin");
-        userSer.remove(users.get().getId());
-        System.out.println("remove user success!");
+        User user = userSer.findByUsername("liguiqin");
+        userSer.remove(user.getId());
+        System.out.println("remove service success!");
     }
 
     /**
@@ -143,9 +146,9 @@ public class JunitTest {
         c.setValues(new String[]{"gui"});
         c.setRestrict(RestrictionType.LIKE);
         dto.getConditions().add(c);
-       Optional<User>  optional = userSer.findOne(dto);
-        if(optional.isPresent()){
-            System.out.println(JSON.toJSONString(optional.get()));
+        User user = userSer.findOne(dto);
+        if (null != user) {
+            System.out.println(JSON.toJSONString(user));
 
         }
     }
@@ -175,21 +178,19 @@ public class JunitTest {
     @Test
     public void updateAll() throws SerException {
         UserDto dto = new UserDto();
-        Optional<List<User>> optional = null;
+        List<User> users = null;
         Condition c = new Condition("username", DataType.STRING);
         c.setValues(new String[]{"testName"});
         c.setRestrict(RestrictionType.LIKE);
         dto.getConditions().add(c);
-        optional = userSer.findByCis(dto, true);
-        if(optional.isPresent()){
-            for (User user : optional.get()) {
+        users = userSer.findByCis(dto, true);
+        if (null != users && users.size() > 0) {
+            for (User user : users) {
                 user.setUsername("update" + new Random().nextInt(9999));
             }
-            userSer.update(optional.get());
-            System.out.println(JSON.toJSONString(optional.get()));
+            userSer.update(users);
+            System.out.println(JSON.toJSONString(users));
         }
-
-
 
 
     }
@@ -199,9 +200,9 @@ public class JunitTest {
      */
     @Test
     public void removeAll() throws SerException {
-        Optional<List<User>> optional = userSer.findAll();
-        if(optional.isPresent()){
-            userSer.remove(optional.get());
+        List<User> users = userSer.findAll();
+        if (null != users && users.size() > 0) {
+            userSer.remove(users);
         }
         System.out.println(JSON.toJSONString(userSer.findAll()));
 
@@ -215,20 +216,20 @@ public class JunitTest {
     @Transactional
     @Test
     public void rollBack() throws SerException {
-        Optional<User> optional = userSer.findByUsername("liguiqin");
-        optional.get().setAge(555);
-        userSer.update( optional.get());
+        User user = userSer.findByUsername("liguiqin");
+        user.setAge(555);
+        userSer.update(user);
         int i = 9 / 0; // fail
     }
 
 
     /**
      * 查询缓存(区别与实体缓存，该缓存可支持查询语句)
-     * 配置：com.bjike.ndshop.user.dao/userRep
+     * 配置：com.bjike.ndshop.service.dao/userRep
      *
      * @QueryHints(value={@QueryHint(name="org.hibernate.cacheable",value="true")}) findByNickname()
      * 集合缓存
-     * 配置：test_java_service/com.bjike.ndshop.user.entity/User
+     * 配置：test_java_service/com.bjike.ndshop.service.entity/User
      * @Cache(usage = CacheConcurrencyStrategy.READ_WRITE,region ="entityCache" )
      * private Set<UserInterest> interests;
      */
@@ -245,14 +246,14 @@ public class JunitTest {
 
 
     /**
-     * com.bjike.ndshop.user.service/com.bjike.ndshop.user.dao 缓存
-     * com.bjike.ndshop.user.service （缓存生效查看service调用次数）
-     * com.bjike.ndshop.user.dao(缓存生效查看sql查询次数)
+     * com.bjike.ndshop.service.service/com.bjike.ndshop.service.dao 缓存
+     * com.bjike.ndshop.service.service （缓存生效查看service调用次数）
+     * com.bjike.ndshop.service.dao(缓存生效查看sql查询次数)
      * <p>
-     * com.bjike.ndshop.user.service 配置： @Cacheable("serviceCache")
+     * com.bjike.ndshop.service.service 配置： @Cacheable("serviceCache")
      * User findByUsername(String username) throws SerException;
      * <p>
-     * com.bjike.ndshop.user.dao 配置： @Cacheable("daoCache")
+     * com.bjike.ndshop.service.dao 配置： @Cacheable("daoCache")
      * User findByUsername(String username);
      *
      * @throws Throwable

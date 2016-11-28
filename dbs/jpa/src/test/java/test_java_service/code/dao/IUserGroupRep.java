@@ -5,8 +5,6 @@ import org.ndshop.dbs.jpa.dao.MyRep;
 import test_java_service.code.dto.UserGroupDto;
 import test_java_service.code.entity.UserGroup;
 
-import java.util.Optional;
-
 /**
  * Created by huanghuanlai on 16/5/24.
  */
@@ -18,5 +16,5 @@ public interface IUserGroupRep extends MyRep<UserGroup,UserGroupDto> {
      * @return
      */
 
-    Optional<UserGroup> findByName(String name);
+    UserGroup findByName(String name);
 }

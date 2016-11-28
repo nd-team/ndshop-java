@@ -2,13 +2,15 @@ apply plugin: 'spring-boot'
 apply plugin: 'java'
 
 dependencies {
-//    compile("com.bjike.ndshop:user-login-api:1.0")
-//    compile project(":user:user-common:user-common-api")
-    compile group: 'com.dounine.corgi', name: 'rpc', version: "$rpc_version"
+    compile project(":user:user-login:user-login-api"){
+
+    }
+    compile (group: 'com.dounine.corgi', name: 'rpc', version: "$rpc_version"){
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        exclude group: 'log4j', module: 'log4j'
+    }
     compile("org.springframework.boot:spring-boot-starter-web:1.4.1.RELEASE")
-
 }
-
 
 buildscript {
     repositories {

@@ -11,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.Collection;
@@ -66,14 +68,16 @@ public class ServiceImpl<BE extends BaseEntity, BD extends BaseDto> extends Fina
     }
 
     @Override
-    public List<BE> findByCis(BD dto, Boolean pageAndSort) throws SerException {
+    public List<BE> findByCis(BD dto, Boolean sort,Boolean page) throws SerException {
         MySpecification mySpecification = new MySpecification<BE, BD>(dto);
-        if (pageAndSort) {
+        if(!page && sort && null!=dto.getSorts() && dto.getSorts().size()>0){ //仅仅排序
+            Sort.Direction dct = Sort.Direction.ASC;
+           return myRepository.findAll( new Sort(dct, dto.getSorts()));
+        }else{ //分页并排序
             PageRequest pageRequest = mySpecification.getPageRequest(dto);
             return myRepository.findAll(mySpecification, pageRequest).getContent();
-        } else {
-            return myRepository.findAll(mySpecification);
         }
+
     }
 
     @Override
@@ -93,36 +97,43 @@ public class ServiceImpl<BE extends BaseEntity, BD extends BaseDto> extends Fina
         return myRepository.findById(id);
     }
 
+    @Transactional
     @Override
     public BE save(BE entity) throws SerException {
         return myRepository.save(entity);
     }
 
+    @Transactional
     @Override
     public void save(Collection<BE> entities) throws SerException {
         myRepository.save(entities);
     }
 
+    @Transactional
     @Override
     public void remove(String id) throws SerException {
         myRepository.delete(id);
     }
 
+    @Transactional
     @Override
     public void remove(BE entity) throws SerException {
         myRepository.delete(entity);
     }
 
+    @Transactional
     @Override
     public void remove(Collection<BE> entities) {
         myRepository.deleteInBatch(entities);
     }
 
+    @Transactional
     @Override
     public void update(BE entity) throws SerException {
         myRepository.saveAndFlush(entity);
     }
 
+    @Transactional
     @Override
     public void update(Collection<BE> entities) throws SerException {
         Stream<BE> stream = entities.stream();

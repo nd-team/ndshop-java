@@ -1,5 +1,3 @@
-package user_common_code;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ndshop.dbs.jpa.exception.SerException;
@@ -15,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+import user_common_code.ApplicationConfiguration;
 
 import java.util.HashSet;
 import java.util.List;
@@ -85,7 +84,7 @@ public class RbacTest {
         root.setName("根资源");
         Permission child = new Permission();
         child.setDescription("无描述");
-        child.setResource("/user");
+        child.setResource("/service");
         child.setName("用户资源");
         child.setParent(root);
         permissionSer.save(child);

@@ -107,6 +107,7 @@ public class PermissionSerImpl extends ServiceImpl<Permission, PermissionDto> im
         return permissions;
     }
 
+    @Cacheable("userSerCache")
     @Override
     public Set<Permission> findByRoleId(String roleId) throws SerException {
         Set<Role> roles = roleSer.findChildByRoleId(roleId);
@@ -119,6 +120,7 @@ public class PermissionSerImpl extends ServiceImpl<Permission, PermissionDto> im
         return permissions;
     }
 
+    @Cacheable("userSerCache")
     @Override
     public List<Permission> findChildByParentId(String parent_id) throws SerException {
         PermissionDto dto = new PermissionDto();
