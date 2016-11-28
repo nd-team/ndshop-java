@@ -1,3 +1,4 @@
+import com.alibaba.fastjson.JSON;
 import goods.provider.test.ApplicationConfiguration;
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -41,18 +42,23 @@ public class TestGoodsPic {
         goodsPic.setCreateTime( LocalDateTime.now() );
         goodsPic.setModifyTime( LocalDateTime.now() );
 
+        String goodsId = "";
+        Goods g = new Goods();
+        g.setId( goodsId );
+        goodsPic.setGoods( g );
+
         goodsPicSer.save( goodsPic );
     }
 
     @Test
     public void findPicByGoods() throws SerException{
-        String goodsId = "";
+        String goodsId = null;
 
         Condition c = new Condition("id", DataType.STRING ,goodsId );
         c.fieldToModels(Goods.class );
         GoodsPicDto dto = new GoodsPicDto();
         dto.getConditions().add( c );
         List<GoodsPic> goodsPics = goodsPicSer.findByCis( dto );
-
+        logger.info(JSON.toJSONString( goodsPicSer.findAll() ));
     }
 }

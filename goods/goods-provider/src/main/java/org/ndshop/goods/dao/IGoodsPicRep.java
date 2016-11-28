@@ -7,7 +7,7 @@ import org.ndshop.goods.entity.GoodsPic;
 /**
  * @Author: [tanghaixiang]
  * @Date: [2016-11-26 17:21]
- * @Description: []
+ * @Description: [商品图片持久化接口, 继承基类可使用ｊｐａ命名查询]
  * @Version: [1.0.0]
  * @Copy: [org.ndshop]
  */

@@ -37,6 +37,17 @@ public class Goods extends BaseEntity {
     @OneToMany(cascade = CascadeType.ALL ,mappedBy = "goods" , fetch = FetchType.LAZY)
     private Set<GoodsPic> goodsPic ;//商品图片
 
+    @ManyToOne(cascade = {CascadeType.REFRESH,CascadeType.REMOVE} )
+    @JoinColumn(name = "goodsCategory_id")
+    private GoodsCategory goodsCategory; //商品种类
+
+    @ManyToOne(cascade = {CascadeType.REFRESH,CascadeType.REMOVE})
+    @JoinColumn(name = "goodsBrands_id")
+    private GoodsBrands goodsBrands; //商品品牌表
+
+    @OneToOne(cascade = CascadeType.ALL ,mappedBy = "goods", fetch = FetchType.LAZY)
+    private GoodsFieldsValue goodsFieldValue;
+
     public String getGoodsNum() {
         return goodsNum;
     }
@@ -83,6 +94,30 @@ public class Goods extends BaseEntity {
 
     public void setGoodsPic(Set<GoodsPic> goodsPic) {
         this.goodsPic = goodsPic;
+    }
+
+    public GoodsCategory getGoodsCategory() {
+        return goodsCategory;
+    }
+
+    public void setGoodsCategory(GoodsCategory goodsCategory) {
+        this.goodsCategory = goodsCategory;
+    }
+
+    public GoodsBrands getGoodsBrands() {
+        return goodsBrands;
+    }
+
+    public void setGoodsBrands(GoodsBrands goodsBrands) {
+        this.goodsBrands = goodsBrands;
+    }
+
+    public GoodsFieldsValue getGoodsFieldValue() {
+        return goodsFieldValue;
+    }
+
+    public void setGoodsFieldValue(GoodsFieldsValue goodsFieldValue) {
+        this.goodsFieldValue = goodsFieldValue;
     }
 }
 
