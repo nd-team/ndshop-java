@@ -38,9 +38,9 @@ public class UserLoginLogSerImpl extends ServiceImpl<UserLoginLog, UserLoginLogD
         Condition cond = new Condition("id", DataType.STRING,loginLog.getUser().getId());
         cond.fieldToModels(User.class);
         dto.getConditions().add(cond);
-        dto.setOrder(DESC);
+        dto.setOrder(ASC);
         dto.setSorts(Arrays.asList("loginTime"));
-        List<UserLoginLog> loginLogs = findByCis(dto,true,false);
+        List<UserLoginLog> loginLogs = findByCis(dto);
         if(null!=loginLogs && loginLogs.size()>=5){
             super.remove(loginLogs.get(4)); //删除最旧的数据
         }

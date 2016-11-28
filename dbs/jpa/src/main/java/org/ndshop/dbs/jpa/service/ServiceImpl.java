@@ -68,21 +68,23 @@ public class ServiceImpl<BE extends BaseEntity, BD extends BaseDto> extends Fina
     }
 
     @Override
-    public List<BE> findByCis(BD dto, Boolean sort,Boolean page) throws SerException {
+    public List<BE> findByCis(BD dto, Boolean pageAndSort) throws SerException {
         MySpecification mySpecification = new MySpecification<BE, BD>(dto);
-        if(!page && sort && null!=dto.getSorts() && dto.getSorts().size()>0){ //仅仅排序
-            Sort.Direction dct = Sort.Direction.ASC;
-           return myRepository.findAll( new Sort(dct, dto.getSorts()));
-        }else{ //分页并排序
-            PageRequest pageRequest = mySpecification.getPageRequest(dto);
-            return myRepository.findAll(mySpecification, pageRequest).getContent();
-        }
+        PageRequest pageRequest = mySpecification.getPageRequest(dto);
+        return myRepository.findAll(mySpecification, pageRequest).getContent();
 
     }
 
     @Override
     public List<BE> findByCis(BD dto) throws SerException {
         MySpecification mySpecification = new MySpecification<BE, BD>(dto);
+        if (null != dto.getSorts() && dto.getSorts().size() > 0) { //排序
+            Sort.Direction dct = Sort.Direction.ASC;
+            if (dto.getOrder().equalsIgnoreCase("desc")) {
+                dct = Sort.Direction.DESC;
+            }
+            return myRepository.findAll(new Sort(dct, dto.getSorts()));
+        }
         return myRepository.findAll(mySpecification);
     }
 
