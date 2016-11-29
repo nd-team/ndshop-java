@@ -12,4 +12,5 @@ import org.ndshop.goods.entity.GoodsFields;
  * @Copy: [org.ndshop]
  */
 public interface IGoodsFieldsRep extends MyRep<GoodsFields,GoodsFieldsDto> {
+
 }
