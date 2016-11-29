@@ -20,9 +20,9 @@
     - 接口实现类以 **SerImpl** 结束 `UserDetailSerImpl`
 
 2. Dao（数据控制层）
-    - 异常类以 **SerException** 结束 `CustomDaoException`
-    - 接口类以大写**I** 开头 以**Dao**结束  `IUserDetailDao`
-    - 接口实现类以 **DaoImpl** 结束 `UserDetailDaoImpl`
+    - 异常类以 **RepException** 结束 `CustomRepException`
+    - 接口类以大写**I** 开头 以**Rep**结束  `IUserDetailRep`
+    - 接口实现类以 **RepImpl** 结束 `UserDetailRepImpl`
 
 3. Test（测试用例）
     - 测试类以 **Test** 结束 `UserDetailTest`
