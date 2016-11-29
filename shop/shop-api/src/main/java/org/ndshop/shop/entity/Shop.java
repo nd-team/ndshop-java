@@ -23,7 +23,7 @@ public class Shop extends BaseEntity {
     @Column(nullable = false,unique = true)
     private String name;
 
-    @ManyToOne(cascade = CascadeType.REFRESH,targetEntity = User.class,optional = false)
+    @ManyToOne(cascade = CascadeType.REFRESH,targetEntity = User.class,optional = true)
     @JoinColumn(name="user_id",nullable = true)
     private User user;
     //店铺拥有者
@@ -58,7 +58,7 @@ public class Shop extends BaseEntity {
     private String shopImg;
     //店铺图片
 
-    @OneToMany(cascade = CascadeType.DETACH,fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = Logistics.class,cascade = CascadeType.DETACH,fetch = FetchType.LAZY,mappedBy = "shop")
     private Set<Logistics> logisticses;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "shop")

@@ -1,5 +1,6 @@
 package org.ndshop.shop.service;
 
+import com.alibaba.druid.support.logging.Log;
 import com.dounine.corgi.spring.rpc.Service;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.IService;
@@ -7,6 +8,7 @@ import org.ndshop.shop.dto.LogisticsCompanyDto;
 import org.ndshop.shop.entity.LogisticsCompany;
 import org.ndshop.shop.entity.Shop;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -16,7 +18,6 @@ import java.util.List;
  * @Version: [1.0.0]
  * @Copy: [org.ndshop]
  */
-@Service
 public interface ILogisticsCompanySer extends IService<LogisticsCompany,LogisticsCompanyDto> {
 
     /**
@@ -29,10 +30,21 @@ public interface ILogisticsCompanySer extends IService<LogisticsCompany,Logistic
     }
 
     /**
+     * 查询单个物流公司
+     * @param shop  shop的字段id或者name
+     * @param name  物流公司的name
+     * @return  单个物流公司实体
+     */
+    default LogisticsCompany findByShopAndName(Shop shop,String name) throws SerException {
+        return null;
+    }
+    /**
      * 更改店铺中物流公司的启用状态(供订单选择)
+     * @param logisticsCompany  其中的字段id必要
+     * @param shop  其中的字段id或者name必要
      * @return
      */
-    default boolean changeStatus(){
+    default boolean changeStatus(@NotNull LogisticsCompany logisticsCompany,@NotNull Shop shop) throws SerException {
         return true;
     }
 
@@ -42,7 +54,7 @@ public interface ILogisticsCompanySer extends IService<LogisticsCompany,Logistic
      * @param shop  其中的id或者name
      * @return  保存的物流公司实体
      */
-    default LogisticsCompany addLogisComp(LogisticsCompany logisticsCompany,Shop shop){
+    default LogisticsCompany addLogisComp(LogisticsCompany logisticsCompany,Shop shop) throws SerException {
         return null;
     }
 

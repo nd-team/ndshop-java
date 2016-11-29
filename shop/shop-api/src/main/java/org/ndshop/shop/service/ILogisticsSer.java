@@ -4,6 +4,7 @@ import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.IService;
 import org.ndshop.shop.dto.LogisticsDto;
 import org.ndshop.shop.entity.Logistics;
+import org.ndshop.shop.entity.LogisticsCompany;
 import org.ndshop.shop.entity.Shop;
 
 import java.util.List;
@@ -67,10 +68,11 @@ public interface ILogisticsSer extends IService<Logistics,LogisticsDto> {
     /**
      * 添加物流方案
      * @param logistics 物流方案实体
-     * @param shop  店铺实体
+     * @param shop  店铺实体其中的id或者name
+     * @param logisticsCompany  物流公司实体其中的id
      * @throws SerException
      */
-    default void addLogistics(Logistics logistics,Shop shop) throws SerException {
+    default void addLogistics(Logistics logistics, Shop shop, LogisticsCompany logisticsCompany) throws SerException {
     }
 
     /**

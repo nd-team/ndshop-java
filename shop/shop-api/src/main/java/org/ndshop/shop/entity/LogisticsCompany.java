@@ -4,6 +4,7 @@ import org.ndshop.dbs.jpa.entity.BaseEntity;
 import org.ndshop.shop.enums.ShopStatus;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * @Author: [caixianyong]
@@ -22,6 +23,9 @@ public class LogisticsCompany extends BaseEntity{
     @ManyToOne(cascade= CascadeType.REFRESH)
     @JoinColumn(name = "shop_id")
     private Shop shop;
+
+    @OneToMany(cascade = {CascadeType.DETACH,CascadeType.REFRESH},fetch = FetchType.EAGER)
+    private Set<Logistics> logisticsSet;
 
     @Column(columnDefinition = "int")
     private ShopStatus status;
@@ -48,5 +52,13 @@ public class LogisticsCompany extends BaseEntity{
 
     public void setStatus(ShopStatus status) {
         this.status = status;
+    }
+
+    public Set<Logistics> getLogisticsSet() {
+        return logisticsSet;
+    }
+
+    public void setLogisticsSet(Set<Logistics> logisticsSet) {
+        this.logisticsSet = logisticsSet;
     }
 }

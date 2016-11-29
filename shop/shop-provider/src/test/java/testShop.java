@@ -16,6 +16,7 @@ import org.ndshop.shop.service.ILogisticsSer;
 import org.ndshop.shop.service.IShopSer;
 import org.ndshop.testshop.App;
 import org.ndshop.user.common.entity.User;
+import org.ndshop.user.common.enums.MemberType;
 import org.ndshop.user.common.service.IUserSer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -37,8 +38,8 @@ public class testShop extends AbstractJUnit4SpringContextTests{
     @Autowired
     private IShopSer shopSer;
 
-/*    @Reference(url = "localhost:8888")*/
-    private IUserSer userSer;
+    /*@Reference
+    private IUserSer userSer;*/
 
 
     @Before
@@ -52,15 +53,15 @@ public class testShop extends AbstractJUnit4SpringContextTests{
             user.setUsername("Sarom");
             user.setCreateTime(LocalDateTime.now());
             user.setAccessTime(LocalDateTime.now());
+            user.setMemberType(MemberType.GOLD);
             user.setAge(22);
             user.setEmail("saromc@qq.com");
             user.setPassword("123456");
             user.setPhone("188888888");
 
             userSer.save(user);
-        }
-//        user = userSer.findByUsername("Sarom");     //user save后缓存没有更新
-
+        }*/
+       /* User user = userSer.findById("94aa6095-0d4d-45a1-bcb5-13dd3382c980");
         Shop shop = shopSer.findByName("AAA");
         if (shop==null) {
             shop = new Shop();
@@ -91,11 +92,12 @@ public class testShop extends AbstractJUnit4SpringContextTests{
 
         User sarom = new User();
         sarom.setUsername("Sarom");
+//        sarom.setId("0228770a-8084-4a39-bb48-2bae81bc758a");
         Assert.assertTrue(shopSer.findByUser(sarom).size()>0);
 
         sarom = new User();
 //        sarom.setUsername("Sarom");
-        sarom.setId("6e87f3da-1d58-429c-995a-5aef34afde33");    //id
+        sarom.setId("94aa6095-0d4d-45a1-bcb5-13dd3382c980");    //id
         Assert.assertTrue(shopSer.findByUser(sarom).size()>0);
         int size = shopSer.findByUser(sarom).size();
         System.out.printf(String.valueOf(size));

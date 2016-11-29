@@ -12,4 +12,5 @@ import org.ndshop.shop.entity.LogisticsCompany;
  * @Copy: [org.ndshop]
  */
 public interface ILogisticsCompanyRep extends MyRep<LogisticsCompany,LogisticsCompanyDto>{
+
 }
