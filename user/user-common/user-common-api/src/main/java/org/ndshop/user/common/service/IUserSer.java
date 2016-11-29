@@ -15,23 +15,40 @@ import org.ndshop.user.common.entity.User;
 public interface IUserSer extends IService<User, UserDto> {
 
 
+    /**
+     * 通过用户名查询用户
+     * @param username 用户名
+     * @return
+     * @throws SerException
+     */
     default User findByUsername(String username) throws SerException {
         return null;
     }
-
+    /**
+     * 通过昵称查询用户
+     * @param nickname 昵称
+     * @return
+     * @throws SerException
+     */
     default User findByNickname(String nickname) throws SerException {
         return null;
     }
 
+    /**
+     * 通过手机号码查询用户
+     * @param phone 手机号码
+     * @return
+     * @throws SerException
+     */
     default User findByPhone(String phone) throws SerException {
         return null;
     }
 
     /**
      * 验证账号（邮箱/电话号码/用户名）
-     * cause by findpassword
+     * cause by findPassword
      *
-     * @param accountNumber
+     * @param accountNumber 账号
      * @return
      * @throws SerException
      */
