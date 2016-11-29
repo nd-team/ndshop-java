@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 /**
  * @Author: [tanghaixiang]
@@ -36,6 +37,9 @@ public class GoodsCategory extends BaseEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     @Column(columnDefinition="dateTime")
     private LocalDateTime modifyTime = LocalDateTime.now();//修改时间
+
+    @OneToMany(cascade = CascadeType.ALL , mappedBy = "goodsCategory" , fetch = FetchType.LAZY)
+    private Set<Goods> good ;
 
     public String getGoodsCategoryNum() {
         return goodsCategoryNum;
@@ -83,6 +87,14 @@ public class GoodsCategory extends BaseEntity {
 
     public void setModifyTime(LocalDateTime modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public Set<Goods> getGood() {
+        return good;
+    }
+
+    public void setGood(Set<Goods> good) {
+        this.good = good;
     }
 }
 
