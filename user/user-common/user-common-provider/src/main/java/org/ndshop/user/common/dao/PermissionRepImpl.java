@@ -15,7 +15,7 @@ import java.util.List;
 public abstract class PermissionRepImpl implements IPermissionRep {
 
     @Autowired
-    List<Permission> findPermission(String root_id) {
+    List<Permission> findPermission(String rootId) {
         return null;
     }
 }

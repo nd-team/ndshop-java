@@ -87,9 +87,9 @@ public class ManyToOne {
     @Test
     public void delGroupForUser() throws SerException {
         UserDto dto = new UserDto();
-        Condition condition = new Condition("group.name", DataType.STRING);
-        condition.setRestrict(RestrictionType.EQ);
-        condition.setValues(new String[]{"用户组2"});
+        Condition coin = new Condition("group.name", DataType.STRING);
+        coin.setRestrict(RestrictionType.EQ);
+        coin.setValues(new String[]{"用户组2"});
         List<User> users = userSer.findByCis(dto); //查询所有用户组2 的用户
         if(null!=users){
             for (User user : users) {

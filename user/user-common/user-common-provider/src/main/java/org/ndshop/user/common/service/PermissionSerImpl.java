@@ -37,9 +37,9 @@ public class PermissionSerImpl extends ServiceImpl<Permission, PermissionDto> im
     @Transactional
     @Override
     public Permission save(Permission permission) throws SerException {
-        String parent_id = permission.getParent().getId();
-        if (StringUtils.isNotBlank(parent_id)) { //假如有父节点
-            Permission parent = findById(parent_id);
+        String parentId = permission.getParent().getId();
+        if (StringUtils.isNotBlank(parentId)) { //假如有父节点
+            Permission parent = findById(parentId);
             if (null != parent) {
                 permission.setParent(parent);
             }
@@ -66,22 +66,22 @@ public class PermissionSerImpl extends ServiceImpl<Permission, PermissionDto> im
     }
 
     /**
-     * @param parent_id 要更改的父亲节点
+     * @param parentId 要更改的父亲节点
      * @param current   当前节点
      * @return
      * @throws SerException
      */
-    private boolean isChildren(String parent_id, Permission current) throws SerException {
+    private boolean isChildren(String parentId, Permission current) throws SerException {
         //查询当前节点的孩子节点
         List<Permission> children = this.findChildByParentId(current.getId());
         if (null != children && children.size() > 0) {
-            if (children.stream().anyMatch(permission -> permission.getId().equals(parent_id))) {
+            if (children.stream().anyMatch(permission -> permission.getId().equals(parentId))) {
                 return Boolean.TRUE;
             }
         }
 
         for (Permission permission : children) { //递归遍历所有子孙节点
-            if (isChildren(parent_id, permission)) {
+            if (isChildren(parentId, permission)) {
                 return Boolean.TRUE;
             }
         }
@@ -114,19 +114,19 @@ public class PermissionSerImpl extends ServiceImpl<Permission, PermissionDto> im
         Set<Permission> permissions = new HashSet<>(); //所有认证权限
         if (null != roles && roles.size() > 0) {
             roles.stream().forEach(role -> {
-                permissions.addAll(role.getPermissions());
-            }); //添加角色拥有认证权限到集合
+                permissions.addAll(role.getPermissions());//添加角色拥有认证权限到集合
+            });
         }
         return permissions;
     }
 
     @Cacheable("userSerCache")
     @Override
-    public List<Permission> findChildByParentId(String parent_id) throws SerException {
+    public List<Permission> findChildByParentId(String parentId) throws SerException {
         PermissionDto dto = new PermissionDto();
-        Condition codn = new Condition("id", DataType.STRING, parent_id);
-        codn.fieldToModels(Permission.class);
-        dto.getConditions().add(codn);
+        Condition coin = new Condition("id", DataType.STRING, parentId);
+        coin.fieldToModels(Permission.class);
+        dto.getConditions().add(coin);
         return findByCis(dto);
     }
 }

@@ -8,6 +8,7 @@ import org.ndshop.dbs.jpa.service.ServiceImpl;
 import org.ndshop.user.common.dto.UserLoginLogDto;
 import org.ndshop.user.common.entity.User;
 import org.ndshop.user.common.entity.UserLoginLog;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,7 @@ public class UserLoginLogSerImpl extends ServiceImpl<UserLoginLog, UserLoginLogD
 
     /**
      * 每个用户仅保存最近的五条登录记录
+     *
      * @param loginLog
      * @return
      * @throws SerException
@@ -35,32 +37,36 @@ public class UserLoginLogSerImpl extends ServiceImpl<UserLoginLog, UserLoginLogD
     @Override
     public UserLoginLog save(UserLoginLog loginLog) throws SerException {
         UserLoginLogDto dto = new UserLoginLogDto();
-        Condition cond = new Condition("id", DataType.STRING,loginLog.getUser().getId());
-        cond.fieldToModels(User.class);
-        dto.getConditions().add(cond);
-        dto.setOrder(ASC);
+        Condition coin = new Condition("id", DataType.STRING, loginLog.getUser().getId());
+        coin.fieldToModels(User.class);
+        dto.getConditions().add(coin);
+        dto.setOrder(DESC);
         dto.setSorts(Arrays.asList("loginTime"));
         List<UserLoginLog> loginLogs = findByCis(dto);
-        if(null!=loginLogs && loginLogs.size()>=5){
-            super.remove(loginLogs.get(4)); //删除最旧的数据
+        if (null != loginLogs && loginLogs.size() >= 5) {
+            UserLoginLog old_log = loginLogs.get(4); //更新最旧的数据为最新的
+            BeanUtils.copyProperties(loginLog, old_log, "id"); //复制属性忽略id
+            super.update(old_log);
+            return old_log;
+        } else {
+            return super.save(loginLog);
         }
-        return super.save(loginLog);
     }
 
     @Transactional
     @Override
     public void save(Collection<UserLoginLog> userLoginLogs) throws SerException {
-        for(UserLoginLog log:userLoginLogs){ //批量添加
+        for (UserLoginLog log : userLoginLogs) { //批量添加
             this.save(log);
         }
     }
 
     @Override
-    public List<UserLoginLog> findUserLogin(String userId)throws SerException {
+    public List<UserLoginLog> findUserLogin(String userId) throws SerException {
         UserLoginLogDto dto = new UserLoginLogDto();
-        Condition cond = new Condition("id", DataType.STRING,userId);
-        cond.fieldToModels(User.class);
-        dto.getConditions().add(cond);
+        Condition coin = new Condition("id", DataType.STRING, userId);
+        coin.fieldToModels(User.class);
+        dto.getConditions().add(coin);
         dto.setOrder(DESC);
         dto.setSorts(Arrays.asList("loginTime"));
         return findByCis(dto);

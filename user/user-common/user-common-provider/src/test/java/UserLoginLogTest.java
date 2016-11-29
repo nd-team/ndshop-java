@@ -33,7 +33,7 @@ public class UserLoginLogTest {
     public void addLoginLog() throws SerException {
         User user = userSer.findByUsername("liguiqin");
         UserLoginLog loginLog = new UserLoginLog();
-        loginLog.setLoginAddress("广州6");
+        loginLog.setLoginAddress("广州20");
         loginLog.setLoginIp("192.168.1.1");
         loginLog.setLoginType(LoginType.APP);
         loginLog.setUser(user);

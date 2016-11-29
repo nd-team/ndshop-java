@@ -23,7 +23,7 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
-public class ShippingAddressTest {
+public class  ShippingAddressTest {
 
 
     @Autowired

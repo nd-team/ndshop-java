@@ -21,7 +21,7 @@ import java.io.IOException;
  * @Copy: [org.ndshop]
  */
 @RestController
-@RequestMapping("showAuthCode")
+@RequestMapping("authCode")
 public class AuthCodeCtrl {
     @Reference
     private IUserAuthCodeSer userAuthCodeSer;

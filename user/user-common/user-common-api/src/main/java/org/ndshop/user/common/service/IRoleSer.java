@@ -21,11 +21,11 @@ public interface IRoleSer extends IService<Role, RoleDto> {
     /**
      * 通过父节点查找其儿子节点(一级)
      *
-     * @param parent_id
+     * @param parentId
      * @return
      * @throws SerException
      */
-    default List<Role> findChildByParentId(String parent_id) throws SerException {
+    default List<Role> findChildByParentId(String parentId) throws SerException {
         return null;
     }
 

@@ -20,11 +20,11 @@ public interface IPermissionSer extends IService<Permission, PermissionDto> {
     /**
      * 通过父节点查找其儿子节点(一级)
      *
-     * @param parent_id
+     * @param parentId
      * @return
      * @throws SerException
      */
-    default List<Permission> findChildByParentId(String parent_id) throws SerException {
+    default List<Permission> findChildByParentId(String parentId) throws SerException {
         return null;
     }
 

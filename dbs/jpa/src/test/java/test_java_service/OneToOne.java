@@ -63,9 +63,9 @@ public class OneToOne {
     @Test
     public void findByEmail() throws SerException {
         UserDto dto = new UserDto();
-        Condition condition = new Condition(UserInfo.class.getName()+"#email", DataType.STRING,"xinaml@qq.com");
-        condition.setRestrict(RestrictionType.EQ);
-        dto.getConditions().add(condition);
+        Condition coin = new Condition(UserInfo.class.getName()+"#email", DataType.STRING,"xinaml@qq.com");
+        coin.setRestrict(RestrictionType.EQ);
+        dto.getConditions().add(coin);
         System.out.println(userSer.findOne(dto));
 
     }

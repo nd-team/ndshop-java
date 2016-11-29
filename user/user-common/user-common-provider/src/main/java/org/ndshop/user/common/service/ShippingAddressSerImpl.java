@@ -33,10 +33,9 @@ public class ShippingAddressSerImpl extends ServiceImpl<ShippingAddress, Shippin
         //temp
         currentUser.setId("11");
         ShippingAddressDto dto = new ShippingAddressDto();
-        Condition condition = new Condition("id", DataType.STRING, currentUser.getId());
-        condition.setRestrict(RestrictionType.EQ);
-        condition.fieldToModels(User.class);
-        dto.getConditions().add(condition);
+        Condition coin = new Condition("id", DataType.STRING, currentUser.getId());
+        coin.fieldToModels(User.class);
+        dto.getConditions().add(coin);
         return this.findByCis(dto);
     }
 
@@ -58,8 +57,8 @@ public class ShippingAddressSerImpl extends ServiceImpl<ShippingAddress, Shippin
     @Override
     public void setDefaultAddress(ShippingAddress address) throws SerException {
         ShippingAddressDto dto = new ShippingAddressDto();
-        Condition condition = new Condition("defaultAddress", DataType.BOOLEAN, true);
-        dto.getConditions().add(condition);
+        Condition coin = new Condition("defaultAddress", DataType.BOOLEAN, true);
+        dto.getConditions().add(coin);
         ShippingAddress old_address = findOne(dto);
         //撤销旧的收货地址
         if (null != old_address) {

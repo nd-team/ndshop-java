@@ -30,13 +30,13 @@ public class UserRoleSerImpl extends ServiceImpl<UserRole, UserRoleDto> implemen
     public List<UserRole> findByUserId(String userId) throws SerException {
         UserRoleDto dto = new UserRoleDto();
 
-        Condition cond1 = new Condition("id", DataType.STRING, userId);
-        cond1.fieldToModels(User.class);
-        dto.getConditions().add(cond1);
+        Condition coin = new Condition("id", DataType.STRING, userId);
+        coin.fieldToModels(User.class);
+        dto.getConditions().add(coin);
 
-        Condition cond2 = new Condition(STATUS, DataType.ENUM, Status.THAW.getCode());
-        cond2.fieldToModels(Role.class);
-        dto.getConditions().add(cond2);
+        coin = new Condition(STATUS, DataType.ENUM, Status.THAW.getCode());
+        coin.fieldToModels(Role.class);
+        dto.getConditions().add(coin);
         return findByCis(dto);
     }
 }

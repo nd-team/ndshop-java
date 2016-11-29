@@ -89,9 +89,9 @@ public class JunitTest {
     @Test
     public void findByCis() throws SerException {
         UserDto dto = new UserDto();
-        Condition condition = new Condition("username", DataType.STRING, "123");
-        condition.setRestrict(RestrictionType.OR);
-        dto.getConditions().add(condition);
+        Condition coin = new Condition("username", DataType.STRING, "123");
+        coin.setRestrict(RestrictionType.OR);
+        dto.getConditions().add(coin);
         List<User> users = userSer.findByCis(dto, true); //按条件查询并分页
         System.out.println(JSON.toJSONString(users));
     }
@@ -107,10 +107,10 @@ public class JunitTest {
     public void findByJoin() throws SerException {
 
         UserDto dto = new UserDto();
-        Condition condition = new Condition("email", DataType.STRING, "xinaml@qq.com");
-        condition.setRestrict(RestrictionType.EQ);
-        condition.fieldToModels(UserInfo.class);
-        dto.getConditions().add(condition);
+        Condition coin = new Condition("email", DataType.STRING, "xinaml@qq.com");
+        coin.setRestrict(RestrictionType.EQ);
+        coin.fieldToModels(UserInfo.class);
+        dto.getConditions().add(coin);
         userSer.findByCis(dto);
     }
 
@@ -179,10 +179,10 @@ public class JunitTest {
     public void updateAll() throws SerException {
         UserDto dto = new UserDto();
         List<User> users = null;
-        Condition c = new Condition("username", DataType.STRING);
-        c.setValues(new String[]{"testName"});
-        c.setRestrict(RestrictionType.LIKE);
-        dto.getConditions().add(c);
+        Condition coin = new Condition("username", DataType.STRING);
+        coin.setValues(new String[]{"testName"});
+        coin.setRestrict(RestrictionType.LIKE);
+        dto.getConditions().add(coin);
         users = userSer.findByCis(dto, true);
         if (null != users && users.size() > 0) {
             for (User user : users) {

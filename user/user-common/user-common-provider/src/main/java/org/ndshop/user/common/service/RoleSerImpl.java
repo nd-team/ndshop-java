@@ -35,9 +35,9 @@ public class RoleSerImpl extends ServiceImpl<Role, RoleDto> implements IRoleSer 
     @Transactional
     @Override
     public Role save(Role role) throws SerException {
-        String parent_id = role.getParent().getId();
-        if (StringUtils.isNotBlank(parent_id)) { //假如有父节点
-            Role parent = findById(parent_id);
+        String parentId = role.getParent().getId();
+        if (StringUtils.isNotBlank(parentId)) { //假如有父节点
+            Role parent = findById(parentId);
             if (null != parent) {
                 role.setParent(parent);
             }
@@ -65,32 +65,32 @@ public class RoleSerImpl extends ServiceImpl<Role, RoleDto> implements IRoleSer 
 
     @Cacheable("userSerCache")
     @Override
-    public List<Role> findChildByParentId(String parent_id) throws SerException {
+    public List<Role> findChildByParentId(String parentId) throws SerException {
         RoleDto dto = new RoleDto();
-        Condition codn = new Condition("id", DataType.STRING, parent_id);
-        codn.fieldToModels(Role.class);
-        dto.getConditions().add(codn);
+        Condition coin = new Condition("id", DataType.STRING, parentId);
+        coin.fieldToModels(Role.class);
+        dto.getConditions().add(coin);
         return findByCis(dto);
     }
 
 
     /**
-     * @param parent_id 要更改的父亲节点
+     * @param parentId 要更改的父亲节点
      * @param current   当前节点
      * @return
      * @throws SerException
      */
-    private boolean isChildren(String parent_id, Role current) throws SerException {
+    private boolean isChildren(String parentId, Role current) throws SerException {
         //查询当前节点的孩子节点
         List<Role> children = this.findChildByParentId(current.getId());
         if (null != children && children.size() > 0) {
-            if (children.stream().anyMatch(permission -> permission.getId().equals(parent_id))) {
+            if (children.stream().anyMatch(permission -> permission.getId().equals(parentId))) {
                 return Boolean.TRUE;
             }
         }
 
         for (Role role : children) { //递归遍历所有子孙节点
-            if (isChildren(parent_id, role)) {
+            if (isChildren(parentId, role)) {
                 return Boolean.TRUE;
             }
         }

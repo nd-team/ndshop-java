@@ -1,6 +1,6 @@
 package org.ndshop.user.login.boot;
 
-import org.ndshop.user.login.Interceptor.LoginSecurityInterceptor;
+import org.ndshop.user.login.Interceptor.WatchHandlerInterceptor;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -35,7 +35,7 @@ public class App extends WebMvcConfigurerAdapter {
         // 多个拦截器组成一个拦截器链
         // addPathPatterns 用于添加拦截规则
         // excludePathPatterns 用户排除拦截
-        registry.addInterceptor(new LoginSecurityInterceptor()).addPathPatterns("/**");
+        registry.addInterceptor(new WatchHandlerInterceptor()).addPathPatterns("/**");
 //        registry.addInterceptor(new MyInterceptor2()).addPathPatterns("/**");
         super.addInterceptors(registry);
     }
