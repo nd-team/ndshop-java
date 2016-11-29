@@ -10,6 +10,7 @@ import org.ndshop.user.common.dto.RoleDto;
 import org.ndshop.user.common.entity.Role;
 import org.ndshop.user.common.entity.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,6 +63,7 @@ public class RoleSerImpl extends ServiceImpl<Role, RoleDto> implements IRoleSer 
 
     }
 
+    @Cacheable("userSerCache")
     @Override
     public List<Role> findChildByParentId(String parent_id) throws SerException {
         RoleDto dto = new RoleDto();
@@ -95,6 +97,7 @@ public class RoleSerImpl extends ServiceImpl<Role, RoleDto> implements IRoleSer 
         return Boolean.FALSE;
     }
 
+    @Cacheable("userSerCache")
     @Override
     public Set<Role> findChildByRoleId(String roleId) throws SerException {
         Set<Role> allChild = new HashSet<>();
@@ -122,6 +125,7 @@ public class RoleSerImpl extends ServiceImpl<Role, RoleDto> implements IRoleSer 
         }
     }
 
+    @Cacheable("userSerCache")
     @Override
     public Set<Role> findRoleByUserId(String userId) throws SerException {
         Set<Role> roles = new HashSet<>();

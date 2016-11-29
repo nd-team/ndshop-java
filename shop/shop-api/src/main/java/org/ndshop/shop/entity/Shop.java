@@ -10,18 +10,22 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
- * Created by ike on 16-11-10.
+ * @Author: [caixianyong]
+ * @Date: [2016-11-23 16:51]
+ * @Description: [店铺]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
-@Entity(name = "商店")
+@Entity(name = "店铺")
 @Table(name="shop")
 public class Shop extends BaseEntity {
 
     @Column(nullable = false,unique = true)
     private String name;
 
-    @ManyToOne(cascade = CascadeType.REFRESH,targetEntity = User.class)
+    @ManyToOne(cascade = CascadeType.REFRESH,targetEntity = User.class,optional = false)
     @JoinColumn(name="user_id",nullable = true)
-    private User owner;
+    private User user;
     //店铺拥有者
 
     @Column(name = "locate",nullable = true,columnDefinition = "varchar(20)")
@@ -54,6 +58,9 @@ public class Shop extends BaseEntity {
     private String shopImg;
     //店铺图片
 
+    @OneToMany(cascade = CascadeType.DETACH,fetch = FetchType.LAZY)
+    private Set<Logistics> logisticses;
+
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "shop")
     private Set<Category> categorySet;
     //店内分类
@@ -66,13 +73,12 @@ public class Shop extends BaseEntity {
         this.name = name;
     }
 
-
-    public User getOwner() {
-        return owner;
+    public User getUser() {
+        return user;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public LocalDateTime getCreateTime() {
@@ -121,6 +127,22 @@ public class Shop extends BaseEntity {
 
     public void setShopImg(String shopImg) {
         this.shopImg = shopImg;
+    }
+
+    public String getLocate() {
+        return locate;
+    }
+
+    public void setLocate(String locate) {
+        this.locate = locate;
+    }
+
+    public Set<Logistics> getLogisticses() {
+        return logisticses;
+    }
+
+    public void setLogisticses(Set<Logistics> logisticses) {
+        this.logisticses = logisticses;
     }
 
     public Set<Category> getCategorySet() {

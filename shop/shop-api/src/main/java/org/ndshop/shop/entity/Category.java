@@ -12,7 +12,11 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 /**
- * Created by ike on 16-11-10.
+ * @Author: [caixianyong]
+ * @Date: [2016-11-23 16:51]
+ * @Description: [店内分类]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Entity(name = "店内分类")
 @Table(name = "shop_category")

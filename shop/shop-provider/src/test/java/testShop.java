@@ -24,6 +24,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -31,20 +32,38 @@ import java.util.Set;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = App.class)
-public class testShop  extends AbstractJUnit4SpringContextTests {
+public class testShop extends AbstractJUnit4SpringContextTests{
 
     @Autowired
     private IShopSer shopSer;
 
-    @Reference(url = "localhost:8888")
+/*    @Reference(url = "localhost:8888")*/
     private IUserSer userSer;
+
 
     @Before
     public void initContext() throws SerException {
+
         ApplicationContext.setApplicationContext(super.applicationContext);
 
-        if (shopSer.findByName("AAA") == null) {
-            Shop shop = new Shop();
+        /*User user = userSer.findByUsername("Sarom");
+        if(user==null){
+            user = new User();
+            user.setUsername("Sarom");
+            user.setCreateTime(LocalDateTime.now());
+            user.setAccessTime(LocalDateTime.now());
+            user.setAge(22);
+            user.setEmail("saromc@qq.com");
+            user.setPassword("123456");
+            user.setPhone("188888888");
+
+            userSer.save(user);
+        }
+//        user = userSer.findByUsername("Sarom");     //user save后缓存没有更新
+
+        Shop shop = shopSer.findByName("AAA");
+        if (shop==null) {
+            shop = new Shop();
             shop.setStatus(ShopStatus.OFFLINE);
             shop.setName("AAA");
             shop.setShopImg("");
@@ -53,29 +72,11 @@ public class testShop  extends AbstractJUnit4SpringContextTests {
             shop.setIntro("");
             shop.setShortIntro("");
 
-            User user = userSer.findByUsername("Sarom");
-            if(user==null){
-                user = new User();
-                user.setUsername("Sarom");
-                user.setCreateTime(LocalDateTime.now());
-                user.setAccessTime(LocalDateTime.now());
-                user.setAge(22);
-                user.setEmail("saromc@qq.com");
-                user.setPassword("123456");
-                user.setPhone("188888888");
-
-                userSer.save(user);
-            }
-
-            user = userSer.findByUsername("Sarom");     //user save后缓存没有更新
-            shop.setOwner(user);
-            shopSer.save(shop);                         //此处save没有更新缓存
-        }
+            shop.setUser(user);
+            shopSer.save(shop);
+        }*/
     }
 
-    public void init() throws SerException {
-
-    }
     @Test
     public void testFindShop() throws SerException {
 
@@ -88,8 +89,16 @@ public class testShop  extends AbstractJUnit4SpringContextTests {
     @Test
     public void testFindShopByOwner() throws SerException {
 
-        User sarom = userSer.findByUsername("Sarom");
-        shopSer.findByOwner(sarom);
+        User sarom = new User();
+        sarom.setUsername("Sarom");
+        Assert.assertTrue(shopSer.findByUser(sarom).size()>0);
+
+        sarom = new User();
+//        sarom.setUsername("Sarom");
+        sarom.setId("6e87f3da-1d58-429c-995a-5aef34afde33");    //id
+        Assert.assertTrue(shopSer.findByUser(sarom).size()>0);
+        int size = shopSer.findByUser(sarom).size();
+        System.out.printf(String.valueOf(size));
     }
 
     @Test
@@ -104,8 +113,11 @@ public class testShop  extends AbstractJUnit4SpringContextTests {
         shop.setShortIntro("");
 
         //添加到已有商铺的商家Sarom
-        User user = userSer.findByUsername("Sarom");
-        shopSer.addShopByOwner(shop, user);
+        User user = new User();
+        user.setUsername("Sarom");
+        shopSer.addShopByUser(shop, user);
+
+        Assert.assertTrue(shopSer.findByUser(user).size()>1&&shopSer.findByName("tianmaochaoshi")!=null);
     }
 
 
@@ -119,20 +131,6 @@ public class testShop  extends AbstractJUnit4SpringContextTests {
     }
 
     @Test
-    public void testChange1() throws SerException {
-        //测试service缓存，调用多个现有Service
-        shopSer.shopStatusChange("AAA");
-        shopSer.findByName("AAA");
-        shopSer.findByName("AAA");
-    }
-
-    @Test
-    public void testShopStatusChange2() throws SerException {
-        //使用jpql直接update
-        shopSer.shopStatusChange("AAA",1);
-    }
-
-    @Test
     public void testServiceCacheEvict() throws SerException {
         //测试缓存失效,根据AAA仍然查出BBB,则错
         Shop shop = shopSer.findByName("AAA");
@@ -143,9 +141,10 @@ public class testShop  extends AbstractJUnit4SpringContextTests {
         Assert.assertNull(shop2);
 
         //测试更新所有者，清除dao缓存
-        User user = userSer.findByUsername("Sarom");
-        shopSer.findByOwner(user);
-        Set<Shop> set1 = shopSer.findByOwner(user);
+        User user = new User();
+        user.setUsername("Sarom");
+        shopSer.findByUser(user);
+        Set<Shop> set1 = shopSer.findByUser(user);
         Shop shop3 = new Shop();
         shop3.setStatus(ShopStatus.OFFLINE);
         shop3.setName("DDD");
@@ -155,15 +154,15 @@ public class testShop  extends AbstractJUnit4SpringContextTests {
         shop3.setIntro("");
         shop3.setShortIntro("");
 
-        shopSer.addShopByOwner(shop3, user);
-        shopSer.findByOwner(user);
-        Set<Shop> set2 = shopSer.findByOwner(user);
+        shopSer.addShopByUser(shop3, user);
+        shopSer.findByUser(user);
+        Set<Shop> set2 = shopSer.findByUser(user);
         Assert.assertTrue(set1.size()<set2.size());
     }
-
 /*    @Test
     public void testDaoCache(){
         shopSer.testDao();
     }*/
+
 
 }

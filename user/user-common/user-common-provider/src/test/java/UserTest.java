@@ -1,25 +1,19 @@
 import com.dounine.corgi.security.PasswordHash;
-import org.ndshop.user.common.enums.SexType;
-import org.junit.Before;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
-import org.springframework.cache.support.SimpleCacheManager;
-import user_common_code.ApplicationConfiguration;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.user.common.entity.User;
 import org.ndshop.user.common.service.IUserSer;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import user_common_code.ApplicationConfiguration;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
 
 /**
  * @Author: [liguiqin]

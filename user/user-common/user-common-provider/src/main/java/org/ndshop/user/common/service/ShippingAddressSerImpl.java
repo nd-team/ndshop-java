@@ -8,6 +8,7 @@ import org.ndshop.dbs.jpa.service.ServiceImpl;
 import org.ndshop.user.common.dto.ShippingAddressDto;
 import org.ndshop.user.common.entity.ShippingAddress;
 import org.ndshop.user.common.entity.User;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,7 @@ import java.util.List;
 @Service
 public class ShippingAddressSerImpl extends ServiceImpl<ShippingAddress, ShippingAddressDto> implements IShippingAddressSer {
 
+    @Cacheable("userSerCache")
     @Override
     public List<ShippingAddress> findAddressByCurrentUser() throws SerException {
         //获取当前用户

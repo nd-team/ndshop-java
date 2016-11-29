@@ -7,21 +7,26 @@ import org.ndshop.user.common.entity.User;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 
+import java.util.Optional;
 import java.util.Set;
 
 /**
- * Created by ike on 16-11-10.
+ * @Author: [caixianyong]
+ * @Date: [2016-11-23 16:51]
+ * @Description: [店铺dao]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 public interface IShopRep extends MyRep<Shop,ShopDto>{
 
-    @Caching(cacheable = {
+    /*@Caching(cacheable = {
             @Cacheable(value = "shopDaoCache",key = "#name",condition = "#name!=null")
-    })
+    })*/
     Shop findByName(String name);
 
-    @Caching(cacheable = {
+    /*@Caching(cacheable = {
             @Cacheable(value = "shopDaoCache")
-    })
-    Set<Shop> findByOwner(User owner);
+    })*/
+    Set<Shop> findByUser(User user);
 
 }

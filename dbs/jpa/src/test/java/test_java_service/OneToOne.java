@@ -1,13 +1,13 @@
 package test_java_service;
 
 import com.alibaba.fastjson.JSON;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.ndshop.dbs.jpa.dto.Condition;
 import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.enums.RestrictionType;
 import org.ndshop.dbs.jpa.exception.SerException;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -16,8 +16,6 @@ import test_java_service.code.dto.UserDto;
 import test_java_service.code.entity.User;
 import test_java_service.code.entity.UserInfo;
 import test_java_service.code.service.IUserSer;
-
-import java.util.Optional;
 
 /**
  * Created by huanghuanlai on 2016/10/13.
@@ -28,7 +26,7 @@ public class OneToOne {
 
     /**
      * 主控方来维持对象关系
-     * mappedBy = "user" User 为主控方，维持userInfo（被控方关系）
+     * mappedBy = "service" User 为主控方，维持userInfo（被控方关系）
      */
 
     @Autowired
@@ -49,17 +47,17 @@ public class OneToOne {
 
     @Test
     public void addUserInfo() throws SerException {
-        Optional<User> optional = userSer.findByUsername("liguiqin");
-        UserInfo info = optional.get().getUserInfo();
+        User user = userSer.findByUsername("liguiqin");
+        UserInfo info = user.getUserInfo();
         if (null == info) {
             info = new UserInfo();
         }
         info.setEmail("xinaml@qq.com");
         info.setFox("1122");
-        info.setUser(optional.get());
-        optional.get().setUserInfo(info);
-        userSer.update(optional.get());
-        System.out.println(JSON.toJSONString(optional.get()));
+        info.setUser(user);
+        user.setUserInfo(info);
+        userSer.update(user);
+        System.out.println(JSON.toJSONString(user));
     }
 
     @Test

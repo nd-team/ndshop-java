@@ -1,10 +1,10 @@
 package test_java_service;
 
 import com.alibaba.fastjson.JSON;
-import org.ndshop.dbs.jpa.exception.SerException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ndshop.dbs.jpa.exception.SerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -14,7 +14,10 @@ import test_java_service.code.entity.UserInterest;
 import test_java_service.code.service.IUserInterestSer;
 import test_java_service.code.service.IUserSer;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 /**
  * Created by huanghuanlai on 2016/10/13.
@@ -46,41 +49,41 @@ public class OneToMany {
 
     @Test
     public void addUserInterest() throws SerException {
-        Optional<User> optional = userSer.findByUsername("liguiqin");
+        User user = userSer.findByUsername("liguiqin");
         List<UserInterest> interests = new ArrayList<>(5);
         for (int i = 0; i < 5; i++) {
             UserInterest interest = new UserInterest();
             interest.setName("ga" + i);
-            interest.setUser(optional.get());
+            interest.setUser(user);
             interest.setSeq(i);
             interests.add(interest);
         }
         interestSer.save(interests);
-        System.out.println(JSON.toJSONString(optional.get()));
+        System.out.println(JSON.toJSONString(user));
     }
 
     @Test
     public void delUserInterest() throws SerException {
-        Optional<User> optional = userSer.findByUsername("liguiqin");
-        Set<UserInterest> interests = optional.get().getInterests();
+        User user = userSer.findByUsername("liguiqin");
+        Set<UserInterest> interests = user.getInterests();
         if (null != interests) {
             interestSer.remove(interests);
         }
-        System.out.println(JSON.toJSONString(optional.get()));
+        System.out.println(JSON.toJSONString(user));
     }
 
 
     @Test
     public void updateUserInterest() throws SerException {
-        Optional<User> optional = userSer.findByUsername("liguiqin");
-        Set<UserInterest> interests = optional.get().getInterests();
+        User user = userSer.findByUsername("liguiqin");
+        Set<UserInterest> interests = user.getInterests();
         if (null != interests) {
             for (UserInterest interest : interests) {
                 interest.setName("update" + new Random().nextInt(999));
             }
         }
         interestSer.update(interests);
-        System.out.println(JSON.toJSONString(optional.get()));
+        System.out.println(JSON.toJSONString(user));
     }
 
 
