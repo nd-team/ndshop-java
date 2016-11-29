@@ -13,6 +13,7 @@ import org.ndshop.shop.entity.Shop;
 import org.ndshop.shop.enums.ShopStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 
@@ -37,15 +38,15 @@ public class LogisticsSerImpl extends ServiceImpl<Logistics, LogisticsDto> imple
         LogisticsDto logDto = new LogisticsDto();
         Condition condition = null;
 
-        if (shop.getName() != null) {
+        if (StringUtils.isEmpty(shop.getName().trim())) {
             shop = shopSer.findByName(shop.getName());
-        } else if (shop.getId() != null) {
+        } else if (StringUtils.isEmpty(shop.getId().trim())) {
             shop = shopSer.findById(shop.getId());
         } else {
             throw new SerException("缺少shop必要的属性：name或者id");
         }
         if (shop != null) {
-            condition = new Condition("name", DataType.STRING, shop.getName());
+            condition = new Condition("name", DataType.STRING, shop.getName().trim());
             condition.fieldToModels(Shop.class);
             logDto.getConditions().add(condition);
             logDto.setLimit(20);
@@ -64,20 +65,20 @@ public class LogisticsSerImpl extends ServiceImpl<Logistics, LogisticsDto> imple
         LogisticsDto logDto = new LogisticsDto();
         Condition condition1 = null;
         Condition condition2 = null;
-        if (shop.getName() != null) {
-            shop = shopSer.findByName(shop.getName());
-        } else if (shop.getId() != null) {
-            shop = shopSer.findById(shop.getId());
+        if (StringUtils.isEmpty(shop.getName().trim())) {
+            shop = shopSer.findByName(shop.getName().trim());
+        } else if (StringUtils.isEmpty(shop.getId().trim())) {
+            shop = shopSer.findById(shop.getId().trim());
         } else {
             throw new SerException("缺少shop必要的属性：name或者id");
         }
 
         if (shop != null) {
-            condition1 = new Condition("name",DataType.STRING,shop.getName());
+            condition1 = new Condition("name",DataType.STRING,shop.getName().trim());
             condition1.fieldToModels(Shop.class);
         }
         if (name != null) {
-            condition2 = new Condition("name", DataType.STRING, name);
+            condition2 = new Condition("name", DataType.STRING, name.trim());
         } else {
             throw new SerException("name不能为null");
         }
@@ -96,10 +97,10 @@ public class LogisticsSerImpl extends ServiceImpl<Logistics, LogisticsDto> imple
         LogisticsDto logisticsDto = new LogisticsDto();
         Condition condition;
 
-        if (logistics.getName() != null) {
-            condition = new Condition("name", DataType.STRING, logistics.getName());
-        } else if (logistics.getId() != null) {
-            condition = new Condition("id", DataType.STRING, logistics.getId());
+        if (StringUtils.isEmpty(logistics.getName().trim())) {
+            condition = new Condition("name", DataType.STRING, logistics.getName().trim());
+        } else if (StringUtils.isEmpty(logistics.getId().trim())) {
+            condition = new Condition("id", DataType.STRING, logistics.getId().trim());
         } else {
             throw new SerException("缺少logistics必要属性：name或者id");
         }
@@ -120,8 +121,8 @@ public class LogisticsSerImpl extends ServiceImpl<Logistics, LogisticsDto> imple
     public void modifyLogistics(Logistics logistics) throws SerException {
         LogisticsDto logisticsDto = new LogisticsDto();
         Condition condition;
-        if (logistics.getId() != null) {
-            condition = new Condition("id", DataType.STRING, logistics.getId());
+        if (StringUtils.isEmpty(logistics.getId().trim())) {
+            condition = new Condition("id", DataType.STRING, logistics.getId().trim());
         } else {
             throw new SerException("缺少logistics必要属性：id");
         }
@@ -144,9 +145,9 @@ public class LogisticsSerImpl extends ServiceImpl<Logistics, LogisticsDto> imple
     @Transactional
     public void addLogistics(Logistics logistics, Shop shop) throws SerException {
 
-        if(shop.getName()!=null){
+        if(StringUtils.isEmpty(shop.getName().trim())){
             shop = shopSer.findByName(shop.getName());
-        }else if(shop.getId()!=null){
+        }else if(StringUtils.isEmpty(shop.getId().trim())){
             shop = shopSer.findById(shop.getId());
         }else {
             throw new SerException("查找不到对应店铺");
@@ -156,7 +157,7 @@ public class LogisticsSerImpl extends ServiceImpl<Logistics, LogisticsDto> imple
 
         if (logisList.size() == 0 || logisList.stream().filter(logistics1 -> logistics1.getName().equals(logistics.getName())).count() == 0) {
             logistics.setShop(shop);
-            if (logistics.getId() != null) {
+            if (StringUtils.isEmpty(logistics.getId().trim())) {
                 throw new SerException("id必须为空");
             } else {
                 save(logistics);
@@ -177,8 +178,8 @@ public class LogisticsSerImpl extends ServiceImpl<Logistics, LogisticsDto> imple
     public boolean changeStatusBatch(Shop shop, List<String> ids) throws SerException {
         LogisticsDto logisticsDto = new LogisticsDto();
         Condition condition = null;
-        if (shop.getId() != null) {
-            condition = new Condition("id", DataType.STRING, shop.getId());
+        if (StringUtils.isEmpty(shop.getId().trim())) {
+            condition = new Condition("id", DataType.STRING, shop.getId().trim());
             condition.fieldToModels(Shop.class);
         } else {
             throw new SerException("缺少shop必要属性：id");

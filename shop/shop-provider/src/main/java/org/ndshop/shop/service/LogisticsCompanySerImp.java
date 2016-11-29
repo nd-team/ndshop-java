@@ -28,9 +28,9 @@ public class LogisticsCompanySerImp
         LogisticsCompanyDto logisticsCompanyDto = new LogisticsCompanyDto();
         Condition condition=null;
         if(!StringUtils.isEmpty(shop.getName().trim())){
-            condition = new Condition("name", DataType.STRING,shop.getName());
+            condition = new Condition("name", DataType.STRING,shop.getName().trim());
         }else if(!StringUtils.isEmpty(shop.getId().trim())){
-            condition = new Condition("id",DataType.STRING,shop.getId());
+            condition = new Condition("id",DataType.STRING,shop.getId().trim());
         }else{
             throw new SerException("shop缺少必要属性:id或者name");
         }

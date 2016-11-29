@@ -17,6 +17,7 @@ import org.ndshop.user.common.service.IUserSer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.parsing.NullSourceExtractor;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
@@ -38,8 +39,8 @@ public class ShopSerImpl extends ServiceImpl<Shop, ShopDto> implements IShopSer 
     @Autowired
     private IShopRep shopRep;
 
-    @Autowired
-    private EntityManager em;
+/*    @Autowired
+    private EntityManager em;*/
 
     @Reference(url = "localhost:8888", version = "1.0.0")
     private IUserSer userSer;
@@ -57,10 +58,10 @@ public class ShopSerImpl extends ServiceImpl<Shop, ShopDto> implements IShopSer 
         User user = null;
         Set<Shop> set = null;
 
-        if (username != null && !username.trim().equals("")) {
-            user = userSer.findByUsername(username);
-        } else if (ownerId != null && !ownerId.trim().equals("")) {
-            user = userSer.findById(ownerId);
+        if (StringUtils.isEmpty(username.trim())) {
+            user = userSer.findByUsername(username.trim());
+        } else if (StringUtils.isEmpty(ownerId.trim())) {
+            user = userSer.findById(ownerId.trim());
         } else {
             throw new SerException("缺少user必要参数：username或者id");
         }
@@ -94,14 +95,14 @@ public class ShopSerImpl extends ServiceImpl<Shop, ShopDto> implements IShopSer 
         ShopDto shopDto = new ShopDto();
         Condition condition = null;
         User findedUser = null;
-        if (user.getUsername() != null) {
-            condition = new Condition("username", DataType.STRING, user.getUsername());
+        if (StringUtils.isEmpty(user.getUsername().trim())) {
+            condition = new Condition("username", DataType.STRING, user.getUsername().trim());
             condition.setRestrict(RestrictionType.LIKE);
-            findedUser = userSer.findByUsername(user.getUsername());
-        } else if (user.getId() != null) {
-            condition = new Condition("id", DataType.STRING, user.getId());
+            findedUser = userSer.findByUsername(user.getUsername().trim());
+        } else if (StringUtils.isEmpty(user.getId().trim())) {
+            condition = new Condition("id", DataType.STRING, user.getId().trim());
             condition.setRestrict(RestrictionType.EQ);
-            findedUser = userSer.findById(user.getId());
+            findedUser = userSer.findById(user.getId().trim());
         } else {
             throw new SerException("缺少user必要参数：username或者id");
         }
@@ -132,10 +133,10 @@ public class ShopSerImpl extends ServiceImpl<Shop, ShopDto> implements IShopSer 
 
         ShopDto shopDto = new ShopDto();
         Condition condition;
-        if (shop.getName() != null) {
-            condition = new Condition("name", DataType.STRING, shop.getName());
-        } else if (shop.getId() != null) {
-            condition = new Condition("id", DataType.STRING, shop.getId());
+        if (StringUtils.isEmpty(shop.getName().trim())) {
+            condition = new Condition("name", DataType.STRING, shop.getName().trim());
+        } else if (StringUtils.isEmpty(shop.getId().trim())) {
+            condition = new Condition("id", DataType.STRING, shop.getId().trim());
         } else {
             throw new SerException("缺少shop必要参数，name或者id");
         }
