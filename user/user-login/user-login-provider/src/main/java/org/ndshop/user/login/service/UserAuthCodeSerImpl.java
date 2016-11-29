@@ -2,7 +2,7 @@ package org.ndshop.user.login.service;
 
 import com.dounine.corgi.spring.rpc.Service;
 import org.ndshop.dbs.jpa.exception.SerException;
-import org.ndshop.user.common.utils.AuthCodeGenerate;
+import org.ndshop.user.common.utils.authCode.AuthCodeGenerate;
 import org.ndshop.user.login.session.authcode.AuthCode;
 import org.ndshop.user.login.session.authcode.AuthCodeSession;
 import org.ndshop.user.login.session.validfail.ValidErr;

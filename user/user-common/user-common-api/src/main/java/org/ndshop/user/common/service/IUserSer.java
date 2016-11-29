@@ -56,5 +56,15 @@ public interface IUserSer extends IService<User, UserDto> {
         return null;
     }
 
+    /**
+     * 账号安全，验证用户邮箱
+     * @param email
+     * @return
+     * @throws SerException
+     */
+    default Boolean verifyEmail(String email)throws  SerException{
+        return false;
+    }
+
 
 }

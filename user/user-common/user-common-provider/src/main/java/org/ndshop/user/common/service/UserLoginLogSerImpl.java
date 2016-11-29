@@ -62,7 +62,7 @@ public class UserLoginLogSerImpl extends ServiceImpl<UserLoginLog, UserLoginLogD
     }
 
     @Override
-    public List<UserLoginLog> findUserLogin(String userId) throws SerException {
+    public List<UserLoginLog> findByUserId(String userId) throws SerException {
         UserLoginLogDto dto = new UserLoginLogDto();
         Condition coin = new Condition("id", DataType.STRING, userId);
         coin.fieldToModels(User.class);

@@ -1,4 +1,4 @@
-package org.ndshop.user.common.utils;
+package org.ndshop.user.common.utils.regex;
 
 import java.util.regex.Pattern;
 

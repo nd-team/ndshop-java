@@ -1,4 +1,4 @@
-package org.ndshop.user.common.utils;
+package org.ndshop.user.common.utils.authCode;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

@@ -1,4 +1,4 @@
-package org.ndshop.user.common.utils;
+package org.ndshop.user.common.utils.cookie;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;

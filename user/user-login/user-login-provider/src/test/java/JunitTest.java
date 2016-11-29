@@ -1,7 +1,6 @@
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.junit.Test;
-import org.ndshop.user.common.entity.User;
-import org.ndshop.user.common.utils.CookieOperate;
+import org.ndshop.user.common.utils.cookie.CookieOperate;
 import org.ndshop.user.login.dto.UserLoginDto;
 import org.ndshop.user.login.service.IUserLoginSer;
 import com.dounine.corgi.spring.ApplicationContext;

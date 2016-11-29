@@ -26,11 +26,25 @@ public class AuthCodeCtrl {
     @Reference
     private IUserAuthCodeSer userAuthCodeSer;
 
+    /**
+     * 显示验证码
+     * @param account 用户
+     * @return
+     * @throws SerException
+     */
     @GetMapping("showAuthCode")
     public ResponseText showAuthCode(String account) throws SerException {
         return new ResponseText(userAuthCodeSer.showAuthCode(account));
     }
 
+    /**
+     * 生成验证码
+     * @param account
+     * @param request
+     * @param response
+     * @return
+     * @throws SerException
+     */
     @GetMapping("generateCode")
     public ResponseText generateCode(String account, HttpServletRequest request, HttpServletResponse response) throws SerException {
         response.setContentType("image/jpeg");

@@ -3,4 +3,6 @@ apply from: '../../../config.gradle'
 
 dependencies {
     compile project(":dbs:jpa")
+    compile group: 'org.apache.commons', name: 'commons-email', version: '1.4'
+
 }

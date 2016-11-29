@@ -18,7 +18,7 @@ import javax.persistence.*;
 @Table(name = "user_shipping_address")
 public class ShippingAddress extends BaseEntity {
 
-    @ManyToOne(optional = false, cascade = CascadeType.REFRESH)
+    @ManyToOne(optional = false,  fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "user_id")
     private User user;//所属用户
 

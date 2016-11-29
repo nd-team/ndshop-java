@@ -16,7 +16,7 @@ import javax.persistence.*;
 @Table(name = "user_detail")
 public class UserDetail extends BaseEntity {
 
-    @OneToOne(optional = false, cascade = CascadeType.REFRESH)
+    @OneToOne(optional = false, cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @JSONField(serialize = false)
     private User user;

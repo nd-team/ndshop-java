@@ -6,7 +6,7 @@ import com.dounine.corgi.spring.rpc.Service;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.user.common.entity.User;
 import org.ndshop.user.common.service.IUserSer;
-import org.ndshop.user.common.utils.Validator;
+import org.ndshop.user.common.utils.regex.Validator;
 import org.ndshop.user.register.dto.UserRegisterDto;
 import org.ndshop.user.register.session.phonecode.PhoneCode;
 import org.ndshop.user.register.session.phonecode.PhoneCodeSession;

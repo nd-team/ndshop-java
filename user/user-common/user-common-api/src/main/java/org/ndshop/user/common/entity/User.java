@@ -47,7 +47,7 @@ public class User extends BaseEntity {
     private Integer age;//年龄
 
     @Column(columnDefinition = "INT(1)", nullable = false)
-    private MemberType memberType; //会员类型
+    private MemberType memberType=MemberType.REGISTERED; //会员类型
 
     @Column(columnDefinition = "INT(1)", nullable = false)
     private UserType userType = UserType.CUSTOMER;
@@ -62,7 +62,7 @@ public class User extends BaseEntity {
     @Transient
     private LoginStatus loginStatus = LoginStatus.LOGINOUT; //记录用户登录状态
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     private UserDetail userDetail; //用户详情
 
     public String getUsername() {

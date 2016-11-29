@@ -29,7 +29,7 @@ public class Permission extends BaseEntity {
     @Column(columnDefinition = "dateTime")//指定数据库类型
     private LocalDateTime createTime = LocalDateTime.now();
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Permission permission;
 

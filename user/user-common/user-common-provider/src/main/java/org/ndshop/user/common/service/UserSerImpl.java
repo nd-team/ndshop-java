@@ -70,4 +70,10 @@ public class UserSerImpl extends ServiceImpl<User, UserDto> implements IUserSer 
         conditions.add(coin);
         return findOne(dto);
     }
+
+    @Override
+    public Boolean verifyEmail(String email) throws SerException {
+
+        return null;
+    }
 }

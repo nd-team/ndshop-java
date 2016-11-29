@@ -14,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import java.util.List;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.dounine.corgi.demo.consumer",
+@ComponentScan(basePackages = "org.ndshop.user.common",
         excludeFilters = {@ComponentScan.Filter(
                 type = FilterType.ANNOTATION,
                 value = {Configuration.class})})

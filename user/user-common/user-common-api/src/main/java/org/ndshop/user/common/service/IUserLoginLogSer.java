@@ -21,7 +21,7 @@ public interface IUserLoginLogSer extends IService<UserLoginLog,UserLoginLogDto>
      * @param userId
      * @return
      */
-    default List<UserLoginLog> findUserLogin(String userId)throws SerException {
+    default List<UserLoginLog> findByUserId(String userId)throws SerException {
         return null;
     }
 
