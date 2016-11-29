@@ -11,14 +11,14 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * @Author: [liguiqin]
  * @Date: [2016-11-25 17:40]
- * @Description: [密码验证错误记录]
+ * @Description: [密码验证错误记录会话管理]
  * @Version: [1.0.0]
  * @Copy: [org.ndshop]
  */
 public class ValidErrSession {
 
     private static final Logger CONSOLE = LoggerFactory.getLogger(ValidErrSession.class);
-    private static final Map<String, VerifyCode> SESSIONS = new ConcurrentHashMap<>(0);
+    private static final Map<String, ValidErr> VALID_ERR_SESSIONS = new ConcurrentHashMap<>(0);
     private static final RuntimeException ACCOUNT_NOT_NULL = new RuntimeException("账户名不能为空");
 
     private ValidErrSession() {
@@ -26,7 +26,7 @@ public class ValidErrSession {
 
     static {
         CONSOLE.info("ValidErrSession start");
-        new ValidErrQuartz(SESSIONS);
+        new ValidErrQuartz(VALID_ERR_SESSIONS);
     }
 
 
@@ -35,9 +35,9 @@ public class ValidErrSession {
      *
      * @param account 账号名
      */
-    public static VerifyCode get(String account) {
+    public static ValidErr get(String account) {
         if (StringUtils.isNotBlank(account)) {
-            return  SESSIONS.get(account);
+            return  VALID_ERR_SESSIONS.get(account);
         } else {
             throw ACCOUNT_NOT_NULL;
         }
@@ -50,14 +50,14 @@ public class ValidErrSession {
      */
     public static void putValidErr(String account) {
         if (StringUtils.isNotBlank(account)) {
-            if (SESSIONS.containsKey(account)) {
-                VerifyCode verify = SESSIONS.get(account);
-                verify.setCount(verify.getCount() + 1);
+            if (VALID_ERR_SESSIONS.containsKey(account)) {
+                ValidErr validErr = VALID_ERR_SESSIONS.get(account);
+                validErr.setCount(validErr.getCount() + 1);
             }else{
-                VerifyCode verifyCode = new VerifyCode();
-                verifyCode.setCount(1);
-                verifyCode.setCreateTime(LocalDateTime.now());
-                SESSIONS.put(account,verifyCode);
+                ValidErr validErr = new ValidErr();
+                validErr.setCount(1);
+                validErr.setCreateTime(LocalDateTime.now());
+                VALID_ERR_SESSIONS.put(account,validErr );
             }
         } else {
             throw ACCOUNT_NOT_NULL;
@@ -71,7 +71,7 @@ public class ValidErrSession {
      */
     public static void remove(String account) {
         if (StringUtils.isNotBlank(account)) {
-            SESSIONS.remove(account);
+            VALID_ERR_SESSIONS.remove(account);
         }
         throw ACCOUNT_NOT_NULL;
     }

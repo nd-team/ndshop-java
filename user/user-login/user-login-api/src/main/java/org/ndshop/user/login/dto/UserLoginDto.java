@@ -23,6 +23,8 @@ public class UserLoginDto extends BaseDto{
 
     private boolean rememberMe;//记住我
 
+    private String authCode; //验证码
+
     public String getToken() {
         return token;
     }
@@ -61,5 +63,13 @@ public class UserLoginDto extends BaseDto{
 
     public void setRememberMe(boolean rememberMe) {
         this.rememberMe = rememberMe;
+    }
+
+    public String getAuthCode() {
+        return authCode;
+    }
+
+    public void setAuthCode(String authCode) {
+        this.authCode = authCode;
     }
 }

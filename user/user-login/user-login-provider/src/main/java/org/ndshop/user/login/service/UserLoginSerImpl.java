@@ -1,23 +1,20 @@
-package org.ndshop.user.login.user;
+package org.ndshop.user.login.service;
 
 
 import com.dounine.corgi.security.PasswordHash;
 import com.dounine.corgi.spring.rpc.Reference;
 import com.dounine.corgi.spring.rpc.Service;
+import org.apache.commons.lang3.StringUtils;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.user.common.entity.User;
 import org.ndshop.user.common.enums.LoginStatus;
 import org.ndshop.user.common.service.IUserSer;
-import org.ndshop.user.common.utils.CookieOperate;
 import org.ndshop.user.login.dto.UserLoginDto;
-import org.ndshop.user.login.service.IUserLoginSer;
+import org.ndshop.user.login.session.authcode.AuthCode;
+import org.ndshop.user.login.session.authcode.AuthCodeSession;
 import org.ndshop.user.login.session.validcorrect.TokenUtils;
 import org.ndshop.user.login.session.validcorrect.UserSession;
 import org.ndshop.user.login.session.validfail.ValidErrSession;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @Author: [liguiqin]
@@ -32,10 +29,15 @@ public class UserLoginSerImpl implements IUserLoginSer {
     @Reference
     private IUserSer userSer;
 
+
     @Override
     public Boolean verify(String token) throws SerException {
-        if (TokenUtils.verify(token)) {
-            return UserSession.exist(token);
+        if (TokenUtils.verify(token)) {//token 可能来自不同ip，不同客户端
+            User user = UserSession.get(token);
+            if (null != user && user.getLoginStatus().equals(LoginStatus.LOGIN)) {
+                return true;
+            }
+            return false;
         }
         throw new SerException("token无效");
     }
@@ -44,12 +46,24 @@ public class UserLoginSerImpl implements IUserLoginSer {
     public String login(UserLoginDto dto) throws SerException {
 
         String token = null;
+        String account = dto.getAccount();
         dto.setIp("192.168.0.1");
-        User user = userSer.findByAccountNumber(dto.getAccount()); //通过用户名/手机号/或者邮箱查找用户
+        User user = userSer.findByAccountNumber(account); //通过用户名/手机号/或者邮箱查找用户
         if (null != user) {
-            token = validatePassword(dto, user);  //验证密码
-            //  handlerRememberMe(dto,request,response); //处理记住我
-            // tokenToCookie(token,request,response); //保存登录令牌到cookie
+            boolean authCode = validateAuthCode(account, dto.getAuthCode());
+            if (authCode) { //验证码正确
+                token = validatePassword(dto, user);  //验证密码
+                if (StringUtils.isNotBlank(token)) { //登录成功处理业务
+                    ValidErrSession.remove(account); //清除密码输错会话
+                    AuthCodeSession.remove(account);//清除验证码
+                    //记录登录日志
+
+                } else {
+                    throw new SerException("账号或者密码错误");
+                }
+            } else {
+                throw new SerException("验证码错误");
+            }
         }
         return token;
     }
@@ -68,8 +82,7 @@ public class UserLoginSerImpl implements IUserLoginSer {
                 token = TokenUtils.create(dto.getIp(), persistUser.getUsername());
                 persistUser.setLoginStatus(LoginStatus.LOGIN);
                 UserSession.put(token, persistUser);
-                ValidErrSession.remove(account);
-                //写入cookie
+                ValidErrSession.remove(account);//删除密码验证错误次数统计
             } else { //密码错误
                 ValidErrSession.putValidErr(account);
             }
@@ -81,26 +94,24 @@ public class UserLoginSerImpl implements IUserLoginSer {
     }
 
     /**
-     * 处理记住账号密码
+     * 验证 验证码
      *
-     * @param dto
+     * @param account
+     * @param authCode
+     * @return
      */
-    private void handlerRememberMe(UserLoginDto dto) {
-        if (dto.isRememberMe()) {
-            Cookie cookie = new Cookie("account", dto.getAccount());
-            cookie.setMaxAge(100);
-//            CookieOperate.addCookie(cookie,response);
+    private boolean validateAuthCode(String account, String authCode) {
+        AuthCode auth = AuthCodeSession.get(account);
+        boolean pass = false;
+        if (null == auth) {
+            pass = true;
         } else {
-//            CookieOperate.removeCookieByName(dto.getAccount(),request,response);
+            if (auth.getCode().equals(authCode)) {
+                pass = true;
+            }
         }
+        return pass;
     }
-
-    private void tokenToCookie(String token, HttpServletRequest request, HttpServletResponse response) {
-        Cookie cookie = new Cookie("token", token);
-        cookie.setMaxAge(100);
-        CookieOperate.addCookie(cookie, response);
-    }
-
 
     @Override
     public Boolean loginOut(String token) throws SerException {

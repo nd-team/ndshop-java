@@ -2,6 +2,8 @@ package org.ndshop.user.login.service;
 
 import org.ndshop.dbs.jpa.exception.SerException;
 
+import java.awt.image.BufferedImage;
+
 /**
  * @Author: [liguiqin]
  * @Date: [2016-11-26 09:33]
@@ -19,7 +21,7 @@ public interface IUserAuthCodeSer {
      * @return
      * @throws SerException
      */
-    Boolean  showAuthCode(String account) throws SerException;
+    Boolean showAuthCode(String account) throws SerException;
 
     /**
      * 生成验证码
@@ -28,5 +30,5 @@ public interface IUserAuthCodeSer {
      * @return
      * @throws SerException
      */
-    Boolean generateCode(String account) throws SerException;
+    BufferedImage generateCode(String account) throws SerException;
 }

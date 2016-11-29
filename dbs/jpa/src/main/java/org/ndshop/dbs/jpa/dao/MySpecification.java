@@ -252,7 +252,7 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
         PageRequest pageRequest = null;
         if (dto.getSorts() != null && dto.getSorts().size() > 0) {
             Sort.Direction dct = Sort.Direction.ASC;
-            if (dto.getOrder().equals("desc")) {
+            if (dto.getOrder().equalsIgnoreCase("desc")) {
                 dct = Sort.Direction.DESC;
             }
             pageRequest = new PageRequest(dto.getPage(), dto.getLimit(), new Sort(dct, dto.getSorts())); //分页带排序

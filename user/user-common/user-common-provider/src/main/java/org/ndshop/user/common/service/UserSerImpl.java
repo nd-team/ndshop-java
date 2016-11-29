@@ -10,6 +10,7 @@ import org.ndshop.user.common.dao.IUserRep;
 import org.ndshop.user.common.dto.UserDto;
 import org.ndshop.user.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 
@@ -26,26 +27,31 @@ public class UserSerImpl extends ServiceImpl<User, UserDto> implements IUserSer 
     @Autowired
     private IUserRep userRep;
 
+    @Cacheable("userSerCache")
     @Override
     public List<User> findAll() throws SerException {
         return super.findAll();
     }
 
+    @Cacheable("userSerCache")
     @Override
     public User findByUsername(String username) {
         return userRep.findByUsername(username);
     }
 
+    @Cacheable("userSerCache")
     @Override
     public User findByNickname(String nickname) {
         return userRep.findByUsername(nickname);
     }
 
+    @Cacheable("userSerCache")
     @Override
     public User findByPhone(String phone) {
         return userRep.findByPhone(phone);
     }
 
+    @Cacheable("userSerCache")
     @Override
     public User findByAccountNumber(String accountNumber) throws SerException {
         UserDto dto = new UserDto();

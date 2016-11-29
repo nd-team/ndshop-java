@@ -10,11 +10,11 @@ import java.time.LocalDateTime;
  * @Version: [1.0.0]
  * @Copy: [org.ndshop]
  */
-public class VerifyCode {
+public class ValidErr {
     private LocalDateTime createTime = LocalDateTime.now(); //创建时间
-    private Integer count=0; //
+    private Integer count=0; // 错误次数
     private Integer invalidTime; //设置独立的失效时间(分钟)
-    private String code;
+
 
     public LocalDateTime getCreateTime() {
         return createTime;
@@ -40,11 +40,5 @@ public class VerifyCode {
         this.invalidTime = invalidTime;
     }
 
-    public String getCode() {
-        return code;
-    }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
 }

@@ -1,6 +1,7 @@
 package org.ndshop.shop.service;
 
 
+import com.dounine.corgi.spring.rpc.Reference;
 import com.dounine.corgi.spring.rpc.Service;
 import org.ndshop.dbs.jpa.dto.Condition;
 import org.ndshop.dbs.jpa.enums.DataType;
@@ -12,21 +13,27 @@ import org.ndshop.shop.dto.ShopDto;
 import org.ndshop.shop.entity.Shop;
 import org.ndshop.shop.enums.ShopStatus;
 import org.ndshop.user.common.entity.User;
+import org.ndshop.user.common.service.IUserSer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.parsing.NullSourceExtractor;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 
 /**
- * Created by ike on 16-11-10.
+ * @Author: [caixianyong]
+ * @Date: [2016-11-23 16:51]
+ * @Description: [店铺service实现]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Service
-public class ShopSerImpl extends ServiceImpl<Shop,ShopDto> implements IShopSer {
+public class ShopSerImpl extends ServiceImpl<Shop, ShopDto> implements IShopSer {
 
     @Autowired
     private IShopRep shopRep;
@@ -34,6 +41,8 @@ public class ShopSerImpl extends ServiceImpl<Shop,ShopDto> implements IShopSer {
     @Autowired
     private EntityManager em;
 
+    @Reference(url = "localhost:8888", version = "1.0.0")
+    private IUserSer userSer;
 
     @Override
     public Shop findByName(String shopName) {
@@ -41,67 +50,106 @@ public class ShopSerImpl extends ServiceImpl<Shop,ShopDto> implements IShopSer {
     }
 
     @Override
-    public Set<Shop> findByOwner(User owner) {
+    public Set<Shop> findByUser(User owner) throws SerException {
+
+        String ownerId = owner.getId();
+        String username = owner.getUsername();
+        User user = null;
         Set<Shop> set = null;
-        if(owner!=null){
-            set = shopRep.findByOwner(owner);
+
+        if (username != null && !username.trim().equals("")) {
+            user = userSer.findByUsername(username);
+        } else if (ownerId != null && !ownerId.trim().equals("")) {
+            user = userSer.findById(ownerId);
+        } else {
+            throw new SerException("缺少user必要参数：username或者id");
+        }
+        if (user != null) {
+            set = shopRep.findByUser(user);
+        }
+
+        if (set == null) {
+            throw new SerException("参数错误，查找不到对应店铺");
         }
         return set;
     }
 
     @Override
     @Transactional
-    public void addShopByOwner(Shop shop, User user) throws SerException {
+    public void addShopByUser(Shop shop, User user) throws SerException {
+
         //商店数量不超过5个
-        ShopDto shopDto = new ShopDto();
-        if(count(shopDto)<5){
-            shop.setOwner(user);
+        /*ShopDto shopDto = new ShopDto();
+        if(count(shopDto).get()<5){
+            shop.setUser(user);
             shopModifiedAccessTime(shop);
-            save(shop);
+            if(shop.getId()==null){
+                save(shop);
+            }else{
+                update(shop);
+            }
         }else{
             throw new SerException("商店数量不超过5个");
+        }*/
+        ShopDto shopDto = new ShopDto();
+        Condition condition = null;
+        User findedUser = null;
+        if (user.getUsername() != null) {
+            condition = new Condition("username", DataType.STRING, user.getUsername());
+            condition.setRestrict(RestrictionType.LIKE);
+            findedUser = userSer.findByUsername(user.getUsername());
+        } else if (user.getId() != null) {
+            condition = new Condition("id", DataType.STRING, user.getId());
+            condition.setRestrict(RestrictionType.EQ);
+            findedUser = userSer.findById(user.getId());
+        } else {
+            throw new SerException("缺少user必要参数：username或者id");
         }
+
+        condition.fieldToModels(user.getClass());
+        shopDto.getConditions().add(condition);
+
+        Long count = countByCis(shopDto);
+
+        if (findedUser == null) {
+            throw new SerException("参数错误，查找不到对应用户");
+        } else {
+            if (count < 5) {
+                shop.setUser(findedUser);
+                shopModifiedAccessTime(shop);
+                this.save(shop);
+            } else {
+                throw new SerException("商店数量不超过5个");
+            }
+        }
+
+
     }
 
     @Override
     @Transactional
     public void shopStatusChange(Shop shop) throws SerException {
-        shop.setStatus(shop.getStatus()==ShopStatus.OFFLINE?ShopStatus.ONLINE:ShopStatus.OFFLINE);
-        shopModifiedAccessTime(shop);
-        update(shop);
-    }
-
-    @Override
-    @Transactional
-    public void shopStatusChange(String name) throws SerException {
-        Shop shop = shopRep.findByName(name);
-        shop.setStatus(shop.getStatus()==ShopStatus.OFFLINE?ShopStatus.ONLINE:ShopStatus.OFFLINE);
-        shopModifiedAccessTime(shop);
-        update(shop);
-    }
-
-    @Override
-    @Transactional
-    public void shopStatusChange(String name, int test) throws SerException {
-        /*String hql = "update "+Shop.class.getSimpleName()+" shop set shop.status= 1- shop.status,shop.lastModiTime = :datetime  where shop.name = :name";
-        Query query = em.createQuery(hql);
-        query.setParameter("datetime", LocalDateTime.now());
-        query.setParameter("name",name);
-        query.executeUpdate();*/
 
         ShopDto shopDto = new ShopDto();
-        Condition condition = new Condition("name", DataType.STRING, name);
-        condition.setRestrict(RestrictionType.EQ);
-        shopDto.getConditions().add(condition);
-        List<Shop> shopList = findByCis(shopDto);
-        if(shopList!=null&&shopList.size()>0){
-            for (Shop shop : shopList){
-                shop.setStatus(shop.getStatus()==ShopStatus.OFFLINE?ShopStatus.ONLINE:ShopStatus.OFFLINE);
-                shop.setLastModiTime(LocalDateTime.now());
-                update(shop);
-            }
+        Condition condition;
+        if (shop.getName() != null) {
+            condition = new Condition("name", DataType.STRING, shop.getName());
+        } else if (shop.getId() != null) {
+            condition = new Condition("id", DataType.STRING, shop.getId());
+        } else {
+            throw new SerException("缺少shop必要参数，name或者id");
+        }
+
+        Shop findedshop = findOne(shopDto);
+        if (findedshop == null) {
+            throw new SerException("参数错误，找不到此店铺");
+        } else {
+            //更改店铺状态
+            findedshop.setStatus(shop.getStatus() == ShopStatus.OFFLINE ? ShopStatus.ONLINE : ShopStatus.OFFLINE);
+            super.update(findedshop);
         }
     }
+
 
     //设置最后修改时间
     private void shopModifiedAccessTime(Shop shop) throws SerException {
@@ -109,12 +157,13 @@ public class ShopSerImpl extends ServiceImpl<Shop,ShopDto> implements IShopSer {
     }
 
     @Override
-    public void update(Shop shop, String oldName) {
+    public void update(Shop shop, String oldName) throws SerException {
         shopRep.saveAndFlush(shop);
     }
 
     @Override
-    public Shop save(Shop shop){
+    public Shop save(Shop shop) {
+        //不推荐使用，没有确实绑定用户
         return shopRep.save(shop);
     }
 

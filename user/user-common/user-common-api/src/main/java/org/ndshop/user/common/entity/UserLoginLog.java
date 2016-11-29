@@ -17,7 +17,8 @@ import java.time.LocalDateTime;
 @Table(name = "user_login_log")
 public class UserLoginLog extends BaseEntity {
 
-    private LocalDateTime loginTime;//    登录时间
+    @OrderBy(value = "loginTime desc ")
+    private LocalDateTime loginTime=LocalDateTime.now();//    登录时间
     private String loginAddress;// 登录地点
     private String loginIp;// ip地址
     @Column(columnDefinition = "INT(1)")

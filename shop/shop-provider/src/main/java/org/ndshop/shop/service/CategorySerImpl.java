@@ -9,7 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 /**
- * Created by ike on 16-11-12.
+ * @Author: [caixianyong]
+ * @Date: [2016-11-23 16:51]
+ * @Description: [店内分类service实现]
+ * @Version: [1.0.0]
+ * @Copy: [org.ndshop]
  */
 @Service
 public class CategorySerImpl extends ServiceImpl<Category,CategoryDto> implements ICategorySer {

@@ -8,8 +8,8 @@ import org.ndshop.user.common.entity.User;
 import org.ndshop.user.common.service.IUserSer;
 import org.ndshop.user.common.utils.Validator;
 import org.ndshop.user.register.dto.UserRegisterDto;
-import org.ndshop.user.register.quartz.VerifyCode;
-import org.ndshop.user.register.quartz.VerifySession;
+import org.ndshop.user.register.session.phonecode.PhoneCode;
+import org.ndshop.user.register.session.phonecode.PhoneCodeSession;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,8 +57,9 @@ public class UserRegisterSerImpl implements IUserRegisterSer {
         if (null != userSer.findByPhone(phone)) {
             //generateCode()
             String code = "123456";
-            VerifyCode verifyCode = new VerifyCode(code);
-            VerifySession.put("13457910241", verifyCode);
+            PhoneCode phoneCode = new PhoneCode();
+            phoneCode.setCode(code);
+            PhoneCodeSession.put("13457910241", phoneCode);
             //sendToPhone（）
         } else {
             throw new SerException("该手机号码已注册！");
@@ -79,11 +80,11 @@ public class UserRegisterSerImpl implements IUserRegisterSer {
         }
 
         //通过手机号码获得系统生成的验证码对象
-        VerifyCode verifyCode = VerifySession.get(dto.getPhone());
-        if (null != verifyCode) {
-            if (verifyCode.getCode().equals(dto.getPhoneCode())) {
+        PhoneCode phoneCode = PhoneCodeSession.get(dto.getPhone());
+        if (null != phoneCode) {
+            if (phoneCode.getCode().equals(dto.getPhoneCode())) {
                 saveUserByDto(dto);
-                VerifySession.remove(dto.getPhone());
+                PhoneCodeSession.remove(dto.getPhone());
             } else {
                 throw new SerException("验证码不正确");
             }

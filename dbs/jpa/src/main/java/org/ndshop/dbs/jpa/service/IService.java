@@ -62,9 +62,10 @@ public interface IService<BE extends BaseEntity, BD extends BaseDto> {
 
     /**
      * 根据条件询对象列表
-     * 是否分页排序
+     * 是否分页,排序
      *
      * @param dto
+     * @param pageAndSort 排序分页
      * @return
      * @throws SerException
      */

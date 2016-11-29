@@ -1,8 +1,8 @@
 package test_java_service;
 
-import org.ndshop.dbs.jpa.exception.SerException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ndshop.dbs.jpa.exception.SerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -11,7 +11,6 @@ import test_java_service.code.entity.User;
 import test_java_service.code.service.IUserSer;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by huanghuanlai on 2016/10/13.
@@ -36,14 +35,11 @@ public class ManyToMany {
 
     @Test
     public void findUser() throws SerException {
-        Optional<List<User>> optional = userSer.findAll();
-        if(optional.isPresent()){
-            for (User u : optional.get()) {
-                System.out.println(u.getInterests().size());
-                System.out.println(u);
-            }
+        List<User> users = userSer.findAll();
+        for (User u : users) {
+            System.out.println(u.getInterests().size());
+            System.out.println(u);
         }
-
 
     }
 
