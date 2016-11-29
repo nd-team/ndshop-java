@@ -34,12 +34,13 @@ public class TestGoods {
 
     @Autowired
     private IGoodsSer goodsSer;
+    
 
     @Test
     public void addGoods() throws SerException{
         Goods goods = new Goods();
-        goods.setGoodsNum("商品编号");
-        goods.setName("苹果手机");
+        goods.setGoodsNum("商品编号3");
+        goods.setName("苹果手机3");
         goods.setGoodsDescription( "苹果描述");
         goods.setCreateTime( LocalDateTime.now() );
         goods.setModifyTime( LocalDateTime.now() );
@@ -49,7 +50,7 @@ public class TestGoods {
         goodsBrands.setId( brandId );
         goods.setGoodsBrands( goodsBrands );
 
-        String categoryId = "023ffb75-f063-4846-807a-f94a540e9916";
+        String categoryId = "8ae60e3b-cd51-4431-96d9-ba77a7d953cb";
         GoodsCategory goodsCategory = new GoodsCategory();
         goodsCategory.setId( categoryId );
         goods.setGoodsCategory(  goodsCategory );
@@ -60,7 +61,7 @@ public class TestGoods {
     @Transactional
     @Test
     public void findGoodsById() throws SerException{
-        String gid = "2a27c9d2-5536-478d-982e-0645731e4679";
+        String gid = "039325e7-91d2-4536-99f4-f38fe0cd9337";
         Goods goods = goodsSer.findById( gid );
         logger.info(JSON.toJSONString( goods ));
     }

@@ -1,9 +1,12 @@
 package org.ndshop.goods.entity;
 
 import org.ndshop.dbs.jpa.entity.BaseEntity;
+import org.ndshop.goods.enums.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -24,6 +27,33 @@ public class Goods extends BaseEntity {
     private String name;//商品名
 
     private String goodsDescription; //商品描述
+
+    @Min(value = 0)
+    @Column(scale = 2)
+    private Double price ;//销售价
+
+    @Max(value = 1)
+    @Min(value = 0)
+    @Column(columnDefinition ="DOUBLE default 1.00" ,scale = 2)
+    private Double discount = 1.00;//折扣 默认不打折
+
+    @Min(value = 0)
+    private Integer quantity ;//总库存
+
+    @Column(columnDefinition ="INT default 0" )
+    private GoodsOnSaleStatus goodsOnSaleStatus;//商品上架状态 默认上架
+
+    @Column(columnDefinition = "INT default 1")
+    private GoodsSpecialSaleStatus goodsSpecialSaleStatus;//商品是否特卖 默认正常卖
+
+    @Column(columnDefinition = "INT default 1")
+    private GoodsNewFlagStatus goodsNewFlagStatus;//商品是否是新品 默认正常卖
+
+    @Column(columnDefinition = "INT default 1")
+    private GoodsHotSaleStatus goodsHotSaleStatus;//商品是否是热卖 默认正常卖
+
+    @Column(columnDefinition = "INT default 1")
+    private GoodsRecommendStatus goodsRecommendStatus;//商品是否推荐 默认正常卖
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     @Column(columnDefinition="dateTime")
@@ -70,6 +100,70 @@ public class Goods extends BaseEntity {
 
     public void setGoodsDescription(String goodsDescription) {
         this.goodsDescription = goodsDescription;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Double discount) {
+        this.discount = discount;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public GoodsOnSaleStatus getGoodsOnSaleStatus() {
+        return goodsOnSaleStatus;
+    }
+
+    public void setGoodsOnSaleStatus(GoodsOnSaleStatus goodsOnSaleStatus) {
+        this.goodsOnSaleStatus = goodsOnSaleStatus;
+    }
+
+    public GoodsSpecialSaleStatus getGoodsSpecialSaleStatus() {
+        return goodsSpecialSaleStatus;
+    }
+
+    public void setGoodsSpecialSaleStatus(GoodsSpecialSaleStatus goodsSpecialSaleStatus) {
+        this.goodsSpecialSaleStatus = goodsSpecialSaleStatus;
+    }
+
+    public GoodsNewFlagStatus getGoodsNewFlagStatus() {
+        return goodsNewFlagStatus;
+    }
+
+    public void setGoodsNewFlagStatus(GoodsNewFlagStatus goodsNewFlagStatus) {
+        this.goodsNewFlagStatus = goodsNewFlagStatus;
+    }
+
+    public GoodsHotSaleStatus getGoodsHotSaleStatus() {
+        return goodsHotSaleStatus;
+    }
+
+    public void setGoodsHotSaleStatus(GoodsHotSaleStatus goodsHotSaleStatus) {
+        this.goodsHotSaleStatus = goodsHotSaleStatus;
+    }
+
+    public GoodsRecommendStatus getGoodsRecommendStatus() {
+        return goodsRecommendStatus;
+    }
+
+    public void setGoodsRecommendStatus(GoodsRecommendStatus goodsRecommendStatus) {
+        this.goodsRecommendStatus = goodsRecommendStatus;
     }
 
     public LocalDateTime getCreateTime() {
