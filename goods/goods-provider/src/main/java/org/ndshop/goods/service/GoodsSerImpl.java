@@ -38,35 +38,40 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
     @Transactional
     @Override
     public Goods addGoods(Goods goods , GoodsDto goodsDto ) throws SerException{
-        Goods gs = new Goods();
-        gs.setGoodsNum( goods.getGoodsNum() );
-        gs.setName(  goods.getName() );
-        gs.setGoodsDescription( goods.getGoodsDescription() );
-        goods.setGoodsCode(goods.getGoodsCode());
-        goods.setPrice( goods.getPrice() );
-        goods.setDiscountPrice( goods.getDiscountPrice() );
-        goods.setQuantity( goods.getQuantity() );
-        goods.setGoodsOnSaleStatus(GoodsOnSaleStatus.ONSALE );
-        goods.setGoodsSpecialSaleStatus(GoodsSpecialSaleStatus.NORMALSALE );
-        goods.setGoodsNewFlagStatus(GoodsNewFlagStatus.isOld );
-        goods.setGoodsHotSaleStatus(GoodsHotSaleStatus.NORMALSALE );
-        goods.setGoodsRecommendStatus(GoodsRecommendStatus.isnormal );
-        goods.setCreateTime( LocalDateTime.now() );
-        gs.setModifyTime( LocalDateTime.now() );
+        Goods goodsNew = new Goods();
+        goodsNew.setGoodsNum( goods.getGoodsNum() );
+        goodsNew.setName(  goods.getName() );
+        goodsNew.setGoodsDescription( goods.getGoodsDescription() );
+        goodsNew.setGoodsCode(goods.getGoodsCode());
+        goodsNew.setPrice( goods.getPrice() );
+        goodsNew.setDiscountPrice( goods.getDiscountPrice() );
+        goodsNew.setQuantity( goods.getQuantity() );
+        goodsNew.setGoodsOnSaleStatus( goodsDto.getGoodsOnSaleStatus() );
+        goodsNew.setGoodsSpecialSaleStatus( goodsDto.getGoodsSpecialSaleStatus() );
+        goodsNew.setGoodsNewFlagStatus( goodsDto.getGoodsNewFlagStatus() );
+        goodsNew.setGoodsHotSaleStatus(goodsDto.getGoodsHotSaleStatus() );
+        goodsNew.setGoodsRecommendStatus( goodsDto.getGoodsRecommendStatus() );
+        if ( GoodsOnSaleStatus.ONSALE.equals( goodsNew.getGoodsOnSaleStatus() ) ) {
+            goodsNew.setOnSaleCreateTime( LocalDateTime.now() );
+        }else{
+            goodsNew.setOnSaleCreateTime( null );
+        }
+        goodsNew.setCreateTime( LocalDateTime.now() );
+        goodsNew.setModifyTime( LocalDateTime.now() );
 
         GoodsBrands goodsBrands = new GoodsBrands();
         goodsBrands.setId( goodsDto.getBrandId() );
-        gs.setGoodsBrands( goodsBrands );
+        goodsNew.setGoodsBrands( goodsBrands );
 
         GoodsCategory goodsCategory = new GoodsCategory();
         goodsCategory.setId( goodsDto.getCategoryId() );
-        gs.setGoodsCategory(  goodsCategory );
+        goodsNew.setGoodsCategory(  goodsCategory );
 
         User user = new User();
         user.setId( goodsDto.getUserId() );
-        goods.setUser( user );
+        goodsNew.setUser( user );
 
-        return this.save( goods );
+        return this.save( goodsNew );
     }
 
     @Cacheable("goodsServiceCache")

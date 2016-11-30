@@ -1,5 +1,6 @@
 package org.ndshop.goods.service;
 
+import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.IService;
 import org.ndshop.goods.dto.GoodsBrandsDto;
 import org.ndshop.goods.entity.GoodsBrands;
@@ -13,5 +14,14 @@ import org.ndshop.goods.entity.GoodsBrands;
  * @Copy: [org.ndshop]
  */
 public interface IGoodsBrandsSer extends IService<GoodsBrands, GoodsBrandsDto> {
+
+    /**
+     * 添加商品品牌 ，需要dto里面的品牌类别id
+     * @param goodsBrands 商品品牌信息
+     * @param goodsBrandsDto 商品品牌传输数据
+     * @return
+     * @throws SerException
+     */
+    default GoodsBrands addBrands( GoodsBrands goodsBrands ,GoodsBrandsDto goodsBrandsDto ) throws SerException {return null;};
 
 }

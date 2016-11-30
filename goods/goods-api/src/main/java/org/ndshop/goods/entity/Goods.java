@@ -58,6 +58,10 @@ public class Goods extends BaseEntity {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     @Column(columnDefinition="dateTime")
+    private LocalDateTime onSaleCreateTime ;//上架时间
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @Column(columnDefinition="dateTime")
     private LocalDateTime createTime = LocalDateTime.now();//创建时间
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
@@ -177,6 +181,14 @@ public class Goods extends BaseEntity {
 
     public void setGoodsRecommendStatus(GoodsRecommendStatus goodsRecommendStatus) {
         this.goodsRecommendStatus = goodsRecommendStatus;
+    }
+
+    public LocalDateTime getOnSaleCreateTime() {
+        return onSaleCreateTime;
+    }
+
+    public void setOnSaleCreateTime(LocalDateTime onSaleCreateTime) {
+        this.onSaleCreateTime = onSaleCreateTime;
     }
 
     public LocalDateTime getCreateTime() {

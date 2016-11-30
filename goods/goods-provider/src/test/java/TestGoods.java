@@ -41,10 +41,10 @@ public class TestGoods {
     @Test
     public void addGoods() throws SerException{
         Goods goods = new Goods();
-        goods.setGoodsNum("商品编号3");
-        goods.setName("苹果手机3");
+        goods.setGoodsNum("商品编号2");
+        goods.setName("苹果手机2");
         goods.setGoodsDescription( "苹果描述");
-        goods.setGoodsCode("2343546546");
+        goods.setGoodsCode("4546546565");
         goods.setPrice(199.99);
         goods.setDiscountPrice(188.0);
         goods.setQuantity(1343);
@@ -53,6 +53,11 @@ public class TestGoods {
         goods.setGoodsNewFlagStatus(GoodsNewFlagStatus.isOld );
         goods.setGoodsHotSaleStatus(GoodsHotSaleStatus.NORMALSALE );
         goods.setGoodsRecommendStatus(GoodsRecommendStatus.isnormal );
+        if ( GoodsOnSaleStatus.ONSALE.equals( goods.getGoodsOnSaleStatus() ) ) {
+            goods.setOnSaleCreateTime( LocalDateTime.now() );
+        }else{
+            goods.setOnSaleCreateTime( null );
+        }
         goods.setCreateTime( LocalDateTime.now() );
         goods.setModifyTime( LocalDateTime.now() );
 
