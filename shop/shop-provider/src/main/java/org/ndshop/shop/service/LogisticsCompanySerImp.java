@@ -4,7 +4,6 @@ import com.dounine.corgi.spring.rpc.Service;
 import org.apache.commons.lang3.StringUtils;
 import org.ndshop.dbs.jpa.dto.Condition;
 import org.ndshop.dbs.jpa.enums.DataType;
-import org.ndshop.dbs.jpa.enums.RestrictionType;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.ServiceImpl;
 import org.ndshop.shop.dto.LogisticsCompanyDto;
@@ -13,7 +12,6 @@ import org.ndshop.shop.entity.Shop;
 import org.ndshop.shop.enums.ShopStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.List;
 
@@ -131,25 +129,25 @@ public class LogisticsCompanySerImp
     }
 
     @Override
-    public LogisticsCompany addLogisComp(@NotNull LogisticsCompany logisticsCompany, @NotNull Shop shop) throws SerException {
+    public LogisticsCompany addLogisComp(LogisticsCompany logisticsCompany, Shop shop) throws SerException {
 
-        String shopId = shop.getId().trim();
-        String shopName = shop.getName().trim();
-        String logisCompName = logisticsCompany.getName().trim();
+        String shopId = shop.getId();
+        String shopName = shop.getName();
+        String logisCompName = logisticsCompany.getName();
 
         //构造相关条件
         Condition condiShop = null;
         Condition condiLogisComp = null;
         if (StringUtils.isNotBlank(shopName)) {
-            condiShop = new Condition("name", DataType.STRING, shopName);
+            condiShop = new Condition("name", DataType.STRING, shopName.trim());
         } else if (StringUtils.isNotBlank(shopId)) {
-            condiShop = new Condition("id", DataType.STRING, shopId);
+            condiShop = new Condition("id", DataType.STRING, shopId.trim());
         } else {
             throw new SerException("缺少shop必要属性id或者name");
         }
         condiShop.fieldToModels(Shop.class);
         if (StringUtils.isNotBlank(logisCompName)) {
-            condiLogisComp = new Condition("name", DataType.STRING, logisCompName);
+            condiLogisComp = new Condition("name", DataType.STRING, logisCompName.trim());
         }
 
         //查找同店铺是否存在同名物流公司
@@ -175,7 +173,8 @@ public class LogisticsCompanySerImp
     }
 
     @Override
-    public boolean removeLogisComp(LogisticsCompany logisticsCompany) {
-        return false;
+    public boolean removeLogisComp(LogisticsCompany logisticsCompany) throws SerException {
+        remove(logisticsCompany);
+        return true;
     }
 }

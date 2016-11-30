@@ -44,6 +44,8 @@ public class LogisticsSerImpl extends ServiceImpl<Logistics, LogisticsDto> imple
         LogisticsDto logDto = new LogisticsDto();
         Condition condition = null;
 
+        shop = shop == null ? (new Shop()) : shop;
+
         if (StringUtils.isNotBlank(shop.getName())) {
             shop = shopSer.findByName(shop.getName());
         } else if (StringUtils.isNotBlank(shop.getId())) {
@@ -51,13 +53,16 @@ public class LogisticsSerImpl extends ServiceImpl<Logistics, LogisticsDto> imple
         } else {
             throw new SerException("缺少shop必要的属性：name或者id");
         }
+
+        //判断返回的shop
         if (shop != null) {
             condition = new Condition("name", DataType.STRING, shop.getName().trim());
             condition.fieldToModels(Shop.class);
+
             logDto.getConditions().add(condition);
             logDto.setLimit(20);
             logDto.setPage(1);
-            logDto.setSorts(Arrays.asList("comp_id", "seq"));
+            logDto.setSorts(Arrays.asList("expressComp", "seq"));
             return findByCis(logDto, true);
         } else {
             throw new SerException("查找不到对应店铺");
@@ -69,8 +74,11 @@ public class LogisticsSerImpl extends ServiceImpl<Logistics, LogisticsDto> imple
     @Override
     public Logistics findByShopAndName(Shop shop, String name) throws SerException {
         LogisticsDto logDto = new LogisticsDto();
-        Condition condition1 = null;
-        Condition condition2 = null;
+        Condition condiShop = null;
+        Condition condiName = null;
+
+        shop = shop == null ? (new Shop()) : shop;
+
         if (StringUtils.isNotBlank(shop.getName())) {
             shop = shopSer.findByName(shop.getName().trim());
         } else if (StringUtils.isNotBlank(shop.getId())) {
@@ -80,28 +88,32 @@ public class LogisticsSerImpl extends ServiceImpl<Logistics, LogisticsDto> imple
         }
 
         if (shop != null) {
-            condition1 = new Condition("name", DataType.STRING, shop.getName().trim());
-            condition1.fieldToModels(Shop.class);
+            condiShop = new Condition("name", DataType.STRING, shop.getName().trim());
+            condiShop.fieldToModels(Shop.class);
+        }else{
+            throw new SerException("查找不到对应店铺");
         }
+
         if (name != null) {
-            condition2 = new Condition("name", DataType.STRING, name.trim());
+            condiName = new Condition("name", DataType.STRING, name.trim());
         } else {
             throw new SerException("name不能为null");
         }
 
-        logDto.getConditions().add(condition1);
-        logDto.getConditions().add(condition2);
+        logDto.getConditions().add(condiShop);
+        logDto.getConditions().add(condiName);
 
-        Logistics logis = findOne(logDto);
+        return findOne(logDto);
 
-        return logis;
     }
 
     @Override
     public void changeStatus(Logistics logistics) throws SerException {
 
         LogisticsDto logisticsDto = new LogisticsDto();
-        Condition condition;
+        Condition condition = null;
+
+        logistics = logistics == null ? (new Logistics()) : logistics;
 
         if (StringUtils.isNotBlank(logistics.getName())) {
             condition = new Condition("name", DataType.STRING, logistics.getName().trim());
@@ -127,6 +139,9 @@ public class LogisticsSerImpl extends ServiceImpl<Logistics, LogisticsDto> imple
     public void modifyLogistics(Logistics logistics) throws SerException {
         LogisticsDto logisticsDto = new LogisticsDto();
         Condition condition;
+
+        logistics = logistics == null ? (new Logistics()) : logistics;
+
         if (StringUtils.isNotBlank(logistics.getId())) {
             condition = new Condition("id", DataType.STRING, logistics.getId().trim());
         } else {
@@ -151,6 +166,10 @@ public class LogisticsSerImpl extends ServiceImpl<Logistics, LogisticsDto> imple
     @Transactional
     public void addLogistics(Logistics logistics, Shop shop, LogisticsCompany logisticsCompany) throws SerException {
 
+        if (shop == null || logistics == null || logisticsCompany == null) {
+            throw new SerException("无效参数");
+        }
+
         if (StringUtils.isNotBlank(shop.getName())) {
             shop = shopSer.findByName(shop.getName().trim());
         } else if (StringUtils.isNotBlank(shop.getId())) {
@@ -158,16 +177,17 @@ public class LogisticsSerImpl extends ServiceImpl<Logistics, LogisticsDto> imple
         } else {
             throw new SerException("缺少shop必要的属性id或者name");
         }
-        if(shop==null){
+
+        //判断查找结果
+        if (shop == null) {
             throw new SerException("查找不到对应店铺");
         }
 
         if (StringUtils.isNotBlank(logisticsCompany.getId())) {
             logisticsCompany = logisticsCompanySer.findById(logisticsCompany.getId().trim());
         } else if (StringUtils.isNotBlank(logisticsCompany.getName())) {
-            Condition condiComp = new Condition("name",DataType.STRING,logisticsCompany.getName().trim());
-            condiComp.fieldToModels(LogisticsCompany.class);
-            Condition condiShop = new Condition("id",DataType.STRING,shop.getId().trim());
+            Condition condiComp = new Condition("name", DataType.STRING, logisticsCompany.getName().trim());
+            Condition condiShop = new Condition("id", DataType.STRING, shop.getId().trim());
             condiShop.fieldToModels(Shop.class);
             LogisticsCompanyDto dto = new LogisticsCompanyDto();
             dto.getConditions().add(condiComp);
@@ -177,10 +197,13 @@ public class LogisticsSerImpl extends ServiceImpl<Logistics, LogisticsDto> imple
         } else {
             throw new SerException("缺少logisticsCompany必要的属性id或者name");
         }
-        if(logisticsCompany==null){
+
+        //判断查找结果
+        if (logisticsCompany == null) {
             throw new SerException("查找不到对应物流公司");
         }
 
+        //筛选
         List<Logistics> logisList = findByShop(shop);
 
         if (logisList.size() == 0 || logisList.stream().filter(logistics1 -> logistics1.getName().equals(logistics.getName())).count() == 0) {
@@ -199,8 +222,11 @@ public class LogisticsSerImpl extends ServiceImpl<Logistics, LogisticsDto> imple
 
     @Override
     public boolean removeLogisticsBatch(List<Logistics> listLogis) {
-        remove(listLogis);
-        return true;
+        if (listLogis != null) {
+            remove(listLogis);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -208,13 +234,18 @@ public class LogisticsSerImpl extends ServiceImpl<Logistics, LogisticsDto> imple
     public boolean changeStatusBatch(Shop shop, List<String> ids) throws SerException {
         LogisticsDto logisticsDto = new LogisticsDto();
         Condition condition = null;
+
+        shop = shop == null ? (new Shop()) : shop;
+
         if (StringUtils.isNotBlank(shop.getId())) {
             condition = new Condition("id", DataType.STRING, shop.getId().trim());
-            condition.fieldToModels(Shop.class);
+        }else if (StringUtils.isNotBlank(shop.getName())) {
+            condition = new Condition("name", DataType.STRING, shop.getName().trim());
         } else {
-            throw new SerException("缺少shop必要属性：id");
+            throw new SerException("缺少shop必要属性：id或者name");
         }
 
+        condition.fieldToModels(Shop.class);
         logisticsDto.getConditions().add(condition);
 
         List<Logistics> list = findByCis(logisticsDto);

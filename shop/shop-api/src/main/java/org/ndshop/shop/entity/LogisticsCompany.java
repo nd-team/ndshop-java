@@ -24,7 +24,7 @@ public class LogisticsCompany extends BaseEntity{
     @JoinColumn(name = "shop_id")
     private Shop shop;
 
-    @OneToMany(cascade = {CascadeType.DETACH,CascadeType.REFRESH},fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.ALL},fetch = FetchType.EAGER,mappedBy = "expressComp")
     private Set<Logistics> logisticsSet;
 
     @Column(columnDefinition = "int")

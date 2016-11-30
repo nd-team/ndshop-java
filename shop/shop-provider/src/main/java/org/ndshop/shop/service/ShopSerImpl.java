@@ -38,7 +38,7 @@ public class ShopSerImpl extends ServiceImpl<Shop, ShopDto> implements IShopSer 
 /*    @Autowired
     private EntityManager em;*/
 
-    @Reference
+    @Reference(url = "localhost:8888")
     private IUserSer userSer;
 
     @Override

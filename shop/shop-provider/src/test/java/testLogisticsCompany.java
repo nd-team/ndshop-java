@@ -1,4 +1,3 @@
-import org.apache.tools.ant.types.resources.comparators.Name;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -71,4 +70,29 @@ public class testLogisticsCompany {
         logisticsCompanySer.changeStatus(company,shop);
     }
 
+
+    @Test
+    public void testAddLogisticsCompany() throws SerException{
+        Shop shop = new Shop();
+        shop.setName("BBB");
+
+        LogisticsCompany company = new LogisticsCompany();
+        company.setName("STKD");
+        company.setStatus(ShopStatus.OFFLINE);
+
+        logisticsCompanySer.addLogisComp(company,shop);
+
+    }
+
+    @Test
+    public void testRemoveLogisticsCompany() throws SerException{
+        Shop shop = new Shop();
+        shop.setName("BBB");
+
+        LogisticsCompany company = logisticsCompanySer.findByShopAndName(shop,"STKD");
+        Assert.assertTrue(logisticsCompanySer.removeLogisComp(company));
+    }
+
 }
+
+

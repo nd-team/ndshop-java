@@ -16,7 +16,7 @@ import javax.persistence.*;
 @Table(name = "shop_logistics")
 public class Logistics extends BaseEntity {
 
-    @ManyToOne(targetEntity = Shop.class, cascade = CascadeType.REFRESH, optional = false,fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = Shop.class, cascade = CascadeType.REFRESH, optional = true,fetch = FetchType.EAGER)
     @JoinColumn(name = "shop_id")
     private Shop shop;
     //关联的店铺

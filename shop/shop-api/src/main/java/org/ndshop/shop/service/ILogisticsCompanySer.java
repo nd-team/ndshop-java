@@ -63,7 +63,7 @@ public interface ILogisticsCompanySer extends IService<LogisticsCompany,Logistic
      * @param logisticsCompany 需要的是其中的id
      * @return
      */
-    default boolean removeLogisComp(LogisticsCompany logisticsCompany){
+    default boolean removeLogisComp(LogisticsCompany logisticsCompany) throws SerException{
         return true;
     }
 }

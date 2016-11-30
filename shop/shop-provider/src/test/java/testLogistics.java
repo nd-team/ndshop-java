@@ -41,27 +41,27 @@ public class testLogistics {
     public void init() throws SerException {
 
         Shop shop = new Shop();
-        shop.setName("AAA");
+        shop.setName("BBB");
 
         List<LogisticsCompany> companyList = logisticsCompanySer.findByShop(shop);
         LogisticsCompany company;
-        if (companyList == null || companyList.size() == 0) {
+        if (companyList == null || companyList.stream().filter(logisticsCompany -> logisticsCompany.getName().equals("STKD")).count()==0) {
             company = new LogisticsCompany();
             company.setStatus(ShopStatus.OFFLINE);
-            company.setName("TTKD");
+            company.setName("STKD");
             logisticsCompanySer.addLogisComp(company, shop);
         } else {
             company = companyList.stream()
-                    .filter(logisticsCompany -> logisticsCompany.getName().equals("TTKD"))
+                    .filter(logisticsCompany -> logisticsCompany.getName().equals("STKD"))
                     .findFirst().get();
         }
 
-        Logistics logis = logisticsSer.findByShopAndName(shop, "one");
+        Logistics logis = logisticsSer.findByShopAndName(shop, "three");
         if (logis == null) {
             logis = new Logistics();
-            logis.setName("one");
+            logis.setName("three");
             logis.setStatus(ShopStatus.OFFLINE);
-            logis.setSeq(4);
+            logis.setSeq(2);
             logis.setArea("23432");
 
             logisticsSer.addLogistics(logis, shop,company);
@@ -72,14 +72,14 @@ public class testLogistics {
     public void testAddLogistices() throws SerException {
 
         Logistics logistics = new Logistics();
-        logistics.setName("two");
+        logistics.setName("four");
         logistics.setSeq(2);
         logistics.setStatus(ShopStatus.OFFLINE);
 
         Shop shop = new Shop();
-        shop.setName("AAA");
+        shop.setName("BBB");
         LogisticsCompany company = new LogisticsCompany();
-        company.setName("TTKD");
+        company.setName("STKD");
         List<Logistics> list1 = logisticsSer.findByShop(shop);
         logisticsSer.addLogistics(logistics, shop,company);
         List<Logistics> list2 = logisticsSer.findByShop(shop);
@@ -89,19 +89,19 @@ public class testLogistics {
 
     @Test
     public void testRemoveLogistics() throws SerException {
-        Logistics logis = logisticsSer.findByShopAndName(shopSer.findByName("AAA"), "one");
+        Logistics logis = logisticsSer.findByShopAndName(shopSer.findByName("BBB"), "one");
         Assert.assertTrue(logis != null);
 
         logisticsSer.removeLogistics(logis);
 
-        logis = logisticsSer.findByShopAndName(shopSer.findByName("AAA"), "one");
+        logis = logisticsSer.findByShopAndName(shopSer.findByName("BBB"), "one");
         Assert.assertTrue(logis == null);
     }
 
     @Test
     public void testChangeStatus() throws SerException {
         Shop shop = new Shop();
-        shop.setName("AAA");
+        shop.setName("BBB");
 
         LogisticsCompany company = new LogisticsCompany();
         company.setName("TTKD");
@@ -123,7 +123,7 @@ public class testLogistics {
     @Test
     public void testFindByShop() throws SerException {
         Shop shop = new Shop();
-        shop.setName("AAA");
+        shop.setName("BBB");
 
         /*Logistics logis = new Logistics();
         logis.setName("three");
@@ -165,7 +165,7 @@ public class testLogistics {
 
         String[] listName = {"five", "six", "seven", "eight"};
         Shop shop = new Shop();
-        shop.setId("e25c76e5-8bd0-4377-b2af-daf3dd944c7e");
+        shop.setName("BBB");
         LogisticsCompany company = new LogisticsCompany();
         company.setName("TTKD");
 
@@ -202,7 +202,6 @@ public class testLogistics {
         //测试批量删除
         boolean flag = logisticsSer.removeLogisticsBatch(newList);
         Assert.assertTrue(flag);
-
 
     }
 

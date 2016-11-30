@@ -58,12 +58,23 @@ public class Shop extends BaseEntity {
     private String shopImg;
     //店铺图片
 
-    @OneToMany(targetEntity = Logistics.class,cascade = CascadeType.DETACH,fetch = FetchType.LAZY,mappedBy = "shop")
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "shop")
     private Set<Logistics> logisticses;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "shop")
     private Set<Category> categorySet;
     //店内分类
+
+    @OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,mappedBy = "shop")
+    private Set<LogisticsCompany> logisticsCompanies;
+
+    public Set<LogisticsCompany> getLogisticsCompanies() {
+        return logisticsCompanies;
+    }
+
+    public void setLogisticsCompanies(Set<LogisticsCompany> logisticsCompanies) {
+        this.logisticsCompanies = logisticsCompanies;
+    }
 
     public String getName() {
         return name;
