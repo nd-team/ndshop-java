@@ -81,8 +81,7 @@ public class GoodsFieldsValueSerImpl extends ServiceImpl<GoodsFieldsValue, Goods
     @Cacheable("goodsServiceCache")
     @Override
     public List<GoodsFieldsValue> findFieldVaues(String goodsId) throws SerException{
-        String gId = "2a27c9d2-5536-478d-982e-0645731e4679";
-        Condition c = new Condition("id", DataType.STRING,gId);
+        Condition c = new Condition("id", DataType.STRING,goodsId);
         c.fieldToModels( Goods.class );
         GoodsFieldsValueDto dto = new GoodsFieldsValueDto();
         dto.getConditions().add( c );

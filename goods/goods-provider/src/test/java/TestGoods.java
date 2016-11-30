@@ -11,7 +11,9 @@ import org.ndshop.goods.dto.GoodsDto;
 import org.ndshop.goods.entity.Goods;
 import org.ndshop.goods.entity.GoodsBrands;
 import org.ndshop.goods.entity.GoodsCategory;
+import org.ndshop.goods.enums.*;
 import org.ndshop.goods.service.IGoodsSer;
+import org.ndshop.user.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -42,18 +44,32 @@ public class TestGoods {
         goods.setGoodsNum("商品编号3");
         goods.setName("苹果手机3");
         goods.setGoodsDescription( "苹果描述");
+        goods.setGoodsCode("2343546546");
+        goods.setPrice(199.99);
+        goods.setDiscountPrice(188.0);
+        goods.setQuantity(1343);
+        goods.setGoodsOnSaleStatus(GoodsOnSaleStatus.ONSALE );
+        goods.setGoodsSpecialSaleStatus(GoodsSpecialSaleStatus.NORMALSALE );
+        goods.setGoodsNewFlagStatus(GoodsNewFlagStatus.isOld );
+        goods.setGoodsHotSaleStatus(GoodsHotSaleStatus.NORMALSALE );
+        goods.setGoodsRecommendStatus(GoodsRecommendStatus.isnormal );
         goods.setCreateTime( LocalDateTime.now() );
         goods.setModifyTime( LocalDateTime.now() );
 
-        String brandId = "5a7b0fdf-6a96-46de-baed-2d855e7616ed";
+        String brandId = "5b7a637a-6b21-40eb-981f-0e47c06ad226";
         GoodsBrands goodsBrands = new GoodsBrands();
         goodsBrands.setId( brandId );
         goods.setGoodsBrands( goodsBrands );
 
-        String categoryId = "8ae60e3b-cd51-4431-96d9-ba77a7d953cb";
+        String categoryId = "3ba91a9a-d763-4b16-a3fc-8942510ccb71";
         GoodsCategory goodsCategory = new GoodsCategory();
         goodsCategory.setId( categoryId );
         goods.setGoodsCategory(  goodsCategory );
+
+        String userId = "40d2f51f-b1ac-48ce-85d9-b4a552a59d60";
+        User user = new User();
+        user.setId( userId );
+        goods.setUser( user );
 
         goodsSer.save( goods );
     }
@@ -61,9 +77,9 @@ public class TestGoods {
     @Transactional
     @Test
     public void findGoodsById() throws SerException{
-        String gid = "039325e7-91d2-4536-99f4-f38fe0cd9337";
+        String gid = "e329a7cc-d318-4918-bdd1-b57620986144";
         Goods goods = goodsSer.findById( gid );
-        logger.info(JSON.toJSONString( goods ));
+        logger.info(JSON.toJSONString( goods.getGoodsFieldValue() ));
     }
 
     @Transactional

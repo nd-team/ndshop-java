@@ -2,10 +2,10 @@ package org.ndshop.goods.entity;
 
 import org.ndshop.dbs.jpa.entity.BaseEntity;
 import org.ndshop.goods.enums.*;
+import org.ndshop.user.common.entity.User;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -23,6 +23,8 @@ public class Goods extends BaseEntity {
     @Column(nullable = false ,unique = true)
     private String goodsNum; //商品编号
 
+    private String goodsCode;//商品条形码
+
     @Column(nullable = false ,unique = true)
     private String name;//商品名
 
@@ -32,10 +34,9 @@ public class Goods extends BaseEntity {
     @Column(scale = 2)
     private Double price ;//销售价
 
-    @Max(value = 1)
     @Min(value = 0)
-    @Column(columnDefinition ="DOUBLE default 1.00" ,scale = 2)
-    private Double discount = 1.00;//折扣 默认不打折
+    @Column(scale = 2)
+    private Double discountPrice ;//折扣价
 
     @Min(value = 0)
     private Integer quantity ;//总库存
@@ -78,12 +79,24 @@ public class Goods extends BaseEntity {
     @OneToOne(cascade = CascadeType.ALL ,mappedBy = "goods", fetch = FetchType.LAZY)
     private GoodsFieldsValue goodsFieldValue;
 
+    @ManyToOne(cascade = {CascadeType.REFRESH,CascadeType.REMOVE})
+    @JoinColumn(name = "user_id")
+    private User user; //商品品牌表
+
     public String getGoodsNum() {
         return goodsNum;
     }
 
     public void setGoodsNum(String goodsNum) {
         this.goodsNum = goodsNum;
+    }
+
+    public String getGoodsCode() {
+        return goodsCode;
+    }
+
+    public void setGoodsCode(String goodsCode) {
+        this.goodsCode = goodsCode;
     }
 
     public String getName() {
@@ -110,12 +123,12 @@ public class Goods extends BaseEntity {
         this.price = price;
     }
 
-    public Double getDiscount() {
-        return discount;
+    public Double getDiscountPrice() {
+        return discountPrice;
     }
 
-    public void setDiscount(Double discount) {
-        this.discount = discount;
+    public void setDiscountPrice(Double discountPrice) {
+        this.discountPrice = discountPrice;
     }
 
     public Integer getQuantity() {
@@ -212,6 +225,14 @@ public class Goods extends BaseEntity {
 
     public void setGoodsFieldValue(GoodsFieldsValue goodsFieldValue) {
         this.goodsFieldValue = goodsFieldValue;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
 

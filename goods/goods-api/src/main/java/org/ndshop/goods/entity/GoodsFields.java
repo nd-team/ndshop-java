@@ -30,6 +30,10 @@ public class GoodsFields extends BaseEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private LocalDateTime modifyTime = LocalDateTime.now();//修改时间
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "parent_id")
+    private GoodsFields parent ;//分类父id
+
     @OneToMany(cascade = CascadeType.ALL ,mappedBy = "goodsFields",fetch = FetchType.LAZY)
     private Set<GoodsFieldsValue> goodsFieldsValue; //扩展字段值
 
@@ -71,6 +75,18 @@ public class GoodsFields extends BaseEntity {
 
     public void setModifyTime(LocalDateTime modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public GoodsFields getParent() {
+        return parent;
+    }
+
+    public void setParent(GoodsFields parent) {
+        this.parent = parent;
+    }
+
+    public void setGoodsFieldsValue(Set<GoodsFieldsValue> goodsFieldsValue) {
+        this.goodsFieldsValue = goodsFieldsValue;
     }
 
     public Set<GoodsFieldsValue> getGoodsFieldsValue() {

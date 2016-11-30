@@ -1,6 +1,5 @@
 package org.ndshop.goods.service;
 
-import com.alibaba.fastjson.JSON;
 import org.apache.log4j.Logger;
 import org.ndshop.dbs.jpa.dto.Condition;
 import org.ndshop.dbs.jpa.enums.DataType;
@@ -12,6 +11,8 @@ import org.ndshop.goods.dto.GoodsDto;
 import org.ndshop.goods.entity.Goods;
 import org.ndshop.goods.entity.GoodsBrands;
 import org.ndshop.goods.entity.GoodsCategory;
+import org.ndshop.goods.enums.*;
+import org.ndshop.user.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -36,31 +37,42 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
 
     @Transactional
     @Override
-    public void addGoods(Goods goods , String brandId ,String categoryId ) throws SerException{
+    public Goods addGoods(Goods goods , GoodsDto goodsDto ) throws SerException{
         Goods gs = new Goods();
         gs.setGoodsNum( goods.getGoodsNum() );
         gs.setName(  goods.getName() );
         gs.setGoodsDescription( goods.getGoodsDescription() );
-        gs.setCreateTime( LocalDateTime.now() );
+        goods.setGoodsCode(goods.getGoodsCode());
+        goods.setPrice( goods.getPrice() );
+        goods.setDiscountPrice( goods.getDiscountPrice() );
+        goods.setQuantity( goods.getQuantity() );
+        goods.setGoodsOnSaleStatus(GoodsOnSaleStatus.ONSALE );
+        goods.setGoodsSpecialSaleStatus(GoodsSpecialSaleStatus.NORMALSALE );
+        goods.setGoodsNewFlagStatus(GoodsNewFlagStatus.isOld );
+        goods.setGoodsHotSaleStatus(GoodsHotSaleStatus.NORMALSALE );
+        goods.setGoodsRecommendStatus(GoodsRecommendStatus.isnormal );
+        goods.setCreateTime( LocalDateTime.now() );
         gs.setModifyTime( LocalDateTime.now() );
 
         GoodsBrands goodsBrands = new GoodsBrands();
-        goodsBrands.setId( brandId );
+        goodsBrands.setId( goodsDto.getBrandId() );
         gs.setGoodsBrands( goodsBrands );
 
         GoodsCategory goodsCategory = new GoodsCategory();
-        goodsCategory.setId( categoryId );
+        goodsCategory.setId( goodsDto.getCategoryId() );
         gs.setGoodsCategory(  goodsCategory );
 
-        save( goods );
+        User user = new User();
+        user.setId( goodsDto.getUserId() );
+        goods.setUser( user );
+
+        return this.save( goods );
     }
 
     @Cacheable("goodsServiceCache")
     @Override
-    public Goods findGoodsById() throws SerException {
-        String gid = "2a27c9d2-5536-478d-982e-0645731e4679";
-        Goods goods = goodsRep.findById( gid );
-        logger.info(JSON.toJSONString( goods ));
+    public Goods findGoodsById(String goodsId) throws SerException {
+        Goods goods = goodsRep.findById( goodsId );
         return goods;
     }
 
@@ -74,7 +86,6 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
         GoodsDto dto = new GoodsDto();
         dto.getConditions().add( c );
         List<Goods> goods = findByCis( dto );
-        logger.info(JSON.toJSONString( goods ) );
 
         return goods;
     }
