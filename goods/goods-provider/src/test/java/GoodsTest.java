@@ -31,8 +31,8 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
-public class TestGoods {
-    private static Logger logger = Logger.getLogger(TestGoods.class);
+public class GoodsTest {
+    private static Logger logger = Logger.getLogger(GoodsTest.class);
 
     @Autowired
     private IGoodsSer goodsSer;
@@ -71,7 +71,7 @@ public class TestGoods {
         goodsCategory.setId( categoryId );
         goods.setGoodsCategory(  goodsCategory );
 
-        String userId = "40d2f51f-b1ac-48ce-85d9-b4a552a59d60";
+        String userId = "b75f0b79-7652-439e-84df-bbfd7da73f47";
         User user = new User();
         user.setId( userId );
         goods.setUser( user );
@@ -100,6 +100,12 @@ public class TestGoods {
         logger.info(JSON.toJSONString( goods ) );
 
 //        logger.info( JSON.toJSONString( goodsSer.findByBrandName("36") ));
+    }
+
+    @Test
+    public void deleteGoods() throws SerException{
+        String goodsId ="3f7c296d-a7f3-4ac2-955c-3e5d77ad3a51";
+        goodsSer.remove( goodsId );
     }
 
 }

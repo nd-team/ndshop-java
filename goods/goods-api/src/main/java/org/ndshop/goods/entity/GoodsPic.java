@@ -34,7 +34,7 @@ public class GoodsPic extends BaseEntity {
     @Column(columnDefinition="dateTime")
     private LocalDateTime modifyTime = LocalDateTime.now();//修改时间
 
-    @ManyToOne(cascade = {CascadeType.REFRESH,CascadeType.REMOVE})
+    @ManyToOne(cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "goods_id")
     private Goods goods;
 

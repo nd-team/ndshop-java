@@ -37,7 +37,7 @@ public class GoodsBrands extends BaseEntity {
     @Column(columnDefinition="dateTime")
     private LocalDateTime modifyTime = LocalDateTime.now();//修改时间
 
-    @ManyToOne(cascade = {CascadeType.REFRESH,CascadeType.REMOVE })
+    @ManyToOne(cascade = {CascadeType.REFRESH })
     @JoinColumn(name = "goodsBrandsCategory_id")
     private GoodsBrandsCategory goodsBrandsCategory;
 

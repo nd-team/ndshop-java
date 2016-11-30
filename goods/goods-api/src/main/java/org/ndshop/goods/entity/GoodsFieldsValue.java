@@ -26,7 +26,7 @@ public class GoodsFieldsValue extends BaseEntity{
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private LocalDateTime modifyTime = LocalDateTime.now();//修改时间
 
-    @ManyToOne(cascade ={CascadeType.REFRESH,CascadeType.REMOVE} )
+    @ManyToOne(cascade ={CascadeType.REFRESH} )
     @JoinColumn(name = "goodsFields_id")
     private GoodsFields goodsFields;//扩展字段
 

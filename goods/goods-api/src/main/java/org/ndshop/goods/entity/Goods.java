@@ -72,20 +72,23 @@ public class Goods extends BaseEntity {
     @OneToMany(cascade = CascadeType.ALL ,mappedBy = "goods" , fetch = FetchType.LAZY)
     private Set<GoodsPic> goodsPic ;//商品图片
 
-    @ManyToOne(cascade = {CascadeType.REFRESH,CascadeType.REMOVE} )
+    @ManyToOne(cascade = {CascadeType.REFRESH} )
     @JoinColumn(name = "goodsCategory_id")
     private GoodsCategory goodsCategory; //商品种类
 
-    @ManyToOne(cascade = {CascadeType.REFRESH,CascadeType.REMOVE})
+    @ManyToOne(cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "goodsBrands_id")
     private GoodsBrands goodsBrands; //商品品牌表
 
     @OneToOne(cascade = CascadeType.ALL ,mappedBy = "goods", fetch = FetchType.LAZY)
     private GoodsFieldsValue goodsFieldValue;
 
-    @ManyToOne(cascade = {CascadeType.REFRESH,CascadeType.REMOVE})
+    @ManyToOne(cascade = {CascadeType.REFRESH})
     @JoinColumn(name = "user_id")
     private User user; //商品品牌表
+
+    @OneToOne(cascade = CascadeType.REMOVE ,mappedBy = "goods", fetch = FetchType.LAZY)
+    private GoodsCollection goodsCollection;
 
     public String getGoodsNum() {
         return goodsNum;
@@ -245,6 +248,14 @@ public class Goods extends BaseEntity {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public GoodsCollection getGoodsCollection() {
+        return goodsCollection;
+    }
+
+    public void setGoodsCollection(GoodsCollection goodsCollection) {
+        this.goodsCollection = goodsCollection;
     }
 }
 

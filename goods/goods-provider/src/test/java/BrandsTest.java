@@ -25,8 +25,8 @@ import java.time.LocalDateTime;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
-public class TestBrands {
-    private static Logger logger = Logger.getLogger(TestBrands.class);
+public class BrandsTest {
+    private static Logger logger = Logger.getLogger(BrandsTest.class);
 
     @Autowired
     private IGoodsBrandsSer goodsBrandsSer;

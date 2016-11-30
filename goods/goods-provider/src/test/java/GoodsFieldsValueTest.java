@@ -30,8 +30,8 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
-public class TestGoodsFieldsValue {
-    private static Logger logger = Logger.getLogger(TestGoodsFieldsValue.class);
+public class GoodsFieldsValueTest {
+    private static Logger logger = Logger.getLogger(GoodsFieldsValueTest.class);
 
     @Autowired
     private IGoodsFieldsSer goodsFieldsSer ;
