@@ -35,7 +35,7 @@ public class GoodsCollectionTest {
         User user = new User();
         user.setId( userId );
 
-        String goodsId = "3f7c296d-a7f3-4ac2-955c-3e5d77ad3a51";
+        String goodsId = "6055ac7b-e74f-47da-ba2c-c1870d8cbacf";
         Goods goods = new Goods();
         goods.setId( goodsId );
 
@@ -51,7 +51,7 @@ public class GoodsCollectionTest {
     @Test
     public void deleteGoodsCollection() throws SerException{
 
-        String collectionId = "0d0c1c9a-95ee-4442-954a-76c7949e36dd";
+        String collectionId = "246ebb40-d15e-4c0c-a3f1-7cecd5812d77";
         goodsCollectionSer.remove( collectionId );
     }
 }

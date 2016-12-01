@@ -1,4 +1,5 @@
 import com.alibaba.fastjson.JSON;
+import com.dounine.corgi.spring.rpc.Reference;
 import goods.provider.test.ApplicationConfiguration;
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -14,6 +15,7 @@ import org.ndshop.goods.entity.GoodsCategory;
 import org.ndshop.goods.enums.*;
 import org.ndshop.goods.service.IGoodsSer;
 import org.ndshop.user.common.entity.User;
+import org.ndshop.user.common.service.IUserSer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -41,8 +43,8 @@ public class GoodsTest {
     @Test
     public void addGoods() throws SerException{
         Goods goods = new Goods();
-        goods.setGoodsNum("商品编号2");
-        goods.setName("苹果手机2");
+        goods.setGoodsNum("商品编号3");
+        goods.setName("苹果手机3");
         goods.setGoodsDescription( "苹果描述");
         goods.setGoodsCode("4546546565");
         goods.setPrice(199.99);
@@ -104,8 +106,15 @@ public class GoodsTest {
 
     @Test
     public void deleteGoods() throws SerException{
-        String goodsId ="3f7c296d-a7f3-4ac2-955c-3e5d77ad3a51";
+        String goodsId ="6055ac7b-e74f-47da-ba2c-c1870d8cbacf";
         goodsSer.remove( goodsId );
+    }
+
+    @Reference
+    private IUserSer userSer;
+    @Test
+    public void tt () throws SerException{
+        userSer.findAll();
     }
 
 }
