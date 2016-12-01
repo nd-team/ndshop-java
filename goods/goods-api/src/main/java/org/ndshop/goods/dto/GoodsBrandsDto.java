@@ -10,4 +10,13 @@ import org.ndshop.dbs.jpa.dto.BaseDto;
  * @Copy: [org.ndshop]
  */
 public class GoodsBrandsDto extends BaseDto {
+    String goodsBrandsCategoryId ;//商品品牌分类id
+
+    public String getGoodsBrandsCategoryId() {
+        return goodsBrandsCategoryId;
+    }
+
+    public void setGoodsBrandsCategoryId(String goodsBrandsCategoryId) {
+        this.goodsBrandsCategoryId = goodsBrandsCategoryId;
+    }
 }

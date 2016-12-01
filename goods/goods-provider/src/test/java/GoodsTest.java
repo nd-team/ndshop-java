@@ -1,4 +1,5 @@
 import com.alibaba.fastjson.JSON;
+import com.dounine.corgi.spring.rpc.Reference;
 import goods.provider.test.ApplicationConfiguration;
 import org.apache.log4j.Logger;
 import org.junit.Test;
@@ -11,7 +12,10 @@ import org.ndshop.goods.dto.GoodsDto;
 import org.ndshop.goods.entity.Goods;
 import org.ndshop.goods.entity.GoodsBrands;
 import org.ndshop.goods.entity.GoodsCategory;
+import org.ndshop.goods.enums.*;
 import org.ndshop.goods.service.IGoodsSer;
+import org.ndshop.user.common.entity.User;
+import org.ndshop.user.common.service.IUserSer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -29,8 +33,8 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
-public class TestGoods {
-    private static Logger logger = Logger.getLogger(TestGoods.class);
+public class GoodsTest {
+    private static Logger logger = Logger.getLogger(GoodsTest.class);
 
     @Autowired
     private IGoodsSer goodsSer;
@@ -42,18 +46,37 @@ public class TestGoods {
         goods.setGoodsNum("商品编号3");
         goods.setName("苹果手机3");
         goods.setGoodsDescription( "苹果描述");
+        goods.setGoodsCode("4546546565");
+        goods.setPrice(199.99);
+        goods.setDiscountPrice(188.0);
+        goods.setQuantity(1343);
+        goods.setGoodsOnSaleStatus(GoodsOnSaleStatus.ONSALE );
+        goods.setGoodsSpecialSaleStatus(GoodsSpecialSaleStatus.NORMALSALE );
+        goods.setGoodsNewFlagStatus(GoodsNewFlagStatus.isOld );
+        goods.setGoodsHotSaleStatus(GoodsHotSaleStatus.NORMALSALE );
+        goods.setGoodsRecommendStatus(GoodsRecommendStatus.isnormal );
+        if ( GoodsOnSaleStatus.ONSALE.equals( goods.getGoodsOnSaleStatus() ) ) {
+            goods.setOnSaleCreateTime( LocalDateTime.now() );
+        }else{
+            goods.setOnSaleCreateTime( null );
+        }
         goods.setCreateTime( LocalDateTime.now() );
         goods.setModifyTime( LocalDateTime.now() );
 
-        String brandId = "5a7b0fdf-6a96-46de-baed-2d855e7616ed";
+        String brandId = "5b7a637a-6b21-40eb-981f-0e47c06ad226";
         GoodsBrands goodsBrands = new GoodsBrands();
         goodsBrands.setId( brandId );
         goods.setGoodsBrands( goodsBrands );
 
-        String categoryId = "8ae60e3b-cd51-4431-96d9-ba77a7d953cb";
+        String categoryId = "3ba91a9a-d763-4b16-a3fc-8942510ccb71";
         GoodsCategory goodsCategory = new GoodsCategory();
         goodsCategory.setId( categoryId );
         goods.setGoodsCategory(  goodsCategory );
+
+        String userId = "b75f0b79-7652-439e-84df-bbfd7da73f47";
+        User user = new User();
+        user.setId( userId );
+        goods.setUser( user );
 
         goodsSer.save( goods );
     }
@@ -61,9 +84,9 @@ public class TestGoods {
     @Transactional
     @Test
     public void findGoodsById() throws SerException{
-        String gid = "039325e7-91d2-4536-99f4-f38fe0cd9337";
+        String gid = "e329a7cc-d318-4918-bdd1-b57620986144";
         Goods goods = goodsSer.findById( gid );
-        logger.info(JSON.toJSONString( goods ));
+        logger.info(JSON.toJSONString( goods.getGoodsFieldValue() ));
     }
 
     @Transactional
@@ -79,6 +102,19 @@ public class TestGoods {
         logger.info(JSON.toJSONString( goods ) );
 
 //        logger.info( JSON.toJSONString( goodsSer.findByBrandName("36") ));
+    }
+
+    @Test
+    public void deleteGoods() throws SerException{
+        String goodsId ="6055ac7b-e74f-47da-ba2c-c1870d8cbacf";
+        goodsSer.remove( goodsId );
+    }
+
+    @Reference
+    private IUserSer userSer;
+    @Test
+    public void tt () throws SerException{
+        userSer.findAll();
     }
 
 }

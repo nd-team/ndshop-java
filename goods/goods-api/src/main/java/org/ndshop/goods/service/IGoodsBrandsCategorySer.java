@@ -1,5 +1,6 @@
 package org.ndshop.goods.service;
 
+import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.IService;
 import org.ndshop.goods.dto.GoodsBrandsCategoryDto;
 import org.ndshop.goods.entity.GoodsBrandsCategory;
@@ -14,4 +15,5 @@ import org.ndshop.goods.entity.GoodsBrandsCategory;
  */
 public interface IGoodsBrandsCategorySer extends IService<GoodsBrandsCategory, GoodsBrandsCategoryDto> {
 
+    default GoodsBrandsCategory addBrandsCategory(GoodsBrandsCategory goodsBrandsCategory ) throws SerException {return null;};
 }

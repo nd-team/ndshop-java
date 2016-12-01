@@ -8,6 +8,7 @@ import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.goods.dto.GoodsBrandsDto;
 import org.ndshop.goods.entity.GoodsBrands;
 import org.ndshop.goods.entity.GoodsBrandsCategory;
+import org.ndshop.goods.enums.GoodsBrandsRecommendStatus;
 import org.ndshop.goods.service.IGoodsBrandsSer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -24,8 +25,8 @@ import java.time.LocalDateTime;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
-public class TestBrands {
-    private static Logger logger = Logger.getLogger(TestBrands.class);
+public class BrandsTest {
+    private static Logger logger = Logger.getLogger(BrandsTest.class);
 
     @Autowired
     private IGoodsBrandsSer goodsBrandsSer;
@@ -35,7 +36,7 @@ public class TestBrands {
         GoodsBrands gb = new GoodsBrands();
         gb.setName( "360度衣服" );
         gb.setTrademark("360商标");
-        gb.setRecommend( true );
+        gb.setGoodsBrandsRecommendStatus(GoodsBrandsRecommendStatus.NOTRECOMMEND );
         gb.setKeyWord( "361度");
         gb.setCreateTime( LocalDateTime.now() );
         gb.setModifyTime( LocalDateTime.now() );

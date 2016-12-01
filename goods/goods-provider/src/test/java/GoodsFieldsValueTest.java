@@ -30,8 +30,8 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
-public class TestGoodsFieldsValue {
-    private static Logger logger = Logger.getLogger(TestGoodsFieldsValue.class);
+public class GoodsFieldsValueTest {
+    private static Logger logger = Logger.getLogger(GoodsFieldsValueTest.class);
 
     @Autowired
     private IGoodsFieldsSer goodsFieldsSer ;
@@ -49,7 +49,7 @@ public class TestGoodsFieldsValue {
 
         String fieldName = "是否可水洗";
         String fielValue = "否";
-        String gId = "2a27c9d2-5536-478d-982e-0645731e4679";
+        String gId = "e329a7cc-d318-4918-bdd1-b57620986144";
 
 
         List<GoodsFields> gf = goodsFieldsSer.findGoodsFields( fieldName );
@@ -77,7 +77,7 @@ public class TestGoodsFieldsValue {
     public void updateGoodsFieldValue() throws SerException{
         String fieldName = "是否可水洗";
         String fielValue = "yes";
-        String gId = "2a27c9d2-5536-478d-982e-0645731e4679";
+        String gId = "e329a7cc-d318-4918-bdd1-b57620986144";
 
 
         List<GoodsFields> gf = goodsFieldsSer.findGoodsFields( fieldName );

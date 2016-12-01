@@ -25,8 +25,8 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
-public class TestGoodsFields {
-    private static Logger logger = Logger.getLogger(TestGoodsFields.class);
+public class GoodsFieldsTest {
+    private static Logger logger = Logger.getLogger(GoodsFieldsTest.class);
 
     @Autowired
     private IGoodsFieldsSer goodsFieldsSer;

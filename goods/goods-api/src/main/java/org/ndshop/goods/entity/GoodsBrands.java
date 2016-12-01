@@ -1,6 +1,7 @@
 package org.ndshop.goods.entity;
 
 import org.ndshop.dbs.jpa.entity.BaseEntity;
+import org.ndshop.goods.enums.GoodsBrandsRecommendStatus;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -23,7 +24,7 @@ public class GoodsBrands extends BaseEntity {
     @Column(unique = true )
     private String trademark ;//商标，log
 
-    private Boolean isRecommend;//是否推荐
+    private GoodsBrandsRecommendStatus goodsBrandsRecommendStatus;//是否推荐
 
     @Column
     private String keyWord ; //关键字
@@ -36,7 +37,7 @@ public class GoodsBrands extends BaseEntity {
     @Column(columnDefinition="dateTime")
     private LocalDateTime modifyTime = LocalDateTime.now();//修改时间
 
-    @ManyToOne(cascade = {CascadeType.REFRESH,CascadeType.REMOVE })
+    @ManyToOne(cascade = {CascadeType.REFRESH })
     @JoinColumn(name = "goodsBrandsCategory_id")
     private GoodsBrandsCategory goodsBrandsCategory;
 
@@ -56,12 +57,12 @@ public class GoodsBrands extends BaseEntity {
         this.trademark = trademark;
     }
 
-    public Boolean getRecommend() {
-        return isRecommend;
+    public GoodsBrandsRecommendStatus getGoodsBrandsRecommendStatus() {
+        return goodsBrandsRecommendStatus;
     }
 
-    public void setRecommend(Boolean recommend) {
-        isRecommend = recommend;
+    public void setGoodsBrandsRecommendStatus(GoodsBrandsRecommendStatus goodsBrandsRecommendStatus) {
+        this.goodsBrandsRecommendStatus = goodsBrandsRecommendStatus;
     }
 
     public String getKeyWord() {

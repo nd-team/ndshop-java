@@ -26,8 +26,8 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
-public class TestGoodsPic {
-    private static Logger logger = Logger.getLogger(TestGoodsPic.class);
+public class GoodsPicTest {
+    private static Logger logger = Logger.getLogger(GoodsPicTest.class);
 
     @Autowired
     private IGoodsPicSer goodsPicSer;
@@ -42,7 +42,7 @@ public class TestGoodsPic {
         goodsPic.setCreateTime( LocalDateTime.now() );
         goodsPic.setModifyTime( LocalDateTime.now() );
 
-        String goodsId = "";
+        String goodsId = "6055ac7b-e74f-47da-ba2c-c1870d8cbacf";
         Goods g = new Goods();
         g.setId( goodsId );
         goodsPic.setGoods( g );
@@ -60,5 +60,11 @@ public class TestGoodsPic {
         dto.getConditions().add( c );
         List<GoodsPic> goodsPics = goodsPicSer.findByCis( dto );
         logger.info(JSON.toJSONString( goodsPicSer.findAll() ));
+    }
+
+    @Test
+    public void deleteGoodsPic () throws SerException{
+        String pid = "081a0b65-cc77-4c5e-9299-0fff7c404462";
+        goodsPicSer.remove( pid );
     }
 }
