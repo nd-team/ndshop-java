@@ -43,8 +43,8 @@ public class GoodsTest {
     @Test
     public void addGoods() throws SerException{
         Goods goods = new Goods();
-        goods.setGoodsNum("商品编号3");
-        goods.setName("苹果手机3");
+        goods.setGoodsNum("商品编号7");
+        goods.setName("苹果手机7");
         goods.setGoodsDescription( "苹果描述");
         goods.setGoodsCode("4546546565");
         goods.setPrice(199.99);
@@ -109,6 +109,7 @@ public class GoodsTest {
         String goodsId ="6055ac7b-e74f-47da-ba2c-c1870d8cbacf";
         goodsSer.remove( goodsId );
     }
+
 
     @Reference
     private IUserSer userSer;

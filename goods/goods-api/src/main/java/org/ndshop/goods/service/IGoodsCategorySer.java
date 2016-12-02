@@ -33,6 +33,21 @@ public interface IGoodsCategorySer extends IService<GoodsCategory, GoodsCategory
     default void addChildCategory(GoodsCategory goodsCategory ,String parentId ) throws SerException{};
 
     /**
+     * 根据父分类id查找子分类
+     * @param paretCategoryId 父id
+     * @return 分类集合
+     * @throws SerException
+     */
+    default List<GoodsCategory> findChildCategoryByParent(String paretCategoryId ) throws SerException{return null;};
+
+    /**
+     * 根据分类名模糊查询分类
+     * @param categoryName 分类名
+     * @return 分类集合
+     * @throws SerException
+     */
+    default List<GoodsCategory> findCategoryByName( String categoryName ) throws SerException{return null;};
+    /**
      * 根据父节点的个数查找所有分类
      * @param parentNodeNum 父节点数
      * @return

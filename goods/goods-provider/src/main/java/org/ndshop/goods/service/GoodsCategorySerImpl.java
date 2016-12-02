@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.ndshop.dbs.jpa.dto.Condition;
 import org.ndshop.dbs.jpa.enums.DataType;
+import org.ndshop.dbs.jpa.enums.RestrictionType;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.ServiceImpl;
 import org.ndshop.goods.dto.GoodsCategoryDto;
@@ -34,13 +35,13 @@ public class GoodsCategorySerImpl extends ServiceImpl<GoodsCategory, GoodsCatego
     @Transactional
     @Override
     public void addParentCategory(GoodsCategory goodsCategory) throws SerException {
-        if (StringUtils.isBlank(goodsCategory.getName()) || StringUtils.isEmpty(goodsCategory.getName())) {
-            logger.error("category name is '' or null ,you cat not insert ");
-        } else {
+        if (StringUtils.isNotBlank(goodsCategory.getName()) ){
             goodsCategory.setParentNodeNum(0L);
             goodsCategory.setCreateTime(LocalDateTime.now());
             goodsCategory.setModifyTime(LocalDateTime.now());
             save(goodsCategory);
+        } else {
+            throw new SerException("分类数据为空");
         }
     }
 
@@ -50,13 +51,39 @@ public class GoodsCategorySerImpl extends ServiceImpl<GoodsCategory, GoodsCatego
         GoodsCategory gc = findById(parentId);
 
         if ( gc != null ) {
-            goodsCategory.setParent(gc);
+            goodsCategory.setGoodsCategory(gc);
             goodsCategory.setCreateTime(LocalDateTime.now());
             goodsCategory.setModifyTime(LocalDateTime.now());
             goodsCategory.setParentNodeNum(gc.getParentNodeNum() + 1);
             save(goodsCategory);
+        }else {
+            throw new SerException("父分类不存在");
         }
     }
+
+    @Cacheable("goodsServiceCache")
+    @Override
+    public List<GoodsCategory> findChildCategoryByParent(String paretCategoryId ) throws SerException{
+        GoodsCategoryDto dto = new GoodsCategoryDto();
+        Condition c = new Condition("id", DataType.STRING,paretCategoryId);
+        c.fieldToModels( GoodsCategory.class );
+        dto.getConditions().add( c );
+        List<GoodsCategory> list = findByCis(dto);
+        return list;
+    }
+
+    @Cacheable("goodsServiceCache")
+    @Override
+    public List<GoodsCategory> findCategoryByName( String categoryName ) throws SerException{
+        GoodsCategoryDto dto = new GoodsCategoryDto();
+        Condition c = new Condition("name", DataType.STRING, categoryName);
+        c.setRestrict(RestrictionType.LIKE);
+        dto.getConditions().add( c );
+        List<GoodsCategory> list = findByCis( dto );
+
+        return list ;
+    }
+
 
     @Cacheable("goodsServiceCache")
     @Override
@@ -64,10 +91,10 @@ public class GoodsCategorySerImpl extends ServiceImpl<GoodsCategory, GoodsCatego
         Condition c = new Condition("parentNodeNum", DataType.LONG, parentNodeNum);
         GoodsCategoryDto dto = new GoodsCategoryDto();
         dto.getConditions().add( c );
-        List<GoodsCategory> opGoodsCategory = findByCis( dto );
+        List<GoodsCategory> list = findByCis( dto );
 
 //        userSer.findAll();
 
-        return opGoodsCategory;
+        return list;
     }
 }

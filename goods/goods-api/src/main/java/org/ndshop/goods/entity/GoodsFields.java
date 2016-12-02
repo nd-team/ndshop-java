@@ -32,7 +32,7 @@ public class GoodsFields extends BaseEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "parent_id")
-    private GoodsFields parent ;//分类父id
+    private GoodsFields goodsFields ;//分类父id
 
     @OneToMany(cascade = CascadeType.ALL ,mappedBy = "goodsFields",fetch = FetchType.LAZY)
     private Set<GoodsFieldsValue> goodsFieldsValue; //扩展字段值
@@ -77,12 +77,12 @@ public class GoodsFields extends BaseEntity {
         this.modifyTime = modifyTime;
     }
 
-    public GoodsFields getParent() {
-        return parent;
+    public GoodsFields getGoodsFields() {
+        return goodsFields;
     }
 
-    public void setParent(GoodsFields parent) {
-        this.parent = parent;
+    public void setGoodsFields(GoodsFields goodsFields) {
+        this.goodsFields = goodsFields;
     }
 
     public void setGoodsFieldsValue(Set<GoodsFieldsValue> goodsFieldsValue) {

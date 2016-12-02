@@ -1,10 +1,10 @@
-import com.alibaba.fastjson.JSON;
 import goods.provider.test.ApplicationConfiguration;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ndshop.dbs.jpa.dto.Condition;
 import org.ndshop.dbs.jpa.enums.DataType;
+import org.ndshop.dbs.jpa.enums.RestrictionType;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.goods.dto.GoodsCategoryDto;
 import org.ndshop.goods.entity.GoodsCategory;
@@ -39,7 +39,7 @@ public class CategoryTest {
 
     @Test
     public void addParentCategory() throws SerException{
-        String categoryName = "电器";
+        String categoryName = "运动户外";
         GoodsCategory goodsCategory = new GoodsCategory();
         goodsCategory.setName(  categoryName );
         goodsCategory.setParentNodeNum(0L);
@@ -54,7 +54,7 @@ public class CategoryTest {
         String categoryName = "电饭锅";
         GoodsCategory gc = goodsCategorySer.findById( parentId );
         GoodsCategory goodsCategory = new GoodsCategory();
-        goodsCategory.setParent( gc );
+        goodsCategory.setGoodsCategory( gc );
         goodsCategory.setName(  categoryName );
         goodsCategory.setCreateTime( LocalDateTime.now() );
         goodsCategory.setModifyTime(LocalDateTime.now() );
@@ -69,8 +69,8 @@ public class CategoryTest {
      */
     @Test
     public void addChildCategory2() throws SerException{
-        String parentId = "be11c370-287e-4493-a75e-63e4802919ae";
-        String categoryName = "mini电饭锅";
+        String parentId = "11dcd7d3-7a1d-4005-b8df-72baf40b657b";
+        String categoryName = "九阳电放锅";
         GoodsCategory goodsCategory = new GoodsCategory();
         goodsCategory.setName(  categoryName );
         goodsCategorySer.addChildCategory(goodsCategory ,parentId);
@@ -88,8 +88,35 @@ public class CategoryTest {
         dto.getConditions().add( c );
         List<GoodsCategory> gc = goodsCategorySer.findByCis( dto );
 
-        JSON.toJSONString( gc );
+        System.out.println( gc.get(0).getName() );
     }
+
+    @Test
+    public void findChildCategoryByParent() throws SerException{
+        GoodsCategoryDto dto = new GoodsCategoryDto();
+        Condition c = new Condition("id", DataType.STRING,"d78d4083-a075-4a39-850d-bd7da995bc57");
+        c.fieldToModels( GoodsCategory.class );
+        dto.getConditions().add( c );
+        List<GoodsCategory> gc = goodsCategorySer.findByCis( dto );
+        gc.stream().forEach(gcs ->{
+            logger.info( gcs.getName() );
+        });
+
+    }
+
+    @Test
+    public void findCategoryByName() throws SerException{
+        GoodsCategoryDto dto = new GoodsCategoryDto();
+        Condition c = new Condition("name", DataType.STRING,"电");
+        c.setRestrict(RestrictionType.LIKE);
+        dto.getConditions().add( c );
+        List<GoodsCategory> gc = goodsCategorySer.findByCis( dto );
+        gc.stream().forEach(gcs ->{
+            logger.info( gcs.getName() );
+        });
+
+    }
+
 
     @Test
     public void findCategoryService() throws SerException {

@@ -28,7 +28,7 @@ public class GoodsCategory extends BaseEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "parent_id")
-    private GoodsCategory parent ;//分类父id
+    private GoodsCategory goodsCategory ;//分类父id
 
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     @Column(columnDefinition="dateTime")
@@ -65,12 +65,12 @@ public class GoodsCategory extends BaseEntity {
         this.parentNodeNum = parentNodeNum;
     }
 
-    public GoodsCategory getParent() {
-        return parent;
+    public GoodsCategory getGoodsCategory() {
+        return goodsCategory;
     }
 
-    public void setParent(GoodsCategory parent) {
-        this.parent = parent;
+    public void setGoodsCategory(GoodsCategory goodsCategory) {
+        this.goodsCategory = goodsCategory;
     }
 
     public LocalDateTime getCreateTime() {
