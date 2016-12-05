@@ -9,8 +9,8 @@ import org.ndshop.dbs.jpa.service.ServiceImpl;
 import org.ndshop.user.common.dto.PermissionDto;
 import org.ndshop.user.common.entity.Permission;
 import org.ndshop.user.common.entity.Role;
-import org.ndshop.user.common.entity.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,11 +26,11 @@ import java.util.Set;
  * @Version: [1.0.0]
  * @Copy: [org.ndshop]
  */
+@CacheConfig(cacheNames="userSerCache")
 @Service
 public class PermissionSerImpl extends ServiceImpl<Permission, PermissionDto> implements IPermissionSer {
 
-    @Autowired
-    private IUserRoleSer userRoleSer;
+
     @Autowired
     private IRoleSer roleSer;
 
@@ -89,25 +89,21 @@ public class PermissionSerImpl extends ServiceImpl<Permission, PermissionDto> im
     }
 
 
-    @Cacheable("userSerCache")
+    @Cacheable()
     @Override
     public Set<Permission> findAllByUserId(String userId) throws SerException {
-        List<UserRole> userRoles = userRoleSer.findByUserId(userId);//所拥有的角色
+        Set<Role> roles = roleSer.findRoleByUserId(userId);//所拥有的角色
         Set<Permission> permissions = new HashSet<>(); //所有认证权限
-        if (null != userRoles && userRoles.size() > 0) {
-            userRoles.stream().forEach(userRole -> {
-                Role role = userRole.getRole();
-                if (null != role) {
+        if (null != roles && roles.size() > 0) {
+            roles.stream().forEach(role -> {
                     permissions.addAll(role.getPermissions()); //添加角色拥有认证权限到集合
-                }
-
             });
         }
 
         return permissions;
     }
 
-    @Cacheable("userSerCache")
+    @Cacheable
     @Override
     public Set<Permission> findByRoleId(String roleId) throws SerException {
         Set<Role> roles = roleSer.findChildByRoleId(roleId);
@@ -120,12 +116,11 @@ public class PermissionSerImpl extends ServiceImpl<Permission, PermissionDto> im
         return permissions;
     }
 
-    @Cacheable("userSerCache")
+    @Cacheable
     @Override
     public List<Permission> findChildByParentId(String parentId) throws SerException {
         PermissionDto dto = new PermissionDto();
-        Condition coin = new Condition("id", DataType.STRING, parentId);
-        coin.fieldToModels(Permission.class);
+        Condition coin = new Condition("permission.id", DataType.STRING, parentId);
         dto.getConditions().add(coin);
         return findByCis(dto);
     }

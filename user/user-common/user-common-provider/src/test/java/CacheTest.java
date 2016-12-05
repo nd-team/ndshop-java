@@ -1,10 +1,10 @@
 import com.dounine.corgi.security.PasswordHash;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.user.common.entity.User;
 import org.ndshop.user.common.service.IUserSer;
-import org.ndshop.user.common.session.authcode.AuthCodeSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -25,45 +25,55 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApplicationConfiguration.class)
-public class UserTest {
+public class CacheTest {
 
     @Autowired
     private IUserSer userSer;
     @Autowired
     CacheManager cacheManager;
+    private List<Cache> caches = new ArrayList<>();
 
-
-    /**
-     * 查询全部,缓存测试
-     */
-    @Test
-    public void findAll() throws SerException {
-        List<User> users = userSer.findAll();
-        System.out.println(users);
+    @Before
+    public void allCaches(){
+        Collection<String> cacheNames = cacheManager.getCacheNames();
+        for (String name : cacheNames) {
+            Cache cache = cacheManager.getCache(name);
+            caches.add(cache);
+        }
     }
 
     /**
-     * 通过用户姓名邮件手机号查找用户
-     *
-     * @throws SerException
+     * 查询出来的是否为缓存对象
+     * 假如是缓存对象。则对象是相等的
      */
     @Test
-    public void verifyByAccountNumber() throws SerException {
-        System.out.println(null != userSer.findByAccountNumber("liguiqin"));
+    public void isSameObject() throws SerException {
+        User user1 = userSer.findByUsername("liguiqin");
+        User user2 = userSer.findByUsername("liguiqin");
+
+        assert (user1 == user2); //对象相同
+        User user3 = userSer.findByPhone("13457910241"); //通过号码查询(第一次查询，不是缓存对象，不相同)
+        assert (user2 != user3);
 
     }
+    @Test
+    public void allCache() throws SerException {
+        for(Cache cache : caches){
+            System.out.println(cache.getNativeCache());
+        }
+
+    }
+
 
     @Test
     public void add() throws SerException {
         List<User> users = new ArrayList<>();
         try {
-            for (int i = 0; i < 5; i++) {
-                User user = new User();
-                user.setUsername("l8hqw_test" + i);
-                user.setPassword(PasswordHash.createHash("123456"));
-                user.setPhone("1809791024" + i);
-                users.add(user);
-            }
+            User user = new User();
+            user.setUsername("666hqw_test");
+            user.setPassword(PasswordHash.createHash("123456"));
+            user.setPhone("1809791024");
+            users.add(user);
         } catch (Exception e) {
             e.printStackTrace();
         }

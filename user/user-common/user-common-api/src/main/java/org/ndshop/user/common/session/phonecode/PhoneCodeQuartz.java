@@ -1,6 +1,5 @@
-package org.ndshop.user.login.session.validcorrect;
+package org.ndshop.user.common.session.phonecode;
 
-import org.ndshop.user.common.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,20 +10,19 @@ import java.util.TimerTask;
 
 /**
  * @Author: [liguiqin]
- * @Date: [2016-11-23 15:47]
- * @Description: 用户登陆session保存]
+ * @Date: [2016-11-25 17:41]
+ * @Description: [手机验证码定时器]
  * @Version: [1.0.0]
  * @Copy: [org.ndshop]
  */
-public class SessionQuartz  {
-
-    private static final Logger CONSOLE = LoggerFactory.getLogger(SessionQuartz.class);
+public class PhoneCodeQuartz {
+    private static final Logger CONSOLE = LoggerFactory.getLogger(PhoneCodeQuartz.class);
     private final static int INVALID_TIME = 3;//session key失效时间 3分钟
     private final static int START = 0;//设置执行开始时间
     private final static int INTERVAL = 5000;//设置间隔执行时间 单位/毫秒
-    private Map<String, User> sessions;
+    private Map<String, PhoneCode> sessions;
 
-    public SessionQuartz(Map<String, User> sessions) {
+    public PhoneCodeQuartz(Map<String, PhoneCode> sessions) {
         this.sessions = sessions;
         startTimer();
     }
@@ -34,9 +32,9 @@ public class SessionQuartz  {
         timer.schedule(new TimerTask() {//创建一个定时任务
             @Override
             public void run() {
-                for (Map.Entry<String, User> entry : sessions.entrySet()) {
-                    if (entry.getValue().getAccessTime().plusMinutes(INVALID_TIME).isBefore(LocalDateTime.now())) {
-                        CONSOLE.info("remove token:" + entry.getKey());
+                for (Map.Entry<String, PhoneCode> entry : sessions.entrySet()) {
+                    if (entry.getValue().getCreateTime().plusMinutes(INVALID_TIME).isBefore(LocalDateTime.now())) {
+                        CONSOLE.info("remove phoneCode:" + entry.getKey());
                         sessions.remove(entry.getKey());
                     }
                 }

@@ -15,7 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import test_java_service.code.ApplicationConfiguration;
 import test_java_service.code.dto.UserDto;
 import test_java_service.code.entity.User;
-import test_java_service.code.entity.UserInfo;
+import test_java_service.code.entity.UserInterest;
+import test_java_service.code.service.IUserInterestSer;
 import test_java_service.code.service.IUserSer;
 
 import java.util.ArrayList;
@@ -36,6 +37,8 @@ public class JunitTest {
 
     @Autowired
     private IUserSer userSer;
+    @Autowired
+    private IUserInterestSer interestSer;
 
 
     @Before
@@ -73,7 +76,6 @@ public class JunitTest {
     @Test
     public void findByPage() throws SerException {
         UserDto dto = new UserDto();
-        dto.setPage(3);
         dto.setSorts(Arrays.asList("username"));
         List<User> users = userSer.findByPage(dto);
         if (null != users && users.size() > 0) {
@@ -89,8 +91,11 @@ public class JunitTest {
     @Test
     public void findByCis() throws SerException {
         UserDto dto = new UserDto();
-        Condition coin = new Condition("username", DataType.STRING, "123");
-        coin.setRestrict(RestrictionType.OR);
+        Condition coin = new Condition("interests.name", DataType.STRING, "aaa");
+        coin.leftJoinSet();
+        dto.getConditions().add(coin);
+
+        coin = new Condition("info.email", DataType.STRING, "1234");
         dto.getConditions().add(coin);
         List<User> users = userSer.findByCis(dto, true); //按条件查询并分页
         System.out.println(JSON.toJSONString(users));
@@ -109,11 +114,26 @@ public class JunitTest {
         UserDto dto = new UserDto();
         Condition coin = new Condition("email", DataType.STRING, "xinaml@qq.com");
         coin.setRestrict(RestrictionType.EQ);
-        coin.fieldToModels(UserInfo.class);
+        coin.isLeftJoin();
         dto.getConditions().add(coin);
         userSer.findByCis(dto);
     }
 
+    /**
+     * 更新对象
+     */
+    @Test
+    public void addUserInterest() throws SerException {
+        UserInterest aaa = new UserInterest();
+        aaa.setName("aaa");
+        aaa.setUser(userSer.findByUsername("liguiqin"));
+        interestSer.save(aaa);
+
+        UserInterest bbb = new UserInterest();
+        bbb.setName("bbb");
+        bbb.setUser(userSer.findByUsername("liguiqin"));
+        interestSer.save(bbb);
+    }
 
     /**
      * 更新对象

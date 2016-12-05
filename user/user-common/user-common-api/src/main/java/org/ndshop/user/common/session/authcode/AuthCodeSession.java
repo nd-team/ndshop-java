@@ -1,4 +1,4 @@
-package org.ndshop.user.login.session.authcode;
+package org.ndshop.user.common.session.authcode;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -19,9 +19,6 @@ public class AuthCodeSession {
     private static final Logger CONSOLE = LoggerFactory.getLogger(AuthCodeSession.class);
     private static final Map<String, AuthCode> AUTH_CODE_SESSIONS = new ConcurrentHashMap<>(0);
     private static final RuntimeException ACCOUNT_NOT_NULL = new RuntimeException("账户名不能为空");
-
-    private AuthCodeSession() {
-    }
 
     static {
         CONSOLE.info("AuthCodeSession start");

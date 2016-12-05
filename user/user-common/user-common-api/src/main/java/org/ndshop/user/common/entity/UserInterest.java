@@ -15,8 +15,8 @@ import javax.persistence.*;
 @Table(name = "user_interest")
 public class UserInterest extends BaseEntity {
     //用户
-    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id",nullable = false)
     private User user;
     //商品类型
 

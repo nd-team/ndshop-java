@@ -70,6 +70,15 @@ public class JunitTest extends AbstractJUnit4SpringContextTests {
     }
 
 
+    @Test
+    public void generateRegAuthCode() throws SerException {
+        userRegisterSer.generateRegAuthCode("123456789");
+        System.out.println("111");
+    }
+
+
+
+
 
 
 }

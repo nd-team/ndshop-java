@@ -1,4 +1,4 @@
-package org.ndshop.user.login.session.validcorrect;
+package org.ndshop.user.common.session.validcorrect;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ndshop.dbs.jpa.exception.SerException;
@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class UserSession {
 
     private static final Logger CONSOLE = LoggerFactory.getLogger(UserSession.class);
-    private static final Map<String, User> SESSIONS = new ConcurrentHashMap<>(0);
+    private static final Map<String, User> USER_SESSIONS = new ConcurrentHashMap<>(0);
     private static final RuntimeException TOKEN_NOT_NULL = new RuntimeException("token令牌不能为空");
 
     private UserSession() {
@@ -28,7 +28,7 @@ public final class UserSession {
 
     static {
         CONSOLE.info("sessionQuartz start");
-        new SessionQuartz(SESSIONS);
+        new SessionQuartz(USER_SESSIONS);
     }
 
     /**
@@ -42,7 +42,7 @@ public final class UserSession {
         user.setUserDetail(null);// 不保存用户详情
         if (StringUtils.isNotBlank(token)) {
             user.setAccessTime(LocalDateTime.now());
-            SESSIONS.put(token, user);
+            USER_SESSIONS.put(token, user);
         } else {
             throw TOKEN_NOT_NULL;
         }
@@ -56,7 +56,7 @@ public final class UserSession {
      */
     public static void remove(String token) {
         if (StringUtils.isNotBlank(token)) {
-            SESSIONS.remove(token);
+            USER_SESSIONS.remove(token);
         }
         throw TOKEN_NOT_NULL;
     }
@@ -69,7 +69,7 @@ public final class UserSession {
      */
     public static User get(String token) {
         if (StringUtils.isNotBlank(token)) {
-           return SESSIONS.get(token);
+           return USER_SESSIONS.get(token);
         }
         throw TOKEN_NOT_NULL;
     }
@@ -77,9 +77,9 @@ public final class UserSession {
 
     public static void removeByUsername(String username) throws SerException {
         if (StringUtils.isNotBlank(username)) {
-            for (Map.Entry<String, User> entry : SESSIONS.entrySet()) {
+            for (Map.Entry<String, User> entry : USER_SESSIONS.entrySet()) {
                 if (username.equals(entry.getValue().getUsername())) {
-                    SESSIONS.remove(entry.getKey());
+                    USER_SESSIONS.remove(entry.getKey());
                     break;
                 }
             }
@@ -96,7 +96,7 @@ public final class UserSession {
      */
     public static boolean exist(String token) {
         if (StringUtils.isNotBlank(token)) {
-            return SESSIONS.get(token) != null;
+            return USER_SESSIONS.get(token) != null;
         }
         throw TOKEN_NOT_NULL;
     }
@@ -107,7 +107,7 @@ public final class UserSession {
      * @return 总数
      */
     public static long count() {
-        return SESSIONS.size();
+        return USER_SESSIONS.size();
     }
 
     /**
@@ -116,14 +116,14 @@ public final class UserSession {
      * @return 会话信息集合
      */
     public static Map<String, User> sessions() {
-        if (null != SESSIONS && SESSIONS.size() > 0) {
-            return SESSIONS;
+        if (null != USER_SESSIONS && USER_SESSIONS.size() > 0) {
+            return USER_SESSIONS;
         }
         return null;
     }
 
     public static boolean verify(String token) {
-        return SESSIONS.get(token) != null;
+        return USER_SESSIONS.get(token) != null;
     }
 
     public static void main(String[] args) {

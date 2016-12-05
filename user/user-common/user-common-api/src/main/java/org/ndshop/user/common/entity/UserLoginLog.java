@@ -25,8 +25,8 @@ public class UserLoginLog extends BaseEntity {
     private LoginType loginType;// 登录方式
 
 
-    @ManyToOne(cascade = {CascadeType.ALL}, optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @ManyToOne(cascade = {CascadeType.ALL},  fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id",nullable = false)
     private User user;
 
     public LocalDateTime getLoginTime() {

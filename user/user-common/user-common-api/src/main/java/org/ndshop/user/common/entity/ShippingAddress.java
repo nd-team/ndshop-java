@@ -18,8 +18,8 @@ import javax.persistence.*;
 @Table(name = "user_shipping_address")
 public class ShippingAddress extends BaseEntity {
 
-    @ManyToOne(optional = false,  fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "user_id")
+    @ManyToOne( fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "user_id",nullable = false)
     private User user;//所属用户
 
     private String aliases;  // 地址别名

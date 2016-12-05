@@ -1,6 +1,5 @@
-package org.ndshop.user.login.session.validfail;
+package org.ndshop.user.common.session.validfail;
 
-import org.ndshop.user.login.session.validcorrect.SessionQuartz;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +16,7 @@ import java.util.TimerTask;
  * @Copy: [org.ndshop]
  */
 public class ValidErrQuartz {
-    private static final Logger CONSOLE = LoggerFactory.getLogger(SessionQuartz.class);
+    private static final Logger CONSOLE = LoggerFactory.getLogger(ValidErrQuartz.class);
     private final static int INVALID_TIME = 3;//session key失效时间 3分钟
     private final static int START = 0;//设置执行开始时间
     private final static int INTERVAL = 5000;//设置间隔执行时间 单位/毫秒

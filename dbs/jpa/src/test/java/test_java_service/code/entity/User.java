@@ -40,7 +40,7 @@ public class User extends BaseEntity {
      * private UserInfo userInfo;
      */
     @OneToOne(optional = true, cascade = CascadeType.ALL, mappedBy = "user")
-    private UserInfo userInfo;
+    private UserInfo info;
 
 
     /**
@@ -134,26 +134,27 @@ public class User extends BaseEntity {
         this.group = group;
     }
 
-    public Set<UserInterest> getInterests() {
-        return interests;
-    }
-
-    public void setInterests(Set<UserInterest> interests) {
-        this.interests = interests;
-    }
-
-    public UserInfo getUserInfo() {
-        return userInfo;
-    }
-
-    public void setUserInfo(UserInfo userInfo) {
-        this.userInfo = userInfo;
-    }
     public Boolean getSuperMan() {
         return superMan;
     }
 
     public void setSuperMan(Boolean superMan) {
         this.superMan = superMan;
+    }
+
+    public UserInfo getInfo() {
+        return info;
+    }
+
+    public void setInfo(UserInfo info) {
+        this.info = info;
+    }
+
+    public Set<UserInterest> getInterests() {
+        return interests;
+    }
+
+    public void setInterests(Set<UserInterest> interests) {
+        this.interests = interests;
     }
 }

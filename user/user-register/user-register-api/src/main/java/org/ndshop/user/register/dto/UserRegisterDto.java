@@ -17,7 +17,8 @@ public class UserRegisterDto extends BaseDto {
     private String rePassword;//重复密码
     private String phone; //注册手机
     private String phoneCode;//手机验证码
-    private String captcha;//验证码
+    private String authCode;//验证码
+    private String sid;//唯一标识
 
     public String getUsername() {
         return username;
@@ -59,11 +60,19 @@ public class UserRegisterDto extends BaseDto {
         this.phoneCode = phoneCode;
     }
 
-    public String getCaptcha() {
-        return captcha;
+    public String getAuthCode() {
+        return authCode;
     }
 
-    public void setCaptcha(String captcha) {
-        this.captcha = captcha;
+    public void setAuthCode(String authCode) {
+        this.authCode = authCode;
+    }
+
+    public String getSid() {
+        return sid;
+    }
+
+    public void setSid(String sid) {
+        this.sid = sid;
     }
 }

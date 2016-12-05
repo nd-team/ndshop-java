@@ -1,4 +1,4 @@
-package org.ndshop.user.register.quartz;
+package org.ndshop.user.common.session.authcode;
 
 import java.time.LocalDateTime;
 
@@ -10,14 +10,10 @@ import java.time.LocalDateTime;
  * @Version: [1.0.0]
  * @Copy: [org.ndshop]
  */
-public class VerifyCode {
+public class AuthCode {
     private LocalDateTime createTime = LocalDateTime.now(); //创建时间
-    private String code; //验证码
     private Integer invalidTime; //设置独立的失效时间(分钟)
-
-    public VerifyCode(String code) {
-        this.code = code;
-    }
+    private String code; //验证码
 
     public LocalDateTime getCreateTime() {
         return createTime;
@@ -25,6 +21,14 @@ public class VerifyCode {
 
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
+    }
+
+    public Integer getInvalidTime() {
+        return invalidTime;
+    }
+
+    public void setInvalidTime(Integer invalidTime) {
+        this.invalidTime = invalidTime;
     }
 
     public String getCode() {
@@ -35,11 +39,4 @@ public class VerifyCode {
         this.code = code;
     }
 
-    public Integer getInvalidTime() {
-        return invalidTime;
-    }
-
-    public void setInvalidTime(Integer invalidTime) {
-        this.invalidTime = invalidTime;
-    }
 }

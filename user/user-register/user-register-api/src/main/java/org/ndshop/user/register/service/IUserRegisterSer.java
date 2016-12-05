@@ -3,6 +3,8 @@ package org.ndshop.user.register.service;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.user.register.dto.UserRegisterDto;
 
+import java.awt.image.BufferedImage;
+
 /**
  * @Author: [liguiqin]
  * @Date: [2016-11-23 15:47]
@@ -11,6 +13,15 @@ import org.ndshop.user.register.dto.UserRegisterDto;
  * @Copy: [org.ndshop]
  */
 public interface IUserRegisterSer {
+
+    /**
+     * 点击注册页面生成验证码
+     *
+     * @param sid 前端生成唯一识别用户id
+     * @return 验证码流
+     */
+    BufferedImage generateRegAuthCode(String sid)throws SerException;
+
     /**
      * 用户名是否已经注册
      *

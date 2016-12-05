@@ -54,7 +54,6 @@ public class  ShippingAddressTest {
         address.setEmail("aml@qq.com");
         address.setArea("fds");
         address.setDetailAddress("fdsf");
-        address.setUser(userSer.findByUsername("liguiqin"));
         address.setReceiverName("fdsfs");
         addressSer.addShippingAddress(address);
     }

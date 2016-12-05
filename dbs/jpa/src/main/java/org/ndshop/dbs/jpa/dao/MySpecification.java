@@ -64,7 +64,6 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
      * @throws RepException
      */
     private List<Predicate> initPredicates(BD dto, Root<BE> root, CriteriaBuilder cb) throws RepException {
-
         List<Predicate> preList = new ArrayList<>(0); //条件列表
         List<Condition> conditions = dto.getConditions() != null ? dto.getConditions() : new ArrayList<>(0);//避免条件列表为空
         Boolean or_predicate = false; //标志处理 or 条件
@@ -76,18 +75,22 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
                 String field = model.getField(); //字段
 
                 RestrictionType type = model.getRestrict();
-                String[] fields = model.getField().split("#");
+                String[] fields = model.getField().split("\\.");
                 Join<BE, Object> leftJoin = handlerJoinTable(model, root, fields);  //是否有连接查询
-                Boolean existJoin = leftJoin != null;
+                Join<BE, Object> leftJoinSet = handlerJoinSetTable(model, root, fields);  //是否有连接表属性为Set的属性查询
+                Boolean existJoin = leftJoin != null; //存在属性对象表连接
+                Boolean existJoinSet = leftJoinSet != null;//存在属性set对象表连接
                 Method method = handlerMethod(cb, model);//获得反射调用方法
 
-                if (existJoin) {
+                if (existJoin || existJoinSet) {
                     field = fields[fields.length - 1]; //有连接查询取最后的分割字段
                 }
                 switch (type) {
                     case LIKE:
                         if (existJoin) {
                             predicate = cb.like(leftJoin.get(field).as(clazz), "%" + model.getValues()[0] + "%");
+                        } else if (existJoinSet) {
+                            predicate = cb.like(leftJoinSet.get(field).as(clazz), "%" + model.getValues()[0] + "%");
                         } else {
                             predicate = cb.like(root.get(field).as(clazz), "%" + model.getValues()[0] + "%");
                         }
@@ -95,6 +98,8 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
                     case ISNULL:
                         if (existJoin) {
                             predicate = cb.isNull(leftJoin.get(field).as(clazz));
+                        } else if (existJoinSet) {
+                            predicate = cb.isNull(leftJoinSet.get(field).as(clazz));
                         } else {
                             predicate = cb.isNull(root.get(field).as(clazz));
                         }
@@ -102,6 +107,8 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
                     case ISNOTNULL:
                         if (existJoin) {
                             predicate = cb.isNotNull(leftJoin.get(field).as(clazz));
+                        } else if (existJoinSet) {
+                            predicate = cb.isNotNull(leftJoinSet.get(field).as(clazz));
                         } else {
                             predicate = cb.isNotNull(root.get(field).as(clazz));
                         }
@@ -115,6 +122,10 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
                                     if (existJoin) {
                                         fields = cdis.getField().split("#");
                                         predicate = cb.equal(leftJoin.get(fields[fields.length]).as(clazz), cdis.getValues()[0]);
+                                    } else if (existJoinSet) {
+                                        fields = cdis.getField().split("#");
+                                        predicate = cb.equal(leftJoinSet.get(fields[fields.length]).as(clazz), cdis.getValues()[0]);
+
                                     } else {
                                         predicate = cb.equal(root.get(cdis.getField()).as(clazz), cdis.getValues()[0]);
                                     }
@@ -132,12 +143,17 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
                         if (type == RestrictionType.IN) {
                             if (existJoin) {
                                 predicate = (Predicate) method.invoke(cb, leftJoin.get(field).as(clazz), values);
+                            } else if (existJoinSet) {
+                                predicate = (Predicate) method.invoke(cb, leftJoinSet.get(field).as(clazz), values);
+
                             } else {
                                 predicate = (Predicate) method.invoke(cb, root.get(field).as(clazz), values);
                             }
                         } else {
                             if (existJoin) {
                                 predicate = (Predicate) method.invoke(cb, ArrayUtils.add(values, 0, leftJoin.get(field).as(clazz)));
+                            } else if (existJoinSet) {
+                                predicate = (Predicate) method.invoke(cb, ArrayUtils.add(values, 0, leftJoinSet.get(field).as(clazz)));
                             } else {
                                 predicate = (Predicate) method.invoke(cb, ArrayUtils.add(values, 0, root.get(field).as(clazz)));
                             }
@@ -180,21 +196,14 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
      * @return
      */
     private Join<BE, Object> handlerJoinTable(Condition c, Root<BE> root, String[] fields) {
-
         int fields_length = fields.length;
-        if (fields_length > 1) {
-            String[] _tempField = fields[0].split("\\.");
-            String str = _tempField[_tempField.length - 1];
-            String firstLetter = String.valueOf(str.charAt(0));
-            String entityName = str.replaceFirst(firstLetter, firstLetter.toLowerCase());
+        if (c.isLeftJoin() && fields_length > 1) {
+            String entityName = fields[0];
             Join<BE, Object> join = root.join(entityName, JoinType.LEFT);
             if (fields_length > 2) {
                 for (int i = 0; i < fields_length; i++) {
                     if (i > 1 && i < fields_length) {
-                        _tempField = fields[i - 1].split("\\.");
-                        str = _tempField[_tempField.length - 1];
-                        firstLetter = String.valueOf(str.charAt(0));
-                        entityName = str.replaceFirst(firstLetter, firstLetter.toLowerCase());
+                        entityName = fields[i - 1];
                         join = join.join(entityName, JoinType.LEFT);
                     }
                 }
@@ -202,8 +211,33 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
             return join;
         }
         return null;
-
     }
+
+    /**
+     * 左连接Set为属性表条件查询
+     *
+     * @param c
+     * @param root
+     * @return
+     */
+    private Join<BE, Object> handlerJoinSetTable(Condition c, Root<BE> root, String[] fields) {
+        int fields_length = fields.length;
+        if (c.isLeftJoinSet() && fields_length > 1) {
+            String entityName = fields[0];
+            Join<BE, Object> joinSet = root.joinSet(entityName, JoinType.LEFT);
+            if (fields_length > 2) {
+                for (int i = 0; i < fields_length; i++) {
+                    if (i > 1 && i < fields_length) {
+                        entityName = fields[i - 1];
+                        joinSet = joinSet.joinSet(entityName, JoinType.LEFT);
+                    }
+                }
+            }
+            return joinSet;
+        }
+        return null;
+    }
+
 
     /**
      * 查询异常处理

@@ -7,9 +7,8 @@ import org.ndshop.dbs.jpa.enums.Status;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.ServiceImpl;
 import org.ndshop.user.common.dto.UserRoleDto;
-import org.ndshop.user.common.entity.Role;
-import org.ndshop.user.common.entity.User;
 import org.ndshop.user.common.entity.UserRole;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -22,20 +21,20 @@ import java.util.List;
  * @Version: [1.0.0]
  * @Copy: [org.ndshop]
  */
+
+@CacheConfig(cacheNames = "userSerCache")
 @Service
 public class UserRoleSerImpl extends ServiceImpl<UserRole, UserRoleDto> implements IUserRoleSer {
 
-    @Cacheable("userSerCache")
+    @Cacheable
     @Override
     public List<UserRole> findByUserId(String userId) throws SerException {
         UserRoleDto dto = new UserRoleDto();
 
-        Condition coin = new Condition("id", DataType.STRING, userId);
-        coin.fieldToModels(User.class);
+        Condition coin = new Condition("user.id", DataType.STRING, userId);
         dto.getConditions().add(coin);
 
-        coin = new Condition(STATUS, DataType.ENUM, Status.THAW.getCode());
-        coin.fieldToModels(Role.class);
+        coin = new Condition("role.status", DataType.ENUM, Status.THAW.getCode());
         dto.getConditions().add(coin);
         return findByCis(dto);
     }

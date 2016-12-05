@@ -66,5 +66,4 @@ public interface IUserSer extends IService<User, UserDto> {
         return false;
     }
 
-
 }

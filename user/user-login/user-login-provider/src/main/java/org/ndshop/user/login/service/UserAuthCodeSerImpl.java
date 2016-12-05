@@ -2,11 +2,11 @@ package org.ndshop.user.login.service;
 
 import com.dounine.corgi.spring.rpc.Service;
 import org.ndshop.dbs.jpa.exception.SerException;
+import org.ndshop.user.common.session.authcode.AuthCode;
+import org.ndshop.user.common.session.authcode.AuthCodeSession;
+import org.ndshop.user.common.session.validfail.ValidErr;
+import org.ndshop.user.common.session.validfail.ValidErrSession;
 import org.ndshop.user.common.utils.authCode.AuthCodeGenerate;
-import org.ndshop.user.login.session.authcode.AuthCode;
-import org.ndshop.user.login.session.authcode.AuthCodeSession;
-import org.ndshop.user.login.session.validfail.ValidErr;
-import org.ndshop.user.login.session.validfail.ValidErrSession;
 
 import java.awt.image.BufferedImage;
 import java.util.Map;
@@ -23,6 +23,7 @@ public class UserAuthCodeSerImpl implements IUserAuthCodeSer {
 
     @Override
     public Boolean showAuthCode(String account) throws SerException {
+
         ValidErr code = ValidErrSession.get(account);
         if (null != code && code.getCount() >= 5) { //验证次数大于5次需要验证码
             return true;
@@ -44,7 +45,7 @@ public class UserAuthCodeSerImpl implements IUserAuthCodeSer {
     }
 
     /**
-     * 保存到session
+     * 保存验证码到session
      * @param account
      * @param code
      */

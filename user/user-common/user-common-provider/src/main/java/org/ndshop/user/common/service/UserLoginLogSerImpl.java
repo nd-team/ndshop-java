@@ -6,9 +6,10 @@ import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.ServiceImpl;
 import org.ndshop.user.common.dto.UserLoginLogDto;
-import org.ndshop.user.common.entity.User;
 import org.ndshop.user.common.entity.UserLoginLog;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +24,7 @@ import java.util.List;
  * @Version: [1.0.0]
  * @Copy: [org.ndshop]
  */
+@CacheConfig(cacheNames = "userSerCache")
 @Service
 public class UserLoginLogSerImpl extends ServiceImpl<UserLoginLog, UserLoginLogDto> implements IUserLoginLogSer {
 
@@ -37,8 +39,7 @@ public class UserLoginLogSerImpl extends ServiceImpl<UserLoginLog, UserLoginLogD
     @Override
     public UserLoginLog save(UserLoginLog loginLog) throws SerException {
         UserLoginLogDto dto = new UserLoginLogDto();
-        Condition coin = new Condition("id", DataType.STRING, loginLog.getUser().getId());
-        coin.fieldToModels(User.class);
+        Condition coin = new Condition("user.id", DataType.STRING, loginLog.getUser().getId());
         dto.getConditions().add(coin);
         dto.setOrder(DESC);
         dto.setSorts(Arrays.asList("loginTime"));
@@ -61,11 +62,11 @@ public class UserLoginLogSerImpl extends ServiceImpl<UserLoginLog, UserLoginLogD
         }
     }
 
+    @Cacheable
     @Override
     public List<UserLoginLog> findByUserId(String userId) throws SerException {
         UserLoginLogDto dto = new UserLoginLogDto();
-        Condition coin = new Condition("id", DataType.STRING, userId);
-        coin.fieldToModels(User.class);
+        Condition coin = new Condition("user.id", DataType.STRING, userId);
         dto.getConditions().add(coin);
         dto.setOrder(DESC);
         dto.setSorts(Arrays.asList("loginTime"));

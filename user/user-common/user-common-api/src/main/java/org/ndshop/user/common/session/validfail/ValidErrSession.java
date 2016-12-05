@@ -1,4 +1,4 @@
-package org.ndshop.user.login.session.validfail;
+package org.ndshop.user.common.session.validfail;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

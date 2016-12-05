@@ -48,14 +48,14 @@ public class OneToOne {
     @Test
     public void addUserInfo() throws SerException {
         User user = userSer.findByUsername("liguiqin");
-        UserInfo info = user.getUserInfo();
+        UserInfo info = user.getInfo();
         if (null == info) {
             info = new UserInfo();
         }
         info.setEmail("xinaml@qq.com");
         info.setFox("1122");
         info.setUser(user);
-        user.setUserInfo(info);
+        user.setInfo(info);
         userSer.update(user);
         System.out.println(JSON.toJSONString(user));
     }

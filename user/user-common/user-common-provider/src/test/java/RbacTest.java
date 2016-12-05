@@ -149,6 +149,7 @@ public class RbacTest {
      *
      * @throws SerException
      */
+    @Transactional
     @Test
     public void findAllPermissionByUserId() throws SerException {
 

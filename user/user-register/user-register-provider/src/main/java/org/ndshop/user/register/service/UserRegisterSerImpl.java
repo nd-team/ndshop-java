@@ -6,12 +6,19 @@ import com.dounine.corgi.spring.rpc.Service;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.user.common.entity.User;
 import org.ndshop.user.common.service.IUserSer;
+import org.ndshop.user.common.session.authcode.AuthCode;
+import org.ndshop.user.common.session.authcode.AuthCodeSession;
+import org.ndshop.user.common.session.phonecode.PhoneCode;
+import org.ndshop.user.common.session.phonecode.PhoneCodeSession;
+import org.ndshop.user.common.utils.authCode.AuthCodeGenerate;
 import org.ndshop.user.common.utils.regex.Validator;
 import org.ndshop.user.register.dto.UserRegisterDto;
-import org.ndshop.user.register.session.phonecode.PhoneCode;
-import org.ndshop.user.register.session.phonecode.PhoneCodeSession;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.awt.image.BufferedImage;
+import java.util.Map;
 
 /**
  * @Author: [liguiqin]
@@ -20,13 +27,39 @@ import org.springframework.transaction.annotation.Transactional;
  * @Version: [1.0.0]
  * @Copy: [org.ndshop]
  */
+@CacheConfig(cacheNames = "userSerCache")
 @Service
 public class UserRegisterSerImpl implements IUserRegisterSer {
 
-    @Reference(timeout = 12000)
+    @Reference
     private IUserSer userSer;
 
-    @Cacheable("userSerCache")
+    @Override
+    public BufferedImage generateRegAuthCode(String sid) throws SerException {
+        Map<String, BufferedImage> authMap = AuthCodeGenerate.build();
+        String code = null;
+        BufferedImage image = null;
+        for (Map.Entry<String, BufferedImage> entry : authMap.entrySet()) {
+            image = entry.getValue();
+            code = entry.getKey();
+        }
+        handleAuthCode(sid, code);
+        return image;
+    }
+
+    /**
+     * 保存注册验证码到session
+     *
+     * @param sid
+     * @param code
+     */
+    private void handleAuthCode(String sid, String code) {
+        AuthCode authCode = new AuthCode();
+        authCode.setCode(code);
+        AuthCodeSession.put(sid, authCode);
+    }
+
+    @Cacheable
     @Override
     public Boolean existUsername(String username) throws SerException {
         User user = userSer.findByUsername(username);
@@ -34,7 +67,7 @@ public class UserRegisterSerImpl implements IUserRegisterSer {
 
     }
 
-    @Cacheable("userSerCache")
+    @Cacheable
     @Override
     public Boolean existPhone(String phone) throws SerException {
         boolean isPhone = Validator.isPhone(phone);
@@ -78,11 +111,16 @@ public class UserRegisterSerImpl implements IUserRegisterSer {
         } else {
             throw new SerException("输入密码不一致");
         }
+        AuthCode authCode = AuthCodeSession.get(dto.getSid());
+
+        if (null == authCode && !dto.getAuthCode().equalsIgnoreCase(authCode.getCode())) {
+            throw new SerException("验证码错误");
+        }
 
         //通过手机号码获得系统生成的验证码对象
         PhoneCode phoneCode = PhoneCodeSession.get(dto.getPhone());
         if (null != phoneCode) {
-            if (phoneCode.getCode().equals(dto.getPhoneCode())) {
+            if (phoneCode.getCode().equalsIgnoreCase(dto.getPhoneCode())) {
                 saveUserByDto(dto);
                 PhoneCodeSession.remove(dto.getPhone());
             } else {

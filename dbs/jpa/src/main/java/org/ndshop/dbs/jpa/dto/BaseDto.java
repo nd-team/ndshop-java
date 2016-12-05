@@ -17,7 +17,6 @@ public class BaseDto extends PageDto implements Serializable {
     private String order = "desc"; //默认排序方式
     private List<Condition> conditions = new ArrayList<Condition>(0);// 类搜索条件
 
-
     public List<String> getSorts() {
         return sorts;
     }
@@ -41,4 +40,6 @@ public class BaseDto extends PageDto implements Serializable {
     public void setConditions(List<Condition> conditions) {
         this.conditions = conditions;
     }
+
+
 }

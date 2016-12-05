@@ -118,7 +118,10 @@ public class Components {
         SimpleCacheManager cacheManager = new SimpleCacheManager();
         List<Cache> caches = new ArrayList<>();
         for (String cache_name : Constant.CACHE_NAME) {
-            caches.add(new ConcurrentMapCache(cache_name));
+            Cache cache =new ConcurrentMapCache(cache_name);
+            cache.put("timeToLiveSeconds",60*60);//1小时过期
+            cache.put("timeToIdleSeconds",60*60*12);//闲置时间
+            caches.add(cache);
         }
         caches.addAll(jpaCache.initCaches());
         cacheManager.setCaches(caches);

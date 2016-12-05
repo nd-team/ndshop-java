@@ -1,4 +1,4 @@
-package org.ndshop.user.register.session.phonecode;
+package org.ndshop.user.common.session.phonecode;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
