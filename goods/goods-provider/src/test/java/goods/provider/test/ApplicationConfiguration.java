@@ -1,10 +1,8 @@
 package goods.provider.test;
 
+import com.dounine.corgi.rpc.spring.RpcApplicationConfiguration;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -14,15 +12,21 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 @Configuration
-@EnableJpaRepositories(basePackages = {"org.ndshop.goods.dao"})
+@EnableAspectJAutoProxy
+@EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactoryBean",
+        basePackages = {"org.ndshop.goods.dao"})
 @EnableTransactionManagement(proxyTargetClass = true)
 @EnableCaching
-@PropertySource({"classpath:config.properties","classpath:corgi.properties"})
+@PropertySource({"classpath:config.properties"})
 @ComponentScan(basePackages = {"goods.provider.test","org.ndshop.goods"},
         excludeFilters = {@ComponentScan.Filter(
                 type = FilterType.ANNOTATION,
                 value = {Configuration.class})})
-public class ApplicationConfiguration {
+public class ApplicationConfiguration extends RpcApplicationConfiguration{
+
+
+
+
 
 }
 

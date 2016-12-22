@@ -1,6 +1,6 @@
 package org.ndshop.goods;
 
-import com.dounine.corgi.spring.ApplicationContext;
+import com.dounine.corgi.context.ApplicationContext;
 import org.ndshop.goods.boot.App;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

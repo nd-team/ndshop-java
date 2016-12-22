@@ -1,10 +1,10 @@
-import org.ndshop.dbs.jpa.exception.SerException;
-import org.ndshop.user.register.dto.UserRegisterDto;
-import org.ndshop.user.register.service.IUserRegisterSer;
-import com.dounine.corgi.spring.ApplicationContext;
+import com.dounine.corgi.context.ApplicationContext;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.ndshop.dbs.jpa.exception.SerException;
+import org.ndshop.user.register.dto.UserRegisterDto;
+import org.ndshop.user.register.service.IUserRegisterSer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;

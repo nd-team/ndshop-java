@@ -9,6 +9,7 @@ import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.ServiceImpl;
 import org.ndshop.goods.dto.GoodsCategoryDto;
 import org.ndshop.goods.entity.GoodsCategory;
+import org.ndshop.user.common.entity.User;
 import org.ndshop.user.common.service.IUserSer;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,24 @@ public class GoodsCategorySerImpl extends ServiceImpl<GoodsCategory, GoodsCatego
 
     @Reference
     IUserSer userSer;
+
+    @Override
+    public void addTest() throws SerException {
+        User user1 = new User();
+        user1.setEmail("xianml@123.com");
+        user1.setUsername("liguiqin11");
+        user1.setPassword("123456");
+        user1.setNickname("liguiqin11");
+        user1.setAge(11);
+        userSer.save(user1);
+        String categoryName = "电器";
+        GoodsCategory goodsCategory = new GoodsCategory();
+        goodsCategory.setName(  categoryName );
+        goodsCategory.setParentNodeNum(0L);
+        goodsCategory.setCreateTime( LocalDateTime.now() );
+        goodsCategory.setModifyTime(LocalDateTime.now() );
+        save(goodsCategory);
+    }
 
     @Transactional
     @Override

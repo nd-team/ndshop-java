@@ -5,6 +5,8 @@ import com.dounine.corgi.spring.rpc.Reference;
 import com.dounine.corgi.spring.rpc.Service;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.user.common.entity.User;
+import org.ndshop.user.common.enums.MemberType;
+import org.ndshop.user.common.enums.UserType;
 import org.ndshop.user.common.service.IUserSer;
 import org.ndshop.user.common.session.authcode.AuthCode;
 import org.ndshop.user.common.session.authcode.AuthCodeSession;
@@ -18,6 +20,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.awt.image.BufferedImage;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
@@ -61,14 +64,29 @@ public class UserRegisterSerImpl implements IUserRegisterSer {
 
     @Cacheable
     @Override
+    @Transactional
     public Boolean existUsername(String username) throws SerException {
-        User user = userSer.findByUsername(username);
-        return null != user;
+        User user1 = new User();
+        user1.setUsername("ligui55");
+        user1.setPassword("11111");
+        user1.setAge(11);
+        user1.setPhone("13535032913");
+        user1.setMemberType(MemberType.BRONZE);
+        user1.setNickname("777222");
+        user1.setUserType(UserType.CUSTOMER);
+        user1.setAccessTime(LocalDateTime.now());
+        user1.setEmail("xinaml@qqqq.com");
+        user1 = userSer.save(user1);
+//        User user = userSer.findByUsername(username);
+        System.out.println("保存ID:"+user1.getId());
+//        userSer.findByUsername("nihao");
+        return null != user1;
 
     }
 
     @Cacheable
     @Override
+    @Transactional
     public Boolean existPhone(String phone) throws SerException {
         boolean isPhone = Validator.isPhone(phone);
         User user = null;

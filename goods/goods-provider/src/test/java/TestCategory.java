@@ -39,13 +39,9 @@ public class TestCategory {
 
     @Test
     public void addParentCategory() throws SerException{
-        String categoryName = "电器";
-        GoodsCategory goodsCategory = new GoodsCategory();
-        goodsCategory.setName(  categoryName );
-        goodsCategory.setParentNodeNum(0L);
-        goodsCategory.setCreateTime( LocalDateTime.now() );
-        goodsCategory.setModifyTime(LocalDateTime.now() );
-        goodsCategorySer.save(  goodsCategory );
+        
+        goodsCategorySer.addTest();
+
     }
 
     @Test

@@ -2,6 +2,8 @@ apply from: '../../config.gradle'
 
 dependencies {
     compile group: 'com.dounine.corgi', name: 'rpc', version: "$rpc_version"
+    compile group: 'com.dounine.corgi', name: 'jta', version: "$rpc_version"
+
     compile project(":goods:goods-api")
     compile project(":user:user-common:user-common-api")
 }

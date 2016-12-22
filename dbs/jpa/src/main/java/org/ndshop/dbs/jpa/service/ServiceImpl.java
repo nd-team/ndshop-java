@@ -99,7 +99,6 @@ public class ServiceImpl<BE extends BaseEntity, BD extends BaseDto> extends Fina
         return myRepository.findById(id);
     }
 
-    @Transactional
     @Override
     public BE save(BE entity) throws SerException {
         return myRepository.save(entity);

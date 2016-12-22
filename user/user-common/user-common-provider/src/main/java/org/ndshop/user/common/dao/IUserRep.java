@@ -33,7 +33,6 @@ public interface IUserRep extends MyRep<User, UserDto> {
      * @param username 用户名
      * @return
      */
-    @Cacheable("userDaoCache")
     User findByUsername(String username);
 
     /**

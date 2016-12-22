@@ -47,7 +47,7 @@ public class GoodsPicSerImpl extends ServiceImpl<GoodsPic, GoodsPicDto> implemen
     public List<GoodsPic> findPicByGoods(String goodsId ) throws SerException{
 
         Condition c = new Condition("id", DataType.STRING ,goodsId );
-        c.fieldToModels(Goods.class );
+//        c.fieldToModels(Goods.class );
         GoodsPicDto dto = new GoodsPicDto();
         dto.getConditions().add( c );
         List<GoodsPic> goodsPics = findByCis( dto );

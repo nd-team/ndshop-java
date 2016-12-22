@@ -70,7 +70,7 @@ public class TestGoods {
     @Test
     public void findByBrandName()throws SerException{
         Condition c = new Condition("name", DataType.STRING ,"36");
-        c.fieldToModels( GoodsBrands.class);
+//        c.fieldToModels( GoodsBrands.class);
         c.setRestrict(RestrictionType.LIKE);
 
         GoodsDto dto = new GoodsDto();

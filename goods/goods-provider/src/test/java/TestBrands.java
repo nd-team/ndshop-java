@@ -54,7 +54,7 @@ public class TestBrands {
 
         GoodsBrandsDto dto = new GoodsBrandsDto();
         Condition c = new Condition("id", DataType.STRING , goodsBrandsCategoryId);
-        c.fieldToModels( GoodsBrandsCategory.class );
+//        c.fieldToModels( GoodsBrandsCategory.class );
         dto.getConditions().add( c );
         goodsBrandsSer.findByCis( dto );
     }

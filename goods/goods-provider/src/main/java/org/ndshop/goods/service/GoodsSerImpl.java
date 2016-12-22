@@ -68,7 +68,7 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
     @Override
     public List<Goods> findByBrandName(String brandName )throws SerException{
         Condition c = new Condition("name", DataType.STRING , brandName );
-        c.fieldToModels( GoodsBrands.class);
+//        c.fieldToModels( GoodsBrands.class);
         c.setRestrict(RestrictionType.LIKE);
 
         GoodsDto dto = new GoodsDto();

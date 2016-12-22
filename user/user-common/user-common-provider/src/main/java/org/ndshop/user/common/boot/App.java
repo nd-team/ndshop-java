@@ -1,10 +1,8 @@
 package org.ndshop.user.common.boot;
 
+import com.dounine.corgi.rpc.spring.RpcApplicationConfiguration;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.FilterType;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -19,12 +17,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaRepositories(basePackages = {"org.ndshop.user.common.dao"})
 @EnableTransactionManagement(proxyTargetClass = true)
 @EnableCaching
-@PropertySource({"classpath:config.properties", "classpath:corgi.properties"})
-@ComponentScan(basePackages = {"org.ndshop.user.common"},
+@PropertySource({"classpath:config.properties"})
+@ComponentScan(basePackages = {"org.ndshop.user.common.boot","org.ndshop.user.common.service"},
         excludeFilters = {@ComponentScan.Filter(
                 type = FilterType.ANNOTATION,
                 value = {Configuration.class})})
-public class App {
+public class App extends RpcApplicationConfiguration{
 
 
 }

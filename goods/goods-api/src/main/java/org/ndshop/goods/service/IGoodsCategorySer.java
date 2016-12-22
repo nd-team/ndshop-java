@@ -17,6 +17,10 @@ import java.util.List;
  */
 public interface IGoodsCategorySer extends IService<GoodsCategory, GoodsCategoryDto> {
 
+    default  void addTest()throws SerException{
+
+    }
+
     /**
      * 添加父级分类
      * @param goodsCategory

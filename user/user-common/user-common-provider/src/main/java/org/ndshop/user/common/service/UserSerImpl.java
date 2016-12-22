@@ -12,6 +12,7 @@ import org.ndshop.user.common.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -35,7 +36,12 @@ public class UserSerImpl extends ServiceImpl<User, UserDto> implements IUserSer 
         return super.findAll();
     }
 
-    @Cacheable
+    @Override
+    @Transactional
+    public User save(User entity) throws SerException {
+        return userRep.save(entity);
+    }
+
     @Override
     public User findByUsername(String username) {
         return userRep.findByUsername(username);

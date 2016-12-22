@@ -14,11 +14,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.support.OpenSessionInViewInterceptor;
 import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +45,7 @@ public class Components {
      * @return
      */
     @Bean
-    public DruidDataSource getDruid(Environment env) {
+    public DataSource getDruid(Environment env) {
         DruidDataSource dds = new DruidDataSource();
         dds.setDriverClassName(env.getProperty("db.driver"));
         dds.setUrl(env.getProperty("db.url"));
@@ -58,9 +60,17 @@ public class Components {
      * @param localContainerEntityManagerFactoryBean
      * @return
      */
-    @Bean(name = "entityManagerFactory")
+    @Bean
     public EntityManagerFactory entityManagerFactory(LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean) {
         return localContainerEntityManagerFactoryBean.getNativeEntityManagerFactory();
+    }
+
+    @Bean
+    public JpaVendorAdapter hibernateJpaVendorAdapter(){
+        HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
+        hibernateJpaVendorAdapter.setShowSql(true);
+        hibernateJpaVendorAdapter.setGenerateDdl(true);
+        return hibernateJpaVendorAdapter;
     }
 
     /**
@@ -69,21 +79,21 @@ public class Components {
      * @return
      */
 
-    @Bean(name = "entityManagerFactoryBean")
-    public LocalContainerEntityManagerFactoryBean getLCEMF(DruidDataSource druidDataSource) {
+    @Bean
+    public LocalContainerEntityManagerFactoryBean getLCEMF(DataSource dataSource,JpaVendorAdapter jpaVendorAdapter) {
         LocalContainerEntityManagerFactoryBean lcemf = new LocalContainerEntityManagerFactoryBean();
-        lcemf.setDataSource(druidDataSource);
-        lcemf.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+        lcemf.setDataSource(dataSource);
+        lcemf.setJpaVendorAdapter(jpaVendorAdapter);
         String[] packages = ArrayUtils.add(packagesToScan.entityScan(), Constant.SCAN_APP_PACKAGES);
         lcemf.setPackagesToScan(packages);
         return lcemf;
     }
 
-    /**
-     * 事务管理器
-     *
-     * @return
-     */
+//    /**
+//     * 事务管理器
+//     *
+//     * @return
+//     */
     @Bean(name = "transactionManager")
     public JpaTransactionManager jpaTransactionManager(EntityManagerFactory entityManagerFactory) {
         JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
@@ -98,14 +108,14 @@ public class Components {
      * @param entityManager
      * @return
      */
-    @Bean(name = "openSessionInViewInterceptor")
-    public OpenSessionInViewInterceptor openSessionInViewInterceptor(EntityManager entityManager) {
-        OpenSessionInViewInterceptor inViewInterceptor = new OpenSessionInViewInterceptor();
-        Session session = (Session) entityManager.getDelegate();
-        SessionFactory sessionFactory = session.getSessionFactory();
-        inViewInterceptor.setSessionFactory(sessionFactory);
-        return inViewInterceptor;
-    }
+//    @Bean(name = "openSessionInViewInterceptor")
+//    public OpenSessionInViewInterceptor openSessionInViewInterceptor(EntityManager entityManager) {
+//        OpenSessionInViewInterceptor inViewInterceptor = new OpenSessionInViewInterceptor();
+//        Session session = (Session) entityManager.getDelegate();
+//        SessionFactory sessionFactory = session.getSessionFactory();
+//        inViewInterceptor.setSessionFactory(sessionFactory);
+//        return inViewInterceptor;
+//    }
 
 
     /**

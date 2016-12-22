@@ -55,9 +55,9 @@ public class TestGoodsFieldsValue {
         List<GoodsFields> gf = goodsFieldsSer.findGoodsFields( fieldName );
 
         Condition c = new Condition("id", DataType.STRING,gId);
-        c.fieldToModels( Goods.class );
+//        c.fieldToModels( Goods.class );
         Condition c2 = new Condition("id",DataType.STRING,gf.get(0).getId());
-        c2.fieldToModels( GoodsFields.class);
+//        c2.fieldToModels( GoodsFields.class);
         GoodsFieldsValueDto dto = new GoodsFieldsValueDto();
         dto.getConditions().add( c );
         dto.getConditions().add( c2 );
@@ -83,9 +83,9 @@ public class TestGoodsFieldsValue {
         List<GoodsFields> gf = goodsFieldsSer.findGoodsFields( fieldName );
 
         Condition c = new Condition("id", DataType.STRING,gId);
-        c.fieldToModels( Goods.class );
+//        c.fieldToModels( Goods.class );
         Condition c2 = new Condition("id",DataType.STRING,gf.get(0).getId());
-        c2.fieldToModels( GoodsFields.class);
+//        c2.fieldToModels( GoodsFields.class);
         GoodsFieldsValueDto dto = new GoodsFieldsValueDto();
         dto.getConditions().add( c );
         dto.getConditions().add( c2 );
@@ -103,7 +103,7 @@ public class TestGoodsFieldsValue {
     public void findFieldVaues() throws SerException{
         String gId = "2a27c9d2-5536-478d-982e-0645731e4679";
         Condition c = new Condition("id", DataType.STRING,gId);
-        c.fieldToModels( Goods.class );
+//        c.fieldToModels( Goods.class );
         GoodsFieldsValueDto dto = new GoodsFieldsValueDto();
         dto.getConditions().add( c );
         List<GoodsFieldsValue> gfvList = goodsFieldsValueSer.findByCis( dto );

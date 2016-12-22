@@ -1,5 +1,6 @@
 package user_common_code;
 
+import com.dounine.corgi.rpc.spring.RpcApplicationConfiguration;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +24,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         excludeFilters = {@ComponentScan.Filter(
                 type = FilterType.ANNOTATION,
                 value = {Configuration.class})})
-public class ApplicationConfiguration {
+public class ApplicationConfiguration extends RpcApplicationConfiguration{
 
 }
 

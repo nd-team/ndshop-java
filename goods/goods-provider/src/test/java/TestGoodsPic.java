@@ -55,7 +55,7 @@ public class TestGoodsPic {
         String goodsId = null;
 
         Condition c = new Condition("id", DataType.STRING ,goodsId );
-        c.fieldToModels(Goods.class );
+//        c.fieldToModels(Goods.class );
         GoodsPicDto dto = new GoodsPicDto();
         dto.getConditions().add( c );
         List<GoodsPic> goodsPics = goodsPicSer.findByCis( dto );

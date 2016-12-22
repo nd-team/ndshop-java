@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 
 @Configuration
-@EnableJpaRepositories(basePackages = {"org.ndshop.shop.dao"})
+@EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactoryBean",basePackages = {"org.ndshop.shop.dao"})
 @EnableTransactionManagement(proxyTargetClass = true)
     @EnableCaching
     @PropertySource({"classpath:config.properties"})
