@@ -96,7 +96,7 @@ public class PermissionSerImpl extends ServiceImpl<Permission, PermissionDto> im
         Set<Permission> permissions = new HashSet<>(); //所有认证权限
         if (null != roles && roles.size() > 0) {
             roles.stream().forEach(role -> {
-                    permissions.addAll(role.getPermissions()); //添加角色拥有认证权限到集合
+                    permissions.addAll(role.getPermissionSet()); //添加角色拥有认证权限到集合
             });
         }
 
@@ -110,7 +110,7 @@ public class PermissionSerImpl extends ServiceImpl<Permission, PermissionDto> im
         Set<Permission> permissions = new HashSet<>(); //所有认证权限
         if (null != roles && roles.size() > 0) {
             roles.stream().forEach(role -> {
-                permissions.addAll(role.getPermissions());//添加角色拥有认证权限到集合
+                permissions.addAll(role.getPermissionSet());//添加角色拥有认证权限到集合
             });
         }
         return permissions;

@@ -17,15 +17,13 @@ public class Condition {
     private RestrictionType restrict = RestrictionType.EQ; //查询条件 eq gt lt ...
 
     /**
-     * field（字段） 包含 "." 则默认会设置成左连接，不再需要手动调用设置为leftJoin
+     * field（字段） 包含 "." 则默认会设置成左连接，左连接set 集合 命名必须未Set结束
+     * 如：Set<User>userSet List<User>userList
      */
-
     private String field; //字段
     private String values[];//字段值
     private DataType fieldType = DataType.STRING; //string int ...
 
-    private Boolean leftJoin =false; //是否有左连接表
-    private Boolean leftJoinSet=false; //是否有左连接包含Sets为属性(条件)
 
     public Condition() {
     }
@@ -36,23 +34,10 @@ public class Condition {
     }
 
     public Condition(String field, DataType fieldType, Object value) {
-        if(field.split("\\.").length>1){ //设置默认左连接
-            leftJoin = true;
-            leftJoinSet =false;
-        }
         this.field = field;
         this.fieldType = fieldType;
         values = new String[]{String.valueOf(value)};
     }
-
-    /**
-     * 设置为左连接连接属性为set集合时，必须调用该方法查询
-     */
-    public void leftJoinSet() {
-        leftJoin = false;
-        leftJoinSet =true;
-    }
-
 
     public RestrictionType getRestrict() {
         return restrict;
@@ -86,11 +71,4 @@ public class Condition {
         this.fieldType = fieldType;
     }
 
-    public Boolean isLeftJoin() {
-        return leftJoin;
-    }
-
-    public Boolean isLeftJoinSet() {
-        return leftJoinSet;
-    }
 }

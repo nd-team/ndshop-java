@@ -101,7 +101,7 @@ public class RbacTest {
         List<UserRole> userRoles = userRoleSer.findAll();
         if (null != userRoles) {
             for (UserRole userRole : userRoles) {
-                userRole.getRole().getPermissions().size();
+                userRole.getRole().getPermissionSet().size();
                 System.out.println(userRole);
             }
         }
@@ -120,7 +120,7 @@ public class RbacTest {
             List<Permission> permissions_list = permissionSer.findAll();
             Set<Permission> permissions_set = new HashSet<>(permissions_list.size());
             permissions_set.addAll(permissions_list);
-            role.setPermissions(permissions_set);
+            role.setPermissionSet(permissions_set);
             roleSer.update(role);
         }
     }

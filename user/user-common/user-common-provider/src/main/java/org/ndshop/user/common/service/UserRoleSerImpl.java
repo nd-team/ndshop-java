@@ -1,6 +1,7 @@
 package org.ndshop.user.common.service;
 
 
+import org.hibernate.criterion.Restrictions;
 import org.ndshop.dbs.jpa.dto.Condition;
 import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.enums.Status;

@@ -21,7 +21,7 @@ public class UserInfo extends BaseEntity {
     private String telephone;//联系电话
 
 
-    @OneToOne(optional = false, cascade = CascadeType.REFRESH)
+    @OneToOne(optional = false, cascade = CascadeType.REFRESH,fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     @JSONField(serialize = false)
     private User user;

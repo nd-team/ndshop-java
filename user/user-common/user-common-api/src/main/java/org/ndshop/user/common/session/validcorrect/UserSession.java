@@ -39,7 +39,6 @@ public final class UserSession {
      * @return 是否已经登录
      */
     public static void put(String token, User user) {
-        user.setUserDetail(null);// 不保存用户详情
         if (StringUtils.isNotBlank(token)) {
             user.setAccessTime(LocalDateTime.now());
             USER_SESSIONS.put(token, user);

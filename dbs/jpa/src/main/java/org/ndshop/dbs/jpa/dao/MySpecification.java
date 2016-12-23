@@ -55,8 +55,8 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
 
 
     /**
-     * 连表查询set集合暂时无效，暂时仅支持单属性（model）查询
-     *
+     * 连表查询支持单属性（model）查询，set，list集合
+     * 连接表查询的 or查询未解决
      * @param dto
      * @param root
      * @param cb
@@ -76,39 +76,30 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
 
                 RestrictionType type = model.getRestrict();
                 String[] fields = model.getField().split("\\.");
-                Join<BE, Object> leftJoin = handlerJoinTable(model, root, fields);  //是否有连接查询
-                Join<BE, Object> leftJoinSet = handlerJoinSetTable(model, root, fields);  //是否有连接表属性为Set的属性查询
-                Boolean existJoin = leftJoin != null; //存在属性对象表连接
-                Boolean existJoinSet = leftJoinSet != null;//存在属性set对象表连接
+                Join<BE, Object> join = handlerJoinTable(root, fields);  //是否有连接查询
                 Method method = handlerMethod(cb, model);//获得反射调用方法
-
-                if (existJoin || existJoinSet) {
+                Boolean existJoin = (null != join);
+                if (existJoin) {
                     field = fields[fields.length - 1]; //有连接查询取最后的分割字段
                 }
                 switch (type) {
                     case LIKE:
                         if (existJoin) {
-                            predicate = cb.like(leftJoin.get(field).as(clazz), "%" + model.getValues()[0] + "%");
-                        } else if (existJoinSet) {
-                            predicate = cb.like(leftJoinSet.get(field).as(clazz), "%" + model.getValues()[0] + "%");
+                            predicate = cb.like(join.get(field).as(clazz), "%" + model.getValues()[0] + "%");
                         } else {
                             predicate = cb.like(root.get(field).as(clazz), "%" + model.getValues()[0] + "%");
                         }
                         break;
                     case ISNULL:
                         if (existJoin) {
-                            predicate = cb.isNull(leftJoin.get(field).as(clazz));
-                        } else if (existJoinSet) {
-                            predicate = cb.isNull(leftJoinSet.get(field).as(clazz));
+                            predicate = cb.isNull(join.get(field).as(clazz));
                         } else {
                             predicate = cb.isNull(root.get(field).as(clazz));
                         }
                         break;
                     case ISNOTNULL:
                         if (existJoin) {
-                            predicate = cb.isNotNull(leftJoin.get(field).as(clazz));
-                        } else if (existJoinSet) {
-                            predicate = cb.isNotNull(leftJoinSet.get(field).as(clazz));
+                            predicate = cb.isNotNull(join.get(field).as(clazz));
                         } else {
                             predicate = cb.isNotNull(root.get(field).as(clazz));
                         }
@@ -119,16 +110,8 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
                             List<Predicate> _predicates = new ArrayList<>();
                             for (Condition cdis : conditions) {
                                 if (cdis.getRestrict().equals(RestrictionType.OR)) {
-                                    if (existJoin) {
-                                        fields = cdis.getField().split("#");
-                                        predicate = cb.equal(leftJoin.get(fields[fields.length]).as(clazz), cdis.getValues()[0]);
-                                    } else if (existJoinSet) {
-                                        fields = cdis.getField().split("#");
-                                        predicate = cb.equal(leftJoinSet.get(fields[fields.length]).as(clazz), cdis.getValues()[0]);
-
-                                    } else {
-                                        predicate = cb.equal(root.get(cdis.getField()).as(clazz), cdis.getValues()[0]);
-                                    }
+                                    fields = cdis.getField().split("\\.");
+                                     predicate = cb.equal(root.get(fields[fields.length-1]).as(clazz), cdis.getValues()[0]);
                                     _predicates.add(predicate);
                                 }
                             }
@@ -142,18 +125,13 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
                         Object[] values = PrimitiveUtil.convertValuesByType(model.getValues(), model.getFieldType());
                         if (type == RestrictionType.IN) {
                             if (existJoin) {
-                                predicate = (Predicate) method.invoke(cb, leftJoin.get(field).as(clazz), values);
-                            } else if (existJoinSet) {
-                                predicate = (Predicate) method.invoke(cb, leftJoinSet.get(field).as(clazz), values);
-
+                                predicate = (Predicate) method.invoke(cb, join.get(field).as(clazz), values);
                             } else {
                                 predicate = (Predicate) method.invoke(cb, root.get(field).as(clazz), values);
                             }
                         } else {
                             if (existJoin) {
-                                predicate = (Predicate) method.invoke(cb, ArrayUtils.add(values, 0, leftJoin.get(field).as(clazz)));
-                            } else if (existJoinSet) {
-                                predicate = (Predicate) method.invoke(cb, ArrayUtils.add(values, 0, leftJoinSet.get(field).as(clazz)));
+                                predicate = (Predicate) method.invoke(cb, ArrayUtils.add(values, 0, join.get(field).as(clazz)));
                             } else {
                                 predicate = (Predicate) method.invoke(cb, ArrayUtils.add(values, 0, root.get(field).as(clazz)));
                             }
@@ -191,53 +169,29 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
     /**
      * 左连接查询
      *
-     * @param c
      * @param root
      * @return
      */
-    private Join<BE, Object> handlerJoinTable(Condition c, Root<BE> root, String[] fields) {
-        int fields_length = fields.length;
-        if (c.isLeftJoin() && fields_length > 1) {
-            String entityName = fields[0];
-            Join<BE, Object> join = root.join(entityName, JoinType.LEFT);
-            if (fields_length > 2) {
-                for (int i = 0; i < fields_length; i++) {
-                    if (i > 1 && i < fields_length) {
-                        entityName = fields[i - 1];
-                        join = join.join(entityName, JoinType.LEFT);
-                    }
+    private Join<BE, Object> handlerJoinTable(Root<BE> root, String[] fields) {
+        int fields_length = fields.length - 1; //忽略最后的属性查询字段 如user.userinfo.email 只取user.userinfo
+        Join<BE, Object> join = null;
+        if (fields_length >= 1) {  //存在连接查询
+            for (int i = 0; i < fields_length; i++) {
+                String entityName = fields[i];
+                String last = entityName.substring(entityName.length() - 3, entityName.length());
+                if ("Set".equals(last)) {
+                    join = root.joinSet(entityName, JoinType.LEFT);
+                } else if ("List".equals(last)) {
+                    join = root.joinList(entityName, JoinType.LEFT);
+                } else {
+                    join = root.join(entityName, JoinType.LEFT);
                 }
             }
+
             return join;
         }
         return null;
     }
-
-    /**
-     * 左连接Set为属性表条件查询
-     *
-     * @param c
-     * @param root
-     * @return
-     */
-    private Join<BE, Object> handlerJoinSetTable(Condition c, Root<BE> root, String[] fields) {
-        int fields_length = fields.length;
-        if (c.isLeftJoinSet() && fields_length > 1) {
-            String entityName = fields[0];
-            Join<BE, Object> joinSet = root.joinSet(entityName, JoinType.LEFT);
-            if (fields_length > 2) {
-                for (int i = 0; i < fields_length; i++) {
-                    if (i > 1 && i < fields_length) {
-                        entityName = fields[i - 1];
-                        joinSet = joinSet.joinSet(entityName, JoinType.LEFT);
-                    }
-                }
-            }
-            return joinSet;
-        }
-        return null;
-    }
-
 
     /**
      * 查询异常处理

@@ -30,12 +30,12 @@ public class Role extends BaseEntity {
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
-    private Role role;//父角色
+    private Role parent;//父角色
 
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
      @JoinTable(name="user_role_permission",joinColumns={@JoinColumn(name="role_id",nullable = false)},
             inverseJoinColumns={@JoinColumn(name="permission_id",nullable = false)})
-    private Set<Permission> permissions;
+    private Set<Permission> permissionSet;
 
     public String getName() {
         return name;
@@ -54,19 +54,19 @@ public class Role extends BaseEntity {
     }
 
     public Role getParent() {
-        return role;
+        return parent;
     }
 
     public void setParent(Role parent) {
-        this.role = parent;
+        this.parent = parent;
     }
 
-    public Set<Permission> getPermissions() {
-        return permissions;
+    public Set<Permission> getPermissionSet() {
+        return permissionSet;
     }
 
-    public void setPermissions(Set<Permission> permissions) {
-        this.permissions = permissions;
+    public void setPermissionSet(Set<Permission> permissionSet) {
+        this.permissionSet = permissionSet;
     }
 
     public Status getStatus() {

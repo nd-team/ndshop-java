@@ -45,25 +45,11 @@ public class OneToOne {
         }
     }
 
-    @Test
-    public void addUserInfo() throws SerException {
-        User user = userSer.findByUsername("liguiqin");
-        UserInfo info = user.getInfo();
-        if (null == info) {
-            info = new UserInfo();
-        }
-        info.setEmail("xinaml@qq.com");
-        info.setFox("1122");
-        info.setUser(user);
-        user.setInfo(info);
-        userSer.update(user);
-        System.out.println(JSON.toJSONString(user));
-    }
 
     @Test
     public void findByEmail() throws SerException {
         UserDto dto = new UserDto();
-        Condition coin = new Condition(UserInfo.class.getName()+"#email", DataType.STRING,"xinaml@qq.com");
+        Condition coin = new Condition("userInfo.email", DataType.STRING,"xinaml@qq.com");
         coin.setRestrict(RestrictionType.EQ);
         dto.getConditions().add(coin);
         System.out.println(userSer.findOne(dto));

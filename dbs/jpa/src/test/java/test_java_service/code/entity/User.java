@@ -28,36 +28,13 @@ public class User extends BaseEntity {
     @Column(columnDefinition = "TINYINT(1)")//指定数据库类型
     private Boolean superMan;
 
-
-//optional 属性 是定义该关联类是否必须存在,值为false 时，关联类双方都必须存在(inner join) true是为left join
-
-    //CascadeType.PERSIST（级联新建）、CascadeType.REMOVE（级联删除）、CascadeType.REFRESH（级联刷新）、CascadeType.MERGE（级联更新）中选择一个或多个。还有一个选择是使用CascadeType.ALL，表示选择全部四项。    @ManyToOne(cascade = {CascadeType.ALL})
-
-    /** one-to-one
-     * 除了 many to one 其他关联关系都有mappedBy属性，使用mappedBy的一端为主控方，
-     * 主控方来维持对象关系
-     * mappedBy = "user" User 为主控方，维持userInfo（被控方关系）
-     * private UserInfo userInfo;
-     */
-    @OneToOne(optional = true, cascade = CascadeType.ALL, mappedBy = "user")
-    private UserInfo info;
-
-
-    /**
-     * many-to-one
-     */
-    //多对一配置 group_id作为外键关联映射表的主键列关联
-    //ManyToOne 指定 many 一方是不能独立存在的，否则存在孤儿数据
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "group_id")
     private UserGroup group;
 
-    //OneToMany(cascade = CascadeType.ALL, mappedBy = "oneId")//指向多的那方的pojo的关联外键字段
-    //private Set<Many> manys;
-    //一对多配置  FetchType 是否懒加载, (OneToMany默认懒加载LAZY,ManyToOne为默认加载EAGER)一般由多的一方维护关系
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @OrderBy(value = "seq ASC")
-    private Set<UserInterest> interests;
+    private Set<UserInterest> interestSet;
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private Set<UserRole> userRoles;
@@ -142,19 +119,19 @@ public class User extends BaseEntity {
         this.superMan = superMan;
     }
 
-    public UserInfo getInfo() {
-        return info;
+//    public UserInfo getInfo() {
+//        return info;
+//    }
+//
+//    public void setInfo(UserInfo info) {
+//        this.info = info;
+//    }
+
+    public Set<UserInterest> getInterestSet() {
+        return interestSet;
     }
 
-    public void setInfo(UserInfo info) {
-        this.info = info;
-    }
-
-    public Set<UserInterest> getInterests() {
-        return interests;
-    }
-
-    public void setInterests(Set<UserInterest> interests) {
-        this.interests = interests;
+    public void setInterestSet(Set<UserInterest> interestSet) {
+        this.interestSet = interestSet;
     }
 }

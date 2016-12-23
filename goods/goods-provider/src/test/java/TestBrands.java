@@ -53,8 +53,7 @@ public class TestBrands {
         String goodsBrandsCategoryId = "b0e1fb72-9b01-44a2-b644-5620f09e1956";
 
         GoodsBrandsDto dto = new GoodsBrandsDto();
-        Condition c = new Condition("id", DataType.STRING , goodsBrandsCategoryId);
-//        c.fieldToModels( GoodsBrandsCategory.class );
+        Condition c = new Condition("goodsBrandsCategory.id", DataType.STRING , goodsBrandsCategoryId);
         dto.getConditions().add( c );
         goodsBrandsSer.findByCis( dto );
     }

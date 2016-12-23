@@ -62,8 +62,8 @@ public class User extends BaseEntity {
     @Transient
     private LoginStatus loginStatus = LoginStatus.LOGINOUT; //记录用户登录状态
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
-    private UserDetail userDetail; //用户详情
+//    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "user")
+//    private UserDetail userDetail; //用户详情
 
     public String getUsername() {
         return username;
@@ -167,14 +167,6 @@ public class User extends BaseEntity {
 
     public void setStatus(Status status) {
         this.status = status;
-    }
-
-    public UserDetail getUserDetail() {
-        return userDetail;
-    }
-
-    public void setUserDetail(UserDetail userDetail) {
-        this.userDetail = userDetail;
     }
 
     public LoginStatus getLoginStatus() {

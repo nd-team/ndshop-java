@@ -69,8 +69,7 @@ public class TestGoods {
     @Transactional
     @Test
     public void findByBrandName()throws SerException{
-        Condition c = new Condition("name", DataType.STRING ,"36");
-//        c.fieldToModels( GoodsBrands.class);
+        Condition c = new Condition("goodsBrands.name", DataType.STRING ,"36");
         c.setRestrict(RestrictionType.LIKE);
 
         GoodsDto dto = new GoodsDto();

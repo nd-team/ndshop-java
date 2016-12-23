@@ -13,8 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableAspectJAutoProxy
-@EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactoryBean",
-        basePackages = {"org.ndshop.goods.dao"})
+@EnableJpaRepositories(  basePackages = {"org.ndshop.goods.dao"})
 @EnableTransactionManagement(proxyTargetClass = true)
 @EnableCaching
 @PropertySource({"classpath:config.properties"})

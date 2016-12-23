@@ -65,7 +65,7 @@ public class OneToMany {
     @Test
     public void delUserInterest() throws SerException {
         User user = userSer.findByUsername("liguiqin");
-        Set<UserInterest> interests = user.getInterests();
+        Set<UserInterest> interests = user.getInterestSet();
         if (null != interests) {
             interestSer.remove(interests);
         }
@@ -76,7 +76,7 @@ public class OneToMany {
     @Test
     public void updateUserInterest() throws SerException {
         User user = userSer.findByUsername("liguiqin");
-        Set<UserInterest> interests = user.getInterests();
+        Set<UserInterest> interests = user.getInterestSet();
         if (null != interests) {
             for (UserInterest interest : interests) {
                 interest.setName("update" + new Random().nextInt(999));

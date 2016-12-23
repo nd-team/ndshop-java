@@ -35,19 +35,21 @@ public class GoodsCategorySerImpl extends ServiceImpl<GoodsCategory, GoodsCatego
     @Override
     public void addTest() throws SerException {
         User user1 = new User();
-        user1.setEmail("xianml@123.com");
-        user1.setUsername("liguiqin11");
-        user1.setPassword("123456");
-        user1.setNickname("liguiqin11");
+        user1.setEmail("xianml@99.com");
+        user1.setUsername("liguiqin99");
+        user1.setPassword("1234569");
+        user1.setNickname("liguiqin998");
+        user1.setPhone("13457910299");
         user1.setAge(11);
         userSer.save(user1);
-        String categoryName = "电器";
+        String categoryName = "99电器";
         GoodsCategory goodsCategory = new GoodsCategory();
         goodsCategory.setName(  categoryName );
         goodsCategory.setParentNodeNum(0L);
         goodsCategory.setCreateTime( LocalDateTime.now() );
         goodsCategory.setModifyTime(LocalDateTime.now() );
         save(goodsCategory);
+        int i=9/0;
     }
 
     @Transactional

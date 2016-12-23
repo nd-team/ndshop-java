@@ -3,6 +3,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.user.common.entity.User;
+import org.ndshop.user.common.entity.UserDetail;
 import org.ndshop.user.common.service.IUserSer;
 import org.ndshop.user.common.session.authcode.AuthCodeSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,7 @@ public class UserTest {
     @Test
     public void findAll() throws SerException {
         List<User> users = userSer.findAll();
+
         System.out.println(users);
     }
 

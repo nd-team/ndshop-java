@@ -1,5 +1,0 @@
-rootProject.name = 'order-provider'
-
-
-include ':dbs:jpa'
-project('dbs:jpa').projectDir = new File(settingsDir, '../../jpa')

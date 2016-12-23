@@ -60,6 +60,7 @@ public class JunitTest {
      * 查询全部
      */
     @Test
+    @Transactional
     public void findAll() throws SerException {
         List<User> users = userSer.findAll();
         if (null != users && users.size() > 0) {
@@ -91,11 +92,12 @@ public class JunitTest {
     @Test
     public void findByCis() throws SerException {
         UserDto dto = new UserDto();
-        Condition coin = new Condition("interests.name", DataType.STRING, "aaa");
-        coin.leftJoinSet();
+        Condition coin = new Condition("username", DataType.STRING, "aaa");
+        coin.setRestrict(RestrictionType.OR);
         dto.getConditions().add(coin);
 
-        coin = new Condition("info.email", DataType.STRING, "1234");
+        coin = new Condition("nickname", DataType.STRING, "1234");
+        coin.setRestrict(RestrictionType.OR);
         dto.getConditions().add(coin);
         List<User> users = userSer.findByCis(dto, true); //按条件查询并分页
         System.out.println(JSON.toJSONString(users));
@@ -114,7 +116,6 @@ public class JunitTest {
         UserDto dto = new UserDto();
         Condition coin = new Condition("email", DataType.STRING, "xinaml@qq.com");
         coin.setRestrict(RestrictionType.EQ);
-        coin.isLeftJoin();
         dto.getConditions().add(coin);
         userSer.findByCis(dto);
     }

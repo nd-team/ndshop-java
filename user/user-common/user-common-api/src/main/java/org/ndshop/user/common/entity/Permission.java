@@ -31,10 +31,10 @@ public class Permission extends BaseEntity {
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
-    private Permission permission;
+    private Permission parent;
 
-    @ManyToMany(mappedBy="permissions",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private Set<Role> roles ;
+    @ManyToMany(mappedBy="permissionSet",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private Set<Role> roleSet ;
 
     public String getName() {
         return name;
@@ -77,18 +77,18 @@ public class Permission extends BaseEntity {
     }
 
     public Permission getParent() {
-        return permission;
+        return parent;
     }
 
     public void setParent(Permission parent) {
-        this.permission = parent;
+        this.parent = parent;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Set<Role> getRoleSet() {
+        return roleSet;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRoleSet(Set<Role> roleSet) {
+        this.roleSet = roleSet;
     }
 }

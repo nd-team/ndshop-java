@@ -80,7 +80,7 @@ public class ServiceImpl<BE extends BaseEntity, BD extends BaseDto> extends Fina
         MySpecification mySpecification = new MySpecification<BE, BD>(dto);
         if (null != dto.getSorts() && dto.getSorts().size() > 0) { //排序
             Sort.Direction dct = Sort.Direction.ASC;
-            if (dto.getOrder().equalsIgnoreCase("desc")) {
+            if (DESC.equalsIgnoreCase(dto.getOrder())) {
                 dct = Sort.Direction.DESC;
             }
             return myRepository.findAll(new Sort(dct, dto.getSorts()));
@@ -99,6 +99,7 @@ public class ServiceImpl<BE extends BaseEntity, BD extends BaseDto> extends Fina
         return myRepository.findById(id);
     }
 
+    @Transactional
     @Override
     public BE save(BE entity) throws SerException {
         return myRepository.save(entity);

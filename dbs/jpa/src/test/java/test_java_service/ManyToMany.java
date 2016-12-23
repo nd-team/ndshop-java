@@ -20,7 +20,7 @@ import java.util.List;
 public class ManyToMany {
     /**
      * 双方共同维护关系 User Role  中间表 UserRole
-     * 一般不会直接用manytomany,而是用中间表进行维护关系
+     * 一般不会直接用manytomany,而是用中间表进行维护关系，具体看需求厂家
      * 即 双向一对多来实现多对多
      */
 
@@ -37,7 +37,7 @@ public class ManyToMany {
     public void findUser() throws SerException {
         List<User> users = userSer.findAll();
         for (User u : users) {
-            System.out.println(u.getInterests().size());
+            System.out.println(u.getInterestSet().size());
             System.out.println(u);
         }
 

@@ -54,8 +54,7 @@ public class TestGoodsPic {
     public void findPicByGoods() throws SerException{
         String goodsId = null;
 
-        Condition c = new Condition("id", DataType.STRING ,goodsId );
-//        c.fieldToModels(Goods.class );
+        Condition c = new Condition("goods.id", DataType.STRING ,goodsId );
         GoodsPicDto dto = new GoodsPicDto();
         dto.getConditions().add( c );
         List<GoodsPic> goodsPics = goodsPicSer.findByCis( dto );
