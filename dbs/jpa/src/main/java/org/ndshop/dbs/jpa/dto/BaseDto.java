@@ -2,7 +2,9 @@ package org.ndshop.dbs.jpa.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: [liguiqin]
@@ -13,24 +15,15 @@ import java.util.List;
  */
 public class BaseDto extends PageDto implements Serializable {
     private static final long serialVersionUID = -3558525794931360478L;
-    private List<String> sorts; //排序字段 (有排序字段默认排序)
-    private String order = "desc"; //默认排序方式
+    private Map<String,String> sorts=new HashMap<>(0); //排序字段 (有排序字段默认排序) "username" "desc"
     private List<Condition> conditions = new ArrayList<Condition>(0);// 类搜索条件
 
-    public List<String> getSorts() {
+    public Map<String, String> getSorts() {
         return sorts;
     }
 
-    public void setSorts(List<String> sorts) {
+    public void setSorts(Map<String, String> sorts) {
         this.sorts = sorts;
-    }
-
-    public String getOrder() {
-        return order;
-    }
-
-    public void setOrder(String order) {
-        this.order = order;
     }
 
     public List<Condition> getConditions() {
@@ -40,6 +33,4 @@ public class BaseDto extends PageDto implements Serializable {
     public void setConditions(List<Condition> conditions) {
         this.conditions = conditions;
     }
-
-
 }

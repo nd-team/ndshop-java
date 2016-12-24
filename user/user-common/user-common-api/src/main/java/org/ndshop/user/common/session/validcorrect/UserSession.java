@@ -27,8 +27,9 @@ public final class UserSession {
     }
 
     static {
-        CONSOLE.info("sessionQuartz start");
         new SessionQuartz(USER_SESSIONS);
+        CONSOLE.info("sessionQuartz start");
+
     }
 
     /**
@@ -125,7 +126,19 @@ public final class UserSession {
         return USER_SESSIONS.get(token) != null;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)throws Exception {
+        USER_SESSIONS.put("1",new User());
+        USER_SESSIONS.put("2",new User());
+        USER_SESSIONS.put("3",new User());
+        USER_SESSIONS.put("4",new User());
+        Thread.sleep(1000*60*2);
+        System.out.println("first end ....!"+USER_SESSIONS.size());
+        USER_SESSIONS.put("5",new User());
+        USER_SESSIONS.put("6",new User());
+        USER_SESSIONS.put("7",new User());
+        USER_SESSIONS.put("8",new User());
+        Thread.sleep(1000*60*2);
+        System.out.println("second end ....!"+USER_SESSIONS.size());
         String token = TokenUtils.create("119.129.208.1", "admin");
         System.out.println(TokenUtils.verify(TokenUtils.create("119.129.208.1", "admin")));
     }

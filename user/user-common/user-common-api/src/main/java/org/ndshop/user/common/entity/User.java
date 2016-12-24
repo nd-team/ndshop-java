@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
 
 /**
@@ -32,6 +33,7 @@ public class User extends BaseEntity {
     @Email
     private String email;//登录邮箱
 
+    @Range(min = 6)
     @Column(nullable = false)
     private String password; //登陆密码
 
@@ -40,6 +42,9 @@ public class User extends BaseEntity {
     @Column(unique = true)
     private String nickname; //昵称
 
+    @Column(unique = true,nullable = false)
+    private String employeeNumber;
+
     @Column(columnDefinition = "INT(1)")//指定数据库类型
     private SexType sex = SexType.NONE;//性别
 
@@ -47,7 +52,7 @@ public class User extends BaseEntity {
     private Integer age;//年龄
 
     @Column(columnDefinition = "INT(1)", nullable = false)
-    private MemberType memberType=MemberType.REGISTERED; //会员类型
+    private MemberType memberType = MemberType.REGISTERED; //会员类型
 
     @Column(columnDefinition = "INT(1)", nullable = false)
     private UserType userType = UserType.CUSTOMER;
@@ -59,11 +64,13 @@ public class User extends BaseEntity {
 
     private Status status = Status.THAW;//用户状态
 
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "department_id")
+    private Department department;
+
     @Transient
     private LoginStatus loginStatus = LoginStatus.LOGINOUT; //记录用户登录状态
 
-//    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "user")
-//    private UserDetail userDetail; //用户详情
 
     public String getUsername() {
         return username;

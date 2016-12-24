@@ -16,7 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 /**
@@ -79,12 +81,24 @@ public class ServiceImpl<BE extends BaseEntity, BD extends BaseDto> extends Fina
     public List<BE> findByCis(BD dto) throws SerException {
         MySpecification mySpecification = new MySpecification<BE, BD>(dto);
         if (null != dto.getSorts() && dto.getSorts().size() > 0) { //排序
-            Sort.Direction dct = Sort.Direction.ASC;
-            if (DESC.equalsIgnoreCase(dto.getOrder())) {
-                dct = Sort.Direction.DESC;
+            Sort sort = null;
+            Map<String, String> _sorts = dto.getSorts();
+            for (Map.Entry<String, String> entry : _sorts.entrySet()) {
+                Sort.Direction dct = null;
+                if (entry.getValue().equalsIgnoreCase("asc")) {
+                    dct = Sort.Direction.ASC;
+                } else {
+                    dct = Sort.Direction.DESC;
+                }
+                if (null == sort) {
+                    sort = new Sort(dct, entry.getKey());
+                } else {
+                    sort = sort.and(new Sort(dct, entry.getKey()));
+                }
             }
-            return myRepository.findAll(new Sort(dct, dto.getSorts()));
+            return myRepository.findAll(sort);
         }
+
         return myRepository.findAll(mySpecification);
     }
 

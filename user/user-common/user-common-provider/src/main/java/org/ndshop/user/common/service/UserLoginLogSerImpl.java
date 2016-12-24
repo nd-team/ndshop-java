@@ -41,8 +41,7 @@ public class UserLoginLogSerImpl extends ServiceImpl<UserLoginLog, UserLoginLogD
         UserLoginLogDto dto = new UserLoginLogDto();
         Condition coin = new Condition("user.id", DataType.STRING, loginLog.getUser().getId());
         dto.getConditions().add(coin);
-        dto.setOrder(DESC);
-        dto.setSorts(Arrays.asList("loginTime"));
+        dto.getSorts().put("loginTime",DESC);
         List<UserLoginLog> loginLogs = findByCis(dto);
         if (null != loginLogs && loginLogs.size() >= 5) {
             UserLoginLog old_log = loginLogs.get(4); //更新最旧的数据为最新的
@@ -68,8 +67,7 @@ public class UserLoginLogSerImpl extends ServiceImpl<UserLoginLog, UserLoginLogD
         UserLoginLogDto dto = new UserLoginLogDto();
         Condition coin = new Condition("user.id", DataType.STRING, userId);
         dto.getConditions().add(coin);
-        dto.setOrder(DESC);
-        dto.setSorts(Arrays.asList("loginTime"));
+        dto.getSorts().put("loginTime",DESC);
         return findByCis(dto);
     }
 }

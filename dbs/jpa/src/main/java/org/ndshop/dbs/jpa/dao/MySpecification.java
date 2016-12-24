@@ -18,6 +18,7 @@ import java.lang.reflect.Method;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -57,6 +58,7 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
     /**
      * 连表查询支持单属性（model）查询，set，list集合
      * 连接表查询的 or查询未解决
+     *
      * @param dto
      * @param root
      * @param cb
@@ -66,10 +68,10 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
     private List<Predicate> initPredicates(BD dto, Root<BE> root, CriteriaBuilder cb) throws RepException {
         List<Predicate> preList = new ArrayList<>(0); //条件列表
         List<Condition> conditions = dto.getConditions() != null ? dto.getConditions() : new ArrayList<>(0);//避免条件列表为空
-        Boolean or_predicate = false; //标志处理 or 条件
-
+        List<Predicate> or_preList = new ArrayList<>(); //or 条件列表
         try {
             for (Condition model : conditions) {
+                Boolean isOrPre = false; //是否为or查询
                 Predicate predicate = null;
                 Class clazz = PrimitiveUtil.switchType(model.getFieldType()); //得到数据类型
                 String field = model.getField(); //字段
@@ -105,20 +107,11 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
                         }
                         break;
                     case OR:
-                        //仅做一次处理，一次处理完所有or
-                        if (!or_predicate) {
-                            List<Predicate> _predicates = new ArrayList<>();
-                            for (Condition cdis : conditions) {
-                                if (cdis.getRestrict().equals(RestrictionType.OR)) {
-                                    fields = cdis.getField().split("\\.");
-                                     predicate = cb.equal(root.get(fields[fields.length-1]).as(clazz), cdis.getValues()[0]);
-                                    _predicates.add(predicate);
-                                }
-                            }
-                            Predicate[] arr_pre = new Predicate[_predicates.size()];
-                            _predicates.toArray(arr_pre);
-                            predicate = cb.or(arr_pre);
-                            or_predicate = true;
+                        isOrPre = true;
+                        if (existJoin) {
+                            predicate = cb.or(cb.like(join.get(field).as(clazz), model.getValues()[0]));
+                        } else {
+                            predicate = cb.or(cb.like(root.get(field).as(clazz), model.getValues()[0]));
                         }
                         break;
                     default:
@@ -138,13 +131,22 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
                         }
                 }
                 if (null != predicate) {
-                    preList.add(predicate);
+                    if (!isOrPre) {
+                        preList.add(predicate);
+                    } else {
+                        or_preList.add(predicate);
+                    }
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
             exceptionHandler(e);
 
+        }
+        if (or_preList.size() > 0) { //处理 or 查询
+            Predicate[] arr_pre = new Predicate[or_preList.size()];
+            or_preList.toArray(arr_pre);
+            preList.add(cb.or(arr_pre));
         }
         return preList;
     }
@@ -238,12 +240,22 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
      */
     public PageRequest getPageRequest(BD dto) {
         PageRequest pageRequest = null;
+        Sort sort = null;
         if (dto.getSorts() != null && dto.getSorts().size() > 0) {
-            Sort.Direction dct = Sort.Direction.ASC;
-            if (dto.getOrder().equalsIgnoreCase("desc")) {
-                dct = Sort.Direction.DESC;
+            for (Map.Entry<String, String> entry : dto.getSorts().entrySet()) {
+                Sort.Direction dct = null;
+                if (entry.getValue().equalsIgnoreCase("asc")) {
+                    dct = Sort.Direction.ASC;
+                } else {
+                    dct = Sort.Direction.DESC;
+                }
+                if (null != sort) {
+                    sort.and(new Sort(dct, entry.getKey()));
+                } else {
+                    sort = new Sort(dct, entry.getKey());
+                }
             }
-            pageRequest = new PageRequest(dto.getPage(), dto.getLimit(), new Sort(dct, dto.getSorts())); //分页带排序
+            pageRequest = new PageRequest(dto.getPage(), dto.getLimit(), sort); //分页带排序
         } else {
             pageRequest = new PageRequest(dto.getPage(), dto.getLimit()); //分页不带排序
         }

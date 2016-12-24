@@ -40,7 +40,6 @@ public class UserTest {
     @Test
     public void findAll() throws SerException {
         List<User> users = userSer.findAll();
-
         System.out.println(users);
     }
 

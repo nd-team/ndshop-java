@@ -9,6 +9,7 @@ import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.enums.RestrictionType;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +42,6 @@ public class JunitTest {
     private IUserInterestSer interestSer;
 
 
-    @Before
     public void init() throws SerException {
         if (null == userSer.findByUsername("liguiqin")) {
             User user = new User();
@@ -55,6 +55,29 @@ public class JunitTest {
             userSer.save(user);
         }
     }
+
+
+    /**
+     * 查询全部
+     */
+    @Test
+    public void findOr() throws SerException {
+        UserDto dto = new UserDto();
+        Condition c = new Condition("username",DataType.STRING,"李桂琴");
+        c.setRestrict(RestrictionType.OR);
+        dto.getConditions().add(c);
+        c = new Condition("password",DataType.STRING,"李桂琴");
+        c.setRestrict(RestrictionType.OR);
+        dto.getConditions().add(c);
+        c = new Condition("group.name",DataType.STRING,"李桂琴");
+        c.setRestrict(RestrictionType.EQ);
+        dto.getConditions().add(c);
+        dto.getSorts().put("username","desc");
+        dto.getSorts().put("group.name","asc");
+        List<User> users = userSer.findByCis(dto);
+    }
+
+
 
     /**
      * 查询全部
@@ -77,7 +100,6 @@ public class JunitTest {
     @Test
     public void findByPage() throws SerException {
         UserDto dto = new UserDto();
-        dto.setSorts(Arrays.asList("username"));
         List<User> users = userSer.findByPage(dto);
         if (null != users && users.size() > 0) {
             for (User u : users) {

@@ -19,7 +19,7 @@ import java.util.TimerTask;
 public class SessionQuartz  {
 
     private static final Logger CONSOLE = LoggerFactory.getLogger(SessionQuartz.class);
-    private final static int INVALID_TIME = 3;//session key失效时间 3分钟
+    private final static int INVALID_TIME = 1;//session key失效时间 3分钟
     private final static int START = 0;//设置执行开始时间
     private final static int INTERVAL = 5000;//设置间隔执行时间 单位/毫秒
     private Map<String, User> sessions;
