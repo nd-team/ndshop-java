@@ -1,8 +1,7 @@
 package org.ndshop.user.common.service;
 
 
-import org.ndshop.dbs.jpa.dto.Condition;
-import org.ndshop.dbs.jpa.enums.DataType;
+import org.ndshop.dbs.jpa.dto.Restrict;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.ServiceImpl;
 import org.ndshop.user.common.dto.UserLoginLogDto;
@@ -13,7 +12,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -39,8 +37,7 @@ public class UserLoginLogSerImpl extends ServiceImpl<UserLoginLog, UserLoginLogD
     @Override
     public UserLoginLog save(UserLoginLog loginLog) throws SerException {
         UserLoginLogDto dto = new UserLoginLogDto();
-        Condition coin = new Condition("user.id", DataType.STRING, loginLog.getUser().getId());
-        dto.getConditions().add(coin);
+        dto.getConditions().add(Restrict.eq("user.id",loginLog.getUser().getId()));
         dto.getSorts().put("loginTime",DESC);
         List<UserLoginLog> loginLogs = findByCis(dto);
         if (null != loginLogs && loginLogs.size() >= 5) {
@@ -65,8 +62,7 @@ public class UserLoginLogSerImpl extends ServiceImpl<UserLoginLog, UserLoginLogD
     @Override
     public List<UserLoginLog> findByUserId(String userId) throws SerException {
         UserLoginLogDto dto = new UserLoginLogDto();
-        Condition coin = new Condition("user.id", DataType.STRING, userId);
-        dto.getConditions().add(coin);
+        dto.getConditions().add(Restrict.eq("user.id",userId));
         dto.getSorts().put("loginTime",DESC);
         return findByCis(dto);
     }

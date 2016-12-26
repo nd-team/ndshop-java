@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ndshop.dbs.jpa.dto.Condition;
+import org.ndshop.dbs.jpa.dto.Restrict;
 import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.enums.RestrictionType;
 import org.ndshop.dbs.jpa.exception.SerException;
@@ -49,9 +50,7 @@ public class OneToOne {
     @Test
     public void findByEmail() throws SerException {
         UserDto dto = new UserDto();
-        Condition coin = new Condition("userInfo.email", DataType.STRING,"xinaml@qq.com");
-        coin.setRestrict(RestrictionType.EQ);
-        dto.getConditions().add(coin);
+        dto.getConditions().add(Restrict.eq("userInfo.email","xinaml@qq.com"));
         System.out.println(userSer.findOne(dto));
 
     }

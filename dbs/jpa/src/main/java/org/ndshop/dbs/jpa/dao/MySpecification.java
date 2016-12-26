@@ -15,6 +15,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.*;
 import java.lang.reflect.Method;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +74,7 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
             for (Condition model : conditions) {
                 Boolean isOrPre = false; //是否为or查询
                 Predicate predicate = null;
-                Class clazz = PrimitiveUtil.switchType(model.getFieldType()); //得到数据类型
+                Class clazz = PrimitiveUtil.switchType(model.getValue()); //得到数据类型
                 String field = model.getField(); //字段
 
                 RestrictionType type = model.getRestrict();
@@ -87,9 +88,9 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
                 switch (type) {
                     case LIKE:
                         if (existJoin) {
-                            predicate = cb.like(join.get(field).as(clazz), "%" + model.getValues()[0] + "%");
+                            predicate = cb.like(join.get(field).as(clazz), "%" + model.getValue() + "%");
                         } else {
-                            predicate = cb.like(root.get(field).as(clazz), "%" + model.getValues()[0] + "%");
+                            predicate = cb.like(root.get(field).as(clazz), "%" + model.getValue() + "%");
                         }
                         break;
                     case ISNULL:
@@ -109,13 +110,13 @@ public class MySpecification<BE extends BaseEntity, BD extends BaseDto> implemen
                     case OR:
                         isOrPre = true;
                         if (existJoin) {
-                            predicate = cb.or(cb.like(join.get(field).as(clazz), model.getValues()[0]));
+                            predicate = cb.or(cb.equal(join.get(field).as(clazz), model.getValue()));
                         } else {
-                            predicate = cb.or(cb.like(root.get(field).as(clazz), model.getValues()[0]));
+                            predicate = cb.or(cb.equal(root.get(field).as(clazz), model.getValue()));
                         }
                         break;
                     default:
-                        Object[] values = PrimitiveUtil.convertValuesByType(model.getValues(), model.getFieldType());
+                        Object[] values = PrimitiveUtil.convertValuesByType(model.getValue());
                         if (type == RestrictionType.IN) {
                             if (existJoin) {
                                 predicate = (Predicate) method.invoke(cb, join.get(field).as(clazz), values);

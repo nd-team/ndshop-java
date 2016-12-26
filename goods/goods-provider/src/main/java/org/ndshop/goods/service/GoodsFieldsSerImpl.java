@@ -2,6 +2,7 @@ package org.ndshop.goods.service;
 
 import org.apache.log4j.Logger;
 import org.ndshop.dbs.jpa.dto.Condition;
+import org.ndshop.dbs.jpa.dto.Restrict;
 import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.ServiceImpl;
@@ -42,9 +43,8 @@ public class GoodsFieldsSerImpl extends ServiceImpl<GoodsFields, GoodsFieldsDto>
     @Cacheable("goodsServiceCache")
     @Override
     public List<GoodsFields> findGoodsFields ( String fieldName ) throws SerException{
-        Condition c = new Condition("fieldName", DataType.STRING ,fieldName );
         GoodsFieldsDto dto = new GoodsFieldsDto();
-        dto.getConditions().add( c );
+        dto.getConditions().add(Restrict.eq("fieldName",fieldName));
         List<GoodsFields> goodsFields = findByCis( dto  );
 
         return goodsFields;

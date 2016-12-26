@@ -3,6 +3,7 @@ package org.ndshop.goods.service;
 import com.alibaba.fastjson.JSON;
 import org.apache.log4j.Logger;
 import org.ndshop.dbs.jpa.dto.Condition;
+import org.ndshop.dbs.jpa.dto.Restrict;
 import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.ServiceImpl;
@@ -46,10 +47,9 @@ public class GoodsPicSerImpl extends ServiceImpl<GoodsPic, GoodsPicDto> implemen
     @Override
     public List<GoodsPic> findPicByGoods(String goodsId ) throws SerException{
 
-        Condition c = new Condition("id", DataType.STRING ,goodsId );
 //        c.fieldToModels(Goods.class );
         GoodsPicDto dto = new GoodsPicDto();
-        dto.getConditions().add( c );
+        dto.getConditions().add(Restrict.eq("id",goodsId));
         List<GoodsPic> goodsPics = findByCis( dto );
         logger.info(JSON.toJSONString( goodsPics ) );
 

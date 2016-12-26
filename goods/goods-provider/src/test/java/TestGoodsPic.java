@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ndshop.dbs.jpa.dto.Condition;
+import org.ndshop.dbs.jpa.dto.Restrict;
 import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.goods.dto.GoodsPicDto;
@@ -54,9 +55,8 @@ public class TestGoodsPic {
     public void findPicByGoods() throws SerException{
         String goodsId = null;
 
-        Condition c = new Condition("goods.id", DataType.STRING ,goodsId );
         GoodsPicDto dto = new GoodsPicDto();
-        dto.getConditions().add( c );
+        dto.getConditions().add(Restrict.eq("goods.id",goodsId));
         List<GoodsPic> goodsPics = goodsPicSer.findByCis( dto );
         logger.info(JSON.toJSONString( goodsPicSer.findAll() ));
     }

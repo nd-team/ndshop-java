@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ndshop.dbs.jpa.dto.Condition;
+import org.ndshop.dbs.jpa.dto.Restrict;
 import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.enums.RestrictionType;
 import org.ndshop.dbs.jpa.exception.SerException;
@@ -69,11 +70,8 @@ public class TestGoods {
     @Transactional
     @Test
     public void findByBrandName()throws SerException{
-        Condition c = new Condition("goodsBrands.name", DataType.STRING ,"36");
-        c.setRestrict(RestrictionType.LIKE);
-
         GoodsDto dto = new GoodsDto();
-        dto.getConditions().add( c );
+        dto.getConditions().add(Restrict.like("goodsBrands.name","36"));
         List<Goods> goods = goodsSer.findByCis( dto );
         logger.info(JSON.toJSONString( goods ) );
 

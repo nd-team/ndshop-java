@@ -96,7 +96,7 @@ public class ServiceImpl<BE extends BaseEntity, BD extends BaseDto> extends Fina
                     sort = sort.and(new Sort(dct, entry.getKey()));
                 }
             }
-            return myRepository.findAll(sort);
+            return myRepository.findAll(mySpecification,sort);
         }
 
         return myRepository.findAll(mySpecification);

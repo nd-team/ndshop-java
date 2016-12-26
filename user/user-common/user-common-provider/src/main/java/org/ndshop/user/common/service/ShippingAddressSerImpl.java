@@ -1,7 +1,6 @@
 package org.ndshop.user.common.service;
 
-import org.ndshop.dbs.jpa.dto.Condition;
-import org.ndshop.dbs.jpa.enums.DataType;
+import org.ndshop.dbs.jpa.dto.Restrict;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.ServiceImpl;
 import org.ndshop.user.common.dto.ShippingAddressDto;
@@ -34,8 +33,7 @@ public class ShippingAddressSerImpl extends ServiceImpl<ShippingAddress, Shippin
         //temp
         currentUser.setId("11");
         ShippingAddressDto dto = new ShippingAddressDto();
-        Condition coin = new Condition("user.id", DataType.STRING, currentUser.getId());
-        dto.getConditions().add(coin);
+        dto.getConditions().add(Restrict.eq("user.id",currentUser.getId()));
         return this.findByCis(dto);
     }
 
@@ -57,8 +55,7 @@ public class ShippingAddressSerImpl extends ServiceImpl<ShippingAddress, Shippin
     @Override
     public void setDefaultAddress(ShippingAddress address) throws SerException {
         ShippingAddressDto dto = new ShippingAddressDto();
-        Condition coin = new Condition("defaultAddress", DataType.BOOLEAN, true);
-        dto.getConditions().add(coin);
+        dto.getConditions().add(Restrict.eq("defaultAddress",true));
         ShippingAddress old_address = findOne(dto);
         //撤销旧的收货地址
         if (null != old_address) {

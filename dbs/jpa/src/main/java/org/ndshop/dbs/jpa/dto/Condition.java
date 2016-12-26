@@ -1,10 +1,7 @@
 package org.ndshop.dbs.jpa.dto;
 
 
-import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.enums.RestrictionType;
-import org.apache.commons.lang3.text.StrBuilder;
-import org.ndshop.dbs.jpa.enums.Status;
 
 /**
  * @Author: [liguiqin]
@@ -14,36 +11,19 @@ import org.ndshop.dbs.jpa.enums.Status;
  * @Copy: [org.ndshop]
  */
 public class Condition {
-    private RestrictionType restrict = RestrictionType.EQ; //查询条件 eq gt lt ...
-
     /**
      * field（字段） 包含 "." 则默认会设置成左连接，左连接set 集合 命名必须未Set结束
      * 如：Set<User>userSet List<User>userList
      */
     private String field; //字段
-    private String values[];//字段值
-    private DataType fieldType = DataType.STRING; //string int ...
+    private Object value;//字段值
+    private RestrictionType restrict; //限制表达式
 
-
-    public Condition() {
+    private Condition() {
     }
-
-    public Condition(String field, DataType fieldType) {
+    public Condition(String field, Object value, RestrictionType restrict) {
         this.field = field;
-        this.fieldType = fieldType;
-    }
-
-    public Condition(String field, DataType fieldType, Object value) {
-        this.field = field;
-        this.fieldType = fieldType;
-        values = new String[]{String.valueOf(value)};
-    }
-
-    public RestrictionType getRestrict() {
-        return restrict;
-    }
-
-    public void setRestrict(RestrictionType restrict) {
+        this.value = value;
         this.restrict = restrict;
     }
 
@@ -55,20 +35,19 @@ public class Condition {
         this.field = field;
     }
 
-    public String[] getValues() {
-        return values;
+    public Object getValue() {
+        return value;
     }
 
-    public void setValues(String[] values) {
-        this.values = values;
+    public void setValue(Object value) {
+        this.value = value;
     }
 
-    public DataType getFieldType() {
-        return fieldType;
+    public RestrictionType getRestrict() {
+        return restrict;
     }
 
-    public void setFieldType(DataType fieldType) {
-        this.fieldType = fieldType;
+    public void setRestrict(RestrictionType restrict) {
+        this.restrict = restrict;
     }
-
 }

@@ -2,6 +2,7 @@ package org.ndshop.goods.service;
 
 import org.apache.log4j.Logger;
 import org.ndshop.dbs.jpa.dto.Condition;
+import org.ndshop.dbs.jpa.dto.Restrict;
 import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.ServiceImpl;
@@ -36,13 +37,8 @@ public class GoodsFieldsValueSerImpl extends ServiceImpl<GoodsFieldsValue, Goods
 
         List<GoodsFields> gf = goodsFieldsSer.findGoodsFields(fieldName);
 
-        Condition c = new Condition("id", DataType.STRING, gId);
-//        c.fieldToModels(Goods.class);
-        Condition c2 = new Condition("id", DataType.STRING, gf.get(0).getId());
-//        c2.fieldToModels(GoodsFields.class);
         GoodsFieldsValueDto dto = new GoodsFieldsValueDto();
-        dto.getConditions().add(c);
-        dto.getConditions().add(c2);
+        dto.getConditions().add(Restrict.eq("id",gId));
         List<GoodsFieldsValue> gfvList = findByCis(dto);
         if (gfvList == null || gfvList.size() <= 0) {
             GoodsFieldsValue gfv = new GoodsFieldsValue();
@@ -61,13 +57,8 @@ public class GoodsFieldsValueSerImpl extends ServiceImpl<GoodsFieldsValue, Goods
     public void updateGoodsFieldValue(String fieldName , String fieldValue ,String gId) throws SerException{
         List<GoodsFields> gf = goodsFieldsSer.findGoodsFields( fieldName );
 
-        Condition c = new Condition("id", DataType.STRING,gId);
-//        c.fieldToModels( Goods.class );
-        Condition c2 = new Condition("id",DataType.STRING,gf.get(0).getId());
-//        c2.fieldToModels( GoodsFields.class);
         GoodsFieldsValueDto dto = new GoodsFieldsValueDto();
-        dto.getConditions().add( c );
-        dto.getConditions().add( c2 );
+        dto.getConditions().add( Restrict.eq("id",gId) );
         GoodsFieldsValue gfvList = findOne( dto );
         if( gfvList != null  ){
             gfvList.setFieldValue( fieldValue );
@@ -82,10 +73,9 @@ public class GoodsFieldsValueSerImpl extends ServiceImpl<GoodsFieldsValue, Goods
     @Override
     public List<GoodsFieldsValue> findFieldVaues(String goodsId) throws SerException{
         String gId = "2a27c9d2-5536-478d-982e-0645731e4679";
-        Condition c = new Condition("id", DataType.STRING,gId);
 //        c.fieldToModels( Goods.class );
         GoodsFieldsValueDto dto = new GoodsFieldsValueDto();
-        dto.getConditions().add( c );
+        dto.getConditions().add( Restrict.eq("id",gId) );
         List<GoodsFieldsValue> gfvList = findByCis( dto );
         return  gfvList;
     }

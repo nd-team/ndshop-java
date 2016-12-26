@@ -4,9 +4,7 @@ import com.alibaba.fastjson.JSON;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.ndshop.dbs.jpa.dto.Condition;
-import org.ndshop.dbs.jpa.enums.DataType;
-import org.ndshop.dbs.jpa.enums.RestrictionType;
+import org.ndshop.dbs.jpa.dto.Restrict;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -87,11 +85,9 @@ public class ManyToOne {
     @Test
     public void delGroupForUser() throws SerException {
         UserDto dto = new UserDto();
-        Condition coin = new Condition("group.name", DataType.STRING);
-        coin.setRestrict(RestrictionType.EQ);
-        coin.setValues(new String[]{"用户组2"});
+        dto.getConditions().add(Restrict.eq("group.name","用户组2"));
         List<User> users = userSer.findByCis(dto); //查询所有用户组2 的用户
-        if(null!=users){
+        if(null!=users && users.size()>0){
             for (User user : users) {
                 user.setGroup(null);
             }

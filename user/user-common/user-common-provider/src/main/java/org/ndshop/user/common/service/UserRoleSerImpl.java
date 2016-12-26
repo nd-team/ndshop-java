@@ -1,9 +1,7 @@
 package org.ndshop.user.common.service;
 
 
-import org.hibernate.criterion.Restrictions;
-import org.ndshop.dbs.jpa.dto.Condition;
-import org.ndshop.dbs.jpa.enums.DataType;
+import org.ndshop.dbs.jpa.dto.Restrict;
 import org.ndshop.dbs.jpa.enums.Status;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.ServiceImpl;
@@ -31,12 +29,8 @@ public class UserRoleSerImpl extends ServiceImpl<UserRole, UserRoleDto> implemen
     @Override
     public List<UserRole> findByUserId(String userId) throws SerException {
         UserRoleDto dto = new UserRoleDto();
-
-        Condition coin = new Condition("user.id", DataType.STRING, userId);
-        dto.getConditions().add(coin);
-
-        coin = new Condition("role.status", DataType.ENUM, Status.THAW.getCode());
-        dto.getConditions().add(coin);
+        dto.getConditions().add(Restrict.eq("user.id",userId));
+        dto.getConditions().add(Restrict.eq("role.status",Status.THAW));
         return findByCis(dto);
     }
 }

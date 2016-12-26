@@ -1,9 +1,9 @@
+import com.dounine.corgi.context.ApplicationContext;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.junit.Test;
 import org.ndshop.user.common.utils.cookie.CookieOperate;
 import org.ndshop.user.login.dto.UserLoginDto;
 import org.ndshop.user.login.service.IUserLoginSer;
-import com.dounine.corgi.spring.ApplicationContext;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

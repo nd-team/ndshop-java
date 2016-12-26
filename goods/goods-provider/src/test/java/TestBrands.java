@@ -3,6 +3,7 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ndshop.dbs.jpa.dto.Condition;
+import org.ndshop.dbs.jpa.dto.Restrict;
 import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.goods.dto.GoodsBrandsDto;
@@ -53,8 +54,7 @@ public class TestBrands {
         String goodsBrandsCategoryId = "b0e1fb72-9b01-44a2-b644-5620f09e1956";
 
         GoodsBrandsDto dto = new GoodsBrandsDto();
-        Condition c = new Condition("goodsBrandsCategory.id", DataType.STRING , goodsBrandsCategoryId);
-        dto.getConditions().add( c );
+        dto.getConditions().add(Restrict.eq("goodsBrandsCategory.id",goodsBrandsCategoryId));
         goodsBrandsSer.findByCis( dto );
     }
 }

@@ -3,6 +3,7 @@ package org.ndshop.user.common.service;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ndshop.dbs.jpa.dto.Condition;
+import org.ndshop.dbs.jpa.dto.Restrict;
 import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.ServiceImpl;
@@ -69,8 +70,7 @@ public class RoleSerImpl extends ServiceImpl<Role, RoleDto> implements IRoleSer 
     @Override
     public List<Role> findChildByParentId(String parentId) throws SerException {
         RoleDto dto = new RoleDto();
-        Condition coin = new Condition("role.id", DataType.STRING, parentId);
-        dto.getConditions().add(coin);
+        dto.getConditions().add(Restrict.eq("role.id",parentId));
         return findByCis(dto);
     }
 

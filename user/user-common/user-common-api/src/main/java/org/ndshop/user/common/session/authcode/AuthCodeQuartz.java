@@ -33,7 +33,6 @@ public class AuthCodeQuartz {
         timer.schedule(new TimerTask() {//创建一个定时任务
             @Override
             public void run() {
-                System.out.println("AuthCodeQuartz is runing and sessions size:"+authCodeSession.size());
                 for (Map.Entry<String, AuthCode> entry : authCodeSession.entrySet()) {
                     if (entry.getValue().getCreateTime().plusMinutes(INVALID_TIME).isBefore(LocalDateTime.now())) {
                         CONSOLE.info("remove authCode:" + entry.getKey());

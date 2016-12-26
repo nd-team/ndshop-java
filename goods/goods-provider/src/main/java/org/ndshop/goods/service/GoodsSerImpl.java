@@ -3,6 +3,7 @@ package org.ndshop.goods.service;
 import com.alibaba.fastjson.JSON;
 import org.apache.log4j.Logger;
 import org.ndshop.dbs.jpa.dto.Condition;
+import org.ndshop.dbs.jpa.dto.Restrict;
 import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.enums.RestrictionType;
 import org.ndshop.dbs.jpa.exception.SerException;
@@ -67,12 +68,8 @@ public class GoodsSerImpl extends ServiceImpl<Goods, GoodsDto> implements IGoods
     @Cacheable("goodsServiceCache")
     @Override
     public List<Goods> findByBrandName(String brandName )throws SerException{
-        Condition c = new Condition("name", DataType.STRING , brandName );
-//        c.fieldToModels( GoodsBrands.class);
-        c.setRestrict(RestrictionType.LIKE);
-
         GoodsDto dto = new GoodsDto();
-        dto.getConditions().add( c );
+        dto.getConditions().add(Restrict.like("name",brandName));
         List<Goods> goods = findByCis( dto );
         logger.info(JSON.toJSONString( goods ) );
 

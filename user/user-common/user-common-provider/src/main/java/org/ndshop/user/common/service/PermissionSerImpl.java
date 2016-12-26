@@ -3,6 +3,7 @@ package org.ndshop.user.common.service;
 
 import org.apache.commons.lang3.StringUtils;
 import org.ndshop.dbs.jpa.dto.Condition;
+import org.ndshop.dbs.jpa.dto.Restrict;
 import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.ServiceImpl;
@@ -120,8 +121,7 @@ public class PermissionSerImpl extends ServiceImpl<Permission, PermissionDto> im
     @Override
     public List<Permission> findChildByParentId(String parentId) throws SerException {
         PermissionDto dto = new PermissionDto();
-        Condition coin = new Condition("permission.id", DataType.STRING, parentId);
-        dto.getConditions().add(coin);
+        dto.getConditions().add(Restrict.eq("permission.id",parentId));
         return findByCis(dto);
     }
 }

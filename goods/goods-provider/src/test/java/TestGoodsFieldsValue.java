@@ -2,8 +2,7 @@ import goods.provider.test.ApplicationConfiguration;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.ndshop.dbs.jpa.dto.Condition;
-import org.ndshop.dbs.jpa.enums.DataType;
+import org.ndshop.dbs.jpa.dto.Restrict;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.goods.dao.IGoodsFieldsRep;
 import org.ndshop.goods.dao.IGoodsFieldsValueRep;
@@ -54,11 +53,9 @@ public class TestGoodsFieldsValue {
 
         List<GoodsFields> gf = goodsFieldsSer.findGoodsFields( fieldName );
 
-        Condition c = new Condition("goods.id", DataType.STRING,gId);
-        Condition c2 = new Condition("goodsFields.id",DataType.STRING,gf.get(0).getId());
         GoodsFieldsValueDto dto = new GoodsFieldsValueDto();
-        dto.getConditions().add( c );
-        dto.getConditions().add( c2 );
+        dto.getConditions().add(Restrict.eq("goods.id",gId));
+        dto.getConditions().add( Restrict.eq("goodsFields.id",gf.get(0).getId()) );
         List<GoodsFieldsValue> gfvList = goodsFieldsValueSer.findByCis( dto );
         if( gfvList == null || gfvList.size()<=0  ){
             GoodsFieldsValue gfv = new GoodsFieldsValue();
@@ -80,11 +77,10 @@ public class TestGoodsFieldsValue {
 
         List<GoodsFields> gf = goodsFieldsSer.findGoodsFields( fieldName );
 
-        Condition c = new Condition("goods.id", DataType.STRING,gId);
-        Condition c2 = new Condition("goodsFields.id",DataType.STRING,gf.get(0).getId());
-        GoodsFieldsValueDto dto = new GoodsFieldsValueDto();
-        dto.getConditions().add( c );
-        dto.getConditions().add( c2 );
+       GoodsFieldsValueDto dto = new GoodsFieldsValueDto();
+        dto.getConditions().add(Restrict.eq("goods.id",gId));
+        dto.getConditions().add( Restrict.eq("goodsFields.id",gf.get(0).getId()) );
+
         GoodsFieldsValue gfvList = goodsFieldsValueSer.findOne( dto );
         if( gfvList != null  ){
             gfvList.setFieldValue( fielValue );
@@ -98,9 +94,8 @@ public class TestGoodsFieldsValue {
     @Test
     public void findFieldVaues() throws SerException{
         String gId = "2a27c9d2-5536-478d-982e-0645731e4679";
-        Condition c = new Condition("goods.id", DataType.STRING,gId);
         GoodsFieldsValueDto dto = new GoodsFieldsValueDto();
-        dto.getConditions().add( c );
+        dto.getConditions().add( Restrict.eq("goods.id",gId) );
         List<GoodsFieldsValue> gfvList = goodsFieldsValueSer.findByCis( dto );
 
     }

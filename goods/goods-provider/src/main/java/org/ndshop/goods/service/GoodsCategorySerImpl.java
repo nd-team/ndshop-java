@@ -4,6 +4,7 @@ import com.dounine.corgi.spring.rpc.Reference;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.ndshop.dbs.jpa.dto.Condition;
+import org.ndshop.dbs.jpa.dto.Restrict;
 import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.ServiceImpl;
@@ -82,9 +83,8 @@ public class GoodsCategorySerImpl extends ServiceImpl<GoodsCategory, GoodsCatego
     @Cacheable("goodsServiceCache")
     @Override
     public List<GoodsCategory> findCategoryByNodeNum(Long parentNodeNum ) throws SerException{
-        Condition c = new Condition("parentNodeNum", DataType.LONG, parentNodeNum);
         GoodsCategoryDto dto = new GoodsCategoryDto();
-        dto.getConditions().add( c );
+        dto.getConditions().add(Restrict.eq("parentNodeNum",parentNodeNum));
         List<GoodsCategory> opGoodsCategory = findByCis( dto );
 
 //        userSer.findAll();

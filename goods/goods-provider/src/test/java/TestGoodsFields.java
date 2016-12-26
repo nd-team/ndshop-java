@@ -3,8 +3,7 @@ import goods.provider.test.ApplicationConfiguration;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.ndshop.dbs.jpa.dto.Condition;
-import org.ndshop.dbs.jpa.enums.DataType;
+import org.ndshop.dbs.jpa.dto.Restrict;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.goods.dto.GoodsFieldsDto;
 import org.ndshop.goods.entity.GoodsFields;
@@ -47,10 +46,8 @@ public class TestGoodsFields {
     @Test
     public void findGoodsFields () throws SerException{
         String fieldName = "是否可水洗";
-
-        Condition c = new Condition("fieldName", DataType.STRING ,fieldName );
         GoodsFieldsDto dto = new GoodsFieldsDto();
-        dto.getConditions().add( c );
+        dto.getConditions().add(Restrict.eq("fieldName",fieldName));
         List<GoodsFields> goodsFields = goodsFieldsSer.findByCis( dto  );
         logger.info(JSON.toJSONString( goodsFields.get(0).getFieldDescription()));
     }

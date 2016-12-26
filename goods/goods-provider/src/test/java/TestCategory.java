@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ndshop.dbs.jpa.dto.Condition;
+import org.ndshop.dbs.jpa.dto.Restrict;
 import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.goods.dto.GoodsCategoryDto;
@@ -79,9 +80,8 @@ public class TestCategory {
      */
     @Test
     public void findCategoryByNodeNum() throws SerException{
-        Condition c = new Condition("parentNodeNum", DataType.LONG,2);
         GoodsCategoryDto dto = new GoodsCategoryDto();
-        dto.getConditions().add( c );
+        dto.getConditions().add(Restrict.eq("parentNodeNum",2));
         List<GoodsCategory> gc = goodsCategorySer.findByCis( dto );
 
         JSON.toJSONString( gc );

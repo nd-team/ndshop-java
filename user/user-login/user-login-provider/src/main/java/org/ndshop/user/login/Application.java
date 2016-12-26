@@ -1,7 +1,7 @@
 package org.ndshop.user.login;
 
+import com.dounine.corgi.context.ApplicationContext;
 import org.ndshop.user.login.boot.App;
-import com.dounine.corgi.spring.ApplicationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

@@ -2,8 +2,7 @@ package org.ndshop.user.common.service;
 
 import com.dounine.corgi.spring.rpc.Service;
 import org.ndshop.dbs.jpa.dto.Condition;
-import org.ndshop.dbs.jpa.enums.DataType;
-import org.ndshop.dbs.jpa.enums.RestrictionType;
+import org.ndshop.dbs.jpa.dto.Restrict;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.ServiceImpl;
 import org.ndshop.user.common.dao.IUserRep;
@@ -64,18 +63,9 @@ public class UserSerImpl extends ServiceImpl<User, UserDto> implements IUserSer 
     public User findByAccountNumber(String accountNumber) throws SerException {
         UserDto dto = new UserDto();
         List<Condition> conditions = dto.getConditions();
-
-        Condition coin = new Condition("username", DataType.STRING, accountNumber);
-        coin.setRestrict(RestrictionType.OR);
-        conditions.add(coin);
-
-        coin = new Condition("phone", DataType.STRING, accountNumber);
-        coin.setRestrict(RestrictionType.OR);
-        conditions.add(coin);
-
-        coin = new Condition("email", DataType.STRING, accountNumber);
-        coin.setRestrict(RestrictionType.OR);
-        conditions.add(coin);
+        conditions.add(Restrict.or("username",accountNumber));
+        conditions.add(Restrict.or("phone",accountNumber));
+        conditions.add(Restrict.or("email",accountNumber));
         return findOne(dto);
     }
 
