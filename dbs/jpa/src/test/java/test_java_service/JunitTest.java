@@ -1,6 +1,7 @@
 package test_java_service;
 
 import org.hibernate.usertype.UserType;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ndshop.dbs.jpa.dto.Restrict;
@@ -13,11 +14,19 @@ import org.springframework.transaction.annotation.Transactional;
 import test_java_service.code.ApplicationConfiguration;
 import test_java_service.code.dto.UserDto;
 import test_java_service.code.entity.User;
+import test_java_service.code.entity.UserAndInfo;
+import test_java_service.code.entity.UserInfo;
+import test_java_service.code.service.IUserAndInfoService;
 import test_java_service.code.service.IUserInterestSer;
 import test_java_service.code.service.IUserSer;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by huanghuanlai on 2016/10/13.
@@ -34,6 +43,8 @@ public class JunitTest {
     private IUserSer userSer;
     @Autowired
     private IUserInterestSer interestSer;
+    @Autowired
+    private IUserAndInfoService userAndInfoService;
 
 
     public void init() throws SerException {
@@ -68,6 +79,19 @@ public class JunitTest {
         dto.getSorts().put("username","desc"); //正排序
         dto.getSorts().put("group.name","asc");//倒排序
         List<User> users = userSer.findByCis(dto);
+    }
+
+    @Test
+    public void findBySql() throws SerException {
+       String sql = "select a.age,a.height,a.accessTime, a.username,a.password," +
+                " b.email  ,b.address,a.money from test_user a " +
+                "left join test_userInfo b on a.id = b.user_id";
+        String[] fields = new String[]{"age","height","accessTime","username","password","email","address","money"};
+        List<UserAndInfo> userAndInfos =  userAndInfoService.findBySql(sql,UserAndInfo.class,fields);
+        for(UserAndInfo info:userAndInfos){
+            System.out.println(info.getId());
+        }
+        System.out.println(userAndInfos);
     }
 
 

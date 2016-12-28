@@ -1,14 +1,12 @@
 package org.ndshop.user.common.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import org.ndshop.dbs.jpa.entity.BaseEntity;
 import org.ndshop.dbs.jpa.enums.Status;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 /**
  * @Author: [liguiqin]
@@ -25,8 +23,8 @@ public class Role extends BaseEntity {
     private String description;//描述
     private Status status;//状态
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
-    @Column(columnDefinition = "dateTime")//指定数据库类型
-    private LocalDateTime createTime = LocalDateTime.now();
+    @Column(columnDefinition = "dateTime")
+    private LocalDateTime createTime ; //创建时间
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
@@ -35,7 +33,13 @@ public class Role extends BaseEntity {
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
      @JoinTable(name="user_role_permission",joinColumns={@JoinColumn(name="role_id",nullable = false)},
             inverseJoinColumns={@JoinColumn(name="permission_id",nullable = false)})
-    private Set<Permission> permissionSet;
+    private List<Permission> permissionList; //角色拥有的权限资源
+
+    @ManyToMany(mappedBy="roleList",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<Group> groupList;//所属用户组
+
+    @ManyToMany(mappedBy="roleList",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<Department> departmentList;//所属部门
 
     public String getName() {
         return name;
@@ -61,14 +65,6 @@ public class Role extends BaseEntity {
         this.parent = parent;
     }
 
-    public Set<Permission> getPermissionSet() {
-        return permissionSet;
-    }
-
-    public void setPermissionSet(Set<Permission> permissionSet) {
-        this.permissionSet = permissionSet;
-    }
-
     public Status getStatus() {
         return status;
     }
@@ -83,5 +79,29 @@ public class Role extends BaseEntity {
 
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
+    }
+
+    public List<Permission> getPermissionList() {
+        return permissionList;
+    }
+
+    public void setPermissionList(List<Permission> permissionList) {
+        this.permissionList = permissionList;
+    }
+
+    public List<Group> getGroupList() {
+        return groupList;
+    }
+
+    public void setGroupList(List<Group> groupList) {
+        this.groupList = groupList;
+    }
+
+    public List<Department> getDepartmentList() {
+        return departmentList;
+    }
+
+    public void setDepartmentList(List<Department> departmentList) {
+        this.departmentList = departmentList;
     }
 }

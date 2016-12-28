@@ -1,23 +1,17 @@
+import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ndshop.dbs.jpa.exception.SerException;
-import org.ndshop.user.common.entity.Permission;
-import org.ndshop.user.common.entity.Role;
-import org.ndshop.user.common.entity.User;
-import org.ndshop.user.common.entity.UserRole;
-import org.ndshop.user.common.service.IPermissionSer;
-import org.ndshop.user.common.service.IRoleSer;
-import org.ndshop.user.common.service.IUserRoleSer;
-import org.ndshop.user.common.service.IUserSer;
+import org.ndshop.user.common.entity.*;
+import org.ndshop.user.common.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import user_common_code.ApplicationConfiguration;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.*;
 
 
 /**
@@ -38,7 +32,10 @@ public class RbacTest {
     private IUserRoleSer userRoleSer;
     @Autowired
     private IPermissionSer permissionSer;
-
+    @Autowired
+    private IDepartmentSer departmentSer;
+    @Autowired
+    private IGroupSer groupSer;
     /**
      * 添加角色
      *
@@ -63,8 +60,8 @@ public class RbacTest {
      */
     @Test
     public void addUserRole() throws SerException {
-        Role role = roleSer.findById("939aa9a9-4b5e-4542-80ea-de7374a25b5c");
-        User user = userSer.findByPhone("13257910244");
+        Role role = roleSer.findById("524fa88b-086f-4d9c-b962-4c6a3810a454");
+        User user = userSer.findByPhone("18097910240");
         UserRole userRole = new UserRole();
         userRole.setRole(role);
         userRole.setUser(user);
@@ -101,7 +98,7 @@ public class RbacTest {
         List<UserRole> userRoles = userRoleSer.findAll();
         if (null != userRoles) {
             for (UserRole userRole : userRoles) {
-                userRole.getRole().getPermissionSet().size();
+                userRole.getRole().getPermissionList().size();
                 System.out.println(userRole);
             }
         }
@@ -115,12 +112,10 @@ public class RbacTest {
     @Test
     public void addRolePermission() throws SerException {
 
-        Role role = roleSer.findById("939aa9a9-4b5e-4542-80ea-de7374a25b5c");
+        Role role = roleSer.findById("524fa88b-086f-4d9c-b962-4c6a3810a454");
         if (null != role) {
             List<Permission> permissions_list = permissionSer.findAll();
-            Set<Permission> permissions_set = new HashSet<>(permissions_list.size());
-            permissions_set.addAll(permissions_list);
-            role.setPermissionSet(permissions_set);
+            role.setPermissionList(permissions_list);
             roleSer.update(role);
         }
     }
@@ -153,7 +148,7 @@ public class RbacTest {
     @Test
     public void findAllPermissionByUserId() throws SerException {
 
-        Set<Permission> permissions = permissionSer.findAllByUserId("9d7f591b-6388-4346-aaee-0304481d82ca");
+        Set<Permission> permissions = permissionSer.findAllByUserId("672551a4-4082-4d3f-9314-26851153b3c3");
         System.out.println(permissions);
     }
 
@@ -165,7 +160,7 @@ public class RbacTest {
     @Test
     public void findRoleByUserId() throws SerException {
 
-        Set<Role> roles = roleSer.findRoleByUserId("9d7f591b-6388-4346-aaee-0304481d82ca");
+        Set<Role> roles = roleSer.findRoleByUserId("672551a4-4082-4d3f-9314-26851153b3c3");
         System.out.println(roles);
     }
 
@@ -180,5 +175,28 @@ public class RbacTest {
         Set<Role> roles = roleSer.findChildByRoleId("939aa9a9-4b5e-4542-80ea-de7374a25b5c");
         System.out.println(roles);
     }
+
+    /**
+     * 添加部门角色
+     *
+     * @throws SerException
+     */
+    @Test
+    public void addDeptRole() throws SerException {
+
+        Department department = new Department();
+        department.setName("a研发部");
+        department.setDescription("111");
+        department.setCreateTime(LocalDateTime.now());
+
+        Role role = new Role();
+        role.setDescription("1d11无描述");
+        role.setCreateTime(LocalDateTime.now());
+        role.setName("d11aa");
+        department.setRoleList(Arrays.asList(role));
+        department.setCreateTime(LocalDateTime.now());
+        departmentSer.save(department);
+    }
+
 
 }

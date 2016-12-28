@@ -103,22 +103,6 @@ public class Components {
 
 
     /**
-     * 懒加载配置
-     *
-     * @param entityManager
-     * @return
-     */
-//    @Bean(name = "openSessionInViewInterceptor")
-//    public OpenSessionInViewInterceptor openSessionInViewInterceptor(EntityManager entityManager) {
-//        OpenSessionInViewInterceptor inViewInterceptor = new OpenSessionInViewInterceptor();
-//        Session session = (Session) entityManager.getDelegate();
-//        SessionFactory sessionFactory = session.getSessionFactory();
-//        inViewInterceptor.setSessionFactory(sessionFactory);
-//        return inViewInterceptor;
-//    }
-
-
-    /**
      * 加载缓存配置
      *
      * @return

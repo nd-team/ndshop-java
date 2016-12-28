@@ -1,35 +1,33 @@
 package org.ndshop.user.common.entity;
 
 import org.ndshop.dbs.jpa.entity.BaseEntity;
+import org.ndshop.dbs.jpa.enums.Status;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * @Author: [liguiqin]
- * @Date: [2016-12-24 10:16]
- * @Description: [部门]
+ * @Date: [2016-12-28 11:06]
+ * @Description: [职位]
  * @Version: [1.0.0]
  * @Copy: [org.ndshop]
  */
+
 @Entity
-@Table(name = "user_department")
-public class Department extends BaseEntity {
+@Table(name = "user_position")
+public class Position extends BaseEntity {
     @Column(unique = true,nullable = false)
-    private String name;//部门名
+    private String name; //职位名
     private String description; //描述
+    private Status status; //状态
     @Column(columnDefinition = "dateTime")
     private LocalDateTime createTime; //创建时间
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
-    private Department parent; //上级部门
+    private Position parent;
 
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinTable(name="user_department_role",joinColumns={@JoinColumn(name="department_id",nullable = false)},
-            inverseJoinColumns={@JoinColumn(name="role_id",nullable = false)})
-    private List<Role> roleList; //部门拥有角色
 
     public String getName() {
         return name;
@@ -47,12 +45,12 @@ public class Department extends BaseEntity {
         this.description = description;
     }
 
-    public List<Role> getRoleList() {
-        return roleList;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setRoleList(List<Role> roleList) {
-        this.roleList = roleList;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public LocalDateTime getCreateTime() {
@@ -63,11 +61,11 @@ public class Department extends BaseEntity {
         this.createTime = createTime;
     }
 
-    public Department getParent() {
+    public Position getParent() {
         return parent;
     }
 
-    public void setParent(Department parent) {
+    public void setParent(Position parent) {
         this.parent = parent;
     }
 }

@@ -1,5 +1,9 @@
 package org.ndshop.dbs.jpa.service;
 
+import org.apache.commons.beanutils.ConvertUtils;
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
+import org.hibernate.transform.Transformers;
 import org.ndshop.dbs.jpa.constant.FinalCommons;
 import org.ndshop.dbs.jpa.dao.MyRep;
 import org.ndshop.dbs.jpa.dao.MySpecification;
@@ -7,18 +11,25 @@ import org.ndshop.dbs.jpa.dto.BaseDto;
 import org.ndshop.dbs.jpa.entity.BaseEntity;
 import org.ndshop.dbs.jpa.exception.RepException;
 import org.ndshop.dbs.jpa.exception.SerException;
+import org.ndshop.dbs.jpa.utils.CharacterUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.EntityManager;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.persistence.Query;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Method;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 import java.util.stream.Stream;
 
 /**
@@ -32,12 +43,10 @@ public class ServiceImpl<BE extends BaseEntity, BD extends BaseDto> extends Fina
 
     private static final Logger CONSOLE = LoggerFactory.getLogger(ServiceImpl.class);
 
-
     @Autowired
     protected MyRep<BE, BD> myRepository;
     @Autowired
     protected EntityManager entityManager;
-
 
     @Override
     public List<BE> findAll() throws SerException {
@@ -96,7 +105,7 @@ public class ServiceImpl<BE extends BaseEntity, BD extends BaseDto> extends Fina
                     sort = sort.and(new Sort(dct, entry.getKey()));
                 }
             }
-            return myRepository.findAll(mySpecification,sort);
+            return myRepository.findAll(mySpecification, sort);
         }
 
         return myRepository.findAll(mySpecification);
@@ -206,4 +215,5 @@ public class ServiceImpl<BE extends BaseEntity, BD extends BaseDto> extends Fina
         Object obj = entityManager.createQuery(jpql.toString()).getSingleResult();
         return obj != null ? obj.toString() : null;
     }
+
 }

@@ -2,12 +2,12 @@ package org.ndshop.user.common.service;
 
 
 import org.apache.commons.lang3.StringUtils;
-import org.ndshop.dbs.jpa.dto.Condition;
 import org.ndshop.dbs.jpa.dto.Restrict;
-import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.exception.SerException;
 import org.ndshop.dbs.jpa.service.ServiceImpl;
+import org.ndshop.user.common.dao.IDepartmentRep;
 import org.ndshop.user.common.dto.PermissionDto;
+import org.ndshop.user.common.entity.Department;
 import org.ndshop.user.common.entity.Permission;
 import org.ndshop.user.common.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +34,10 @@ public class PermissionSerImpl extends ServiceImpl<Permission, PermissionDto> im
 
     @Autowired
     private IRoleSer roleSer;
+    @Autowired
+    private IDepartmentSer departmentSer;
+    @Autowired
+    private IGroupSer groupSer;
 
     @Transactional
     @Override
@@ -93,13 +97,15 @@ public class PermissionSerImpl extends ServiceImpl<Permission, PermissionDto> im
     @Cacheable()
     @Override
     public Set<Permission> findAllByUserId(String userId) throws SerException {
-        Set<Role> roles = roleSer.findRoleByUserId(userId);//所拥有的角色
         Set<Permission> permissions = new HashSet<>(); //所有认证权限
+        Department department = departmentSer.findById()
+        Set<Role> roles = roleSer.findRoleByUserId(userId);//所拥有的角色
         if (null != roles && roles.size() > 0) {
             roles.stream().forEach(role -> {
-                    permissions.addAll(role.getPermissionSet()); //添加角色拥有认证权限到集合
+                    permissions.addAll(role.getPermissionList()); //添加角色拥有认证权限到集合
             });
         }
+
 
         return permissions;
     }
@@ -111,7 +117,7 @@ public class PermissionSerImpl extends ServiceImpl<Permission, PermissionDto> im
         Set<Permission> permissions = new HashSet<>(); //所有认证权限
         if (null != roles && roles.size() > 0) {
             roles.stream().forEach(role -> {
-                permissions.addAll(role.getPermissionSet());//添加角色拥有认证权限到集合
+                permissions.addAll(role.getPermissionList());//添加角色拥有认证权限到集合
             });
         }
         return permissions;

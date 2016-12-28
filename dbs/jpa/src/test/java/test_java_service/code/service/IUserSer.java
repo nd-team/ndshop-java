@@ -6,6 +6,7 @@ import org.ndshop.dbs.jpa.service.IService;
 import org.springframework.cache.annotation.Cacheable;
 import test_java_service.code.dto.UserDto;
 import test_java_service.code.entity.User;
+import test_java_service.code.entity.UserInfo;
 
 /**
  * Created by huanghuanlai on 16/5/24.
@@ -16,6 +17,5 @@ public interface IUserSer extends IService<User, UserDto> {
     User findByUsername(String username) throws SerException;
 
     User findByNickname(String nickname) throws SerException;
-
 
 }

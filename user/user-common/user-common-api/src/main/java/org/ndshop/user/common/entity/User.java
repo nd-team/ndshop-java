@@ -33,7 +33,6 @@ public class User extends BaseEntity {
     @Email
     private String email;//登录邮箱
 
-    @Range(min = 6)
     @Column(nullable = false)
     private String password; //登陆密码
 
@@ -60,13 +59,21 @@ public class User extends BaseEntity {
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime accessTime = LocalDateTime.now(); //链接时间
 
-    private LocalDateTime createTime = LocalDateTime.now();//创建时间
+    private LocalDateTime createTime ;//创建时间
 
     private Status status = Status.THAW;//用户状态
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "department_id")
+    @JoinColumn(name = "department_id") //所在部门
     private Department department;
+
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "group_id")
+    private Group group;//所在用户组
+
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "position_id")
+    private Position position;//职位
 
     @Transient
     private LoginStatus loginStatus = LoginStatus.LOGINOUT; //记录用户登录状态
@@ -182,5 +189,37 @@ public class User extends BaseEntity {
 
     public void setLoginStatus(LoginStatus loginStatus) {
         this.loginStatus = loginStatus;
+    }
+
+    public String getEmployeeNumber() {
+        return employeeNumber;
+    }
+
+    public void setEmployeeNumber(String employeeNumber) {
+        this.employeeNumber = employeeNumber;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
     }
 }

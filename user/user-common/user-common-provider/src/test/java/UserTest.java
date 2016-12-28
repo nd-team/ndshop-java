@@ -61,8 +61,9 @@ public class UserTest {
             for (int i = 0; i < 5; i++) {
                 User user = new User();
                 user.setUsername("l8hqw_test" + i);
-                user.setPassword(PasswordHash.createHash("123456"));
+                user.setPassword(PasswordHash.createHash("1234567"));
                 user.setPhone("1809791024" + i);
+                user.setEmployeeNumber("1111111"+i);
                 users.add(user);
             }
         } catch (Exception e) {

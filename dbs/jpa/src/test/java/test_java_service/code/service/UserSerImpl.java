@@ -9,6 +9,8 @@ import test_java_service.code.dto.UserDto;
 import test_java_service.code.entity.User;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.Query;
+import java.util.List;
 
 /**
  * Created by lgq on 16-10-13.

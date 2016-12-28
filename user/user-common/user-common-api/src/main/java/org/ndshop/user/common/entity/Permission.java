@@ -1,14 +1,12 @@
 package org.ndshop.user.common.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import org.ndshop.dbs.jpa.entity.BaseEntity;
 import org.ndshop.dbs.jpa.enums.Status;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 /**
  * @Author: [liguiqin]
@@ -27,14 +25,13 @@ public class Permission extends BaseEntity {
     private Status status=Status.THAW; //状态
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     @Column(columnDefinition = "dateTime")//指定数据库类型
-    private LocalDateTime createTime = LocalDateTime.now();
-
+    private LocalDateTime createTime;
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Permission parent;
 
-    @ManyToMany(mappedBy="permissionSet",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private Set<Role> roleSet ;
+    @ManyToMany(mappedBy="permissionList",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<Role> roleList ;
 
     public String getName() {
         return name;
@@ -84,11 +81,11 @@ public class Permission extends BaseEntity {
         this.parent = parent;
     }
 
-    public Set<Role> getRoleSet() {
-        return roleSet;
+    public List<Role> getRoleList() {
+        return roleList;
     }
 
-    public void setRoleSet(Set<Role> roleSet) {
-        this.roleSet = roleSet;
+    public void setRoleList(List<Role> roleList) {
+        this.roleList = roleList;
     }
 }

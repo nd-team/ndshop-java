@@ -24,6 +24,7 @@ public class User extends BaseEntity {
     private Float height;
     private String nickname;
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @Column(columnDefinition = "dateTime")//指定数据库类型
     private LocalDateTime accessTime = LocalDateTime.now();
     @Column(columnDefinition = "TINYINT(1)")//指定数据库类型
     private Boolean superMan;
