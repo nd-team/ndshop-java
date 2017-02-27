@@ -3,6 +3,7 @@ package org.ndshop.shop.service;
 
 import com.dounine.corgi.spring.rpc.Reference;
 import com.dounine.corgi.spring.rpc.Service;
+import org.apache.commons.lang3.StringUtils;
 import org.ndshop.dbs.jpa.dto.Condition;
 import org.ndshop.dbs.jpa.enums.DataType;
 import org.ndshop.dbs.jpa.enums.RestrictionType;
@@ -15,13 +16,9 @@ import org.ndshop.shop.enums.ShopStatus;
 import org.ndshop.user.common.entity.User;
 import org.ndshop.user.common.service.IUserSer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.parsing.NullSourceExtractor;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 
@@ -38,15 +35,15 @@ public class ShopSerImpl extends ServiceImpl<Shop, ShopDto> implements IShopSer 
     @Autowired
     private IShopRep shopRep;
 
-    @Autowired
-    private EntityManager em;
+/*    @Autowired
+    private EntityManager em;*/
 
-    @Reference(url = "localhost:8888", version = "1.0.0")
+    @Reference(url = "localhost:8888")
     private IUserSer userSer;
 
     @Override
-    public Shop findByName(String shopName) {
-        return shopRep.findByName(shopName);
+    public Shop findByName(String name) {
+        return shopRep.findByName(name);
     }
 
     @Override
@@ -57,9 +54,9 @@ public class ShopSerImpl extends ServiceImpl<Shop, ShopDto> implements IShopSer 
         User user = null;
         Set<Shop> set = null;
 
-        if (username != null && !username.trim().equals("")) {
+        if (StringUtils.isNotBlank(username)) {
             user = userSer.findByUsername(username);
-        } else if (ownerId != null && !ownerId.trim().equals("")) {
+        } else if (StringUtils.isNotBlank(ownerId)) {
             user = userSer.findById(ownerId);
         } else {
             throw new SerException("缺少user必要参数：username或者id");
@@ -94,11 +91,11 @@ public class ShopSerImpl extends ServiceImpl<Shop, ShopDto> implements IShopSer 
         ShopDto shopDto = new ShopDto();
         Condition condition = null;
         User findedUser = null;
-        if (user.getUsername() != null) {
+        if (StringUtils.isNotBlank(user.getUsername())) {
             condition = new Condition("username", DataType.STRING, user.getUsername());
             condition.setRestrict(RestrictionType.LIKE);
             findedUser = userSer.findByUsername(user.getUsername());
-        } else if (user.getId() != null) {
+        } else if (StringUtils.isNotBlank(user.getId())) {
             condition = new Condition("id", DataType.STRING, user.getId());
             condition.setRestrict(RestrictionType.EQ);
             findedUser = userSer.findById(user.getId());
@@ -132,9 +129,9 @@ public class ShopSerImpl extends ServiceImpl<Shop, ShopDto> implements IShopSer 
 
         ShopDto shopDto = new ShopDto();
         Condition condition;
-        if (shop.getName() != null) {
+        if (StringUtils.isNotBlank(shop.getName())) {
             condition = new Condition("name", DataType.STRING, shop.getName());
-        } else if (shop.getId() != null) {
+        } else if (StringUtils.isNotBlank(shop.getId())) {
             condition = new Condition("id", DataType.STRING, shop.getId());
         } else {
             throw new SerException("缺少shop必要参数，name或者id");

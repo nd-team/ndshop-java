@@ -16,6 +16,7 @@ import org.ndshop.shop.service.ILogisticsSer;
 import org.ndshop.shop.service.IShopSer;
 import org.ndshop.testshop.App;
 import org.ndshop.user.common.entity.User;
+import org.ndshop.user.common.enums.MemberType;
 import org.ndshop.user.common.service.IUserSer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -37,11 +38,11 @@ public class testShop extends AbstractJUnit4SpringContextTests{
     @Autowired
     private IShopSer shopSer;
 
-/*    @Reference(url = "localhost:8888")*/
+    @Reference(url = "localhost:8888")
     private IUserSer userSer;
 
 
-    @Before
+    @Test
     public void initContext() throws SerException {
 
         ApplicationContext.setApplicationContext(super.applicationContext);
@@ -52,15 +53,15 @@ public class testShop extends AbstractJUnit4SpringContextTests{
             user.setUsername("Sarom");
             user.setCreateTime(LocalDateTime.now());
             user.setAccessTime(LocalDateTime.now());
+            user.setMemberType(MemberType.GOLD);
             user.setAge(22);
             user.setEmail("saromc@qq.com");
             user.setPassword("123456");
             user.setPhone("188888888");
 
             userSer.save(user);
-        }
-//        user = userSer.findByUsername("Sarom");     //user save后缓存没有更新
-
+        }*/
+       /* User user = userSer.findById("1fc080c6-036a-4630-bd57-e859ac1a4599");
         Shop shop = shopSer.findByName("AAA");
         if (shop==null) {
             shop = new Shop();
@@ -91,14 +92,15 @@ public class testShop extends AbstractJUnit4SpringContextTests{
 
         User sarom = new User();
         sarom.setUsername("Sarom");
+//        sarom.setId("0228770a-8084-4a39-bb48-2bae81bc758a");
         Assert.assertTrue(shopSer.findByUser(sarom).size()>0);
 
-        sarom = new User();
+/*        User sarom = new User();
 //        sarom.setUsername("Sarom");
-        sarom.setId("6e87f3da-1d58-429c-995a-5aef34afde33");    //id
+        sarom.setId("d3259d57-8a2e-4776-81f7-4ae3dbab5f9d");    //id
         Assert.assertTrue(shopSer.findByUser(sarom).size()>0);
         int size = shopSer.findByUser(sarom).size();
-        System.out.printf(String.valueOf(size));
+        System.out.printf(String.valueOf(size));*/
     }
 
     @Test
@@ -115,6 +117,8 @@ public class testShop extends AbstractJUnit4SpringContextTests{
         //添加到已有商铺的商家Sarom
         User user = new User();
         user.setUsername("Sarom");
+        //service层调用Rep失败
+//        user.setId("d3259d57-8a2e-4776-81f7-4ae3dbab5f9d");
         shopSer.addShopByUser(shop, user);
 
         Assert.assertTrue(shopSer.findByUser(user).size()>1&&shopSer.findByName("tianmaochaoshi")!=null);
@@ -143,7 +147,6 @@ public class testShop extends AbstractJUnit4SpringContextTests{
         //测试更新所有者，清除dao缓存
         User user = new User();
         user.setUsername("Sarom");
-        shopSer.findByUser(user);
         Set<Shop> set1 = shopSer.findByUser(user);
         Shop shop3 = new Shop();
         shop3.setStatus(ShopStatus.OFFLINE);
@@ -163,6 +166,11 @@ public class testShop extends AbstractJUnit4SpringContextTests{
     public void testDaoCache(){
         shopSer.testDao();
     }*/
+
+    @Test
+    public void testCasadeRemove() throws SerException {
+        shopSer.remove(shopSer.findByName("BBB"));
+    }
 
 
 }

@@ -16,7 +16,7 @@ import javax.persistence.*;
 @Table(name = "shop_logistics")
 public class Logistics extends BaseEntity {
 
-    @ManyToOne(targetEntity = Shop.class, cascade = CascadeType.REFRESH, optional = false,fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = Shop.class, cascade = CascadeType.REFRESH, optional = true,fetch = FetchType.EAGER)
     @JoinColumn(name = "shop_id")
     private Shop shop;
     //关联的店铺
@@ -25,8 +25,9 @@ public class Logistics extends BaseEntity {
     private String name;
     //物流名称
 
-    @Column(columnDefinition = "varchar(50)")
-    private String expressComp;
+    @ManyToOne(targetEntity = LogisticsCompany.class,cascade = CascadeType.REFRESH,optional = false,fetch = FetchType.EAGER)
+    @JoinColumn(name = "comp_id")
+    private LogisticsCompany expressComp;
     //快递公司
 
     @Column(columnDefinition = "double")
@@ -71,11 +72,11 @@ public class Logistics extends BaseEntity {
         this.name = name;
     }
 
-    public String getExpressComp() {
+    public LogisticsCompany getExpressComp() {
         return expressComp;
     }
 
-    public void setExpressComp(String expressComp) {
+    public void setExpressComp(LogisticsCompany expressComp) {
         this.expressComp = expressComp;
     }
 

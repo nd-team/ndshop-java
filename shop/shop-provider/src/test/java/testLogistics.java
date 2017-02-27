@@ -1,33 +1,24 @@
-import com.alibaba.fastjson.JSON;
-import com.dounine.corgi.cluster.Balance;
-import com.dounine.corgi.rpc.RpcApp;
-import com.dounine.corgi.spring.ApplicationContext;
-import com.dounine.corgi.spring.rpc.Reference;
-import com.dounine.corgi.spring.rpc.ReferenceImpl;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ndshop.dbs.jpa.exception.SerException;
-import org.ndshop.shop.dao.ILogisticsRep;
 import org.ndshop.shop.entity.Logistics;
+import org.ndshop.shop.entity.LogisticsCompany;
 import org.ndshop.shop.entity.Shop;
 import org.ndshop.shop.enums.ShopStatus;
+import org.ndshop.shop.service.ILogisticsCompanySer;
 import org.ndshop.shop.service.ILogisticsSer;
 import org.ndshop.shop.service.IShopSer;
-import org.ndshop.shop.service.LogisticsSerImpl;
 import org.ndshop.testshop.App;
-import org.ndshop.user.common.entity.User;
-import org.ndshop.user.common.service.IUserSer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.annotation.PostConstruct;
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by ike on 16-11-21.
@@ -43,21 +34,37 @@ public class testLogistics {
     @Autowired
     private IShopSer shopSer;
 
+    @Autowired
+    private ILogisticsCompanySer logisticsCompanySer;
+
     @Before
     public void init() throws SerException {
 
         Shop shop = new Shop();
-        shop.setName("AAA");
+        shop.setName("BBB");
 
-        Logistics logis = logisticsSer.findByShopAndName(shop, "one");
+        List<LogisticsCompany> companyList = logisticsCompanySer.findByShop(shop);
+        LogisticsCompany company;
+        if (companyList == null || companyList.stream().filter(logisticsCompany -> logisticsCompany.getName().equals("STKD")).count()==0) {
+            company = new LogisticsCompany();
+            company.setStatus(ShopStatus.OFFLINE);
+            company.setName("STKD");
+            logisticsCompanySer.addLogisComp(company, shop);
+        } else {
+            company = companyList.stream()
+                    .filter(logisticsCompany -> logisticsCompany.getName().equals("STKD"))
+                    .findFirst().get();
+        }
+
+        Logistics logis = logisticsSer.findByShopAndName(shop, "three");
         if (logis == null) {
             logis = new Logistics();
-            logis.setName("one");
+            logis.setName("three");
             logis.setStatus(ShopStatus.OFFLINE);
-            logis.setSeq(4);
+            logis.setSeq(2);
             logis.setArea("23432");
 
-            logisticsSer.addLogistics(logis, shop);
+            logisticsSer.addLogistics(logis, shop,company);
         }
     }
 
@@ -65,14 +72,16 @@ public class testLogistics {
     public void testAddLogistices() throws SerException {
 
         Logistics logistics = new Logistics();
-        logistics.setName("two");
+        logistics.setName("four");
         logistics.setSeq(2);
         logistics.setStatus(ShopStatus.OFFLINE);
 
         Shop shop = new Shop();
-        shop.setName("AAA");
+        shop.setName("BBB");
+        LogisticsCompany company = new LogisticsCompany();
+        company.setName("STKD");
         List<Logistics> list1 = logisticsSer.findByShop(shop);
-        logisticsSer.addLogistics(logistics, shop);
+        logisticsSer.addLogistics(logistics, shop,company);
         List<Logistics> list2 = logisticsSer.findByShop(shop);
 
         Assert.assertTrue(list1.size() < list2.size());
@@ -80,19 +89,22 @@ public class testLogistics {
 
     @Test
     public void testRemoveLogistics() throws SerException {
-        Logistics logis = logisticsSer.findByShopAndName(shopSer.findByName("AAA"), "one");
+        Logistics logis = logisticsSer.findByShopAndName(shopSer.findByName("BBB"), "one");
         Assert.assertTrue(logis != null);
 
         logisticsSer.removeLogistics(logis);
 
-        logis = logisticsSer.findByShopAndName(shopSer.findByName("AAA"), "one");
+        logis = logisticsSer.findByShopAndName(shopSer.findByName("BBB"), "one");
         Assert.assertTrue(logis == null);
     }
 
     @Test
     public void testChangeStatus() throws SerException {
         Shop shop = new Shop();
-        shop.setName("AAA");
+        shop.setName("BBB");
+
+        LogisticsCompany company = new LogisticsCompany();
+        company.setName("TTKD");
 
 
         Logistics one = logisticsSer.findByShopAndName(shop, "one");
@@ -103,7 +115,7 @@ public class testLogistics {
             one.setSeq(4);
             one.setArea("23432");
 
-            logisticsSer.addLogistics(one, shop);
+            logisticsSer.addLogistics(one, shop,company);
         }
         logisticsSer.changeStatus(one);
     }
@@ -111,7 +123,7 @@ public class testLogistics {
     @Test
     public void testFindByShop() throws SerException {
         Shop shop = new Shop();
-        shop.setName("AAA");
+        shop.setName("BBB");
 
         /*Logistics logis = new Logistics();
         logis.setName("three");
@@ -121,8 +133,9 @@ public class testLogistics {
         logisticsSer.addLogistics(logis,shop);*/
 
         List<Logistics> list = logisticsSer.findByShop(shop);
-        for(Logistics log:list){
-            System.out.println(log);System.out.println(log.getSeq());
+        for (Logistics log : list) {
+            System.out.println(log);
+            System.out.println(log.getSeq());
 //            logger.info(JSON.toJSONString(log));
         }
 
@@ -134,7 +147,7 @@ public class testLogistics {
         Shop shop = new Shop();
         shop.setName("AAA");
 
-        Logistics logis = logisticsSer.findByShopAndName(shop,"one");
+        Logistics logis = logisticsSer.findByShopAndName(shop, "one");
         Assert.assertNotNull(logis);
 
         logis.setName("four");
@@ -142,7 +155,7 @@ public class testLogistics {
 
         logis = null;
 
-        logis = logisticsSer.findByShopAndName(shop,"four");
+        logis = logisticsSer.findByShopAndName(shop, "four");
         Assert.assertNotNull(logis);
     }
 
@@ -150,44 +163,45 @@ public class testLogistics {
     @Test
     public void testBatch() throws SerException {
 
-        String[] listName = {"five","six","seven","eight"};
+        String[] listName = {"five", "six", "seven", "eight"};
         Shop shop = new Shop();
-        shop.setId("e25c76e5-8bd0-4377-b2af-daf3dd944c7e");
+        shop.setName("BBB");
+        LogisticsCompany company = new LogisticsCompany();
+        company.setName("TTKD");
 
         Logistics logistics;
-        for(int i = 0;i<listName.length;i++){
+        for (int i = 0; i < listName.length; i++) {
             logistics = new Logistics();
             logistics.setId(null);
             logistics.setName(listName[i]);
             logistics.setStatus(ShopStatus.OFFLINE);
             logistics.setArea("fdsaf");
-            logistics.setSeq(i+8);
+            logistics.setSeq(i + 8);
 
-            logisticsSer.addLogistics(logistics,shop);
+            logisticsSer.addLogistics(logistics, shop,company);
         }
 
         List<Logistics> list = logisticsSer.findByShop(shop);
         List<Logistics> newList = new ArrayList<Logistics>();
         List<String> ids = new ArrayList<String>();
-        for (Logistics log:list){
+        for (Logistics log : list) {
             System.out.println(log);
             System.out.println(log.getSeq());
-            if(Arrays.asList(listName).contains(log.getName())){
+            if (Arrays.asList(listName).contains(log.getName())) {
                 newList.add(log);
                 ids.add(log.getId());
             }
         }
 
         //测试批量更改状态
-        logisticsSer.changeStatusBatch(shop,ids);
+        logisticsSer.changeStatusBatch(shop, ids);
 
         logistics = logisticsSer.findByShopAndName(shop, listName[listName.length - 1]);
-        Assert.assertTrue(logistics.getStatus()==ShopStatus.ONLINE);
+        Assert.assertTrue(logistics.getStatus() == ShopStatus.ONLINE);
 
         //测试批量删除
         boolean flag = logisticsSer.removeLogisticsBatch(newList);
         Assert.assertTrue(flag);
-
 
     }
 
